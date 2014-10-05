@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+org.moreunit.mock.has_specific_settings=true
+org.moreunit.mock.mocking_template=org.moreunit.mock.mockitoWithoutAnnotations

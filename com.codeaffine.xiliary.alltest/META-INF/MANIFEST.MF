@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: All Xiliary Libraries Tests
+Bundle-SymbolicName: com.codeaffine.xiliary.alltest
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: CODE AFFINE
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: com.codeaffine.osgi.testuite;version="[1.0.0,2.0.0)",
+ org.junit;version="[4.11,5.0.0)",
+ org.junit.rules;version="[4.11,5.0.0)",
+ org.junit.runner;version="[4.11,5.0.0)",
+ org.junit.runner.notification;version="[4.11,5.0.0)",
+ org.junit.runners;version="[4.11,5.0.0)",
+ org.junit.runners.model;version="[4.11,5.0.0)"
+Require-Bundle: com.codeaffine.eclipse.core.runtime;bundle-version="0.1.0"

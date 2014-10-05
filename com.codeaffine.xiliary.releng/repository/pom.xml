@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.codeaffine.xiliary</groupId>
+    <artifactId>com.codeaffine.xiliary.parent</artifactId>
+    <version>0.1.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>com.codeaffine.xiliary.repository</artifactId>
+  <packaging>eclipse-repository</packaging>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-p2-repository-plugin</artifactId>
+        <version>${tycho-version}</version>
+        <configuration>
+          <repositoryName>Xiliary Software Repository</repositoryName>
+          <includeAllDependencies>false</includeAllDependencies>
+          <compress>true</compress>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <encoding>UTF-8</encoding>
+              <outputDirectory>${basedir}/target/repository</outputDirectory>
+              <resources>          
+                <resource>
+                  <directory>rootfiles</directory>
+                  <filtering>false</filtering>
+                </resource>
+              </resources>              
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
+            
+      <plugin>
+        <groupId>org.eclipse.tycho.extras</groupId>
+        <artifactId>tycho-eclipserun-plugin</artifactId>
+        <version>${tycho-extras-version}</version>
+        <executions>
+          <execution>
+            <id>add-repo-properties</id>
+            <goals>
+              <goal>eclipse-run</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <appArgLine>-application org.eclipse.wtp.releng.tools.addRepoProperties</appArgLine>
+              <argLine>
+                -DartifactRepoDirectory=${project.build.directory}/repository
+                -Dp2StatsURI=http://www.codeaffine.com/p2-stats
+                -DstatsTrackedArtifacts=com.codeaffine.xiliary
+                -DstatsArtifactsSuffix=-${project.version}
+              </argLine>
+              <dependencies>
+                <dependency>
+                  <artifactId>org.eclipse.wtp.releng.tools.feature</artifactId>
+                  <type>eclipse-feature</type>
+                </dependency>
+              </dependencies>
+              <repositories>
+                <repository>
+                  <url>http://download.eclipse.org/webtools/releng/repository</url>
+                  <layout>p2</layout>
+                </repository>
+                <repository>
+                  <url>http://download.eclipse.org/releases/luna</url>
+                  <layout>p2</layout>
+                </repository>
+              </repositories>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>

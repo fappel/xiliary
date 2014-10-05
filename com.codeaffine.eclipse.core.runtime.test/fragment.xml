@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<fragment>
+
+   <extension-point id="registryAdapterTestContribution" name="RegistryAdapter Test Contribution" />
+   <extension
+     point="com.codeaffine.eclipse.core.runtime.registryAdapterTestContribution">
+     <contribution
+       id="1" 
+       class="com.codeaffine.eclipse.core.runtime.TestExtension"
+       type="com.codeaffine.eclipse.core.runtime.TestExtension">
+     </contribution>
+     <contribution
+       id="2" 
+       class="com.codeaffine.eclipse.core.runtime.TestExtension"
+       type="com.codeaffine.eclipse.core.runtime.TestExtension">
+     </contribution>
+   </extension>
+      
+</fragment>
