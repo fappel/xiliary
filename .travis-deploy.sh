@@ -16,11 +16,10 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; th
   # setup git and clone from gh-pages branch
   git config --global user.email "travis-deployer@codeaffine.com"
   git config --global user.name "Travis Deployer"
-  git clone --quiet --branch=gh-pages https://${GH_TOKEN}@github.com/github.com/fappel/Xiliary . > /dev/null 2>&1 || error_exit "Error cloning gh-pages"
+  git clone --quiet --branch=gh-pages https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git . > /dev/null 2>&1 || error_exit "Error cloning gh-pages"
 
   # clean the repository directory, then copy the build result into it
-  git rm -rf repository
-  mkdir -p repository 
+  git rm -rf ./*
   cp -rf ../com.codeaffine.xiliary.releng/repository/target/repository/* ./
   
   # add, commit and push files
