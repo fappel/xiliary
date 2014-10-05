@@ -1,4 +1,4 @@
 Xiliary
 =======
 
-Auxiliary libraries for Eclipse, JUnit  and general Java development
+Auxiliary libraries for Eclipse, JUnit and Java development in general.
