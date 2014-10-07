@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.codeaffine.eclipse.core.runtime.feature"
-      label="Feature"
+      label="Eclipse Core Runtime Auxiliaries"
       version="0.1.0.qualifier"
       provider-name="CODE AFFINE">
-
 
    <description url="http://fappel.github.io/xiliary/">
       %description
