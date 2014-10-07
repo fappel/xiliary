@@ -92,7 +92,7 @@
         <configuration>
           <argLine>-Xmx512m -XX:MaxPermSize=128M</argLine>
           <useUIHarness>true</useUIHarness>
-          <appArgLine>-nl en -consolelog</appArgLine>
+          <appArgLine>-nl en -consolelog -registryMultiLanguage</appArgLine>
           <includes>
             <include>**/*Test.class</include>
           </includes>
