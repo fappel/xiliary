@@ -22,7 +22,6 @@ class ContributionElementLoop {
     String extensionPointId, ContributionPredicate predicate, ConfigurationElementHandler handler )
   {
     for( IConfigurationElement elem : registry.getConfigurationElementsFor( extensionPointId ) ) {
-new Exception( "TODO: exceptionHandler apply" ).printStackTrace();
       if( predicate.apply( new Extension( elem ) ) ) {
         handler.handle( elem );
       }
