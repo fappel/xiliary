@@ -11,8 +11,9 @@ import org.junit.Test;
 
 public class PredicatesTest<E> {
 
-  private static final String VALUE = "value";
   private static final String NAME = "name";
+  private static final String ATTRIBUTE_VALUE = "value";
+  private static final String ATTRIBUTE_NAME = "name";
 
   @Test
   public void alwaysTrue() {
@@ -278,8 +279,8 @@ public class PredicatesTest<E> {
 
   @Test
   public void attribute() {
-    Extension extension = createExtension( NAME, VALUE );
-    Predicate predicate = Predicates.attribute( NAME, ".*" );
+    Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
+    Predicate predicate = Predicates.attribute( ATTRIBUTE_NAME, ".*" );
 
     boolean actual = predicate.apply( extension );
 
@@ -288,8 +289,8 @@ public class PredicatesTest<E> {
 
   @Test
   public void attributeWithExactMatchingValue() {
-    Extension extension = createExtension( NAME, VALUE );
-    Predicate predicate = Predicates.attribute( NAME, VALUE );
+    Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
+    Predicate predicate = Predicates.attribute( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
 
     boolean actual = predicate.apply( extension );
 
@@ -298,8 +299,8 @@ public class PredicatesTest<E> {
 
   @Test
   public void attributeWithNonMatchingValue() {
-    Extension extension = createExtension( NAME, VALUE );
-    Predicate predicate = Predicates.attribute( NAME, "doesNotMatch" );
+    Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
+    Predicate predicate = Predicates.attribute( ATTRIBUTE_NAME, "doesNotMatch" );
 
     boolean actual = predicate.apply( extension );
 
@@ -308,8 +309,8 @@ public class PredicatesTest<E> {
 
   @Test
   public void attributeWithNonMatchingNullValue() {
-    Extension extension = createExtension( NAME, null );
-    Predicate predicate = Predicates.attribute( NAME, VALUE );
+    Extension extension = createExtension( ATTRIBUTE_NAME, null );
+    Predicate predicate = Predicates.attribute( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
 
     boolean actual = predicate.apply( extension );
 
@@ -318,18 +319,18 @@ public class PredicatesTest<E> {
 
   @Test( expected = IllegalArgumentException.class )
   public void attributeWithNullAsName() {
-    Predicates.attribute( null, VALUE );
+    Predicates.attribute( null, ATTRIBUTE_VALUE );
   }
 
   @Test( expected = IllegalArgumentException.class )
   public void attributeWithNullAsRegex() {
-    Predicates.attribute( NAME, null );
+    Predicates.attribute( ATTRIBUTE_NAME, null );
   }
 
   @Test
   public void attributeIsNull() {
-    Extension extension = createExtension( NAME, null );
-    Predicate predicate = Predicates.attributeIsNull( NAME );
+    Extension extension = createExtension( ATTRIBUTE_NAME, null );
+    Predicate predicate = Predicates.attributeIsNull( ATTRIBUTE_NAME );
 
     boolean actual = predicate.apply( extension );
 
@@ -338,8 +339,8 @@ public class PredicatesTest<E> {
 
   @Test
   public void attributeIsNullWithNonNullAttributeValue() {
-    Extension extension = createExtension( NAME, VALUE );
-    Predicate predicate = Predicates.attributeIsNull( NAME );
+    Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
+    Predicate predicate = Predicates.attributeIsNull( ATTRIBUTE_NAME );
 
     boolean actual = predicate.apply( extension );
 
@@ -351,9 +352,30 @@ public class PredicatesTest<E> {
     Predicates.attributeIsNull( null );
   }
 
-  private static Extension createExtension( String name, String value ) {
+  @Test
+  public void name() {
+    Extension extension = createExtension( NAME );
+    Predicate predicate = Predicates.name( NAME );
+
+    boolean actual = predicate.apply( extension );
+
+    assertThat( actual ).isTrue();
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void nameWithNullAsNameArgument() {
+    Predicates.name( null );
+  }
+
+  private static Extension createExtension( String attributeName, String attributeValue ) {
     Extension result = mock( Extension.class );
-    when( result.getAttribute( name ) ).thenReturn( value );
+    when( result.getAttribute( attributeName ) ).thenReturn( attributeValue );
+    return result;
+  }
+
+  private static Extension createExtension( String name  ) {
+    Extension result = mock( Extension.class );
+    when( result.getName() ).thenReturn( name );
     return result;
   }
 

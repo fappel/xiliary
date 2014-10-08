@@ -9,6 +9,9 @@
        id="1" 
        class="com.codeaffine.eclipse.core.runtime.TestExtension"
        type="com.codeaffine.eclipse.core.runtime.TestExtension">
+       value1
+       <child id="first"></child>
+       <child id="second"></child>
      </contribution>
      <contribution
        id="2" 

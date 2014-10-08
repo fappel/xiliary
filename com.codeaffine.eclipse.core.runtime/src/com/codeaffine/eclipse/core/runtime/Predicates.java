@@ -123,6 +123,17 @@ public class Predicates {
     };
   }
 
+  public static Predicate name( final String name ) {
+    verifyNotNull( name, "name" );
+
+    return new Predicate() {
+      @Override
+      public boolean apply( Extension input ) {
+        return input.getName().equals( name );
+      }
+    };
+  }
+
   private static boolean calculateAnd( Iterable<? extends Predicate> predicates, Extension input ) {
     for( Predicate predicate : predicates ) {
       if( !predicate.apply( input ) ) {

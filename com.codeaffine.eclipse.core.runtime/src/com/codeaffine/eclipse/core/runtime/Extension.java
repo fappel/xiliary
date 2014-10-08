@@ -1,8 +1,9 @@
 package com.codeaffine.eclipse.core.runtime;
 
 import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.verifyNotNull;
+import static java.util.Arrays.asList;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
@@ -25,7 +26,7 @@ public class Extension {
   }
 
   public Collection<String> getAttributeNames() {
-    return Arrays.asList( element.getAttributeNames() );
+    return asList( element.getAttributeNames() );
   }
 
   public String getName() {
@@ -45,5 +46,31 @@ public class Extension {
     } catch( CoreException ce ) {
       throw new ExtensionException( ce );
     }
+  }
+
+  public String getValue() {
+    return element.getValue();
+  }
+
+  public String getValue( String locale ) {
+    return element.getValue( locale );
+  }
+
+  public Collection<Extension> getChildren() {
+    Collection<Extension> result = new ArrayList<Extension>();
+    for( IConfigurationElement child : element.getChildren() ) {
+      result.add( new Extension( child ) );
+    }
+    return result;
+  }
+
+  public Collection<Extension> getChildren( String name ) {
+    Collection<Extension> result = new ArrayList<Extension>();
+    for( IConfigurationElement child : element.getChildren() ) {
+      if( child.getName().equals( name ) ) {
+        result.add( new Extension( child ) );
+      }
+    }
+    return result;
   }
 }
