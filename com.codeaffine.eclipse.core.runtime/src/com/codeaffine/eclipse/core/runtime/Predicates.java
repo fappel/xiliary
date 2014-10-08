@@ -107,7 +107,18 @@ public class Predicates {
     return new Predicate() {
       @Override
       public boolean apply( Extension input ) {
-        return input.getAttribute( name ).matches( regex );
+        return input.getAttribute( name ) != null && input.getAttribute( name ).matches( regex );
+      }
+    };
+  }
+
+  public static Predicate attributeIsNull( final String name ) {
+    verifyNotNull( name, "name" );
+
+    return new Predicate() {
+      @Override
+      public boolean apply( Extension input ) {
+        return input.getAttribute( name ) == null;
       }
     };
   }

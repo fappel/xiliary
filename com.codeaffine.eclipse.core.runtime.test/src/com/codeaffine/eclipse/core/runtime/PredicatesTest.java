@@ -306,6 +306,16 @@ public class PredicatesTest<E> {
     assertThat( actual ).isFalse();
   }
 
+  @Test
+  public void attributeWithNonMatchingNullValue() {
+    Extension extension = createExtension( NAME, null );
+    Predicate predicate = Predicates.attribute( NAME, VALUE );
+
+    boolean actual = predicate.apply( extension );
+
+    assertThat( actual ).isFalse();
+  }
+
   @Test( expected = IllegalArgumentException.class )
   public void attributeWithNullAsName() {
     Predicates.attribute( null, VALUE );
@@ -314,6 +324,31 @@ public class PredicatesTest<E> {
   @Test( expected = IllegalArgumentException.class )
   public void attributeWithNullAsRegex() {
     Predicates.attribute( NAME, null );
+  }
+
+  @Test
+  public void attributeIsNull() {
+    Extension extension = createExtension( NAME, null );
+    Predicate predicate = Predicates.attributeIsNull( NAME );
+
+    boolean actual = predicate.apply( extension );
+
+    assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void attributeIsNullWithNonNullAttributeValue() {
+    Extension extension = createExtension( NAME, VALUE );
+    Predicate predicate = Predicates.attributeIsNull( NAME );
+
+    boolean actual = predicate.apply( extension );
+
+    assertThat( actual ).isFalse();
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void attributeIsNullWithNullAsName() {
+    Predicates.attributeIsNull( null );
   }
 
   private static Extension createExtension( String name, String value ) {
