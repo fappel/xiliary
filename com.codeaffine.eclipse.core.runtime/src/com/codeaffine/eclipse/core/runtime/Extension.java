@@ -32,11 +32,11 @@ public class Extension {
     return element.getName();
   }
 
-  public <T> T createExecutableExtension( Class <T> type ) {
+  public <T> T createExecutableExtension( Class <T> type ) throws ExtensionException {
     return createExecutableExtension( "class", type );
   }
 
-  public <T> T createExecutableExtension( String typeAttribute, Class <T> type ) {
+  public <T> T createExecutableExtension( String typeAttribute, Class <T> type ) throws ExtensionException {
     verifyNotNull( typeAttribute, "typeAttribute" );
     verifyNotNull( type, "type" );
 
