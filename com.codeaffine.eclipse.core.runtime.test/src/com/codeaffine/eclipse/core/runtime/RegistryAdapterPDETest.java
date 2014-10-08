@@ -2,7 +2,6 @@ package com.codeaffine.eclipse.core.runtime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.eclipse.core.runtime.Platform;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +11,7 @@ public class RegistryAdapterPDETest {
 
   @Before
   public void setUp() {
-    adapter = new RegistryAdapter( Platform.getExtensionRegistry() );
+    adapter = new RegistryAdapter();
   }
 
   @Test

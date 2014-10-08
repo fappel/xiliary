@@ -1,5 +1,7 @@
 package com.codeaffine.eclipse.core.runtime;
 
+import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.verifyNoNullElement;
+import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.verifyNotNull;
 import static java.util.Arrays.asList;
 
 public class Predicates {
@@ -44,6 +46,8 @@ public class Predicates {
   }
 
   public static Predicate not( final Predicate predicate ) {
+    verifyNotNull( predicate, "predicate" );
+
     return new Predicate() {
       @Override
       public boolean apply( Extension input ) {
@@ -53,6 +57,9 @@ public class Predicates {
   }
 
   public static Predicate and( final Iterable<? extends Predicate> predicates ) {
+    verifyNotNull( predicates, "predicates" );
+    verifyNoNullElement( predicates, "predicates" );
+
     return new Predicate() {
       @Override
       public boolean apply( Extension input ) {
@@ -62,6 +69,8 @@ public class Predicates {
   }
 
   public static Predicate and( Predicate ... predicates ) {
+    verifyNotNull( predicates, "predicates" );
+
     return and( asList( predicates ) );
   }
 
@@ -70,6 +79,9 @@ public class Predicates {
   }
 
   public static Predicate or( final Iterable<? extends Predicate> predicates ) {
+    verifyNotNull( predicates, "predicates" );
+    verifyNoNullElement( predicates, "predicates" );
+
     return new Predicate() {
       @Override
       public boolean apply( Extension input ) {
@@ -79,6 +91,8 @@ public class Predicates {
   }
 
   public static Predicate or( Predicate ... predicates ) {
+    verifyNotNull( predicates, "predicates" );
+
     return or( asList( predicates ) );
   }
 
@@ -87,6 +101,9 @@ public class Predicates {
   }
 
   public static Predicate attribute( final String name, final String regex ) {
+    verifyNotNull( name, "name" );
+    verifyNotNull( regex, "regex" );
+
     return new Predicate() {
       @Override
       public boolean apply( Extension input ) {

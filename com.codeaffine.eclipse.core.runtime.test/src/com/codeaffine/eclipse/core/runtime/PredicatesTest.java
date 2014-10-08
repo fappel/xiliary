@@ -9,7 +9,7 @@ import java.util.Collection;
 
 import org.junit.Test;
 
-public class PredicatesTest {
+public class PredicatesTest<E> {
 
   private static final String VALUE = "value";
   private static final String NAME = "name";
@@ -95,6 +95,11 @@ public class PredicatesTest {
     assertThat( actual ).isFalse();
   }
 
+  @Test( expected = IllegalArgumentException.class )
+  public void notWithNullAsPredictateArgument() {
+    Predicates.not( null );
+  }
+
   @Test
   public void and() {
     Predicate predicate = Predicates.and( Predicates.alwaysTrue(), Predicates.alwaysTrue() );
@@ -147,6 +152,40 @@ public class PredicatesTest {
     boolean actual = predicate.apply( null );
 
     assertThat( actual ).isFalse();
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void andWithNullAsFirstArgument() {
+    Predicates.and( null, Predicates.alwaysFalse() );
+
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void andWithNullAsSecondArgument() {
+    Predicates.and( Predicates.alwaysFalse(), null );
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void andOnIterableWithNullArgument() {
+    Predicates.and( ( Iterable<? extends Predicate>)null );
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void andOnIterableWithNullAsIterableElement() {
+    ArrayList<Predicate> predicates = new ArrayList<Predicate>();
+    predicates.add( null );
+
+    Predicates.and( predicates );
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void andOnVarargsWithNullArgument() {
+    Predicates.and( ( Predicate[] )null );
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void andOnVarargsWithNullAsArrayElement() {
+    Predicates.and( new Predicate[] { null } );
   }
 
   @Test
@@ -203,6 +242,40 @@ public class PredicatesTest {
     assertThat( actual ).isFalse();
   }
 
+  @Test( expected = IllegalArgumentException.class )
+  public void orWithNullAsFirstArgument() {
+    Predicates.or( null, Predicates.alwaysFalse() );
+
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void orWithNullAsSecondArgument() {
+    Predicates.or( Predicates.alwaysFalse(), null );
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void orOnIterableWithNullArgument() {
+    Predicates.or( ( Iterable<? extends Predicate>)null );
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void orOnIterableWithNullAsIterableElement() {
+    ArrayList<Predicate> predicates = new ArrayList<Predicate>();
+    predicates.add( null );
+
+    Predicates.or( predicates );
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void orOnVarargsWithNullArgument() {
+    Predicates.or( ( Predicate[] )null );
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void orOnVarargsWithNullAsArrayElement() {
+    Predicates.or( new Predicate[] { null } );
+  }
+
   @Test
   public void attribute() {
     Extension extension = createExtension( NAME, VALUE );
@@ -231,6 +304,16 @@ public class PredicatesTest {
     boolean actual = predicate.apply( extension );
 
     assertThat( actual ).isFalse();
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void attributeWithNullAsName() {
+    Predicates.attribute( null, VALUE );
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void attributeWithNullAsRegex() {
+    Predicates.attribute( NAME, null );
   }
 
   private static Extension createExtension( String name, String value ) {

@@ -11,7 +11,6 @@ import static org.mockito.Mockito.verify;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Platform;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,7 +26,7 @@ public class RegistryAdapterIntegrationPDETest {
 
   @Before
   public void setUp() {
-    adapter = new RegistryAdapter( Platform.getExtensionRegistry() );
+    adapter = new RegistryAdapter();
   }
 
   @Test
