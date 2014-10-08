@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.core.runtime;
 import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.verifyNotNull;
 
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 
 import com.codeaffine.eclipse.core.runtime.internal.OperatorFactory;
 
@@ -24,6 +25,10 @@ public class RegistryAdapter {
     ExecutableExtensionConfiguration<T> withConfiguration( ExecutableExtensionConfigurator<T> configurator );
     ExecutableExtensionConfiguration<T> withExceptionHandler( ExtensionExceptionHandler exceptionHandler );
     ExecutableExtensionConfiguration<T> withTypeAttribute( String typeAttribute);
+  }
+
+  public RegistryAdapter() {
+    this( Platform.getExtensionRegistry() );
   }
 
   public RegistryAdapter( IExtensionRegistry registry ) {
