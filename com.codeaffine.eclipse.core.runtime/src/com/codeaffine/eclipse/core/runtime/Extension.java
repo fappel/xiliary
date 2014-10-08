@@ -1,8 +1,11 @@
 package com.codeaffine.eclipse.core.runtime;
 
+import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.verifyNotNull;
+
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 
 public class Extension {
@@ -27,5 +30,20 @@ public class Extension {
 
   public String getName() {
     return element.getName();
+  }
+
+  public <T> T createExecutableExtension( Class <T> type ) {
+    return createExecutableExtension( "class", type );
+  }
+
+  public <T> T createExecutableExtension( String typeAttribute, Class <T> type ) {
+    verifyNotNull( typeAttribute, "typeAttribute" );
+    verifyNotNull( type, "type" );
+
+    try {
+      return type.cast( element.createExecutableExtension( typeAttribute ) );
+    } catch( CoreException ce ) {
+      throw new ExtensionException( ce );
+    }
   }
 }
