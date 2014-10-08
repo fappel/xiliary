@@ -6,7 +6,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 
-import com.codeaffine.eclipse.core.runtime.ContributionPredicate;
+import com.codeaffine.eclipse.core.runtime.Predicate;
 import com.codeaffine.eclipse.core.runtime.FindException;
 import com.codeaffine.eclipse.core.runtime.internal.ContributionElementLoop.ConfigurationElementHandler;
 
@@ -23,14 +23,14 @@ class ContributionFinder {
     loop = new ContributionElementLoop( registry );
   }
 
-  IConfigurationElement find( String extensionPointId, ContributionPredicate predicate ) {
+  IConfigurationElement find( String extensionPointId, Predicate predicate ) {
     List<IConfigurationElement> contributions = findContributions( extensionPointId, predicate );
     ensureExactMatch( contributions );
     return contributions.get( 0 );
   }
 
   private List<IConfigurationElement> findContributions(
-    String extensionPointId , ContributionPredicate predicate )
+    String extensionPointId , Predicate predicate )
   {
     final List<IConfigurationElement> result = new ArrayList<IConfigurationElement>();
     loop.forEach( extensionPointId, predicate, new ConfigurationElementHandler() {

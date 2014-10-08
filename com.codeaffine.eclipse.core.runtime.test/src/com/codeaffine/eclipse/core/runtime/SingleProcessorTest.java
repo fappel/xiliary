@@ -1,6 +1,5 @@
 package com.codeaffine.eclipse.core.runtime;
 
-import static com.codeaffine.eclipse.core.runtime.DefaultContributionPredicate.ALL;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -25,7 +24,7 @@ public class SingleProcessorTest {
 
   @Test
   public void thatMatches() {
-    DefaultContributionPredicate expected = ALL;
+    Predicate expected = mock( Predicate.class );
 
     SingleProcessor<Object> actual = creator.thatMatches( expected );
 

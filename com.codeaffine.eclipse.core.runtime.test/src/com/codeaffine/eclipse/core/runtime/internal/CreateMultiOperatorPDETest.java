@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.core.runtime.internal;
 
+import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
 import static com.codeaffine.eclipse.core.runtime.ThrowableCaptor.thrown;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -18,7 +19,6 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.core.runtime.ExtensionException;
 import com.codeaffine.eclipse.core.runtime.ExtensionExceptionHandler;
-import com.codeaffine.eclipse.core.runtime.FirstTestContributionPredicate;
 import com.codeaffine.eclipse.core.runtime.TestExtension;
 import com.codeaffine.eclipse.core.runtime.TestExtensionConfigurator;
 import com.codeaffine.eclipse.core.runtime.ThrowableCaptor.Actor;
@@ -44,7 +44,7 @@ public class CreateMultiOperatorPDETest {
   @Test
   public void createWithConfigurator() {
     operator.setConfigurator( new TestExtensionConfigurator() );
-    operator.setPredicate( new FirstTestContributionPredicate() );
+    operator.setPredicate( attribute( "id", "1" ) );
 
     Collection<TestExtension> actuals = operator.create();
 
@@ -81,7 +81,7 @@ public class CreateMultiOperatorPDETest {
 
   @Test
   public void createWithPredication() {
-    operator.setPredicate( new FirstTestContributionPredicate() );
+    operator.setPredicate( attribute( "id", "1" ) );
 
     Collection<TestExtension> actuals = operator.create();
 

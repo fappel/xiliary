@@ -14,7 +14,7 @@ public class MultiProcessor<T> {
     this.operator = operator;
   }
 
-  public MultiProcessor<T> thatMatches( ContributionPredicate predicate ) {
+  public MultiProcessor<T> thatMatches( Predicate predicate ) {
     verifyNotNull( predicate, "predicate" );
 
     operator.setPredicate( predicate );

@@ -12,7 +12,7 @@ public class SingleProcessor<T> {
     this.operator = operator;
   }
 
-  public SingleProcessor<T> thatMatches( ContributionPredicate predicate ) {
+  public SingleProcessor<T> thatMatches( Predicate predicate ) {
     verifyNotNull( predicate, "predicate" );
 
     operator.setPredicate( predicate );

@@ -1,7 +1,8 @@
 package com.codeaffine.eclipse.core.runtime.internal;
 
-import static com.codeaffine.eclipse.core.runtime.DefaultContributionPredicate.ALL;
-import static com.codeaffine.eclipse.core.runtime.DefaultContributionPredicate.NONE;
+import static com.codeaffine.eclipse.core.runtime.Predicates.alwaysFalse;
+import static com.codeaffine.eclipse.core.runtime.Predicates.alwaysTrue;
+import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
 import static com.codeaffine.eclipse.core.runtime.ThrowableCaptor.thrown;
 import static com.codeaffine.eclipse.core.runtime.internal.ContributionFinder.ERROR_TOO_MANY_CONTRIBUTIONS;
@@ -13,9 +14,8 @@ import org.eclipse.core.runtime.Platform;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.eclipse.core.runtime.ContributionPredicate;
 import com.codeaffine.eclipse.core.runtime.FindException;
-import com.codeaffine.eclipse.core.runtime.FirstTestContributionPredicate;
+import com.codeaffine.eclipse.core.runtime.Predicate;
 import com.codeaffine.eclipse.core.runtime.ThrowableCaptor.Actor;
 
 public class ContributionFinderPDETest {
@@ -29,7 +29,7 @@ public class ContributionFinderPDETest {
 
   @Test
   public void find() {
-    ContributionPredicate predicate = new FirstTestContributionPredicate();
+    Predicate predicate = attribute( "id", "1" );
 
     IConfigurationElement actual = finder.find( EXTENSION_POINT, predicate );
 
@@ -41,7 +41,7 @@ public class ContributionFinderPDETest {
     Throwable actual = thrown( new Actor() {
       @Override
       public void act() throws Throwable {
-        finder.find( EXTENSION_POINT, ALL );
+        finder.find( EXTENSION_POINT, alwaysTrue() );
       }
     } );
 
@@ -55,7 +55,7 @@ public class ContributionFinderPDETest {
     Throwable actual = thrown( new Actor() {
       @Override
       public void act() throws Throwable {
-        finder.find( EXTENSION_POINT, NONE );
+        finder.find( EXTENSION_POINT, alwaysFalse() );
       }
     } );
 

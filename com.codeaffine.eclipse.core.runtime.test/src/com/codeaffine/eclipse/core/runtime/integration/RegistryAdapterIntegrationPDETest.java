@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.core.runtime.integration;
 
+import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -16,7 +17,6 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.core.runtime.Extension;
 import com.codeaffine.eclipse.core.runtime.ExtensionExceptionHandler;
-import com.codeaffine.eclipse.core.runtime.FirstTestContributionPredicate;
 import com.codeaffine.eclipse.core.runtime.RegistryAdapter;
 import com.codeaffine.eclipse.core.runtime.TestExtension;
 import com.codeaffine.eclipse.core.runtime.TestExtensionConfigurator;
@@ -35,7 +35,7 @@ public class RegistryAdapterIntegrationPDETest {
     Extension actual
       = adapter.readExtension()
           .ofContributionTo( EXTENSION_POINT )
-          .thatMatches( new FirstTestContributionPredicate() )
+          .thatMatches( attribute( "id", "1" ) )
           .process();
 
     assertThat( actual.getAttribute( "id" ) ).isEqualTo( "1" );
@@ -46,7 +46,7 @@ public class RegistryAdapterIntegrationPDETest {
     Collection<Extension> actuals
       = adapter.readExtensions()
           .forEachContributionTo( EXTENSION_POINT )
-          .thatMatches( new FirstTestContributionPredicate() )
+          .thatMatches( attribute( "id", "1" ) )
           .process();
 
     assertThat( actuals ).hasSize( 1 );
@@ -59,7 +59,7 @@ public class RegistryAdapterIntegrationPDETest {
       = adapter.createExecutableExtension( TestExtension.class )
           .withConfiguration( new TestExtensionConfigurator() )
           .ofContributionTo( EXTENSION_POINT )
-          .thatMatches( new FirstTestContributionPredicate() )
+          .thatMatches( attribute( "id", "1" ) )
           .process();
 
     assertThat( actual.getId() ).isEqualTo( "1" );
@@ -71,7 +71,7 @@ public class RegistryAdapterIntegrationPDETest {
       = adapter.createExecutableExtensions( TestExtension.class )
           .withConfiguration( new TestExtensionConfigurator() )
           .forEachContributionTo( EXTENSION_POINT )
-          .thatMatches( new FirstTestContributionPredicate() )
+          .thatMatches( attribute( "id", "1" ) )
           .process();
 
     assertThat( actuals ).hasSize( 1 );

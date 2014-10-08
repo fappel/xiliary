@@ -3,7 +3,7 @@ package com.codeaffine.eclipse.core.runtime.internal;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 
-import com.codeaffine.eclipse.core.runtime.ContributionPredicate;
+import com.codeaffine.eclipse.core.runtime.Predicate;
 import com.codeaffine.eclipse.core.runtime.Extension;
 
 class ContributionElementLoop {
@@ -19,7 +19,7 @@ class ContributionElementLoop {
   }
 
   void forEach(
-    String extensionPointId, ContributionPredicate predicate, ConfigurationElementHandler handler )
+    String extensionPointId, Predicate predicate, ConfigurationElementHandler handler )
   {
     for( IConfigurationElement elem : registry.getConfigurationElementsFor( extensionPointId ) ) {
       if( predicate.apply( new Extension( elem ) ) ) {

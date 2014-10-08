@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.core.runtime.internal;
 
+import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -10,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.core.runtime.Extension;
-import com.codeaffine.eclipse.core.runtime.FirstTestContributionPredicate;
 
 public class ReadMultiOperatorPDETest {
 
@@ -31,7 +31,7 @@ public class ReadMultiOperatorPDETest {
 
   @Test
   public void createWithPredication() {
-    operator.setPredicate( new FirstTestContributionPredicate() );
+    operator.setPredicate( attribute( "id", "1" ) );
 
     Collection<Extension> actuals = operator.create();
 

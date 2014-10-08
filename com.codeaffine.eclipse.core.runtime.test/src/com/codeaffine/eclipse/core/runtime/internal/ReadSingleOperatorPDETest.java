@@ -1,7 +1,8 @@
 package com.codeaffine.eclipse.core.runtime.internal;
 
-import static com.codeaffine.eclipse.core.runtime.DefaultContributionPredicate.ALL;
-import static com.codeaffine.eclipse.core.runtime.DefaultContributionPredicate.NONE;
+import static com.codeaffine.eclipse.core.runtime.Predicates.alwaysFalse;
+import static com.codeaffine.eclipse.core.runtime.Predicates.alwaysTrue;
+import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
 import static com.codeaffine.eclipse.core.runtime.ThrowableCaptor.thrown;
 import static com.codeaffine.eclipse.core.runtime.internal.ContributionFinder.ERROR_TOO_MANY_CONTRIBUTIONS;
@@ -14,7 +15,6 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.core.runtime.Extension;
 import com.codeaffine.eclipse.core.runtime.FindException;
-import com.codeaffine.eclipse.core.runtime.FirstTestContributionPredicate;
 import com.codeaffine.eclipse.core.runtime.ThrowableCaptor.Actor;
 
 public class ReadSingleOperatorPDETest {
@@ -29,7 +29,7 @@ public class ReadSingleOperatorPDETest {
   @Test
   public void create() {
     operator.setExtensionPointId( EXTENSION_POINT );
-    operator.setPredicate( new FirstTestContributionPredicate() );
+    operator.setPredicate( attribute( "id", "1" ) );
 
     Extension actual = operator.create();
 
@@ -59,7 +59,7 @@ public class ReadSingleOperatorPDETest {
     Throwable actual = thrown( new Actor() {
       @Override
       public void act() throws Throwable {
-        operator.setPredicate( ALL );
+        operator.setPredicate( alwaysTrue() );
       }
     } );
 
@@ -75,7 +75,7 @@ public class ReadSingleOperatorPDETest {
     Throwable actual = thrown( new Actor() {
       @Override
       public void act() throws Throwable {
-        operator.setPredicate( NONE );
+        operator.setPredicate( alwaysFalse() );
       }
     } );
 

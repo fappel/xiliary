@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.core.runtime;
 
+import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -18,7 +19,7 @@ public class ExtensionPDETest {
     RegistryAdapter adapter = new RegistryAdapter( Platform.getExtensionRegistry() );
     extension = adapter.readExtension()
       .ofContributionTo( EXTENSION_POINT )
-      .thatMatches( new FirstTestContributionPredicate() )
+      .thatMatches( attribute( "id", "1" ) )
       .process();
   }
 

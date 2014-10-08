@@ -1,7 +1,7 @@
 package com.codeaffine.eclipse.core.runtime.internal;
 
-import static com.codeaffine.eclipse.core.runtime.DefaultContributionPredicate.ALL;
-import static com.codeaffine.eclipse.core.runtime.DefaultContributionPredicate.NONE;
+import static com.codeaffine.eclipse.core.runtime.Predicates.alwaysFalse;
+import static com.codeaffine.eclipse.core.runtime.Predicates.alwaysTrue;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -29,7 +29,7 @@ public class ContributionElementLoopPDETest {
   public void forEach() {
     ConfigurationElementHandler handler = mock( ConfigurationElementHandler.class );
 
-    loop.forEach( EXTENSION_POINT, ALL, handler );
+    loop.forEach( EXTENSION_POINT, alwaysTrue(), handler );
 
     verify( handler, times( 2 ) ).handle( any( IConfigurationElement.class ) );
   }
@@ -38,7 +38,7 @@ public class ContributionElementLoopPDETest {
   public void forEachWithFilter() {
     ConfigurationElementHandler handler = mock( ConfigurationElementHandler.class );
 
-    loop.forEach( EXTENSION_POINT, NONE, handler );
+    loop.forEach( EXTENSION_POINT, alwaysFalse(), handler );
 
     verify( handler, never() ).handle( any( IConfigurationElement.class ) );
   }
@@ -47,7 +47,7 @@ public class ContributionElementLoopPDETest {
   public void forEachWithUnknownExtensionPoint() {
     ConfigurationElementHandler handler = mock( ConfigurationElementHandler.class );
 
-    loop.forEach( "unknown", ALL, handler );
+    loop.forEach( "unknown", alwaysTrue(), handler );
 
     verify( handler, never() ).handle( any( IConfigurationElement.class ) );
   }
