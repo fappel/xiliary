@@ -355,11 +355,31 @@ public class PredicatesTest<E> {
   @Test
   public void name() {
     Extension extension = createExtension( NAME );
+    Predicate predicate = Predicates.name( ".*" );
+
+    boolean actual = predicate.apply( extension );
+
+    assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void nameWithExactMatchingExpression() {
+    Extension extension = createExtension( NAME );
     Predicate predicate = Predicates.name( NAME );
 
     boolean actual = predicate.apply( extension );
 
     assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void nameWithNonMatchingExpression() {
+    Extension extension = createExtension( NAME );
+    Predicate predicate = Predicates.name( "doesNotMatch" );
+
+    boolean actual = predicate.apply( extension );
+
+    assertThat( actual ).isFalse();
   }
 
   @Test( expected = IllegalArgumentException.class )

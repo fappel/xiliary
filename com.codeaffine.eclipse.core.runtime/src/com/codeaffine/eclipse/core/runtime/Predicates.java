@@ -123,13 +123,13 @@ public class Predicates {
     };
   }
 
-  public static Predicate name( final String name ) {
-    verifyNotNull( name, "name" );
+  public static Predicate name( final String regex ) {
+    verifyNotNull( regex, "regex" );
 
     return new Predicate() {
       @Override
       public boolean apply( Extension input ) {
-        return input.getName().equals( name );
+        return input.getName().matches( regex );
       }
     };
   }
