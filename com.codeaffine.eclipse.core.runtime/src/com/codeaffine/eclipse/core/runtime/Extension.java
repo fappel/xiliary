@@ -17,6 +17,10 @@ public class Extension {
     this.element = element;
   }
 
+  public IConfigurationElement getConfigurationElement() {
+    return element;
+  }
+
   public String getAttribute( String name ) {
     return element.getAttribute( name );
   }

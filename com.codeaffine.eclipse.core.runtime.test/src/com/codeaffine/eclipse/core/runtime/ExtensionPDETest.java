@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.Locale;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -26,6 +27,13 @@ public class ExtensionPDETest {
       .ofContributionTo( EXTENSION_POINT )
       .thatMatches( attribute( "id", "1" ) )
       .process();
+  }
+
+  @Test
+  public void getConfigurationElement() {
+    IConfigurationElement actual = extension.getConfigurationElement();
+
+    assertThat( actual ).isNotNull();
   }
 
   @Test
