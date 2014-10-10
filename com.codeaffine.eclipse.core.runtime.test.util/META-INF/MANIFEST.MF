@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Eclipse Core Runtime Auxiliaries Test Util
+Bundle-SymbolicName: com.codeaffine.eclipse.core.runtime.test.util;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: CODE AFFINE
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.10.0,4.0.0)",
+ com.codeaffine.eclipse.core.runtime;bundle-version="[0.1.0,1.0.0)"
+Bundle-ActivationPolicy: lazy
+Export-Package: com.codeaffine.eclipse.core.runtime.test.util
+Import-Package: org.assertj.core.api;version="[1.6.0,2.0.0)",
+ org.assertj.core.api.filter;version="[1.6.0,2.0.0)",
+ org.assertj.core.condition;version="[1.6.0,2.0.0)",
+ org.junit;version="[4.11,5.0.0)",
+ org.junit.rules;version="[4.11,5.0.0)",
+ org.junit.runner;version="[4.11,5.0.0)",
+ org.junit.runner.notification;version="[4.11,5.0.0)",
+ org.junit.runners;version="[4.11,5.0.0)",
+ org.junit.runners.model;version="[4.11,5.0.0)"

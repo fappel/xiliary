@@ -22,10 +22,20 @@
   </prerequisites>
 
   <modules>
+    <!-- Repository Definition-->
     <module>repository</module>
-    <module>../com.codeaffine.eclipse.core.runtime</module>
+    
+    <!-- Eclipse Core Runtime -->
     <module>../com.codeaffine.eclipse.core.runtime.feature</module>
+    <module>../com.codeaffine.eclipse.core.runtime.test.util.feature</module>
+
+    <module>../com.codeaffine.eclipse.core.runtime</module>
     <module>../com.codeaffine.eclipse.core.runtime.test</module>
+    <module>../com.codeaffine.eclipse.core.runtime.test.util</module>
+    <module>../com.codeaffine.eclipse.core.runtime.test.util.test</module>
+    
+    <!-- to be continued :-) -->
+    
   </modules>
 
   <pluginRepositories>

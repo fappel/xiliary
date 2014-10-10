@@ -7,7 +7,8 @@ import com.codeaffine.osgi.testuite.BundleTestSuite.TestBundles;
 
 @RunWith( BundleTestSuite.class )
 @TestBundles( {
-  "com.codeaffine.eclipse.core.runtime"
+  "com.codeaffine.eclipse.core.runtime",
+  "com.codeaffine.eclipse.core.runtime.test.util"
 } )
 public class AllXiliaryTestSuite {
 }
