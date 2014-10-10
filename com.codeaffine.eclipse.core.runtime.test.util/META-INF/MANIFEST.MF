@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.codeaffine.eclipse.core.runtime.test.util;singleton:=tr
 Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: CODE AFFINE
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.10.0,4.0.0)",
+Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.7.0,4.0.0)",
  com.codeaffine.eclipse.core.runtime;bundle-version="[0.1.0,1.0.0)"
 Bundle-ActivationPolicy: lazy
 Export-Package: com.codeaffine.eclipse.core.runtime.test.util
