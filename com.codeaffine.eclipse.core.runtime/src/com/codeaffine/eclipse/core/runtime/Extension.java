@@ -4,6 +4,7 @@ import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.verifyNot
 import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -29,7 +30,7 @@ public class Extension {
     return element.getAttribute( name, locale );
   }
 
-  public List<String> getAttributeNames() {
+  public Collection<String> getAttributeNames() {
     return asList( element.getAttributeNames() );
   }
 
@@ -60,7 +61,7 @@ public class Extension {
     return element.getValue( locale );
   }
 
-  public List<Extension> getChildren() {
+  public Collection<Extension> getChildren() {
     List<Extension> result = new ArrayList<Extension>();
     for( IConfigurationElement child : element.getChildren() ) {
       result.add( new Extension( child ) );
@@ -68,7 +69,7 @@ public class Extension {
     return result;
   }
 
-  public List<Extension> getChildren( String name ) {
+  public Collection<Extension> getChildren( String name ) {
     List<Extension> result = new ArrayList<Extension>();
     for( IConfigurationElement child : element.getChildren() ) {
       if( child.getName().equals( name ) ) {
