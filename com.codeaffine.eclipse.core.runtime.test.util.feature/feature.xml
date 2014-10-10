@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.codeaffine.eclipse.core.runtime.test.util.feature"
-      label="Feature"
+      label="Eclipse Core Runtime Auxiliaries Test Util"
       version="0.1.0.qualifier"
       provider-name="CODE AFFINE">
 
@@ -34,12 +34,12 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="com.codeaffine.eclipse.core.runtime.test.util.source"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
 </feature>
