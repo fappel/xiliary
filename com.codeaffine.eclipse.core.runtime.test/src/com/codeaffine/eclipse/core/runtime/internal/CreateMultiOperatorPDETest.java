@@ -30,8 +30,7 @@ public class CreateMultiOperatorPDETest {
   @Before
   public void setUp() {
     IExtensionRegistry registry = Platform.getExtensionRegistry();
-    operator = new CreateMultiOperator<TestExtension>( registry, TestExtension.class );
-    operator.setExtensionPointId( EXTENSION_POINT );
+    operator = new CreateMultiOperator<TestExtension>( registry, EXTENSION_POINT, TestExtension.class );
   }
 
   @Test

@@ -16,23 +16,23 @@ public class OperatorFactory {
     this.registry = registry;
   }
 
-  public ReadExtensionOperator<Extension> newReadExtensionOperator() {
-    return new ReadSingleOperator( registry );
+  public ReadExtensionOperator<Extension> newReadExtensionOperator( String extensionPointId ) {
+    return new ReadSingleOperator( registry, extensionPointId );
   }
 
-  public ReadExtensionsOperator<Extension> newReadExtensionsOperator() {
-    return new ReadMultiOperator( registry );
+  public ReadExtensionsOperator<Extension> newReadExtensionsOperator( String extensionPointId ) {
+    return new ReadMultiOperator( registry, extensionPointId );
   }
 
   public <T> CreateExecutableExtensionOperator<T> newCreateExecutableExtensionOperator(
-    Class<T> extensionType )
+    String extensionPointId, Class<T> extensionType )
   {
-    return new CreateSingleOperator<T>( registry, extensionType );
+    return new CreateSingleOperator<T>( registry, extensionPointId, extensionType );
   }
 
   public <T> CreateExecutableExtensionsOperator<T> newCreateExecutableExtensionsOperator(
-    Class<T> extensionType )
+    String extensionPointId, Class<T> extensionType )
   {
-    return new CreateMultiOperator<T>( registry, extensionType );
+    return new CreateMultiOperator<T>( registry, extensionPointId, extensionType );
   }
 }

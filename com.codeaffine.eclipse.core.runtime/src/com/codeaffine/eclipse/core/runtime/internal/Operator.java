@@ -2,9 +2,9 @@ package com.codeaffine.eclipse.core.runtime.internal;
 
 import java.util.Collection;
 
-import com.codeaffine.eclipse.core.runtime.Predicate;
 import com.codeaffine.eclipse.core.runtime.ExecutableExtensionConfigurator;
 import com.codeaffine.eclipse.core.runtime.ExtensionExceptionHandler;
+import com.codeaffine.eclipse.core.runtime.Predicate;
 
 public interface Operator<T> {
 
@@ -28,6 +28,5 @@ public interface Operator<T> {
   public interface CreateExecutableExtensionsOperator<T>
     extends ReadExtensionsOperator<T>, ExecutableExtensionConfiguration<T> {}
 
-  void setExtensionPointId( String extensionPointId );
   void setPredicate( Predicate predicate );
 }

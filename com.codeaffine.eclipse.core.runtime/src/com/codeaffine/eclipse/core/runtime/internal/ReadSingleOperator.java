@@ -11,18 +11,14 @@ import com.codeaffine.eclipse.core.runtime.internal.Operator.ReadExtensionOperat
 class ReadSingleOperator implements ReadExtensionOperator<Extension> {
 
   private final ContributionFinder finder;
+  private final String extensionPointId;
 
   private Predicate predicate;
-  private String extensionPointId;
 
-  ReadSingleOperator( IExtensionRegistry registry ) {
-    finder = new ContributionFinder( registry );
-    predicate = alwaysTrue();
-  }
-
-  @Override
-  public void setExtensionPointId( String extensionPointId ) {
+  ReadSingleOperator( IExtensionRegistry registry, String extensionPointId  ) {
     this.extensionPointId = extensionPointId;
+    this.finder = new ContributionFinder( registry );
+    this.predicate = alwaysTrue();
   }
 
   @Override

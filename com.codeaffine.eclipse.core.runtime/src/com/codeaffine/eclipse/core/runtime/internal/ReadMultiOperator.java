@@ -16,17 +16,14 @@ import com.codeaffine.eclipse.core.runtime.internal.Operator.ReadExtensionsOpera
 class ReadMultiOperator implements ReadExtensionsOperator<Extension> {
 
   private final ContributionElementLoop loop;
-  private Predicate predicate;
-  private String extensionPointId;
+  private final String extensionPointId;
 
-  ReadMultiOperator( IExtensionRegistry registry ) {
+  private Predicate predicate;
+
+  ReadMultiOperator( IExtensionRegistry registry, String extensionPointId  ) {
+    this.extensionPointId = extensionPointId;
     this.loop = new ContributionElementLoop( registry );
     this.predicate = alwaysTrue();
-  }
-
-  @Override
-  public void setExtensionPointId( String extensionPointId ) {
-    this.extensionPointId = extensionPointId;
   }
 
   @Override

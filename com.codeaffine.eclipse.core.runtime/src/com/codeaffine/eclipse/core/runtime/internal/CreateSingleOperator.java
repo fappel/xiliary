@@ -18,15 +18,16 @@ class CreateSingleOperator<T> implements CreateExecutableExtensionOperator<T> {
 
   private final ExtensionCreatorFactory<T> factory;
   private final ContributionFinder finder;
+  private final String extensionPointId;
   private final Class<T> extensionType;
 
   private ExtensionExceptionHandler exceptionHandler;
   private ExecutableExtensionConfigurator<T> configurator;
   private Predicate predicate;
-  private String extensionPointId;
   private String typeAttribute;
 
-  CreateSingleOperator( IExtensionRegistry registry, Class<T> extensionType ) {
+  CreateSingleOperator( IExtensionRegistry registry, String extensionPointId , Class<T> extensionType ) {
+    this.extensionPointId = extensionPointId;
     this.configurator = new DefaultConfigurator<T>();
     this.typeAttribute = DEFAULT_TYPE_ATTRIBUTE;
     this.exceptionHandler = DEFAULT_HANDLER;
@@ -34,11 +35,6 @@ class CreateSingleOperator<T> implements CreateExecutableExtensionOperator<T> {
     this.extensionType = extensionType;
     this.factory = new ExtensionCreatorFactory<T>();
     this.finder = new ContributionFinder( registry );
-  }
-
-  @Override
-  public void setExtensionPointId( String extensionPointId ) {
-    this.extensionPointId = extensionPointId;
   }
 
   @Override

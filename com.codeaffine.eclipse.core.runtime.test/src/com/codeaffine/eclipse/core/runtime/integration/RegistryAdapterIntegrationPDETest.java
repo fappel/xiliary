@@ -32,8 +32,7 @@ public class RegistryAdapterIntegrationPDETest {
   @Test
   public void readExtension() {
     Extension actual
-      = adapter.readExtension()
-          .ofContributionTo( EXTENSION_POINT )
+      = adapter.readExtension( EXTENSION_POINT )
           .thatMatches( attribute( "id", "1" ) )
           .process();
 
@@ -43,8 +42,7 @@ public class RegistryAdapterIntegrationPDETest {
   @Test
   public void readExtensions() {
     Collection<Extension> actuals
-      = adapter.readExtensions()
-          .forEachContributionTo( EXTENSION_POINT )
+      = adapter.readExtensions( EXTENSION_POINT )
           .thatMatches( attribute( "id", "1" ) )
           .process();
 
@@ -55,9 +53,8 @@ public class RegistryAdapterIntegrationPDETest {
   @Test
   public void createExecutableExtension() {
     TestExtension actual
-      = adapter.createExecutableExtension( TestExtension.class )
+      = adapter.createExecutableExtension( EXTENSION_POINT, TestExtension.class )
           .withConfiguration( new TestExtensionConfigurator() )
-          .ofContributionTo( EXTENSION_POINT )
           .thatMatches( attribute( "id", "1" ) )
           .process();
 
@@ -67,9 +64,8 @@ public class RegistryAdapterIntegrationPDETest {
   @Test
   public void createExecutableExtensions() {
     Collection<TestExtension> actuals
-      = adapter.createExecutableExtensions( TestExtension.class )
+      = adapter.createExecutableExtensions( EXTENSION_POINT, TestExtension.class )
           .withConfiguration( new TestExtensionConfigurator() )
-          .forEachContributionTo( EXTENSION_POINT )
           .thatMatches( attribute( "id", "1" ) )
           .process();
 
@@ -81,10 +77,9 @@ public class RegistryAdapterIntegrationPDETest {
   public void createExecutableExtensionsWithExceptionHandler() {
     ExtensionExceptionHandler exceptionHandler = mockExceptionHandler();
     Collection<TestExtension> actuals
-      = adapter.createExecutableExtensions( TestExtension.class )
+      = adapter.createExecutableExtensions( EXTENSION_POINT, TestExtension.class )
           .withExceptionHandler( exceptionHandler )
           .withTypeAttribute( "undefined" )
-          .forEachContributionTo( EXTENSION_POINT )
           .process();
 
     assertThat( actuals ).isEmpty();

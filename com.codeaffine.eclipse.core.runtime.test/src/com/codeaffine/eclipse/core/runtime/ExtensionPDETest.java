@@ -23,8 +23,7 @@ public class ExtensionPDETest {
   @Before
   public void setUp() {
     extension = new RegistryAdapter()
-      .readExtension()
-      .ofContributionTo( EXTENSION_POINT )
+      .readExtension( EXTENSION_POINT )
       .thatMatches( attribute( "id", "1" ) )
       .process();
   }

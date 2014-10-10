@@ -3,10 +3,10 @@ package com.codeaffine.eclipse.core.runtime.internal;
 import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.core.runtime.Platform.getExtensionRegistry;
 
 import java.util.Collection;
 
-import org.eclipse.core.runtime.Platform;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,8 +18,7 @@ public class ReadMultiOperatorPDETest {
 
   @Before
   public void setUp() {
-    operator = new ReadMultiOperator( Platform.getExtensionRegistry() );
-    operator.setExtensionPointId( EXTENSION_POINT );
+    operator = new ReadMultiOperator( getExtensionRegistry(), EXTENSION_POINT );
   }
 
   @Test

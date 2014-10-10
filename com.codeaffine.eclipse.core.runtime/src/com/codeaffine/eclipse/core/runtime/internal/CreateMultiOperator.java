@@ -21,27 +21,23 @@ class CreateMultiOperator<T> implements CreateExecutableExtensionsOperator<T> {
 
   private final ExtensionCreatorFactory<T> factory;
   private final ContributionElementLoop loop;
+  private final String extensionPointId;
   private final Class<T> extensionType;
 
   private ExtensionExceptionHandler exceptionHandler;
   private ExecutableExtensionConfigurator<T> configurator;
   private Predicate predicate;
-  private String extensionPointId;
   private String typeAttribute;
 
-  CreateMultiOperator( IExtensionRegistry registry, Class<T> extensionType ) {
+  CreateMultiOperator( IExtensionRegistry registry, String extensionPointId , Class<T> extensionType ) {
     this.configurator = new DefaultConfigurator<T>();
     this.typeAttribute = DEFAULT_TYPE_ATTRIBUTE;
     this.exceptionHandler = DEFAULT_HANDLER;
     this.predicate = alwaysTrue();
+    this.extensionPointId = extensionPointId;
     this.factory = new ExtensionCreatorFactory<T>();
     this.loop = new ContributionElementLoop( registry );
     this.extensionType = extensionType;
-  }
-
-  @Override
-  public void setExtensionPointId( String extensionPointId ) {
-    this.extensionPointId = extensionPointId;
   }
 
   @Override

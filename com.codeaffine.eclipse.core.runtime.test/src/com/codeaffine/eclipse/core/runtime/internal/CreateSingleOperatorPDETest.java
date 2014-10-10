@@ -32,12 +32,12 @@ public class CreateSingleOperatorPDETest {
   @Before
   public void setUp() {
     IExtensionRegistry registry = Platform.getExtensionRegistry();
-    operator = new CreateSingleOperator<TestExtension>( registry, TestExtension.class );
+    operator = new CreateSingleOperator<TestExtension>( registry, EXTENSION_POINT, TestExtension.class );
   }
 
   @Test
   public void create() {
-    equipOperatorWithExtensionPointAndPredicate();
+    operator.setPredicate( attribute( "id", "1" ) );
 
     TestExtension actual = operator.create();
 
@@ -46,7 +46,7 @@ public class CreateSingleOperatorPDETest {
 
   @Test
   public void createWithConfiguration() {
-    equipOperatorWithExtensionPointAndPredicate();
+    operator.setPredicate( attribute( "id", "1" ) );
     operator.setConfigurator( new TestExtensionConfigurator() );
 
     TestExtension actual = operator.create();
@@ -56,8 +56,6 @@ public class CreateSingleOperatorPDETest {
 
   @Test
   public void createWithDefaultPredicate() {
-    equipOperationWithExtensionPoint();
-
     Throwable actual = thrown( new Actor() {
       @Override
       public void act() throws Throwable {
@@ -72,8 +70,8 @@ public class CreateSingleOperatorPDETest {
 
   @Test
   public void createkOnExceptionWithDefaultHandler() {
-    equipOperatorWithExtensionPointAndPredicate();
-    equipOperatorWithProblemCausingTypeAttribute();
+    operator.setPredicate( attribute( "id", "1" ) );
+    operator.setTypeAttribute( "unknown" );
 
     Throwable actual = thrown( new Actor() {
       @Override
@@ -89,9 +87,9 @@ public class CreateSingleOperatorPDETest {
 
   @Test
   public void createkOnExceptionWithCustomHandler() {
-    equipOperatorWithExtensionPointAndPredicate();
-    equipOperatorWithProblemCausingTypeAttribute();
-    ExtensionExceptionHandler exceptionHandler = mockExceptionHandler();
+    operator.setPredicate( attribute( "id", "1" ) );
+    operator.setTypeAttribute( "unknown" );
+    ExtensionExceptionHandler exceptionHandler = mock( ExtensionExceptionHandler.class );
     operator.setExceptionHandler( exceptionHandler );
 
     TestExtension actual = operator.create();
@@ -102,7 +100,7 @@ public class CreateSingleOperatorPDETest {
 
   @Test
   public void setPredicateWithTooManyContributions() {
-    equipOperationWithExtensionPoint();
+    operator.setPredicate( attribute( "id", "1" ) );
 
     Throwable actual = thrown( new Actor() {
       @Override
@@ -118,8 +116,6 @@ public class CreateSingleOperatorPDETest {
 
   @Test
   public void setPredicateWithZeroContributions() {
-    equipOperationWithExtensionPoint();
-
     Throwable actual = thrown( new Actor() {
       @Override
       public void act() throws Throwable {
@@ -130,26 +126,5 @@ public class CreateSingleOperatorPDETest {
     assertThat( actual )
       .isInstanceOf( FindException.class )
       .hasMessage( ERROR_ZERO_CONTRIBUTIONS );
-  }
-
-  private void equipOperatorWithExtensionPointAndPredicate() {
-    equipOperationWithExtensionPoint();
-    equipOperatorWithPredicate();
-  }
-
-  private void equipOperationWithExtensionPoint() {
-    operator.setExtensionPointId( EXTENSION_POINT );
-  }
-
-  private void equipOperatorWithPredicate() {
-    operator.setPredicate( attribute( "id", "1" ) );
-  }
-
-  private static ExtensionExceptionHandler mockExceptionHandler() {
-    return mock( ExtensionExceptionHandler.class );
-  }
-
-  private void equipOperatorWithProblemCausingTypeAttribute() {
-    operator.setTypeAttribute( "unknown" );
   }
 }

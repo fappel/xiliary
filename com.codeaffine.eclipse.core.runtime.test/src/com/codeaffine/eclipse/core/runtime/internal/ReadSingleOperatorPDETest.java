@@ -23,12 +23,11 @@ public class ReadSingleOperatorPDETest {
 
   @Before
   public void setUp() {
-    operator = new ReadSingleOperator( Platform.getExtensionRegistry() );
+    operator = new ReadSingleOperator( Platform.getExtensionRegistry(), EXTENSION_POINT );
   }
 
   @Test
   public void create() {
-    operator.setExtensionPointId( EXTENSION_POINT );
     operator.setPredicate( attribute( "id", "1" ) );
 
     Extension actual = operator.create();
@@ -38,8 +37,6 @@ public class ReadSingleOperatorPDETest {
 
   @Test
   public void createWithDefaultPredicate() {
-    operator.setExtensionPointId( EXTENSION_POINT );
-
     Throwable actual = thrown( new Actor() {
       @Override
       public void act() throws Throwable {
@@ -54,8 +51,6 @@ public class ReadSingleOperatorPDETest {
 
   @Test
   public void setPredicateWithTooManyContributions() {
-    operator.setExtensionPointId( EXTENSION_POINT );
-
     Throwable actual = thrown( new Actor() {
       @Override
       public void act() throws Throwable {
@@ -70,8 +65,6 @@ public class ReadSingleOperatorPDETest {
 
   @Test
   public void setPredicateWithZeroContributions() {
-    operator.setExtensionPointId( EXTENSION_POINT );
-
     Throwable actual = thrown( new Actor() {
       @Override
       public void act() throws Throwable {

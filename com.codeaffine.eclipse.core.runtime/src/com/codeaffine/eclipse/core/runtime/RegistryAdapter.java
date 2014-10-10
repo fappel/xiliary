@@ -13,14 +13,6 @@ public class RegistryAdapter {
 
   private final OperatorFactory factory;
 
-  interface SingleSelector<T> {
-    SingleProcessor<T> ofContributionTo( String extensionPointId );
-  }
-
-  interface ForEachSelector<T> {
-    MultiProcessor<T> forEachContributionTo( String extensionPointId );
-  }
-
   interface ExecutableExtensionConfiguration<T> {
     ExecutableExtensionConfiguration<T> withConfiguration( ExecutableExtensionConfigurator<T> configurator );
     ExecutableExtensionConfiguration<T> withExceptionHandler( ExtensionExceptionHandler exceptionHandler );
@@ -32,32 +24,44 @@ public class RegistryAdapter {
   }
 
   public RegistryAdapter( IExtensionRegistry registry ) {
-    verifyNotNull( registry, "registry" );
-
-    this.factory = new OperatorFactory( registry );
+    this( new OperatorFactory( verifyNotNull( registry, "registry" ) ) );
   }
 
-  public ExtensionReader readExtension() {
-    return new ExtensionReader( factory.newReadExtensionOperator() );
+  RegistryAdapter( OperatorFactory operatorFactory ) {
+    factory = operatorFactory;
   }
 
-  public ExtensionsReader readExtensions() {
-    return new ExtensionsReader( factory.newReadExtensionsOperator() );
+  public ReadSingleProcessor<Extension> readExtension( String extensionPointId ) {
+    verifyNotNull( extensionPointId, "extensionPointId" );
+
+    return new ReadSingleProcessor<Extension>( factory.newReadExtensionOperator( extensionPointId ) );
   }
 
-  public <T> ExecutableExtensionCreator<T> createExecutableExtension( Class<T> extensionType ) {
+  public ReadMultiProcessor<Extension> readExtensions( String extensionPointId ) {
+    verifyNotNull( extensionPointId, "extensionPointId" );
+
+    return new ReadMultiProcessor<Extension>( factory.newReadExtensionsOperator( extensionPointId ) );
+  }
+
+  public <T> CreateSingleProcessor<T> createExecutableExtension(
+    String extensionPointId, Class<T> extensionType )
+  {
+    verifyNotNull( extensionPointId, "extensionPointId" );
     verifyNotNull( extensionType, "extensionType" );
 
-    return new ExecutableExtensionCreator<T>(
-      factory.newCreateExecutableExtensionOperator( extensionType )
+    return new CreateSingleProcessor<T>(
+      factory.newCreateExecutableExtensionOperator( extensionPointId, extensionType )
     );
   }
 
-  public <T> ExecutableExtensionsCreator<T> createExecutableExtensions( Class<T> extensionType ) {
+  public <T> CreateMultiProcessor<T> createExecutableExtensions(
+    String extensionPointId, Class<T> extensionType )
+  {
+    verifyNotNull( extensionPointId, "extensionPointId" );
     verifyNotNull( extensionType, "extensionType" );
 
-    return new ExecutableExtensionsCreator<T>(
-      factory.newCreateExecutableExtensionsOperator( extensionType )
+    return new CreateMultiProcessor<T>(
+      factory.newCreateExecutableExtensionsOperator( extensionPointId, extensionType )
     );
   }
 }
