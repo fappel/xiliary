@@ -100,7 +100,19 @@ public class Predicates {
     return or( new Predicate[] { first, second } );
   }
 
-  public static Predicate attribute( final String name, final String regex ) {
+  public static Predicate attribute( final String name, final String value ) {
+    verifyNotNull( name, "name" );
+    verifyNotNull( value, "value" );
+
+    return new Predicate() {
+      @Override
+      public boolean apply( Extension input ) {
+        return value.equals( input.getAttribute( name ) );
+      }
+    };
+  }
+
+  public static Predicate attributeMatcher( final String name, final String regex ) {
     verifyNotNull( name, "name" );
     verifyNotNull( regex, "regex" );
 
@@ -123,7 +135,18 @@ public class Predicates {
     };
   }
 
-  public static Predicate name( final String regex ) {
+  public static Predicate name( final String value ) {
+    verifyNotNull( value, "regex" );
+
+    return new Predicate() {
+      @Override
+      public boolean apply( Extension input ) {
+        return value.equals( input.getName() );
+      }
+    };
+  }
+
+  public static Predicate nameMatcher( final String regex ) {
     verifyNotNull( regex, "regex" );
 
     return new Predicate() {

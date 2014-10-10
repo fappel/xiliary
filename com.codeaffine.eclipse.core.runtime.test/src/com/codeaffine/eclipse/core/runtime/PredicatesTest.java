@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.regex.PatternSyntaxException;
 
 import org.junit.Test;
 
@@ -280,16 +281,6 @@ public class PredicatesTest<E> {
   @Test
   public void attribute() {
     Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
-    Predicate predicate = Predicates.attribute( ATTRIBUTE_NAME, ".*" );
-
-    boolean actual = predicate.apply( extension );
-
-    assertThat( actual ).isTrue();
-  }
-
-  @Test
-  public void attributeWithExactMatchingValue() {
-    Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
     Predicate predicate = Predicates.attribute( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
 
     boolean actual = predicate.apply( extension );
@@ -323,7 +314,7 @@ public class PredicatesTest<E> {
   }
 
   @Test( expected = IllegalArgumentException.class )
-  public void attributeWithNullAsRegex() {
+  public void attributeWithNullAsValue() {
     Predicates.attribute( ATTRIBUTE_NAME, null );
   }
 
@@ -353,9 +344,9 @@ public class PredicatesTest<E> {
   }
 
   @Test
-  public void name() {
-    Extension extension = createExtension( NAME );
-    Predicate predicate = Predicates.name( ".*" );
+  public void attributeMatcher() {
+    Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
+    Predicate predicate = Predicates.attributeMatcher( ATTRIBUTE_NAME, ".*" );
 
     boolean actual = predicate.apply( extension );
 
@@ -363,7 +354,35 @@ public class PredicatesTest<E> {
   }
 
   @Test
-  public void nameWithExactMatchingExpression() {
+  public void attributeMatcherWithNonMatchingExpression() {
+    Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
+    Predicate predicate = Predicates.attributeMatcher( ATTRIBUTE_NAME, "does.not.match" );
+
+    boolean actual = predicate.apply( extension );
+
+    assertThat( actual ).isFalse();
+  }
+
+  @Test( expected = PatternSyntaxException.class )
+  public void attributeMatcherWithIllegalSyntax() {
+    Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
+    Predicate predicate = Predicates.attributeMatcher( ATTRIBUTE_NAME, "[" );
+
+    predicate.apply( extension );
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void attributeMatcherWithNullAsName() {
+    Predicates.attributeMatcher( null, ATTRIBUTE_VALUE );
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void attributeWithNullAsRegex() {
+    Predicates.attribute( ATTRIBUTE_NAME, null );
+  }
+
+  @Test
+  public void name() {
     Extension extension = createExtension( NAME );
     Predicate predicate = Predicates.name( NAME );
 
@@ -373,7 +392,7 @@ public class PredicatesTest<E> {
   }
 
   @Test
-  public void nameWithNonMatchingExpression() {
+  public void nameWithNonMatchingValue() {
     Extension extension = createExtension( NAME );
     Predicate predicate = Predicates.name( "doesNotMatch" );
 
@@ -385,6 +404,39 @@ public class PredicatesTest<E> {
   @Test( expected = IllegalArgumentException.class )
   public void nameWithNullAsNameArgument() {
     Predicates.name( null );
+  }
+
+  @Test
+  public void nameMatcher() {
+    Extension extension = createExtension( NAME );
+    Predicate predicate = Predicates.nameMatcher( ".*" );
+
+    boolean actual = predicate.apply( extension );
+
+    assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void nameWithNonMatchingExpression() {
+    Extension extension = createExtension( NAME );
+    Predicate predicate = Predicates.nameMatcher( "does.not.match" );
+
+    boolean actual = predicate.apply( extension );
+
+    assertThat( actual ).isFalse();
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void nameMatcherWithNullAsNameArgument() {
+    Predicates.nameMatcher( null );
+  }
+
+  @Test( expected = PatternSyntaxException.class )
+  public void nameMatcherWithIllegalSyntax() {
+    Extension extension = createExtension( NAME );
+    Predicate predicate = Predicates.nameMatcher( "[" );
+
+    predicate.apply( extension );
   }
 
   private static Extension createExtension( String attributeName, String attributeValue ) {
