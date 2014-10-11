@@ -4,9 +4,9 @@ import static com.codeaffine.eclipse.core.runtime.Predicates.alwaysFalse;
 import static com.codeaffine.eclipse.core.runtime.Predicates.alwaysTrue;
 import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
-import static com.codeaffine.eclipse.core.runtime.ThrowableCaptor.thrown;
 import static com.codeaffine.eclipse.core.runtime.internal.ContributionFinder.ERROR_TOO_MANY_CONTRIBUTIONS;
 import static com.codeaffine.eclipse.core.runtime.internal.ContributionFinder.ERROR_ZERO_CONTRIBUTIONS;
+import static com.codeaffine.test.util.ThrowableCaptor.thrown;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.core.runtime.FindException;
 import com.codeaffine.eclipse.core.runtime.Predicate;
-import com.codeaffine.eclipse.core.runtime.ThrowableCaptor.Actor;
+import com.codeaffine.test.util.ThrowableCaptor.Actor;
 
 public class ContributionFinderPDETest {
 

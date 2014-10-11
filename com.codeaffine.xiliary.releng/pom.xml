@@ -22,8 +22,9 @@
   </prerequisites>
 
   <modules>
-    <!-- Repository Definition-->
+    <!-- Common -->
     <module>repository</module>
+    <module>../com.codeaffine.test.util</module>
     
     <!-- Eclipse Core Runtime -->
     <module>../com.codeaffine.eclipse.core.runtime.feature</module>

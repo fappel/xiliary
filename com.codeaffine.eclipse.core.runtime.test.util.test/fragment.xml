@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<fragment>
+
+   <extension-point id="extensionAssertTestContribution" name="ExtensionAssert Test Contribution" />
+   <extension
+     point="com.codeaffine.eclipse.core.runtime.test.util.extensionAssertTestContribution">
+     <contribution
+       id="1"
+       empty=""
+       type="com.codeaffine.eclipse.core.runtime.test.util.TestExtension">
+       value1
+       <child id="1" category="A">value</child>
+       <child id="2" category="A"></child>
+     </contribution>
+   </extension>
+      
+</fragment>

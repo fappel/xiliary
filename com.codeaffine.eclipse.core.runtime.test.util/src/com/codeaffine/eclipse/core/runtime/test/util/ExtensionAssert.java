@@ -6,23 +6,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.Assertions;
 
 import com.codeaffine.eclipse.core.runtime.Extension;
 
 public class ExtensionAssert extends AbstractAssert<ExtensionAssert, Extension> {
-  private static final String PATTERN_WRONG_ATTRIBUTE
-    = "Expected value for attribute '%s' to be <%s> but was <%s>";
-  private static final String PATTERN_ERR_CREATE
-    = "Expected extension to be instantiable using value <%s> of attribute <%s> but was not.";
-  private static final String PATTERN_WRONG_CHILD_SIZE
-    = "Expected <%s> child(ren) of <%s> with name <%s> but was(were) <%s>.";
-  private static final String PATTERN_CHILD_WITHOUT_VALUE
-    = "Expected child <%s> of <%s> to have a value but was <null>.";
-  private static final String PATTERN_CHILD_WITH_EMPTY_VALUE
-    = "Expected child <%s> of <%s> to have a non empty value but was <%s>.";
-  private static final String PATTERN_WRONG_CHILD_SIZE_WITH_ATTRIB
-    = "Expected to found one child with attribute <%s[%s]> but found <5s>.";
+
+  static final String PATTERN_WRONG_ATTRIBUTE
+    = "Expected value for attribute '%s' to be <%s> but was <%s>.";
+  static final String PATTERN_EMPTY_ATTRIBUTE
+    = "Expected value for attribute '%s' not to be empty but it was.";
+  static final String PATTERN_NULL_ATTRIBUTE
+    = "Expected value for attribute '%s' not to be empty but it was <null>.";
+  static final String PATTERN_NOT_NULL_ATTRIBUTE
+    = "Expected value for attribute '%s' to be null but it was <%s>.";
+  static final String PATTERN_ERR_CREATE
+    = "Expected extension to be an instantiable type of <%s> using value <%s> of attribute <%s> but was not.";
+  static final String PATTERN_WRONG_CHILD_SIZE
+    = "Expected <%s> child(ren) of <%s> with value <%s> but there was(were) <%s>.";
+  static final String PATTERN_WRONG_CHILD_SIZE_WITH_ATTRIB
+    = "Expected to found one child with attribute <%s[%s]> but found <%s>.";
 
   public ExtensionAssert( Extension actual ) {
     super( actual, ExtensionAssert.class );
@@ -43,13 +45,20 @@ public class ExtensionAssert extends AbstractAssert<ExtensionAssert, Extension> 
 
   public ExtensionAssert hasNonEmptyAttributeValueFor( String attributeName ) {
     isNotNull();
-    Assertions.assertThat( actual.getAttribute( attributeName ) ).isNotEmpty();
+    if( actual.getAttribute( attributeName ) == null ) {
+      failWithMessage( PATTERN_NULL_ATTRIBUTE, attributeName, actual.getAttribute( attributeName ) );
+    }
+    if( actual.getAttribute( attributeName ).isEmpty() ) {
+      failWithMessage( PATTERN_EMPTY_ATTRIBUTE, attributeName, actual.getAttribute( attributeName ) );
+    }
     return this;
   }
 
   public ExtensionAssert hasNoAttributeValueFor( String attributeName ) {
     isNotNull();
-    Assertions.assertThat( actual.getAttribute( attributeName ) ).isNull();
+    if( actual.getAttribute( attributeName ) != null ) {
+      failWithMessage( PATTERN_NOT_NULL_ATTRIBUTE, attributeName, actual.getAttribute( attributeName ) );
+    }
     return this;
   }
 
@@ -62,27 +71,26 @@ public class ExtensionAssert extends AbstractAssert<ExtensionAssert, Extension> 
     try {
       type.cast( actual.createExecutableExtension( typeAttribute, Object.class ) );
     } catch ( Exception problem ) {
-      failWithMessage( PATTERN_ERR_CREATE, actual.getAttribute( typeAttribute ), typeAttribute );
+      failWithMessage( PATTERN_ERR_CREATE, type.getName(), actual.getAttribute( typeAttribute ), typeAttribute );
     }
     return this;
   }
 
-  public void hasChildrenWithNonEmptyValue( String name, int childAmount ) {
+  public ExtensionAssert hasChildrenWithNonEmptyValue( String name, int childAmount ) {
     isNotNull();
     Collection<Extension> children = actual.getChildren( name );
-    int size = children.size();
+    Collection<Extension> found = new ArrayList<Extension>();
+    for( Extension child : children ) {
+      String value = child.getValue();
+      if( value != null && value.length() != 0 ) {
+        found.add( child );
+      }
+    }
+    int size = found.size();
     if( size != childAmount ) {
       failWithMessage( PATTERN_WRONG_CHILD_SIZE, valueOf( childAmount ), actual.getName(), name, valueOf( size ) );
     }
-    for( Extension child : children ) {
-      String value = child.getValue();
-      if( value == null ) {
-        failWithMessage( PATTERN_CHILD_WITHOUT_VALUE, name, actual.getName() );
-      }
-      if( value.length() == 0 ) {
-        failWithMessage( PATTERN_CHILD_WITH_EMPTY_VALUE, name, actual.getName(), value );
-      }
-    }
+    return this;
   }
 
   public ExtensionAssert hasChildWithAttributeValue( String attributeName, String value ) {
@@ -90,7 +98,7 @@ public class ExtensionAssert extends AbstractAssert<ExtensionAssert, Extension> 
     Collection<Extension> children = actual.getChildren();
     Collection<Extension> found = new ArrayList<Extension>();
     for( Extension child : children ) {
-      if( child.getAttribute( attributeName ).equals( value ) ) {
+      if( child.getAttribute( attributeName ) != null && child.getAttribute( attributeName ).equals( value ) ) {
         found.add( child );
       }
     }

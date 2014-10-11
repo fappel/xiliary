@@ -2,7 +2,6 @@ package com.codeaffine.eclipse.core.runtime;
 
 import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
-import static com.codeaffine.eclipse.core.runtime.ThrowableCaptor.thrown;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collection;
@@ -14,7 +13,8 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.codeaffine.eclipse.core.runtime.ThrowableCaptor.Actor;
+import com.codeaffine.test.util.ThrowableCaptor;
+import com.codeaffine.test.util.ThrowableCaptor.Actor;
 
 public class ExtensionPDETest {
 
@@ -79,7 +79,7 @@ public class ExtensionPDETest {
 
   @Test
   public void createExecutableExtensionWithUnknownTypeAttribute() {
-    Throwable expected = thrown( new Actor() {
+    Throwable expected = ThrowableCaptor.thrown( new Actor() {
       @Override
       public void act() throws Throwable {
         extension.createExecutableExtension( "unknown", TestExtension.class );
@@ -103,7 +103,7 @@ public class ExtensionPDETest {
   }
 
   @Test
-  @Ignore
+  @Ignore( "https://github.com/fappel/xiliary/issues/3" )
   public void getValue() {
     String actual = extension.getValue();
 
@@ -111,7 +111,7 @@ public class ExtensionPDETest {
   }
 
   @Test
-  @Ignore
+  @Ignore( "https://github.com/fappel/xiliary/issues/3" )
   public void getValueWithLocale() {
     String actual = extension.getValue( Locale.getDefault().toString() );
 
