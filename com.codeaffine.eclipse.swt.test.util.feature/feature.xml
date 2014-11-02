@@ -22,6 +22,8 @@
    </url>
 
    <requires>
+      <import plugin="org.eclipse.swt" version="3.103.0" match="compatible"/>
+      <import plugin="org.junit"/>
    </requires>
 
    <plugin
