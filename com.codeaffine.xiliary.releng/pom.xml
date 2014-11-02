@@ -34,6 +34,15 @@
     <module>../com.codeaffine.eclipse.core.runtime.test</module>
     <module>../com.codeaffine.eclipse.core.runtime.test.util</module>
     <module>../com.codeaffine.eclipse.core.runtime.test.util.test</module>
+
+    <!-- Eclipse SWT -->
+    <module>../com.codeaffine.eclipse.swt.feature</module>
+    <module>../com.codeaffine.eclipse.swt.test.util.feature</module>
+    
+    <module>../com.codeaffine.eclipse.swt</module>
+    <module>../com.codeaffine.eclipse.swt.test</module>
+    <module>../com.codeaffine.eclipse.swt.test.util</module>
+    <module>../com.codeaffine.eclipse.swt.test.util.test</module>
     
     <!-- to be continued :-) -->
     
