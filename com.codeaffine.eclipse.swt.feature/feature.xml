@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.codeaffine.eclipse.swt.feature"
-      label="Eclipse SWT Auxiliaries Feature"
+      label="Eclipse SWT Auxiliaries"
       version="0.1.0.qualifier"
       provider-name="CODE AFFINE">
 
@@ -22,7 +22,7 @@
    </url>
 
    <requires>
-      <import plugin="org.eclipse.swt" version="3.103.0" match="compatible"/>
+      <import plugin="org.eclipse.swt" version="3.7.0" match="compatible"/>
    </requires>
 
    <plugin
