@@ -11,7 +11,7 @@ set featureArtifactId=%artifactId%.feature
 rem Input plugin name and compute test- and feature-name
 set /p bundleName="Please input the plug-in name and press enter to continue: "
 set testName=%bundleName% Tests
-set featureName=%bundleName% Feature
+set featureName=%bundleName%
 
 rem Input plugin version used for maven and bundle/feature
 set /p version="Please input the plug-in version and press enter to continue: "
