@@ -1,11 +1,12 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Test Util
+Bundle-Name: Test Auxiliaries
 Bundle-SymbolicName: com.codeaffine.test.util;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: CODE AFFINE
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: com.codeaffine.test.util.lang;version="0.1.0"
+Export-Package: com.codeaffine.test.util.lang;version="0.1.0",
+ com.codeaffine.test.util.util.concurrent;version="0.1.0"
 Bundle-ActivationPolicy: lazy
 Import-Package: org.junit;version="[4.11,5.0.0)",
  org.junit.rules;version="[4.11,5.0.0)",
