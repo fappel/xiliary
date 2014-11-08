@@ -10,7 +10,7 @@ import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.PATT
 import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.PATTERN_WRONG_CHILD_SIZE;
 import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.PATTERN_WRONG_CHILD_SIZE_WITH_ATTRIB;
 import static com.codeaffine.eclipse.core.runtime.test.util.TestExtension.EXTENSION_POINT_ID;
-import static com.codeaffine.test.util.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
@@ -19,7 +19,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.core.runtime.Extension;
 import com.codeaffine.eclipse.core.runtime.RegistryAdapter;
-import com.codeaffine.test.util.ThrowableCaptor.Actor;
+import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class ExtensionAssertPDETest {
 

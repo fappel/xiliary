@@ -22,9 +22,13 @@
   </prerequisites>
 
   <modules>
-    <!-- Common -->
+  
+    <!-- General Java -->
     <module>repository</module>
+    <module>../com.codeaffine.test.util.feature</module>
+
     <module>../com.codeaffine.test.util</module>
+    <module>../com.codeaffine.test.util.test</module>
     
     <!-- Eclipse Core Runtime -->
     <module>../com.codeaffine.eclipse.core.runtime.feature</module>

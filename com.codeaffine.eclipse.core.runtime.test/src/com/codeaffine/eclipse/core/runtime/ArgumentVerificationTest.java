@@ -4,7 +4,7 @@ import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.NOT_NULL_
 import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.NO_NULL_ELEMENT_PATTERN;
 import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.verifyNoNullElement;
 import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.verifyNotNull;
-import static com.codeaffine.test.util.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,7 +13,7 @@ import java.util.Collection;
 
 import org.junit.Test;
 
-import com.codeaffine.test.util.ThrowableCaptor.Actor;
+import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class ArgumentVerificationTest {
 

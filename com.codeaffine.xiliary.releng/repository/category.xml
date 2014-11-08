@@ -12,6 +12,9 @@
    <feature url="features/com.codeaffine.eclipse.swt.test.util.feature_0.1.0.qualifier.jar" id="com.codeaffine.eclipse.swt.test.util.feature" version="0.1.0.qualifier">
       <category name="com.codeaffine.xiliary.eclipse"/>
    </feature>
+   <feature url="features/com.codeaffine.test.util.feature_0.1.0.qualifier.jar" id="com.codeaffine.test.util.feature" version="0.1.0.qualifier">
+      <category name="com.codeaffine.xiliary.eclipse"/>
+   </feature>
    <category-def name="com.codeaffine.xiliary.eclipse" label="Eclipse">
       <description>
          Auxiliary bundles for eclipse development

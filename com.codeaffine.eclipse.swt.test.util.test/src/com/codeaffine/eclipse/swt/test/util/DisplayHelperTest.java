@@ -17,8 +17,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runners.model.Statement;
 
-import com.codeaffine.test.util.ThrowableCaptor;
-import com.codeaffine.test.util.ThrowableCaptor.Actor;
+import com.codeaffine.test.util.lang.ThrowableCaptor;
+import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class DisplayHelperTest {
 

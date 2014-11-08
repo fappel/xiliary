@@ -10,7 +10,8 @@ import com.codeaffine.osgi.testuite.BundleTestSuite.TestBundles;
   "com.codeaffine.eclipse.core.runtime",
   "com.codeaffine.eclipse.core.runtime.test.util",
   "com.codeaffine.eclipse.swt",
-  "com.codeaffine.eclipse.swt.test.util"
+  "com.codeaffine.eclipse.swt.test.util",
+  "com.codeaffine.test.util"
 } )
 public class AllXiliaryTestSuite {
 }

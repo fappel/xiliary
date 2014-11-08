@@ -2,7 +2,7 @@ package com.codeaffine.eclipse.core.runtime.internal;
 
 import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
-import static com.codeaffine.test.util.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -21,7 +21,7 @@ import com.codeaffine.eclipse.core.runtime.ExtensionException;
 import com.codeaffine.eclipse.core.runtime.ExtensionExceptionHandler;
 import com.codeaffine.eclipse.core.runtime.TestExtension;
 import com.codeaffine.eclipse.core.runtime.TestExtensionConfigurator;
-import com.codeaffine.test.util.ThrowableCaptor.Actor;
+import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class CreateMultiOperatorPDETest {
 
