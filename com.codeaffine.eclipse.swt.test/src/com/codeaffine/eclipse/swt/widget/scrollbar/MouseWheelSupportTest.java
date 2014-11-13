@@ -1,0 +1,279 @@
+package com.codeaffine.eclipse.swt.widget.scrollbar;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
+import java.util.Collection;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Slider;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+import org.mockito.InOrder;
+
+import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.widget.scrollbar.MouseWheelSupport.ScrollBarAdapter;
+import com.codeaffine.eclipse.swt.widget.scrollbar.MouseWheelSupport.SliderAdapter;
+
+@RunWith( value = Parameterized.class )
+public class MouseWheelSupportTest {
+
+  @Parameters
+  public static Collection<Object[]> data() {
+    return OrientationHelper.valuesForParameterizedTests();
+  }
+
+  @Rule
+  public final DisplayHelper displayHelper = new DisplayHelper();
+
+  private final Orientation orientation;
+
+  public MouseWheelSupportTest( Orientation orientation ) {
+    this.orientation = orientation;
+  }
+
+  @Test
+  public void sliderAdapterWidgetSelected() {
+    MouseWheelSupport mouseWheelSupport = mock( MouseWheelSupport.class );
+    SliderAdapter sliderAdapter = new SliderAdapter( mouseWheelSupport );
+
+    sliderAdapter.widgetSelected( null );
+
+    InOrder order = inOrder( mouseWheelSupport );
+    order.verify( mouseWheelSupport ).updateScrollBarSelection();
+    order.verify( mouseWheelSupport ).copySettings();
+    order.verifyNoMoreInteractions();
+  }
+
+  @Test
+  public void scrollBarAdapterControlResized() {
+    MouseWheelSupport mouseWheelSupport = mock( MouseWheelSupport.class );
+    ScrollBarAdapter scrollBarAdapter = new ScrollBarAdapter( mouseWheelSupport );
+
+    scrollBarAdapter.controlResized( null );
+
+    verify( mouseWheelSupport ).copySettings();
+    verifyNoMoreInteractions( mouseWheelSupport );
+  }
+
+  @Test
+  public void scrollBarAdapterControlMoved() {
+    MouseWheelSupport mouseWheelSupport = mock( MouseWheelSupport.class );
+    ScrollBarAdapter scrollBarAdapter = new ScrollBarAdapter( mouseWheelSupport );
+
+    scrollBarAdapter.controlMoved( null );
+
+    verify( mouseWheelSupport ).copySettings();
+    verifyNoMoreInteractions( mouseWheelSupport );
+  }
+
+  @Test
+  public void scrollBarAdapterSelectionChanged() {
+    MouseWheelSupport mouseWheelSupport = mock( MouseWheelSupport.class );
+    ScrollBarAdapter scrollBarAdapter = new ScrollBarAdapter( mouseWheelSupport );
+
+    scrollBarAdapter.selectionChanged( null );
+
+    verify( mouseWheelSupport ).copySettings();
+    verifyNoMoreInteractions( mouseWheelSupport );
+  }
+
+  @Test
+  public void scrollBarAdapterDisposed() {
+    MouseWheelSupport mouseWheelSupport = mock( MouseWheelSupport.class );
+    ScrollBarAdapter scrollBarAdapter = new ScrollBarAdapter( mouseWheelSupport );
+
+    scrollBarAdapter.widgetDisposed( null );
+
+    verify( mouseWheelSupport ).dispose();
+    verifyNoMoreInteractions( mouseWheelSupport );
+  }
+
+  @Test
+  public void getControl() {
+    FlatScrollBar scrollBar = mockScrollBar();
+    MouseWheelSupport mouseWheelSupport = new MouseWheelSupport( scrollBar );
+    mouseWheelSupport.create();
+
+    Control actual = mouseWheelSupport.getControl();
+
+    assertThat( actual ).isInstanceOf( Slider.class );
+  }
+
+  @Test
+  public void testDispose() {
+    FlatScrollBar scrollBar = mockScrollBar();
+    MouseWheelSupport mouseWheelSupport = new MouseWheelSupport( scrollBar );
+    mouseWheelSupport.create();
+
+    mouseWheelSupport.dispose();
+
+    try {
+      scrollBar.getControl().setLocation( new Point( 50, 60 ) );
+    } catch( RuntimeException shouldNotHappen ) {
+      fail();
+    }
+    assertThat( mouseWheelSupport.getControl().isDisposed() ).isTrue();
+  }
+
+  @Test
+  public void disposeOfScrollBarControl() {
+    FlatScrollBar scrollBar = mockScrollBar();
+    MouseWheelSupport mouseWheelSupport = new MouseWheelSupport( scrollBar );
+    mouseWheelSupport.create();
+
+    scrollBar.getControl().dispose();
+
+    assertThat( mouseWheelSupport.getControl().isDisposed() ).isTrue();
+  }
+
+  @Test
+  public void disposeAfterScrollBarControlHasBeenDisposed() {
+    FlatScrollBar scrollBar = mockScrollBar();
+    MouseWheelSupport mouseWheelSupport = new MouseWheelSupport( scrollBar );
+    mouseWheelSupport.create();
+
+    scrollBar.getControl().dispose();
+    mouseWheelSupport.dispose();
+
+    assertThat( mouseWheelSupport.getControl().isDisposed() ).isTrue();
+    assertThat( scrollBar.getControl().isDisposed() ).isTrue();
+  }
+
+  @Test
+  public void create() {
+    FlatScrollBar scrollBar = mockScrollBar();
+    MouseWheelSupport mouseWheelSupport = new MouseWheelSupport( scrollBar );
+
+    mouseWheelSupport.create();
+    assertThat( mouseWheelSupport.getControl() ).isNotNull();
+  }
+
+  @Test
+  public void createRegistersResizeObserver() {
+    FlatScrollBar scrollBar = mockScrollBar();
+    scrollBar.getControl().setBounds( new Rectangle( 10, 20, 30, 40 ) );
+    MouseWheelSupport mouseWheelSupport = new MouseWheelSupport( scrollBar );
+    mouseWheelSupport.create();
+
+    Point expected = new Point( 50, 60 );
+    scrollBar.getControl().setSize( expected );
+    Point actual = mouseWheelSupport.getControl().getSize();
+
+    assertThat( actual ).isEqualTo( expected );
+  }
+
+  @Test
+  public void createRegistersMoveObserver() {
+    FlatScrollBar scrollBar = mockScrollBar();
+    scrollBar.getControl().setBounds( new Rectangle( 10, 20, 30, 40 ) );
+    MouseWheelSupport mouseWheelSupport = new MouseWheelSupport( scrollBar );
+    mouseWheelSupport.create();
+
+    Point expected = new Point( 50, 60 );
+    scrollBar.getControl().setLocation( expected );
+    Point actual = mouseWheelSupport.getControl().getLocation();
+
+    assertThat( actual ).isEqualTo( expected );
+  }
+
+  @Test
+  public void createCopiesSettings() {
+    FlatScrollBar scrollBar = mockScrollBar();
+    configureScrollBar( scrollBar, new Rectangle( 10, 20, 30, 40 ), 309, 10, 4, 20, 40, 68 );
+    MouseWheelSupport mouseWheelSupport = new MouseWheelSupport( scrollBar );
+
+    mouseWheelSupport.create();
+
+    verifySliderSettings( mouseWheelSupport, new Rectangle( 10, 20, 30, 40 ), 309, 10, 4, 20, 40, 68 );
+  }
+
+  @Test
+  public void copySettings() {
+    FlatScrollBar scrollBar = mockScrollBar();
+    MouseWheelSupport mouseWheelSupport = new MouseWheelSupport( scrollBar );
+    mouseWheelSupport.create();
+    configureScrollBar( scrollBar, new Rectangle( 10, 20, 30, 40 ), 309, 10, 4, 20, 40, 68 );
+
+    mouseWheelSupport.copySettings();
+
+    verifySliderSettings( mouseWheelSupport, new Rectangle( 10, 20, 30, 40 ), 309, 10, 4, 20, 40, 68 );
+  }
+
+  @Test
+  public void copySettingsIfSliderHasLayoutData() {
+    FlatScrollBar scrollBar = mockScrollBar();
+    Rectangle expected = new Rectangle( 10, 20, 30, 40 );
+    scrollBar.getControl().setBounds( expected );
+    MouseWheelSupport mouseWheelSupport = new MouseWheelSupport( scrollBar );
+    mouseWheelSupport.create();
+    Slider slider = ( Slider )mouseWheelSupport.getControl();
+    slider.setLayoutData( new FormData() );
+    scrollBar.getControl().setBounds( new Rectangle( 50, 60, 70, 80 ) );
+
+    mouseWheelSupport.copySettings();
+
+    assertThat( slider.getBounds() ).isEqualTo( expected  );
+  }
+
+  @Test
+  public void updateScrollBarSelection() {
+    FlatScrollBar scrollBar = mockScrollBar();
+    MouseWheelSupport mouseWheelSupport = new MouseWheelSupport( scrollBar );
+    mouseWheelSupport.create();
+    Slider slider = ( Slider )mouseWheelSupport.getControl();
+    slider.setSelection( 10 );
+
+    mouseWheelSupport.updateScrollBarSelection();
+
+    verify( scrollBar ).setSelectionInternal( 10 );
+  }
+
+  private FlatScrollBar mockScrollBar() {
+    Shell parent = displayHelper.createShell();
+    Composite control = new Composite( parent, SWT.NONE );
+    FlatScrollBar result = mock( FlatScrollBar.class );
+    when( result.getControl() ).thenReturn( control );
+    when( result.getOrientation() ).thenReturn( orientation );
+    return result;
+  }
+
+  private static void configureScrollBar(
+    FlatScrollBar bar, Rectangle bounds, int max, int min, int increment, int pageIncrement, int thumb, int selection )
+  {
+    bar.getControl().setBounds( bounds );
+    when( bar.getMaximum() ).thenReturn( max );
+    when( bar.getMinimum() ).thenReturn( min );
+    when( bar.getIncrement() ).thenReturn( increment );
+    when( bar.getPageIncrement() ).thenReturn( pageIncrement );
+    when( bar.getThumb() ).thenReturn( thumb );
+    when( bar.getSelection() ).thenReturn( selection );
+  }
+
+  private static void verifySliderSettings(
+    MouseWheelSupport support, Rectangle bounds, int max, int min, int inc, int pageInc, int thumb, int selection  )
+  {
+    Slider slider = ( Slider )support.getControl();
+    assertThat( slider.getMaximum() ).isEqualTo( max );
+    assertThat( slider.getMinimum() ).isEqualTo( min );
+    assertThat( slider.getIncrement() ).isEqualTo( inc );
+    assertThat( slider.getPageIncrement() ).isEqualTo( pageInc );
+    assertThat( slider.getThumb() ).isEqualTo( thumb );
+    assertThat( slider.getSelection() ).isEqualTo( selection );
+    assertThat( slider.getBounds() ).isEqualTo( bounds );
+  }
+}

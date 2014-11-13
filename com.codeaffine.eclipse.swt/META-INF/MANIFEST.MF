@@ -7,4 +7,6 @@ Bundle-Vendor: CODE AFFINE
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.swt;bundle-version="[3.7.0,4.0.0)"
-Export-Package: com.codeaffine.eclipse.swt.layout;version="0.1.0"
+Export-Package: com.codeaffine.eclipse.swt.layout;version="0.1.0",
+ com.codeaffine.eclipse.swt.util;version="0.1.0",
+ com.codeaffine.eclipse.swt.widget.scrollbar;version="0.1.0"

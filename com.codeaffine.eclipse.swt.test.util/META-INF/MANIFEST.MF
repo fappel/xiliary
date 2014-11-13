@@ -7,7 +7,8 @@ Bundle-Vendor: CODE AFFINE
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.swt;bundle-version="[3.7.0,4.0.0)"
-Import-Package: org.junit;version="[4.11,5.0.0)",
+Import-Package: com.codeaffine.test.util.junit;version="[0.1.0,1.0.0)",
+ org.junit;version="[4.11,5.0.0)",
  org.junit.rules;version="[4.11,5.0.0)",
  org.junit.runner;version="[4.11,5.0.0)",
  org.junit.runner.notification;version="[4.11,5.0.0)",
