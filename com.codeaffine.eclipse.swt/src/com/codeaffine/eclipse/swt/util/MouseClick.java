@@ -31,5 +31,4 @@ public class MouseClick {
     Point size = ( ( Control )event.widget ).getSize();
     return event.x >= 0 && event.x <= size.x && event.y >= 0 && event.y <= size.y;
   }
-
 }
