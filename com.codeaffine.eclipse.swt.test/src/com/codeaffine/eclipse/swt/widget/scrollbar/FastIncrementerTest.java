@@ -2,6 +2,7 @@ package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
 import static com.codeaffine.eclipse.swt.testhelper.MouseDownActionTimerHelper.waitTillMouseDownTimerHasBeenTriggered;
+import static com.codeaffine.eclipse.swt.util.MouseClick.LEFT_BUTTON;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.ShellHelper.createShell;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,17 +49,17 @@ public class FastIncrementerTest {
   public void run() {
     triggerLeftButtonMouseDown();
     waitTillTimerHasFiredAtLeastTwice();
-    triggerLeftButtonMouseUp();
+    triggerMouseUp();
 
     assertThat( scrollBar.getSelection() ).isEqualTo( scrollBar.getPageIncrement() );
   }
 
   private void triggerLeftButtonMouseDown() {
-    trigger( SWT.MouseDown ).at( 1, 1 ).withButton( SWT.BUTTON1 ).on( getDownFastControl() );
+    trigger( SWT.MouseDown ).at( 1, 1 ).withButton( LEFT_BUTTON ).on( getDownFastControl() );
   }
 
-  private void triggerLeftButtonMouseUp() {
-    trigger( SWT.MouseUp ).at( 1, 1 ).withButton( SWT.BUTTON1 ).on( getDownFastControl() );
+  private void triggerMouseUp() {
+    trigger( SWT.MouseUp ).at( 1, 1 ).on( getDownFastControl() );
   }
 
   private Control getDownFastControl() {

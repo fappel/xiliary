@@ -2,6 +2,7 @@ package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
 import static com.codeaffine.eclipse.swt.testhelper.MouseDownActionTimerHelper.waitTillMouseDownTimerHasBeenTriggered;
+import static com.codeaffine.eclipse.swt.util.MouseClick.LEFT_BUTTON;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.ShellHelper.createShell;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
@@ -73,7 +74,7 @@ public class ClickControlTest {
   }
 
   private void triggerLeftButtonMouseEvent( int event ) {
-    trigger( event ).at( 1, 1 ).withButton( SWT.BUTTON1 ).on( clickControl.getControl() );
+    trigger( event ).at( 1, 1 ).withButton( LEFT_BUTTON ).on( clickControl.getControl() );
   }
 
   private static Color getSystemColorBlue() {

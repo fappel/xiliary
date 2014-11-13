@@ -2,6 +2,7 @@ package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
 import static com.codeaffine.eclipse.swt.testhelper.MouseDownActionTimerHelper.waitTillMouseDownTimerHasBeenTriggered;
+import static com.codeaffine.eclipse.swt.util.MouseClick.LEFT_BUTTON;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.ShellHelper.createShell;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -53,17 +54,17 @@ public class FastDecrementerTest {
 
     triggerLeftButtonMouseDown( size );
     waitTillTimerHasFiredAtLeastTwice();
-    triggerLeftButtonMouseUp();
+    triggerMouseUp();
 
     assertThat( scrollBar.getSelection() ).isEqualTo( scrollBar.getPageIncrement() );
   }
 
-  private void triggerLeftButtonMouseUp() {
-    trigger( SWT.MouseUp ).at( 1, 1 ).withButton( SWT.BUTTON1 ).on( getUpFastControl() );
+  private void triggerLeftButtonMouseDown( Point size ) {
+    trigger( SWT.MouseDown ).at( size.x, size.y ).withButton( LEFT_BUTTON ).on( getUpFastControl() );
   }
 
-  private void triggerLeftButtonMouseDown( Point size ) {
-    trigger( SWT.MouseDown ).at( size.x, size.y ).withButton( SWT.BUTTON1 ).on( getUpFastControl() );
+  private void triggerMouseUp() {
+    trigger( SWT.MouseUp ).at( 1, 1 ).on( getUpFastControl() );
   }
 
   private Control getUpFastControl() {

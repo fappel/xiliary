@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.util;
 
+import static com.codeaffine.eclipse.swt.util.MouseClick.LEFT_BUTTON;
 import static com.codeaffine.eclipse.swt.util.MouseEventHelper.createMouseEvent;
 import static junitparams.JUnitParamsRunner.$;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -101,13 +102,13 @@ public class MouseClickTest {
   private static MouseEvent createLeftButtonMouseEventOnControlStub(
     int controlWidth, int controlHeight, int mouseX, int mouseY )
   {
-    return createMouseEventOnControlStub( controlWidth, controlHeight, mouseX, mouseY, SWT.BUTTON1 );
+    return createMouseEventOnControlStub( controlWidth, controlHeight, mouseX, mouseY, LEFT_BUTTON );
   }
 
   private static MouseEvent createRightButtonMouseEventOnControlStub(
     int controlWidth, int controlHeight, int mouseX, int mouseY )
   {
-    return createMouseEventOnControlStub( controlWidth, controlHeight, mouseX, mouseY, SWT.BUTTON3 );
+    return createMouseEventOnControlStub( controlWidth, controlHeight, mouseX, mouseY, 3 );
   }
 
   private static MouseEvent createMouseEventOnControlStub(

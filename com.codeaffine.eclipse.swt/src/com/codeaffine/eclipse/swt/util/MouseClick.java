@@ -1,11 +1,12 @@
 package com.codeaffine.eclipse.swt.util;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 
 public class MouseClick {
+
+  public static final int LEFT_BUTTON = 1;
 
   private boolean armed;
 
@@ -14,7 +15,7 @@ public class MouseClick {
   }
 
   public void arm( MouseEvent event ) {
-    if( ( event.button & SWT.BUTTON1 ) > 0 ) {
+    if( event.button == LEFT_BUTTON ) {
       armed = true;
     }
   }
