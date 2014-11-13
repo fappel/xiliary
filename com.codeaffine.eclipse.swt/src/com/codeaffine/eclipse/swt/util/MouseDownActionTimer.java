@@ -5,7 +5,7 @@ import org.eclipse.swt.widgets.Display;
 public class MouseDownActionTimer implements Runnable {
 
   public static final int INITIAL_DELAY = 300;
-  static final int FAST_DELAY = 50;
+  public static final int FAST_DELAY = 50;
 
   private final TimerAction timerAction;
   private final MouseClick mouseClick;
