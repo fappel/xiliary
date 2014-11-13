@@ -1,7 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
-import static com.codeaffine.eclipse.swt.testhelper.MouseDownTimerHelper.waitTillMouseDownTimerHasBeenTriggered;
+import static com.codeaffine.eclipse.swt.testhelper.MouseDownActionTimerHelper.waitTillMouseDownTimerHasBeenTriggered;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.ShellHelper.createShell;
 import static org.assertj.core.api.Assertions.assertThat;
 
