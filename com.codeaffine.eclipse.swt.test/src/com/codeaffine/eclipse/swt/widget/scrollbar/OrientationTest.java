@@ -32,8 +32,7 @@ public class OrientationTest {
 
   private static final int SELECTION = 12;
 
-  @Rule
-  public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private Shell shell;
@@ -78,7 +77,6 @@ public class OrientationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutHorizontalWithUndercutOfTwoTimesButtonLength() {
     shell.setSize( BUTTON_LENGTH * 2, 475 );
     FlatScrollBar scrollBar = createScrollBar( HORIZONTAL, SELECTION );
@@ -111,6 +109,7 @@ public class OrientationTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutHorizontalWithMaximumSelectionAndDragLengthRounding() {
     shell.setSize( 500, 500 );
     FlatScrollBar scrollBar = createScrollBar( HORIZONTAL, DEFAULT_MAXIMUM );
