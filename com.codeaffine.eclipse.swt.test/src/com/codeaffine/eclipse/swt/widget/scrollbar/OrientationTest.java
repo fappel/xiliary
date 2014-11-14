@@ -24,13 +24,17 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class OrientationTest {
 
   private static final int SELECTION = 12;
 
   @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private Shell shell;
 
@@ -74,6 +78,7 @@ public class OrientationTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutHorizontalWithUndercutOfTwoTimesButtonLength() {
     shell.setSize( BUTTON_LENGTH * 2, 475 );
     FlatScrollBar scrollBar = createScrollBar( HORIZONTAL, SELECTION );
@@ -89,6 +94,7 @@ public class OrientationTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutHorizontalWithMaximumSelection() {
     FlatScrollBar scrollBar = createScrollBar( HORIZONTAL, DEFAULT_MAXIMUM );
 
@@ -219,7 +225,9 @@ public class OrientationTest {
       .hasDragBounds( 0, 0, 0, 0 )
       .hasDownBounds( CLEARANCE, halfHeight, width, halfHeight );
   }
+
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutVerticalWithMaximumSelection() {
     FlatScrollBar scrollBar = createScrollBar( VERTICAL, DEFAULT_MAXIMUM );
 
@@ -237,6 +245,7 @@ public class OrientationTest {
 
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutVerticalWithMaximumSelectionAndDragLengthRounding() {
     shell.setSize( 500, 500 );
     FlatScrollBar scrollBar = createScrollBar( VERTICAL, DEFAULT_MAXIMUM );
