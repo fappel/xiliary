@@ -52,7 +52,7 @@ public class FlatScrollBarTest {
  @Test
  @Ignore
  public void demo() {
-   Shell localShell = displayHelper.createShell( SWT.SHELL_TRIM );
+   Shell localShell = displayHelper.createShell( SWT.RESIZE );
    localShell.setBackgroundMode( SWT.INHERIT_DEFAULT );
    localShell.setLayout( new FillLayout( SWT.HORIZONTAL ) );
    localShell.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );

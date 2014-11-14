@@ -25,15 +25,25 @@ public enum Orientation {
     }
 
     private Rectangle[] calculateComponentBounds( ComponentDistribution distribution, FlatScrollBar scrollBar ) {
+      int width = getControlBounds( scrollBar ).width;
       int height = getControlBounds( scrollBar ).height - BAR_BREADTH + 1;
       int balance = getRoundingBalance( distribution, scrollBar );
       return new Rectangle[] {
-        new Rectangle( 0, CLEARANCE, BUTTON_LENGTH, height ),
-        new Rectangle( BUTTON_LENGTH, CLEARANCE, distribution.upFastLength, height ),
-        new Rectangle( distribution.dragStart, CLEARANCE, distribution.dragLength + balance, height ),
-        new Rectangle( distribution.downFastStart, CLEARANCE, distribution.downFastLength - balance, height ),
-        new Rectangle( distribution.downStart, CLEARANCE, BUTTON_LENGTH, height )
+        calcButtons( width, $( 0, CLEARANCE, BUTTON_LENGTH, height ) ),
+        $( BUTTON_LENGTH, CLEARANCE, distribution.upFastLength, height ),
+        calcDrag( distribution, $( distribution.dragStart, CLEARANCE, distribution.dragLength + balance, height ) ),
+        $( distribution.downFastStart, CLEARANCE, distribution.downFastLength - balance, height ),
+        calcButtons( width, $( distribution.downStart, CLEARANCE, BUTTON_LENGTH, height ) )
       };
+    }
+
+    private Rectangle calcButtons( int length, Rectangle bounds ) {
+      Rectangle result = bounds;
+      if( length <= ComponentDistribution.BUTTON_LENGTH * 2 ) {
+        int downStart = calcDownStartForSmallLength( bounds.x, length );
+        result = $( downStart, CLEARANCE, length / 2, bounds.height );
+      }
+      return result;
     }
 
     @Override
@@ -69,16 +79,26 @@ public enum Orientation {
       return calculateComponentDistribution( scrollBar, getControlBounds( scrollBar ).height );
     }
 
-    private Rectangle[] calculateComponentBounds( ComponentDistribution calculation, FlatScrollBar scrollBar ) {
+    private Rectangle[] calculateComponentBounds( ComponentDistribution distribution, FlatScrollBar scrollBar ) {
       int width = getControlBounds( scrollBar ).width - BAR_BREADTH + 1;
-      int balance = getRoundingBalance( calculation, scrollBar );
+      int height = getControlBounds( scrollBar ).height;
+      int balance = getRoundingBalance( distribution, scrollBar );
       return new Rectangle[] {
-        new Rectangle( CLEARANCE, 0, width, BUTTON_LENGTH ),
-        new Rectangle( CLEARANCE, BUTTON_LENGTH, width, calculation.upFastLength ),
-        new Rectangle( CLEARANCE, calculation.dragStart, width, calculation.dragLength + balance ),
-        new Rectangle( CLEARANCE, calculation.downFastStart, width, calculation.downFastLength - balance ),
-        new Rectangle( CLEARANCE, calculation.downStart, width, BUTTON_LENGTH )
+        calculateButtons( height, $( CLEARANCE, 0, width, BUTTON_LENGTH ) ),
+        $( CLEARANCE, BUTTON_LENGTH, width, distribution.upFastLength ),
+        calcDrag( distribution, $( CLEARANCE, distribution.dragStart, width, distribution.dragLength + balance ) ),
+        $( CLEARANCE, distribution.downFastStart, width, distribution.downFastLength - balance ),
+        calculateButtons( height, $( CLEARANCE, distribution.downStart, width, BUTTON_LENGTH ) )
       };
+    }
+
+    private Rectangle calculateButtons( int length, Rectangle bounds ) {
+      Rectangle result = bounds;
+      if( length <= ComponentDistribution.BUTTON_LENGTH * 2 ) {
+        int downStart = calcDownStartForSmallLength( bounds.y, length );
+        result = $( CLEARANCE, downStart, bounds.width, length / 2 );
+      }
+      return result;
     }
 
     @Override
@@ -102,6 +122,7 @@ public enum Orientation {
     }
   };
 
+  static final Rectangle EMPTY_RECTANGLE = $( 0, 0, 0, 0 );
   static final int BAR_BREADTH = 6;
   static final int CLEARANCE = BAR_BREADTH - 2;
   static final int MAX_EXPAND = CLEARANCE;
@@ -143,5 +164,32 @@ public enum Orientation {
 
   private static int expand( int toExpand ) {
     return max( 0, BAR_BREADTH + MAX_EXPAND - max( BAR_BREADTH, toExpand ) );
+  }
+
+  private static Rectangle calcDrag( ComponentDistribution distribution, Rectangle bounds ) {
+    Rectangle result = bounds;
+    if( isUndercutOfDragVisibility( distribution ) ) {
+      result = EMPTY_RECTANGLE;
+    }
+    return result;
+  }
+
+  private static boolean isUndercutOfDragVisibility( ComponentDistribution distribution ) {
+    return distribution.dragLength + BUTTON_LENGTH >= distribution.downStart;
+  }
+
+  private static int calcDownStartForSmallLength( int position, int length ) {
+    int result = position;
+    if( isDownStartPosition( position ) ) {
+      result = length / 2;
+    }
+    return result;
+  }
+  private static boolean isDownStartPosition( int position ) {
+    return position > 0 || position < 0;
+  }
+
+  private static Rectangle $( int x, int y, int width, int height ) {
+    return new Rectangle( x, y , width , height );
   }
 }

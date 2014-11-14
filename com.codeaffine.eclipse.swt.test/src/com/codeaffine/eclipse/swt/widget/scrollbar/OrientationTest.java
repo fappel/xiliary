@@ -36,9 +36,9 @@ public class OrientationTest {
 
   @Before
   public void setUp() {
-    shell = displayHelper.createShell( SWT.SHELL_TRIM );
+    shell = displayHelper.createShell( SWT.RESIZE );
     shell.setLayout( new FillLayout( SWT.HORIZONTAL ) );
-    shell.setBounds( 0, 0, 500, 500 );
+    shell.setBounds( 200, 200, 475, 475 );
     shell.open();
   }
 
@@ -59,6 +59,36 @@ public class OrientationTest {
   }
 
   @Test
+  public void layoutHorizontalWithUndercutOfThreeTimesButtonLength() {
+    shell.setSize( BUTTON_LENGTH * 3, 475 );
+    FlatScrollBar scrollBar = createScrollBar( HORIZONTAL, SELECTION );
+
+    shell.layout();
+
+    ComponentDistribution distribution = getExpectedHorizontalDistribution( scrollBar, SELECTION );
+    int height = getExpectedHeight( scrollBar );
+    assertThat( scrollBar )
+      .hasUpBounds( 0, CLEARANCE, BUTTON_LENGTH, height )
+      .hasDragBounds( 0, 0, 0, 0 )
+      .hasDownBounds( distribution.downStart, CLEARANCE, BUTTON_LENGTH, height );
+  }
+
+  @Test
+  public void layoutHorizontalWithUndercutOfTwoTimesButtonLength() {
+    shell.setSize( BUTTON_LENGTH * 2, 475 );
+    FlatScrollBar scrollBar = createScrollBar( HORIZONTAL, SELECTION );
+
+    shell.layout();
+
+    int height = getExpectedHeight( scrollBar );
+    int halfWidth = scrollBar.getControl().getSize().x / 2;
+    assertThat( scrollBar )
+      .hasUpBounds( 0, CLEARANCE, halfWidth, height )
+      .hasDragBounds( 0, 0, 0, 0 )
+      .hasDownBounds( halfWidth, CLEARANCE, halfWidth, height );
+  }
+
+  @Test
   public void layoutHorizontalWithMaximumSelection() {
     FlatScrollBar scrollBar = createScrollBar( HORIZONTAL, DEFAULT_MAXIMUM );
 
@@ -72,6 +102,20 @@ public class OrientationTest {
       .hasDragBounds( distribution.dragStart, CLEARANCE, distribution.dragLength, height )
       .hasDownFastBounds( distribution.downFastStart, CLEARANCE, distribution.downFastLength, height )
       .hasDownBounds( distribution.downStart, CLEARANCE, BUTTON_LENGTH, height );
+  }
+
+  @Test
+  public void layoutHorizontalWithMaximumSelectionAndDragLengthRounding() {
+    shell.setSize( 500, 500 );
+    FlatScrollBar scrollBar = createScrollBar( HORIZONTAL, DEFAULT_MAXIMUM );
+
+    shell.layout();
+
+    ComponentDistribution distribution = getExpectedHorizontalDistribution( scrollBar, scrollBar.getSelection() );
+    int height = getExpectedHeight( scrollBar );
+    assertThat( scrollBar )
+      .hasDragBounds( distribution.dragStart, CLEARANCE, distribution.dragLength + 1, height )
+      .hasDownFastBounds( distribution.downFastStart, CLEARANCE, distribution.downFastLength - 1, height );
   }
 
   @Test
@@ -147,6 +191,35 @@ public class OrientationTest {
   }
 
   @Test
+  public void layoutVerticalWithUndercutOfThreeTimesButtonLength() {
+    shell.setSize( 475, BUTTON_LENGTH * 3 );
+    FlatScrollBar scrollBar = createScrollBar( VERTICAL, SELECTION );
+
+    shell.layout();
+
+    ComponentDistribution distribution = getExpectedVerticalDistribution( scrollBar, SELECTION );
+    int width = getExpectedWidth( scrollBar );
+    assertThat( scrollBar )
+      .hasUpBounds( CLEARANCE, 0, width, BUTTON_LENGTH )
+      .hasDragBounds( 0, 0, 0, 0 )
+      .hasDownBounds( CLEARANCE, distribution.downStart, width, BUTTON_LENGTH );
+  }
+
+  @Test
+  public void layoutVerticalWithUndercutOfTwoTimesButtonLength() {
+    shell.setSize( 475, BUTTON_LENGTH * 2 );
+    FlatScrollBar scrollBar = createScrollBar( VERTICAL, SELECTION );
+
+    shell.layout();
+
+    int width = getExpectedWidth( scrollBar );
+    int halfHeight = scrollBar.getControl().getSize().y / 2;
+    assertThat( scrollBar )
+      .hasUpBounds( CLEARANCE, 0, width, halfHeight )
+      .hasDragBounds( 0, 0, 0, 0 )
+      .hasDownBounds( CLEARANCE, halfHeight, width, halfHeight );
+  }
+  @Test
   public void layoutVerticalWithMaximumSelection() {
     FlatScrollBar scrollBar = createScrollBar( VERTICAL, DEFAULT_MAXIMUM );
 
@@ -160,6 +233,21 @@ public class OrientationTest {
       .hasDragBounds( CLEARANCE, distribution.dragStart, width, distribution.dragLength )
       .hasDownFastBounds( CLEARANCE, distribution.downFastStart, width, distribution.downFastLength )
       .hasDownBounds( CLEARANCE, distribution.downStart, width, BUTTON_LENGTH );
+  }
+
+
+  @Test
+  public void layoutVerticalWithMaximumSelectionAndDragLengthRounding() {
+    shell.setSize( 500, 500 );
+    FlatScrollBar scrollBar = createScrollBar( VERTICAL, DEFAULT_MAXIMUM );
+
+    shell.layout();
+
+    ComponentDistribution distribution = getExpectedVerticalDistribution( scrollBar, scrollBar.getSelection() );
+    int width = getExpectedWidth( scrollBar );
+    assertThat( scrollBar )
+      .hasDragBounds( CLEARANCE, distribution.dragStart, width, distribution.dragLength + 1 )
+      .hasDownFastBounds( CLEARANCE, distribution.downFastStart, width, distribution.downFastLength - 1 );
   }
 
   @Test

@@ -7,16 +7,16 @@ import java.math.RoundingMode;
 
 class ComponentDistribution {
 
-  public static final int BUTTON_LENGTH = 17;
+  static final int BUTTON_LENGTH = 17;
 
-  public final int upFastLength;
-  public final int dragStart;
-  public final int dragLength;
-  public final int downFastStart;
-  public final int downFastLength;
-  public final int downStart;
+  final int upFastLength;
+  final int dragStart;
+  final int dragLength;
+  final int downFastStart;
+  final int downFastLength;
+  final int downStart;
 
-  public ComponentDistribution( int len, int range, int pos, int thumb ) {
+  ComponentDistribution( int len, int range, int pos, int thumb ) {
     int slideLen = slideLen( len );
     int relDragLen = relDragLen( slideLen, range, thumb );
     this.dragLength = dragLen( relDragLen );
