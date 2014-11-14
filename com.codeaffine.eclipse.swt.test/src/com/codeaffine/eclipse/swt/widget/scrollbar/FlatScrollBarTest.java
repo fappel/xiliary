@@ -21,12 +21,14 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
@@ -46,6 +48,22 @@ public class FlatScrollBarTest {
     shell.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
     shell.open();
   }
+
+ @Test
+ @Ignore
+ public void demo() {
+   Shell localShell = displayHelper.createShell( SWT.SHELL_TRIM );
+   localShell.setBackgroundMode( SWT.INHERIT_DEFAULT );
+   localShell.setLayout( new FillLayout( SWT.HORIZONTAL ) );
+   localShell.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
+   new Demo().create( localShell );
+   localShell.open();
+   localShell.setBounds( 500, 200, 200, 300 );
+
+   new Demo().createWithSlider( shell );
+   shell.setBounds( 250, 200, 200, 300 );
+   new ReadAndDispatch().spinLoop( shell );
+ }
 
   @Test
   public void getControl() {
@@ -508,22 +526,4 @@ public class FlatScrollBarTest {
   private static Color getBackground( ViewComponent viewComponent ) {
     return viewComponent.getControl().getBackground();
   }
-
-// Demo for manual testing purpose
-//
-//  @Test
-//  public void testShow() {
-//    Shell localShell = displayHelper.createShell( SWT.SHELL_TRIM );
-//    localShell.setBackgroundMode( SWT.INHERIT_DEFAULT );
-//    localShell.setLayout( new FillLayout( SWT.HORIZONTAL ) );
-//    localShell.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
-//    new Demo().create( localShell );
-//    localShell.open();
-//    localShell.setBounds( 500, 200, 200, 300 );
-//
-//    new Demo().createWithSlider( shell );
-//    shell.setBounds( 250, 200, 200, 300 );
-//    ReadAndDispatch.showShell( shell );
-//  }
-
 }
