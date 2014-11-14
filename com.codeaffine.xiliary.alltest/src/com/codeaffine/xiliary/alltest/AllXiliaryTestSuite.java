@@ -13,5 +13,4 @@ import com.codeaffine.osgi.testuite.BundleTestSuite.TestBundles;
   "com.codeaffine.eclipse.swt.test.util",
   "com.codeaffine.test.util"
 } )
-public class AllXiliaryTestSuite {
-}
+public class AllXiliaryTestSuite {}
