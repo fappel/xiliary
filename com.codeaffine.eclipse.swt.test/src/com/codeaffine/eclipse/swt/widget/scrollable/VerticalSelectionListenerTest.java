@@ -11,14 +11,18 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollbar.ScrollEvent;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class VerticalSelectionListenerTest {
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void selectionChanged() {
     Shell shell = createShell( displayHelper );
     Tree tree = createTree( shell, 6, 4 );

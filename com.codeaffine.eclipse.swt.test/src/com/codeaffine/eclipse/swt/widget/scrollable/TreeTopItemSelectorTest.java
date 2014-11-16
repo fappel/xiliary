@@ -10,6 +10,9 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class TreeTopItemSelectorTest {
 
@@ -17,10 +20,11 @@ public class TreeTopItemSelectorTest {
   private static final int TWO_LEVELS = 2;
   private static final int INDEX_OF_SECOND_TOP_LEVEL_ITEM = 11;
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void select() {
     Tree tree = createTree( TEN_ITEMS_PER_LEVEL, TWO_LEVELS );
     expandFirstTopLevelItem( tree );
