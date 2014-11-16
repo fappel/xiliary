@@ -45,6 +45,28 @@ public class FlatScrollBarAssert extends AbstractAssert<FlatScrollBarAssert, Fla
     return this;
   }
 
+  public FlatScrollBarAssert isVisible() {
+    isNotNull();
+    if( !actual.getControl().getVisible() ) {
+      failWithMessage( "Expected scrollbar set to be visible but was not."  );
+    }
+    return this;
+  }
+
+  public FlatScrollBarAssert isNotVisible() {
+    isNotNull();
+    if( actual.getControl().getVisible() ) {
+      failWithMessage( "Expected scrollbar set to be invisible but was not."  );
+    }
+    return this;
+  }
+
+  public FlatScrollBarAssert hasBounds( int x, int y, int width, int height  ) {
+    isNotNull();
+    verifyViewComponentBounds( actual, "scrollbar", new Rectangle( x, y, width, height ) );
+    return this;
+  }
+
   private void verifyViewComponentBounds( ViewComponent viewComponent, String viewComponentName, Rectangle expected ) {
     if( !getBounds( viewComponent ).equals( expected ) ) {
       failWithMessage( FAIL_MESSAGE_PATTERN, viewComponentName, expected, getBounds( viewComponent ) );

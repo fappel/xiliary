@@ -7,23 +7,23 @@ public class MouseDownActionTimer implements Runnable {
   public static final int INITIAL_DELAY = 300;
   public static final int FAST_DELAY = 50;
 
+  private final ActionScheduler scheduler;
   private final TimerAction timerAction;
   private final MouseClick mouseClick;
-  private final Display display;
 
   public interface TimerAction extends Runnable {
     boolean isEnabled();
   }
 
   public MouseDownActionTimer( TimerAction timerAction, MouseClick mouseClick, Display display ) {
+    this.scheduler = new ActionScheduler( display, this );
     this.timerAction = timerAction;
     this.mouseClick = mouseClick;
-    this.display = display;
   }
 
   public void activate() {
     if( timerAction.isEnabled() ) {
-      display.timerExec( INITIAL_DELAY, this );
+      scheduler.schedule( INITIAL_DELAY );
     }
   }
 
@@ -31,7 +31,7 @@ public class MouseDownActionTimer implements Runnable {
   public void run() {
     if( mouseClick.isArmed() && timerAction.isEnabled() ) {
       timerAction.run();
-      display.timerExec( FAST_DELAY, this );
+      scheduler.schedule( FAST_DELAY );
     }
   }
 }

@@ -3,5 +3,11 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.core.runtime.test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.core.runtime.test.util.test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.swt.test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.swt.test.util.test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.osgi.testsuite.test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.test.util.test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

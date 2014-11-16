@@ -1,12 +1,12 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
+import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_MAXIMUM;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_THUMB;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarHelper.equipScrollBarWithListener;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarHelper.verifyNotification;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Orientation.HORIZONTAL;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.ShellHelper.createShell;
 import static java.lang.Math.max;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;

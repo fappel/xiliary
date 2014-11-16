@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 
-public class FlatScrollBar {
+public class FlatScrollBar implements ViewComponent {
 
   static final int DEFAULT_MINIMUM = 0;
   static final int DEFAULT_MAXIMUM = 100;
@@ -57,6 +57,7 @@ public class FlatScrollBar {
     this.listeners = new HashSet<ScrollListener>();
   }
 
+  @Override
   public Control getControl() {
     return control;
   }
@@ -129,6 +130,7 @@ public class FlatScrollBar {
   public int getSelection() {
     return selection;
   }
+
 
   public void addScrollListener( ScrollListener scrollListener ) {
     listeners.add( scrollListener );
