@@ -75,7 +75,7 @@ public class FlatScrollBarTreeTest {
   }
 
   @Test
-//  @Ignore
+  @Ignore
   public void demo() {
     try {
       new ReadAndDispatch().spinLoop( shell );
