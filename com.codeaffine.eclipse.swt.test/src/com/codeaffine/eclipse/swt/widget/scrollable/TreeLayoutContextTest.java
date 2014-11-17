@@ -1,6 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.waitForGtkRendering;
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
@@ -18,6 +19,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.testhelper.ShellHelper;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 
 public class TreeLayoutContextTest {
@@ -87,10 +89,12 @@ public class TreeLayoutContextTest {
   @Test
   public void verticalBarVisibilityOnThresholdHeightDependsOnHorizontalBarVisibility() {
     int thresholdHight = computeThresholdHeight();
-    shell.setSize( 600, thresholdHight );
+    shell.setSize( 1000, thresholdHight );
     TreeLayoutContext first = new TreeLayoutContext( tree );
+    waitForGtkRendering();
     shell.setSize( 100, thresholdHight );
     TreeLayoutContext second = new TreeLayoutContext( tree );
+    waitForGtkRendering();
 
     assertThat( first )
       .verticalBarIsInvisible()
