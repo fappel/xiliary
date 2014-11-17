@@ -101,7 +101,6 @@ public class TreeLayoutContextTest {
     assertThat( second )
       .verticalBarIsVisible()
       .horizontalBarIsVisible();
-
   }
 
   private int computeThresholdHeight() {
