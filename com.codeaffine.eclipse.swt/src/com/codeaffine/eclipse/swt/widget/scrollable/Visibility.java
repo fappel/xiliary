@@ -1,6 +1,8 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.ScrollBar;
+import org.eclipse.swt.widgets.Tree;
 
 class Visibility {
 
@@ -13,14 +15,23 @@ class Visibility {
   }
 
   boolean hasChanged() {
-    return visibility != scrollBar.isVisible();
+    return visibility != isScrollBarVisible();
   }
 
    void update() {
-    visibility = scrollBar.isVisible();
+    visibility = isScrollBarVisible();
   }
 
   boolean isVisible() {
     return visibility;
+  }
+
+  private boolean isScrollBarVisible() {
+    TreeLayoutContext context = new TreeLayoutContext( ( Tree )scrollBar.getParent() );
+    boolean result = context.isHorizontalBarVisible();
+    if( ( scrollBar.getStyle() & SWT.VERTICAL ) > 0 ) {
+      result = context.isVerticalBarVisible();
+    }
+    return result;
   }
 }

@@ -1,7 +1,11 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContext.OVERLAY_OFFSET;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextAssert.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -14,10 +18,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
-import com.codeaffine.eclipse.swt.testhelper.ShellHelper;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
-import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class TreeLayoutContextTest {
 
@@ -29,8 +30,8 @@ public class TreeLayoutContextTest {
 
   @Before
   public void setUp() {
-    shell = ShellHelper.createShell( displayHelper, SWT.RESIZE );
-    tree = TreeHelper.createTree( shell, 2, 4 );
+    shell = createShell( displayHelper, SWT.RESIZE );
+    tree = createTree( shell, 2, 4 );
     shell.open();
   }
 
@@ -46,7 +47,6 @@ public class TreeLayoutContextTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
   public void preferredWidthExceedsVisibleAreaWidth() {
     shell.setSize( 200, 400 );
     expandTopBranch( tree );
@@ -59,16 +59,15 @@ public class TreeLayoutContextTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
-  public void preferredWidthExceedsVisibleAreaHeight() {
+  public void preferredHeightExceedsVisibleAreaHeight() {
     shell.setSize( 200, 100 );
     expandRootLevelItems( tree );
-
 
     TreeLayoutContext context = new TreeLayoutContext( tree );
 
     assertThat( context )
       .verticalBarIsVisible()
+      .hasVerticalBarOffset( expectedVerticalBarOffset() )
       .horizontalBarIsInvisible();
   }
 
@@ -81,6 +80,7 @@ public class TreeLayoutContextTest {
 
     assertThat( context )
       .verticalBarIsVisible()
+      .hasVerticalBarOffset( expectedVerticalBarOffset() )
       .horizontalBarIsVisible();
   }
 
@@ -91,4 +91,13 @@ public class TreeLayoutContextTest {
   private Rectangle getVisibleArea() {
     return shell.getClientArea();
   }
+
+  private int expectedVerticalBarOffset() {
+    int result = tree.getVerticalBar().getSize().x - BAR_BREADTH;
+    if( result < 0 ) {
+      result = OVERLAY_OFFSET - BAR_BREADTH;
+    }
+    return result;
+  }
+
 }

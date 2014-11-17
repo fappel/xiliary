@@ -61,4 +61,13 @@ public class TreeLayoutContextAssert extends AbstractAssert<TreeLayoutContextAss
     }
     return this;
   }
+
+  public TreeLayoutContextAssert hasVerticalBarOffset( int expected ) {
+    isNotNull();
+    int actualVerticalBarOffset = actual.getVerticalBarOffset();
+    if( actualVerticalBarOffset != expected ) {
+      failWithMessage( "Expected vertical bar offset to be <%s> but was <%s>.", expected, actualVerticalBarOffset );
+    }
+    return this;
+  }
 }

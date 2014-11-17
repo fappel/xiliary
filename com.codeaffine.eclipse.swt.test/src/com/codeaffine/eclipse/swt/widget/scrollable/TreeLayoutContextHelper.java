@@ -1,5 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContext.OVERLAY_OFFSET;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -7,6 +9,8 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 
 class TreeLayoutContextHelper {
+
+  static final int STUB_OFFSET = OVERLAY_OFFSET - BAR_BREADTH;
 
   enum Horizontal {
     H_VISIBLE( true ), H_INVISIBLE( false );
@@ -36,6 +40,7 @@ class TreeLayoutContextHelper {
     when( result.isHorizontalBarVisible() ).thenReturn( horizontalBarVisible.value );
     when( result.getPreferredSize() ).thenReturn( preferredSize );
     when( result.getVisibleArea() ).thenReturn( visibleArea );
+    when( result.getVerticalBarOffset() ).thenReturn( STUB_OFFSET );
     return result;
   }
 }

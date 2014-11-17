@@ -35,7 +35,7 @@ public class FlatScrollBarTreeTest {
     flatScrollBarTree = new FlatScrollBarTree( shell, new TreeFactory() {
       @Override
       public Tree create( Composite parent ) {
-        return createTree( parent, 6, 4 );
+        return createTree( parent, 2, 6 );
       }
     } );
     shell.open();

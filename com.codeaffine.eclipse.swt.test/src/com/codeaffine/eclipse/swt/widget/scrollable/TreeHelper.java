@@ -1,5 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.waitForGtkRendering;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
@@ -15,6 +17,7 @@ class TreeHelper {
       item = item.getItem( 0 );
       item.setExpanded( true );
     }
+    waitForGtkRendering();
   }
 
   static void expandRootLevelItems( Tree tree ) {
@@ -22,6 +25,7 @@ class TreeHelper {
     for( TreeItem treeItem : items ) {
       treeItem.setExpanded( true );
     }
+    waitForGtkRendering();
   }
 
   static Tree createTree( Composite parent, int childCount , int levelCount  ) {

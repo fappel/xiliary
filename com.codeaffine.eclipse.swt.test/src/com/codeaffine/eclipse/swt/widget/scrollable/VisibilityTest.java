@@ -1,23 +1,57 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import org.eclipse.swt.widgets.ScrollBar;
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
+import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 
+@RunWith( Parameterized.class )
 public class VisibilityTest {
 
+  @Parameters
+  public static Collection<Object[]> data() {
+    Collection<Object[]> result = new ArrayList<Object[]>();
+    result.add( new Object[] { SWT.VERTICAL } );
+    result.add( new Object[] { SWT.HORIZONTAL } );
+    return result;
+  }
+
+  @Rule
+  public final DisplayHelper displayHelper = new DisplayHelper();
+
+  private final int orientation;
+
   private Visibility visibility;
-  private ScrollBar scrollBar;
+  private Shell shell;
+  private Tree tree;
+
+  public VisibilityTest( int orientation ) {
+    this.orientation = orientation;
+  }
 
   @Before
   public void setUp() {
-    scrollBar = mock( ScrollBar.class );
-    visibility = new Visibility( scrollBar );
+    shell = createShell( displayHelper, SWT.RESIZE );
+    tree = createTree( shell, 2, 4 );
+    openShell( shell );
+    visibility = createVisibility();
   }
 
   @Test
@@ -29,7 +63,9 @@ public class VisibilityTest {
 
   @Test
   public void isVisibleOnScrollBarStateChangeWithoutUpdate() {
-    when( scrollBar.isVisible() ).thenReturn( true );
+    shell.setSize( 200, 100 );
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
 
     boolean actual = visibility.isVisible();
 
@@ -38,7 +74,9 @@ public class VisibilityTest {
 
   @Test
   public void isVisibleOnScrollBarStateChangeAndUpdate() {
-    when( scrollBar.isVisible() ).thenReturn( true );
+    shell.setSize( 200, 100 );
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
     visibility.update();
 
     boolean actual = visibility.isVisible();
@@ -55,7 +93,9 @@ public class VisibilityTest {
 
   @Test
   public void hasChangedOnScrollBarStateChange() {
-    when( scrollBar.isVisible() ).thenReturn( true );
+    shell.setSize( 200, 100 );
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
 
     boolean actual = visibility.hasChanged();
 
@@ -64,11 +104,22 @@ public class VisibilityTest {
 
   @Test
   public void hasChangedOnScrollBarStateChangeAndUpdate() {
-    when( scrollBar.isVisible() ).thenReturn( true );
+    shell.setSize( 200, 100 );
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
+
     visibility.update();
 
     boolean actual = visibility.hasChanged();
 
     assertThat( actual ).isFalse();
+  }
+
+  private Visibility createVisibility() {
+    Visibility result = new Visibility( tree.getHorizontalBar() );
+    if( ( orientation & SWT.VERTICAL ) > 0  ) {
+      result = new Visibility( tree.getVerticalBar() );
+    }
+    return result;
   }
 }

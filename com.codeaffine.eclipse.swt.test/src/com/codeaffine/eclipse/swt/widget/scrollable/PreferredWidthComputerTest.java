@@ -1,7 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
+import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,24 +14,20 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
-import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
-import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class PreferredWidthComputerTest {
 
-  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private Tree tree;
   private PreferredWidthComputer computer;
+  private Tree tree;
 
   @Before
   public void setUp() {
     Shell shell = createShell( displayHelper );
     tree = createTree( shell, 6, 4 );
     computer = new PreferredWidthComputer( tree );
-    shell.open();
+    openShell( shell );
   }
 
   @Test
@@ -42,7 +38,6 @@ public class PreferredWidthComputerTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
   public void computeIfVerticalScrollBarVisible() {
     expandRootLevelItems( tree );
 
@@ -56,7 +51,6 @@ public class PreferredWidthComputerTest {
   }
 
   private int overlayAdjustment() {
-    return preferredWidth() + tree.getVerticalBar().getSize().x - BAR_BREADTH;
+    return preferredWidth() + new TreeLayoutContext( tree ).getVerticalBarOffset();
   }
-
 }

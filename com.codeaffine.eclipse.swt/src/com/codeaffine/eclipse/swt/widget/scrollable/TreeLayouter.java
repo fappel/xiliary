@@ -18,18 +18,18 @@ class TreeLayouter {
     tree.setSize( computeWidth( context ), computeHeight( context ) );
   }
 
-  private int computeWidth( TreeLayoutContext context ) {
+  private static int computeWidth( TreeLayoutContext context ) {
     int result = max( context.getPreferredSize().x, context.getVisibleArea().width );
     if( context.isVerticalBarVisible() ) {
-      result = computeWidthWithVerticalBarPadding( context );
+      result = computeWidthWithVerticalBarPedding( context );
     }
     return result;
   }
 
-  private int computeWidthWithVerticalBarPadding( TreeLayoutContext context ) {
-    int offset = tree.getVerticalBar().getSize().x - BAR_BREADTH;
+  private static int computeWidthWithVerticalBarPedding( TreeLayoutContext context ) {
     int preferredWidth = context.getPreferredSize().x;
     int visibleAreaWidth = context.getVisibleArea().width;
+    int offset = context.getVerticalBarOffset();
     return max( preferredWidth + offset, visibleAreaWidth + offset );
   }
 
