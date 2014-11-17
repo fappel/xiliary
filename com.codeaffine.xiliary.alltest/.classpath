@@ -7,7 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.core.runtime.test.util.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.swt.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.swt.test.util.test"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.osgi.testsuite.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.test.util.test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
