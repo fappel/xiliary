@@ -10,8 +10,10 @@ class MouseTracker extends MouseTrackAdapter implements Runnable {
 
   private final FlatScrollBar scrollBar;
 
-  private Rectangle bounds;
+  private Rectangle expandedBounds;
   private boolean mouseOver;
+  private Rectangle originBounds;
+
 
   MouseTracker( FlatScrollBar scrollBar ) {
     this.scrollBar = scrollBar;
@@ -25,9 +27,10 @@ class MouseTracker extends MouseTrackAdapter implements Runnable {
   @Override
   public void mouseEnter( MouseEvent event ) {
     mouseOver = true;
-    if( bounds == null ) {
-      bounds = scrollBar.getControl().getBounds();
+    if( originBounds == null ) {
+      originBounds = scrollBar.getControl().getBounds();
       scrollBar.getOrientation().expand( scrollBar.getControl() );
+      expandedBounds = scrollBar.getControl().getBounds();
     }
   }
 
@@ -40,8 +43,11 @@ class MouseTracker extends MouseTrackAdapter implements Runnable {
   @Override
   public void run() {
     if( !mouseOver && !scrollBar.getControl().isDisposed() ) {
-      scrollBar.getControl().setBounds( bounds );
-      bounds = null;
+      if( scrollBar.getControl().getBounds().equals( expandedBounds ) ) {
+        scrollBar.getControl().setBounds( originBounds );
+      }
+      originBounds = null;
+      expandedBounds = null;
     }
   }
 }

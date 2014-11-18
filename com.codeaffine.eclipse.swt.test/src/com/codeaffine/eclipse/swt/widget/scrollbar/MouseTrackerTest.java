@@ -65,6 +65,20 @@ public class MouseTrackerTest {
   }
 
   @Test
+  public void mouseExitAfterBoundsHasBeenChangedExternally() throws InterruptedException {
+    Rectangle expected = new Rectangle( 10, 20, 30, 40 );
+    mouseTracker.mouseEnter( null );
+    scrollBar.getControl().setBounds( expected );
+
+    mouseTracker.mouseExit( null );
+    Thread.sleep( MouseTracker.DELAY + 100 );
+    flushPendingEvents();
+    Rectangle actual = scrollBar.getControl().getBounds();
+
+    assertThat( actual ).isEqualTo( expected );
+  }
+
+  @Test
   public void runAfterEnterAndExit() {
     mouseTracker.mouseEnter( null );
     mouseTracker.mouseExit( null );
