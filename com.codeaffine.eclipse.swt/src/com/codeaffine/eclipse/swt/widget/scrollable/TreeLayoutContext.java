@@ -20,8 +20,8 @@ class TreeLayoutContext {
   TreeLayoutContext( Tree tree ) {
     preferredSize = tree.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
     visibleArea = tree.getParent().getClientArea();
-    verticalBarVisible = preferredSize.y > visibleArea.height;
     horizontalBarVisible = preferredSize.x > visibleArea.width;
+    verticalBarVisible = computeVerticalBarVisible( tree, horizontalBarVisible, preferredSize.y, visibleArea.height );
     verticalBarOffset = computeVerticalBarOffset( tree );
   }
 
@@ -43,6 +43,22 @@ class TreeLayoutContext {
 
   int getVerticalBarOffset() {
     return verticalBarOffset;
+  }
+
+  private static boolean computeVerticalBarVisible(
+    Tree tree, boolean horizontalBarVisible, int preferredHeight, int visibleAreaHeight )
+  {
+    boolean result;
+    if( !horizontalBarVisible ) {
+      result = computeVisibleItemsHeight( tree, preferredHeight ) >= visibleAreaHeight;
+    } else {
+      result = computeVisibleItemsHeight( tree, preferredHeight ) + BAR_BREADTH - 1 >= visibleAreaHeight;
+    }
+    return result;
+  }
+
+  private static int computeVisibleItemsHeight( Tree tree, int preferredHeight ) {
+    return ( preferredHeight / tree.getItemHeight() ) * tree.getItemHeight();
   }
 
   private static int computeVerticalBarOffset( Tree tree ) {

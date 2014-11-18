@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="com.codeaffine.xiliary on Eclipse 4.4" sequenceNumber="69">
+<?pde version="3.8"?><target name="com.codeaffine.xiliary on Eclipse 4.4" sequenceNumber="72">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="com.codeaffine.test.libraries.feature.feature.group" version="1.0.0.201406090850"/>
 <repository location="http://fappel.github.io/test-libraries/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.sdk.ide" version="4.4.0.I20140606-1215"/>
+<unit id="org.eclipse.sdk.ide" version="4.4.1.M20140925-0400"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.4"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">

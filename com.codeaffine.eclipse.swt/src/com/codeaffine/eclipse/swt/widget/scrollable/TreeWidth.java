@@ -25,8 +25,7 @@ class TreeWidth {
 
   boolean hasScrollEffectingChange() {
     int preferredWidth = preferredWidthComputer.compute();
-    boolean result = treeWidthHasChanged( preferredWidth ) && effectsScrollBarSize( preferredWidth );
-    return result;
+    return treeWidthHasChanged( preferredWidth ) && effectsScrollBarSize( preferredWidth );
   }
 
   private boolean effectsScrollBarSize( int preferredWidth ) {

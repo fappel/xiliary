@@ -84,6 +84,28 @@ public class TreeLayoutContextTest {
       .horizontalBarIsVisible();
   }
 
+  @Test
+  public void verticalBarVisibilityOnThresholdHeightDependsOnHorizontalBarVisibility() {
+    int thresholdHight = computeThresholdHeight();
+    shell.setSize( 600, thresholdHight );
+    TreeLayoutContext first = new TreeLayoutContext( tree );
+    shell.setSize( 100, thresholdHight );
+    TreeLayoutContext second = new TreeLayoutContext( tree );
+
+    assertThat( first )
+      .verticalBarIsInvisible()
+      .horizontalBarIsInvisible();
+    assertThat( second )
+      .verticalBarIsVisible()
+      .horizontalBarIsVisible();
+
+  }
+
+  private int computeThresholdHeight() {
+    int trim = shell.getSize().x - shell.getClientArea().height;
+    return tree.getItemHeight() * 2  + trim + 1;
+  }
+
   private Point computePreferredTreeSize() {
     return tree.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
   }
@@ -99,5 +121,4 @@ public class TreeLayoutContextTest {
     }
     return result;
   }
-
 }
