@@ -19,7 +19,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.testhelper.ShellHelper;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 
 public class TreeLayoutContextTest {
