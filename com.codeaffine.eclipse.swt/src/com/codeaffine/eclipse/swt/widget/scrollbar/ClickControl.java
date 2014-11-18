@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.swt.widget.scrollbar;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -12,7 +13,7 @@ import com.codeaffine.eclipse.swt.util.MouseClick;
 import com.codeaffine.eclipse.swt.util.MouseDownActionTimer;
 import com.codeaffine.eclipse.swt.util.MouseDownActionTimer.TimerAction;
 
-class ClickControl implements ViewComponent, TimerAction, MouseListener {
+class ClickControl implements ViewComponent, TimerAction, MouseListener, MouseTrackListener {
 
   private final Label control;
   private final MouseClick mouseClick;
@@ -30,6 +31,7 @@ class ClickControl implements ViewComponent, TimerAction, MouseListener {
     this.mouseDownActionTimer = new MouseDownActionTimer( this, mouseClick, control.getDisplay() );
     this.clickAction = clickAction;
     this.control.addMouseListener( this );
+    this.control.addMouseTrackListener( this );
   }
 
   @Override
@@ -50,10 +52,6 @@ class ClickControl implements ViewComponent, TimerAction, MouseListener {
   }
 
   @Override
-  public void mouseDoubleClick( MouseEvent event ) {
-  }
-
-  @Override
   public void run() {
     clickAction.run();
   }
@@ -62,4 +60,18 @@ class ClickControl implements ViewComponent, TimerAction, MouseListener {
   public boolean isEnabled() {
     return true;
   }
+
+  @Override
+  public void mouseExit( MouseEvent event ) {
+    mouseClick.disarm();
+  }
+
+  @Override
+  public void mouseEnter( MouseEvent event ) {}
+
+  @Override
+  public void mouseHover( MouseEvent event ) {}
+
+  @Override
+  public void mouseDoubleClick( MouseEvent event ) {}
 }

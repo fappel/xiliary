@@ -73,6 +73,15 @@ public class ClickControlTest {
     order.verify( action, atLeastOnce() ).run();
   }
 
+  @Test
+  public void mouseDownTimerDeactivation() {
+    triggerLeftButtonMouseEvent( SWT.MouseDown );
+    trigger( SWT.MouseExit ).on( clickControl.getControl() );
+    waitTillMouseDownTimerHasBeenTriggered();
+
+    verify( action, never() ).run();
+  }
+
   private void triggerLeftButtonMouseEvent( int event ) {
     trigger( event ).at( 1, 1 ).withButton( LEFT_BUTTON ).on( clickControl.getControl() );
   }
