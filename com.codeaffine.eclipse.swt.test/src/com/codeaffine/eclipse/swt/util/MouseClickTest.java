@@ -39,8 +39,8 @@ public class MouseClickTest {
   @Test
   public void arm() {
     MouseEvent event = createLeftButtonMouseEventOnControlStub( X_RANGE, Y_RANGE, IN_X_RANGE, IN_Y_RANGE );
-    mouseClick.arm( event );
 
+    mouseClick.arm( event );
     boolean actual = mouseClick.isArmed();
 
     assertThat( actual ).isTrue();
@@ -49,8 +49,19 @@ public class MouseClickTest {
   @Test
   public void armWithNonLeftButton() {
     MouseEvent event = createRightButtonMouseEventOnControlStub( X_RANGE, Y_RANGE, IN_X_RANGE, IN_Y_RANGE );
+
+    mouseClick.arm( event );
+    boolean actual = mouseClick.isArmed();
+
+    assertThat( actual ).isFalse();
+  }
+
+  @Test
+  public void disarm() {
+    MouseEvent event = createLeftButtonMouseEventOnControlStub( X_RANGE, Y_RANGE, IN_X_RANGE, IN_Y_RANGE );
     mouseClick.arm( event );
 
+    mouseClick.disarm();
     boolean actual = mouseClick.isArmed();
 
     assertThat( actual ).isFalse();

@@ -20,6 +20,10 @@ public class MouseClick {
     }
   }
 
+  public void disarm() {
+    armed = false;
+  }
+
   public void trigger( MouseEvent event, Runnable action ) {
     if( armed && inRange( event ) ) {
       action.run();
