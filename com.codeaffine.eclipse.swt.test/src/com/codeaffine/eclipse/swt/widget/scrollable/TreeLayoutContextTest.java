@@ -105,7 +105,7 @@ public class TreeLayoutContextTest {
 
   private int computeThresholdHeight() {
     int trim = shell.getSize().x - shell.getClientArea().height;
-    return tree.getItemHeight() * 2  + trim + 1;
+    return tree.getItemHeight() * 2  + trim + 3;
   }
 
   private Point computePreferredTreeSize() {
