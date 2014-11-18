@@ -9,16 +9,13 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Layout;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 import com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.TreeFactory;
 
 public class FlatScrollBarTreeTest {
@@ -72,20 +69,5 @@ public class FlatScrollBarTreeTest {
   @Test( expected = UnsupportedOperationException.class )
   public void setLayout() {
     flatScrollBarTree.setLayout( new FillLayout() );
-  }
-
-  @Test
-  @Ignore
-  public void demo() {
-    try {
-      new ReadAndDispatch().spinLoop( shell );
-    } catch (RuntimeException e) {
-      MessageBox messageBox = new MessageBox( shell, SWT.ICON_ERROR );
-      messageBox.setText( "Error" );
-      messageBox.setMessage( "The following problem occured:\n\n" + e.getMessage() + "\n\nSee log for more info." );
-      messageBox.open();
-      e.printStackTrace();
-    }
-
   }
 }
