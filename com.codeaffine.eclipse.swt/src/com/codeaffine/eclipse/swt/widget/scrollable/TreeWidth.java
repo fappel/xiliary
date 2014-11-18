@@ -35,7 +35,12 @@ class TreeWidth {
 
   private boolean exeedsVisibleRangeWidth( int preferredWidth ) {
     Rectangle parentClientArea = tree.getParent().getClientArea();
-    return preferredWidth > parentClientArea.width;
+    int visibleAreaWidth = parentClientArea.width;
+    TreeLayoutContext context = new TreeLayoutContext( tree );
+    if( context.isVerticalBarVisible() ) {
+      visibleAreaWidth += context.getVerticalBarOffset();
+    }
+    return preferredWidth > visibleAreaWidth;
   }
 
   private boolean declinesBackIntoVisibleRangeWidth( int preferredWidth ) {

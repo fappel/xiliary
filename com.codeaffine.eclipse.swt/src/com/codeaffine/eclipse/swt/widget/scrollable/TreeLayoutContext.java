@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Tree;
 
 class TreeLayoutContext {
 
-  static final int OVERLAY_OFFSET = 30;
+  static final int OVERLAY_OFFSET = 40;
 
   private final boolean horizontalBarVisible;
   private final boolean verticalBarVisible;

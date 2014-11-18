@@ -2,6 +2,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShellWithoutLayout;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -36,11 +37,21 @@ public class TreeWidthTest {
 
   @Test
   public void preferredWidthExceedsVisibleRange() {
-    equipPreferredComputerWith( getVisbleRangeWidth() + 100 );
+    equipPreferredComputerWith( getVisbleRangeWidth() + getVerticalBarOffset() );
 
     boolean actual = treeWidth.hasScrollEffectingChange();
 
     assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void preferredWidthExceedsVisibleRangeWhenVerticalScrollBarIsVisible() {
+    expandRootLevelItems( tree );
+    equipPreferredComputerWith( getVisbleRangeWidth() + getVerticalBarOffset() );
+
+    boolean actual = treeWidth.hasScrollEffectingChange();
+
+    assertThat( actual ).isFalse();
   }
 
   @Test
@@ -89,6 +100,10 @@ public class TreeWidthTest {
 
   private int getVisibleRangeHeight() {
     return shell.getClientArea().height;
+  }
+
+  private int getVerticalBarOffset() {
+    return new TreeLayoutContext( tree ).getVerticalBarOffset();
   }
 
   private void equipPreferredComputerWith( int preferredWidth ) {

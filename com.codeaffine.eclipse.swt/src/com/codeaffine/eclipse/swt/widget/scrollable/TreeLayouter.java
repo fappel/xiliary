@@ -21,12 +21,12 @@ class TreeLayouter {
   private static int computeWidth( TreeLayoutContext context ) {
     int result = max( context.getPreferredSize().x, context.getVisibleArea().width );
     if( context.isVerticalBarVisible() ) {
-      result = computeWidthWithVerticalBarPedding( context );
+      result = computeWidthWithVerticalBarPadding( context );
     }
     return result;
   }
 
-  private static int computeWidthWithVerticalBarPedding( TreeLayoutContext context ) {
+  private static int computeWidthWithVerticalBarPadding( TreeLayoutContext context ) {
     int preferredWidth = context.getPreferredSize().x;
     int visibleAreaWidth = context.getVisibleArea().width;
     int offset = context.getVerticalBarOffset();
