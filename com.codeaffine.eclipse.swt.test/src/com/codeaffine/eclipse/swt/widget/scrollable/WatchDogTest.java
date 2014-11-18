@@ -15,7 +15,7 @@ import com.codeaffine.eclipse.swt.util.ActionScheduler;
 
 public class WatchDogTest {
 
-  private SettingCopier settingCopier;
+  private VerticalScrollBarUpdater settingCopier;
   private Visibility hScrollVisibility;
   private Visibility vScrollVisibility;
   private ActionScheduler scheduler;
@@ -25,7 +25,7 @@ public class WatchDogTest {
 
   @Before
   public void setUp() {
-    settingCopier = mock( SettingCopier.class );
+    settingCopier = mock( VerticalScrollBarUpdater.class );
     hScrollVisibility = mock( Visibility.class );
     vScrollVisibility = mock( Visibility.class );
     scheduler = mock( ActionScheduler.class );
@@ -123,7 +123,7 @@ public class WatchDogTest {
     order.verify( vScrollVisibility ).update();
     order.verify( hScrollVisibility ).update();
     order.verify( vScrollVisibility ).isVisible();
-    order.verify( settingCopier ).copy();
+    order.verify( settingCopier ).update();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
   }

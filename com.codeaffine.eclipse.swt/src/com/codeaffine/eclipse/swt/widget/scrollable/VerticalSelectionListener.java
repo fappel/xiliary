@@ -15,8 +15,6 @@ class VerticalSelectionListener implements ScrollListener {
 
   @Override
   public void selectionChanged( ScrollEvent event ) {
-    int increment = event.getScrollBar().getIncrement();
-    int selection = event.getSelection();
-    treeTopItemSelector.select( selection / increment );
+    treeTopItemSelector.select( event.getSelection() );
   }
 }

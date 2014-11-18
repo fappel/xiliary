@@ -14,7 +14,7 @@ class WatchDog implements Runnable, DisposeListener {
 
   private final Visibility vScrollVisibility;
   private final Visibility hScrollVisibility;
-  private final SettingCopier verticalSettingCopier;
+  private final VerticalScrollBarUpdater verticalSettingCopier;
   private final TreeWidth treeWidth;
   private final ActionScheduler scheduler;
   private final LayoutTrigger layoutTrigger;
@@ -22,7 +22,7 @@ class WatchDog implements Runnable, DisposeListener {
   private boolean disposed;
 
   WatchDog( Tree tree, FlatScrollBar vertical  ) {
-    this( new SettingCopier( tree.getVerticalBar(), vertical ),
+    this( new VerticalScrollBarUpdater( tree, vertical ),
           new Visibility( tree.getHorizontalBar() ),
           new Visibility( tree.getVerticalBar() ),
           null,
@@ -30,7 +30,7 @@ class WatchDog implements Runnable, DisposeListener {
           new TreeWidth( tree ) );
   }
 
-  WatchDog( SettingCopier settingCopier,
+  WatchDog( VerticalScrollBarUpdater settingCopier,
             Visibility hScrollVisibility,
             Visibility vScrollVisibility,
             ActionScheduler actionScheduler,
@@ -67,7 +67,7 @@ class WatchDog implements Runnable, DisposeListener {
     vScrollVisibility.update();
     hScrollVisibility.update();
     if( vScrollVisibility.isVisible() ) {
-      verticalSettingCopier.copy();
+      verticalSettingCopier.update();
     }
   }
 

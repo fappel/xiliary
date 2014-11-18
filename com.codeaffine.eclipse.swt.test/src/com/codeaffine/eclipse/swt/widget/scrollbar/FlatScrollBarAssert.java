@@ -5,7 +5,8 @@ import org.eclipse.swt.graphics.Rectangle;
 
 public class FlatScrollBarAssert extends AbstractAssert<FlatScrollBarAssert, FlatScrollBar>{
 
-  private static final String FAIL_MESSAGE_PATTERN = "Expected %s bounds to be <%s> but were <%s>.";
+  private static final String FAIL_MESSAGE_PATTERN_BOUNDS = "Expected %s bounds to be <%s> but were <%s>.";
+  private static final String FAIL_MESSAGE_PATTERN_VALUES = "Expected %s to be <%s> but was <%s>.";
 
   public FlatScrollBarAssert( FlatScrollBar actual ) {
     super( actual, FlatScrollBarAssert.class );
@@ -67,9 +68,51 @@ public class FlatScrollBarAssert extends AbstractAssert<FlatScrollBarAssert, Fla
     return this;
   }
 
+  public FlatScrollBarAssert hasIncrement( int expected ) {
+    isNotNull();
+    verifyValue( expected, actual.getIncrement(), "increment" );
+    return this;
+  }
+
+  public FlatScrollBarAssert hasPageIncrement( int expected ) {
+    isNotNull();
+    verifyValue( expected, actual.getPageIncrement(), "page-increment" );
+    return this;
+  }
+
+  public FlatScrollBarAssert hasMinimum( int expected ) {
+    isNotNull();
+    verifyValue( expected, actual.getMinimum(), "minimum" );
+    return this;
+  }
+
+  public FlatScrollBarAssert hasMaximum( int expected ) {
+    isNotNull();
+    verifyValue( expected, actual.getMaximum(), "maximum" );
+    return this;
+  }
+
+  public FlatScrollBarAssert hasThumb( int expected ) {
+    isNotNull();
+    verifyValue( expected, actual.getThumb(), "thumb" );
+    return this;
+  }
+
+  public FlatScrollBarAssert hasSelection( int expected ) {
+    isNotNull();
+    verifyValue( expected, actual.getSelection(), "selection" );
+    return this;
+  }
+
+  private void verifyValue( int expected, int value, String valueType ) {
+    if( value != expected ) {
+      failWithMessage( FAIL_MESSAGE_PATTERN_VALUES, valueType, expected, value );
+    }
+  }
+
   private void verifyViewComponentBounds( ViewComponent viewComponent, String viewComponentName, Rectangle expected ) {
     if( !getBounds( viewComponent ).equals( expected ) ) {
-      failWithMessage( FAIL_MESSAGE_PATTERN, viewComponentName, expected, getBounds( viewComponent ) );
+      failWithMessage( FAIL_MESSAGE_PATTERN_BOUNDS, viewComponentName, expected, getBounds( viewComponent ) );
     }
   }
 
