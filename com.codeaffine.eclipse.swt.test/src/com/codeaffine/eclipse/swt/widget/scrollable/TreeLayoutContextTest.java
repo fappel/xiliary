@@ -1,7 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.waitForGtkRendering;
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
@@ -19,7 +18,9 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class TreeLayoutContextTest {
 
@@ -86,14 +87,13 @@ public class TreeLayoutContextTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class ) // Only for build server, works fine on Ubuntu
   public void verticalBarVisibilityOnThresholdHeightDependsOnHorizontalBarVisibility() {
     int thresholdHight = computeThresholdHeight();
     shell.setSize( 1000, thresholdHight );
     TreeLayoutContext first = new TreeLayoutContext( tree );
-    waitForGtkRendering();
     shell.setSize( 100, thresholdHight );
     TreeLayoutContext second = new TreeLayoutContext( tree );
-    waitForGtkRendering();
 
     assertThat( first )
       .verticalBarIsInvisible()
