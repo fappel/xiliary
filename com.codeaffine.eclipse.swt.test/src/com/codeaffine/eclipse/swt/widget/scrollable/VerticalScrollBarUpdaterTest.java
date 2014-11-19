@@ -2,6 +2,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
+import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.waitForGtkRendering;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
@@ -15,7 +16,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.testhelper.ShellHelper;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 import com.codeaffine.eclipse.swt.widget.scrollbar.Orientation;
 
@@ -73,7 +73,7 @@ public class VerticalScrollBarUpdaterTest {
   public void updateWithGtkWorkaround() {
     adjustTreeHeightForGtkWorkaround();
     tree.setTopItem( tree.getItem( 1 ) );
-    ShellHelper.waitForGtkRendering();
+    waitForGtkRendering();
 
     updater.update();
 
@@ -87,7 +87,7 @@ public class VerticalScrollBarUpdaterTest {
   }
 
   private void adjustTreeHeightForGtkWorkaround() {
-    int treeHeight = tree.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).y - tree.getItemHeight() / 2;
+    int treeHeight = expectedMaximum() * tree.getItemHeight() - tree.getItemHeight() / 2;
     tree.setSize( tree.getSize().x, treeHeight );
   }
 
