@@ -4,11 +4,15 @@ import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
 import static com.codeaffine.eclipse.swt.testhelper.MouseDownActionTimerHelper.waitTillMouseDownTimerHasBeenTriggered;
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.util.MouseClick.LEFT_BUTTON;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarHelper.equipScrollBarWithListener;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarHelper.verifyNotification;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collection;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
@@ -47,10 +51,14 @@ public class FastIncrementerTest {
 
   @Test
   public void run() {
+    SelectionListener listener = equipScrollBarWithListener( scrollBar );
+
     triggerLeftButtonMouseDown();
     waitTillTimerHasFiredAtLeastTwice();
     triggerMouseUp();
 
+    SelectionEvent event = verifyNotification( listener );
+    assertThat( event.detail ).isEqualTo( SWT.PAGE_DOWN );
     assertThat( scrollBar.getSelection() ).isEqualTo( scrollBar.getPageIncrement() );
   }
 

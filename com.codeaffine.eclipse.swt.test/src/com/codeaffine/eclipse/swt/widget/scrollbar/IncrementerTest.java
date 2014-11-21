@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.swt.widget.scrollbar;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarHelper.stubScrollBar;
 import static org.mockito.Mockito.verify;
 
+import org.eclipse.swt.SWT;
 import org.junit.Test;
 
 public class IncrementerTest {
@@ -17,6 +18,6 @@ public class IncrementerTest {
 
     incrementer.run();
 
-    verify( scrollBar ).setSelectionInternal( INCREMENT + SELECTION );
+    verify( scrollBar ).setSelectionInternal( INCREMENT + SELECTION, SWT.ARROW_DOWN );
   }
 }

@@ -38,7 +38,8 @@ public class MouseWheelShifter implements Listener, DisposeListener {
     if( shiftData.canShift() ) {
       int selectionRange = calculateSelectionRange( scrollBar );
       int selectionDelta = shiftData.calculateSelectionDelta( selectionRange );
-      scrollBar.setSelectionInternal( scrollBar.getSelection() - selectionDelta );
+      int selection = scrollBar.getSelection() - selectionDelta;
+      scrollBar.setSelectionInternal( selection, scrollBar.direction.value() );
     }
   }
 

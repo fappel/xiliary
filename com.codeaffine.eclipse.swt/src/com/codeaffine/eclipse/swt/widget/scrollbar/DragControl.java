@@ -25,7 +25,9 @@ class DragControl
   private Point startingPosition;
 
   public interface DragAction {
+    void start();
     void run( int startX, int startY, int currentX, int currentY );
+    void end();
   }
 
   DragControl( Composite parent, Color background, DragAction dragAction ) {
@@ -59,12 +61,16 @@ class DragControl
 
   @Override
   public void mouseDown( MouseEvent event ) {
-    this.startingPosition = new Point( event.x, event.y );
+    startingPosition = new Point( event.x, event.y );
+    dragAction.start();
   }
 
   @Override
   public void mouseUp( MouseEvent e ) {
-    this.startingPosition = null;
+    if( startingPosition != null ) {
+      dragAction.end();
+    }
+    startingPosition = null;
   }
 
   private void initializeControl( Color background ) {

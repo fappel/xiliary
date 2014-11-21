@@ -1,14 +1,14 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.widget.scrollbar.ComponentDistribution.BUTTON_LENGTH;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_MAXIMUM;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_THUMB;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.assertThat;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.CLEARANCE;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.HORIZONTAL;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.MAX_EXPAND;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.VERTICAL;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_MAXIMUM;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_THUMB;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -180,6 +180,13 @@ public class DirectionTest {
   }
 
   @Test
+  public void horizontalValue() {
+    int actual = HORIZONTAL.value();
+
+    assertThat( actual ).isEqualTo( SWT.HORIZONTAL );
+  }
+
+  @Test
   public void layoutVertical() {
     FlatScrollBar scrollBar = createScrollBar( SWT.VERTICAL, SELECTION );
 
@@ -314,9 +321,16 @@ public class DirectionTest {
       .isEqualTo( new Rectangle( bounds.x, bounds.y, bounds.width, bounds.height ) );
   }
 
+  @Test
+  public void verticalValue() {
+    int actual = VERTICAL.value();
+
+    assertThat( actual ).isEqualTo( SWT.VERTICAL );
+  }
+
   private FlatScrollBar createScrollBar( int direction, int selection ) {
     FlatScrollBar result = new FlatScrollBar( shell, direction );
-    result.setSelectionInternal( selection );
+    result.setSelectionInternal( selection, SWT.ARROW_DOWN );
     return result;
   }
 

@@ -1,5 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
+import org.eclipse.swt.SWT;
+
 import com.codeaffine.eclipse.swt.widget.scrollbar.ClickControl.ClickAction;
 
 class Incrementer implements ClickAction {
@@ -12,7 +14,8 @@ class Incrementer implements ClickAction {
 
   @Override
   public void run() {
-    scrollBar.setSelectionInternal( scrollBar.getSelection() + scrollBar.getIncrement() );
+    int selection = scrollBar.getSelection() + scrollBar.getIncrement();
+    scrollBar.setSelectionInternal( selection, SWT.ARROW_DOWN );
   }
 
   @Override

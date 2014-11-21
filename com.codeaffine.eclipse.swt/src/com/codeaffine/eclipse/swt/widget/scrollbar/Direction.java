@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Control;
 
 enum Direction {
 
-  HORIZONTAL {
+  HORIZONTAL( SWT.HORIZONTAL ) {
 
     @Override
     protected void layout( FlatScrollBar scrollBar ) {
@@ -67,7 +67,7 @@ enum Direction {
     }
   },
 
-  VERTICAL {
+  VERTICAL( SWT.VERTICAL ) {
 
     @Override
     protected void layout( FlatScrollBar scrollBar ) {
@@ -127,10 +127,20 @@ enum Direction {
   static final int CLEARANCE = BAR_BREADTH - 2;
   static final int MAX_EXPAND = CLEARANCE;
 
+  private final int value;
+
   protected abstract void layout( FlatScrollBar scrollBar );
   protected abstract void setDefaultSize( Control control );
   protected abstract Point computeSize( Composite comp, int wHint, int hHint, boolean changed );
   protected abstract void expand( Control control );
+
+  Direction( int value ) {
+    this.value = value;
+  }
+
+  public int value() {
+    return value;
+  }
 
   private static ComponentDistribution calculateComponentDistribution( FlatScrollBar scrollBar, int length ) {
     int range = scrollBar.getMaximum() - scrollBar.getMinimum();

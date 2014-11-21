@@ -148,24 +148,25 @@ public class FlatScrollBar extends Composite {
     update();
   }
 
-  protected void setSelectionInternal( int selection ) {
+  protected void setSelectionInternal( int selection, int detail ) {
     int oldSelection = this.selection;
     setSelection( selection );
     if( oldSelection != this.selection ) {
-      notifyListeners();
+      notifyListeners( detail );
     }
   }
 
-  public void notifyListeners() {
-    SelectionEvent selectionEvent = createEvent();
+  public void notifyListeners( int detail ) {
+    SelectionEvent selectionEvent = createEvent( detail );
     for( SelectionListener listener : listeners ) {
       listener.widgetSelected( selectionEvent );
     }
   }
 
-  private SelectionEvent createEvent() {
+  private SelectionEvent createEvent( int detail ) {
     Event event = new Event();
     event.widget = this;
+    event.detail = detail;
     return new SelectionEvent( event );
   }
 

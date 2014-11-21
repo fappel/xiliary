@@ -28,7 +28,7 @@ public class MouseWheelSupport {
 
     @Override
     public void widgetSelected( SelectionEvent event ) {
-      mouseWheelSupport.updateScrollBarSelection();
+      mouseWheelSupport.updateScrollBarSelection( event.detail );
       mouseWheelSupport.copySettings();
     }
   }
@@ -104,7 +104,7 @@ public class MouseWheelSupport {
     slider.setSelection( scrollBar.getSelection() );
   }
 
-  protected void updateScrollBarSelection() {
-    scrollBar.setSelectionInternal( slider.getSelection() );
+  protected void updateScrollBarSelection( int detail ) {
+    scrollBar.setSelectionInternal( slider.getSelection(), detail );
   }
 }

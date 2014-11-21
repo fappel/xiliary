@@ -136,7 +136,6 @@ public class Demo {
       public void widgetSelected( SelectionEvent e ) {
         Point location = label.getLocation();
         label.setLocation( -hScroll.getSelection(), location.y );
-System.out.println( e.detail );
       }
     } );
 
@@ -145,7 +144,6 @@ System.out.println( e.detail );
       public void widgetSelected( SelectionEvent e ) {
         Point location = label.getLocation();
         label.setLocation( location.x, -vScroll.getSelection() );
-System.out.println( e.detail );
       }
     } );
   }

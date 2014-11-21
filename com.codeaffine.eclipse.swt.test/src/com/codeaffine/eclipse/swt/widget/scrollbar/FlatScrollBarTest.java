@@ -49,6 +49,20 @@ public class FlatScrollBarTest {
     shell.open();
   }
 
+  @Test( expected = UnsupportedOperationException.class )
+  public void setLayout() {
+    new FlatScrollBar( shell, SWT.HORIZONTAL ).setLayout( null );
+  }
+
+  @Test
+  public void defaultDirection() {
+    FlatScrollBar flatScrollBar = new FlatScrollBar( shell, SWT.NONE );
+
+    Direction actual = flatScrollBar.getDirection();
+
+    assertThat( actual ).isSameAs( Direction.VERTICAL );
+  }
+
   @Test
   public void getDirection() {
     FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
@@ -298,7 +312,7 @@ public class FlatScrollBarTest {
   public void getSelectionOnMaximumAdjustment() {
     FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setThumb( 1 );
-    scrollBar.setSelectionInternal( 10 );
+    scrollBar.setSelectionInternal( 10, SWT.NONE );
     scrollBar.setMaximum( 2 );
 
     int actual = scrollBar.getSelection();
@@ -353,7 +367,7 @@ public class FlatScrollBarTest {
   public void setSelectionInternal() {
     int expected = 12;
     FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    scrollBar.setSelectionInternal( expected );
+    scrollBar.setSelectionInternal( expected, SWT.NONE );
 
     int actual = scrollBar.getSelection();
 
@@ -363,7 +377,7 @@ public class FlatScrollBarTest {
   @Test
   public void setSelectionInternalWithValueBelowMinimum() {
     FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    scrollBar.setSelectionInternal( FlatScrollBar.DEFAULT_MINIMUM - 1 );
+    scrollBar.setSelectionInternal( FlatScrollBar.DEFAULT_MINIMUM - 1, SWT.NONE );
 
     int actual = scrollBar.getSelection();
 
@@ -373,7 +387,7 @@ public class FlatScrollBarTest {
   @Test
   public void setSelectionInternalWithMaximumValue() {
     FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    scrollBar.setSelectionInternal( FlatScrollBar.DEFAULT_MAXIMUM );
+    scrollBar.setSelectionInternal( FlatScrollBar.DEFAULT_MAXIMUM, SWT.NONE );
 
     int actual = scrollBar.getSelection();
 
@@ -386,7 +400,7 @@ public class FlatScrollBarTest {
     shell.layout();
 
     Rectangle before = scrollBar.drag.getControl().getBounds();
-    scrollBar.setSelectionInternal( 20 );
+    scrollBar.setSelectionInternal( 20, SWT.NONE );
     Rectangle after = scrollBar.drag.getControl().getBounds();
 
     assertThat( after ).isNotEqualTo( before );
@@ -426,30 +440,31 @@ public class FlatScrollBarTest {
   }
 
   @Test
-    public void addSelectionListener() {
-      ArgumentCaptor<SelectionEvent> captor = forClass( SelectionEvent.class );
-      FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-      SelectionListener listener = mock( SelectionListener.class );
+  public void addSelectionListener() {
+    ArgumentCaptor<SelectionEvent> captor = forClass( SelectionEvent.class );
+    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
+    SelectionListener listener = mock( SelectionListener.class );
 
-      scrollBar.addSelectionListener( listener );
-      scrollBar.setSelectionInternal( 2 );
+    scrollBar.addSelectionListener( listener );
+    scrollBar.setSelectionInternal( 2, SWT.DRAG );
 
-      verify( listener ).widgetSelected( captor.capture() );
-      assertThat( captor.getValue().widget ).isSameAs( scrollBar );
-      assertThat( scrollBar.getSelection() ).isEqualTo( 2 );
-    }
+    verify( listener ).widgetSelected( captor.capture() );
+    assertThat( captor.getValue().widget ).isSameAs( scrollBar );
+    assertThat( captor.getValue().detail ).isEqualTo( SWT.DRAG );
+    assertThat( scrollBar.getSelection() ).isEqualTo( 2 );
+  }
 
   @Test
-    public void removeSelectionListener() {
-      FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-      SelectionListener listener = mock( SelectionListener.class );
-      scrollBar.addSelectionListener( listener );
+  public void removeSelectionListener() {
+    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
+    SelectionListener listener = mock( SelectionListener.class );
+    scrollBar.addSelectionListener( listener );
 
-      scrollBar.removeSelectionListener( listener );
-      scrollBar.setSelectionInternal( 2 );
+    scrollBar.removeSelectionListener( listener );
+    scrollBar.setSelectionInternal( 2, SWT.NONE );
 
-      verify( listener, never() ).widgetSelected( any( SelectionEvent.class ) );
-    }
+    verify( listener, never() ).widgetSelected( any( SelectionEvent.class ) );
+  }
 
   @Test
   public void setSelectionDoesNotTriggerScrollEvent() {
@@ -470,10 +485,11 @@ public class FlatScrollBarTest {
     scrollBar.addSelectionListener( listener );
     scrollBar.setSelection( 2 );
 
-    scrollBar.notifyListeners();
+    scrollBar.notifyListeners( SWT.DRAG );
 
     verify( listener ).widgetSelected( captor.capture() );
     assertThat( captor.getValue().widget ).isSameAs( scrollBar );
+    assertThat( captor.getValue().detail ).isEqualTo( SWT.DRAG );
     assertThat( scrollBar.getSelection() ).isEqualTo( 2 );
   }
 

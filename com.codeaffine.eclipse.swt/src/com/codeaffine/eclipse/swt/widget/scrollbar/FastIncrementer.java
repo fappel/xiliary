@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
@@ -20,7 +21,8 @@ class FastIncrementer implements ClickAction {
   public void run() {
     Rectangle drag = getDragBounds();
     if( mouse.x > drag.x + drag.width || mouse.y > drag.y + drag.height ) {
-      scrollBar.setSelectionInternal( scrollBar.getSelection() + scrollBar.getPageIncrement() );
+      int selection = scrollBar.getSelection() + scrollBar.getPageIncrement();
+      scrollBar.setSelectionInternal( selection, SWT.PAGE_DOWN );
     }
   }
 

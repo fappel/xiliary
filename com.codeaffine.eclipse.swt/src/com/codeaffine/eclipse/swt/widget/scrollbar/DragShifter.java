@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.swt.widget.scrollbar;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.HORIZONTAL;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.ShiftData.calculateSelectionRange;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 
 import com.codeaffine.eclipse.swt.widget.scrollbar.DragControl.DragAction;
@@ -16,13 +17,24 @@ final class DragShifter implements DragAction {
   }
 
   @Override
+  public void start() {
+    scrollBar.notifyListeners( SWT.DRAG );
+  }
+
+  @Override
   public void run( int startX, int startY, int currentX, int currentY ) {
     ShiftData shiftData = newShiftData( startX, startY, currentX, currentY );
     if( shiftData.canShift() ) {
       int selectionRange = calculateSelectionRange( scrollBar );
       int selectionDelta = shiftData.calculateSelectionDelta( selectionRange );
-      scrollBar.setSelectionInternal( scrollBar.getSelection() + selectionDelta );
+      int selection = scrollBar.getSelection() + selectionDelta;
+      scrollBar.setSelectionInternal( selection, SWT.DRAG );
     }
+  }
+
+  @Override
+  public void end() {
+    scrollBar.notifyListeners( SWT.NONE );
   }
 
   private ShiftData newShiftData( int startX, int startY, int currentX, int currentY ) {

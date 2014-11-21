@@ -17,6 +17,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
 import org.junit.Rule;
@@ -52,10 +53,10 @@ public class MouseWheelSupportTest {
     MouseWheelSupport mouseWheelSupport = mock( MouseWheelSupport.class );
     SliderAdapter sliderAdapter = new SliderAdapter( mouseWheelSupport );
 
-    sliderAdapter.widgetSelected( null );
+    sliderAdapter.widgetSelected( fakeEvent( direction ) );
 
     InOrder order = inOrder( mouseWheelSupport );
-    order.verify( mouseWheelSupport ).updateScrollBarSelection();
+    order.verify( mouseWheelSupport ).updateScrollBarSelection( direction );
     order.verify( mouseWheelSupport ).copySettings();
     order.verifyNoMoreInteractions();
   }
@@ -240,10 +241,11 @@ public class MouseWheelSupportTest {
     Slider slider = ( Slider )mouseWheelSupport.getControl();
     slider.setSelection( 10 );
 
-    mouseWheelSupport.updateScrollBarSelection();
+    mouseWheelSupport.updateScrollBarSelection( direction );
 
     SelectionEvent event = verifyNotification( listener );
     assertThat( event.widget ).isSameAs( scrollBar );
+    assertThat( event.detail ).isEqualTo( direction );
     assertThat( scrollBar.getSelection() ).isEqualTo( 10 );
   }
 
@@ -275,5 +277,12 @@ public class MouseWheelSupportTest {
     assertThat( slider.getThumb() ).isEqualTo( thumb );
     assertThat( slider.getSelection() ).isEqualTo( selection );
     assertThat( slider.getBounds() ).isEqualTo( bounds );
+  }
+
+  private static SelectionEvent fakeEvent( int direction ) {
+    Event event = new Event();
+    event.widget = mock( FlatScrollBar.class );
+    event.detail = direction;
+    return new SelectionEvent( event );
   }
 }
