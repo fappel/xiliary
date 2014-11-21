@@ -73,6 +73,15 @@ public class FlatScrollBarTest {
   }
 
   @Test
+  public void getStyle() {
+    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
+
+    int actual = scrollBar.getStyle();
+
+    assertThat( actual ).isEqualTo( SWT.HORIZONTAL );
+  }
+
+  @Test
   public void getMinimum() {
     FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
 

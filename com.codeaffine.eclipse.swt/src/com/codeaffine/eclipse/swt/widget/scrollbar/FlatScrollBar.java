@@ -64,6 +64,11 @@ public class FlatScrollBar extends Composite {
     throw new UnsupportedOperationException( FlatScrollBar.class.getName() + " does not allow to change layout." );
   };
 
+  @Override
+  public int getStyle() {
+    return direction.value();
+  };
+
   Direction getDirection() {
     return direction;
   }
