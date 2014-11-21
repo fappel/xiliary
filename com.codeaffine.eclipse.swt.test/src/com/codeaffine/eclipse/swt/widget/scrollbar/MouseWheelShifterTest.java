@@ -6,7 +6,6 @@ import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_THUMB;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarHelper.equipScrollBarWithListener;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarHelper.verifyNotification;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.Orientation.HORIZONTAL;
 import static java.lang.Math.max;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -16,6 +15,8 @@ import static org.mockito.Mockito.verify;
 import java.util.Collection;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
@@ -32,55 +33,57 @@ public class MouseWheelShifterTest {
 
   @Parameters
   public static Collection<Object[]> data() {
-    return OrientationHelper.valuesForParameterizedTests();
+    return DirectionHelper.valuesForParameterizedTests();
   }
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private final Orientation orientation;
+  private final int direction;
 
   private FlatScrollBar scrollBar;
   private Shell parent;
 
-  public MouseWheelShifterTest( Orientation orientation ) {
-    this.orientation = orientation;
+  public MouseWheelShifterTest( int direction ) {
+    this.direction = direction;
   }
 
   @Before
   public void setUp() {
     parent = createShell( displayHelper );
-    scrollBar = new FlatScrollBar( parent, orientation );
+    scrollBar = new FlatScrollBar( parent, direction );
     parent.open();
     parent.layout();
   }
 
   @Test
   public void handleEvent() {
-    ScrollListener listener = equipScrollBarWithListener( scrollBar );
+    SelectionListener listener = equipScrollBarWithListener( scrollBar );
     Point dragLocation = scrollBar.drag.getControl().getLocation();
 
     trigger( getSWTMouseWheelEventType() ).withCount( -3 ).on( parent );
 
-    ScrollEvent event = verifyNotification( listener );
-    assertThat( event.getSelection() ).isEqualTo( 2 );
+    SelectionEvent event = verifyNotification( listener );
+    assertThat( event.widget ).isSameAs( scrollBar );
+    assertThat( scrollBar.getSelection() ).isEqualTo( 2 );
     assertThat( scrollBar.drag.getControl().getLocation() ).isNotEqualTo( dragLocation );
   }
 
   @Test
   public void handleEventWithScrollToMaximum() {
-    ScrollListener listener = equipScrollBarWithListener( scrollBar );
-    Point size = scrollBar.getControl().getSize();
+    SelectionListener listener = equipScrollBarWithListener( scrollBar );
+    Point size = scrollBar.getSize();
 
     trigger( getSWTMouseWheelEventType() ).withCount( -max( size.x, size.y ) ).on( parent );
 
-    ScrollEvent event = verifyNotification( listener );
-    assertThat( event.getSelection() ).isEqualTo( DEFAULT_MAXIMUM - DEFAULT_THUMB );
+    SelectionEvent event = verifyNotification( listener );
+    assertThat( event.widget ).isSameAs( scrollBar );
+    assertThat( scrollBar.getSelection() ).isEqualTo( DEFAULT_MAXIMUM - DEFAULT_THUMB );
   }
 
   @Test
   public void handleEventWithBackwardScroll() {
-    Point size = scrollBar.getControl().getSize();
+    Point size = scrollBar.getSize();
     trigger( getSWTMouseWheelEventType() ).withCount( -max( size.x, size.y ) ).on( parent );
 
     trigger( getSWTMouseWheelEventType() ).withCount( max( size.x, size.y ) ).on( parent );
@@ -91,24 +94,24 @@ public class MouseWheelShifterTest {
   @Test
   public void handleEventIfDragSizeUsesCompleteSlideRange() {
     scrollBar.setThumb( scrollBar.getMaximum() );
-    ScrollListener listener = equipScrollBarWithListener( scrollBar );
+    SelectionListener listener = equipScrollBarWithListener( scrollBar );
 
     trigger( getSWTMouseWheelEventType() ).withCount( -3 ).on( parent );
 
-    verify( listener, never() ).selectionChanged( any( ScrollEvent.class ) );
+    verify( listener, never() ).widgetSelected( any( SelectionEvent.class ) );
   }
 
   @Test
   public void dispose() {
-    ScrollListener listener = equipScrollBarWithListener( scrollBar );
-    scrollBar.getControl().dispose();
+    SelectionListener listener = equipScrollBarWithListener( scrollBar );
+    scrollBar.dispose();
 
     trigger( getSWTMouseWheelEventType() ).withCount( -3 ).on( parent );
 
-    verify( listener, never() ).selectionChanged( any( ScrollEvent.class ) );
+    verify( listener, never() ).widgetSelected( any( SelectionEvent.class ) );
   }
 
   private int getSWTMouseWheelEventType() {
-    return orientation == HORIZONTAL ? SWT.MouseHorizontalWheel : SWT.MouseVerticalWheel;
+    return direction == SWT.HORIZONTAL ? SWT.MouseHorizontalWheel : SWT.MouseVerticalWheel;
   }
 }

@@ -2,6 +2,7 @@ package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import org.assertj.core.api.AbstractAssert;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Control;
 
 public class FlatScrollBarAssert extends AbstractAssert<FlatScrollBarAssert, FlatScrollBar>{
 
@@ -48,7 +49,7 @@ public class FlatScrollBarAssert extends AbstractAssert<FlatScrollBarAssert, Fla
 
   public FlatScrollBarAssert isVisible() {
     isNotNull();
-    if( !actual.getControl().getVisible() ) {
+    if( !actual.getVisible() ) {
       failWithMessage( "Expected scrollbar set to be visible but was not."  );
     }
     return this;
@@ -56,7 +57,7 @@ public class FlatScrollBarAssert extends AbstractAssert<FlatScrollBarAssert, Fla
 
   public FlatScrollBarAssert isNotVisible() {
     isNotNull();
-    if( actual.getControl().getVisible() ) {
+    if( actual.getVisible() ) {
       failWithMessage( "Expected scrollbar set to be invisible but was not."  );
     }
     return this;
@@ -64,7 +65,7 @@ public class FlatScrollBarAssert extends AbstractAssert<FlatScrollBarAssert, Fla
 
   public FlatScrollBarAssert hasBounds( int x, int y, int width, int height  ) {
     isNotNull();
-    verifyViewComponentBounds( actual, "scrollbar", new Rectangle( x, y, width, height ) );
+    verifyControlBounds( actual, "scrollbar", new Rectangle( x, y, width, height ) );
     return this;
   }
 
@@ -111,12 +112,12 @@ public class FlatScrollBarAssert extends AbstractAssert<FlatScrollBarAssert, Fla
   }
 
   private void verifyViewComponentBounds( ViewComponent viewComponent, String viewComponentName, Rectangle expected ) {
-    if( !getBounds( viewComponent ).equals( expected ) ) {
-      failWithMessage( FAIL_MESSAGE_PATTERN_BOUNDS, viewComponentName, expected, getBounds( viewComponent ) );
-    }
+    verifyControlBounds( viewComponent.getControl(), viewComponentName, expected );
   }
 
-  private static Rectangle getBounds( ViewComponent viewComponent ) {
-    return viewComponent.getControl().getBounds();
+  private void verifyControlBounds( Control control, String viewComponentName, Rectangle expected ) {
+    if( !control.getBounds().equals( expected ) ) {
+      failWithMessage( FAIL_MESSAGE_PATTERN_BOUNDS, viewComponentName, expected, control.getBounds() );
+    }
   }
 }

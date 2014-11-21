@@ -4,12 +4,15 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Layout;
 
-public class FlatScrollBar implements ViewComponent {
+public class FlatScrollBar extends Composite {
 
   static final int DEFAULT_MINIMUM = 0;
   static final int DEFAULT_MAXIMUM = 100;
@@ -18,15 +21,14 @@ public class FlatScrollBar implements ViewComponent {
   static final int DEFAULT_PAGE_INCREMENT = DEFAULT_THUMB;
   static final int DEFAULT_SELECTION = 0;
 
-  final Composite control;
   final ClickControl up;
   final ClickControl upFast;
   final DragControl drag;
   final ClickControl downFast;
   final ClickControl down;
-  final Orientation orientation;
+  final Direction direction;
   final MouseWheelShifter mouseWheelHandler;
-  final Collection<ScrollListener> listeners;
+  final Collection<SelectionListener> listeners;
 
   private int minimum;
   private int maximum;
@@ -35,35 +37,35 @@ public class FlatScrollBar implements ViewComponent {
   private int thumb;
   private int selection;
 
-  public FlatScrollBar( Composite parent, Orientation orientation ) {
+  public FlatScrollBar( Composite parent, int style ) {
+    super( parent, SWT.NONE );
     this.minimum = DEFAULT_MINIMUM;
     this.maximum = DEFAULT_MAXIMUM;
     this.increment = DEFAULT_INCREMENT;
     this.pageIncrement = DEFAULT_PAGE_INCREMENT;
     this.thumb = DEFAULT_THUMB;
     this.selection = DEFAULT_SELECTION;
-    this.orientation = orientation;
-    this.control = new Composite( parent, SWT.NONE );
-    this.control.setLayout( new FlatScrollBarLayout( orientation ) );
-    this.orientation.setDefaultSize( control );
-    this.up = new ClickControl( control, getSlowBackground(), new Decrementer( this ) );
-    this.upFast = new ClickControl( control, getFastBackground(), new FastDecrementer( this ) );
-    this.drag = new DragControl( control, getDragBackground(), new DragShifter( this ) );
-    this.downFast = new ClickControl( control, getFastBackground(), new FastIncrementer( this ) );
-    this.down = new ClickControl( control, getSlowBackground(), new Incrementer( this ) );
-    this.control.addMouseTrackListener( new MouseTracker( this ) );
-    this.control.addControlListener( new ResizeObserver( this ) );
+    this.direction = ( style & SWT.HORIZONTAL ) > 0 ? Direction.HORIZONTAL : Direction.VERTICAL;
+    super.setLayout( new FlatScrollBarLayout( direction ) );
+    this.direction.setDefaultSize( this );
+    this.up = new ClickControl( this, getSlowBackground(), new Decrementer( this ) );
+    this.upFast = new ClickControl( this, getFastBackground(), new FastDecrementer( this ) );
+    this.drag = new DragControl( this, getDragBackground(), new DragShifter( this ) );
+    this.downFast = new ClickControl( this, getFastBackground(), new FastIncrementer( this ) );
+    this.down = new ClickControl( this, getSlowBackground(), new Incrementer( this ) );
+    addMouseTrackListener( new MouseTracker( this ) );
+    addControlListener( new ResizeObserver( this ) );
     this.mouseWheelHandler = new MouseWheelShifter( this, parent );
-    this.listeners = new HashSet<ScrollListener>();
+    this.listeners = new HashSet<SelectionListener>();
   }
 
   @Override
-  public Control getControl() {
-    return control;
-  }
+  public void setLayout( Layout layout ) {
+    throw new UnsupportedOperationException( FlatScrollBar.class.getName() + " does not allow to change layout." );
+  };
 
-  public Orientation getOrientation() {
-    return orientation;
+  Direction getDirection() {
+    return direction;
   }
 
   public void setMinimum( int minimum ) {
@@ -132,17 +134,18 @@ public class FlatScrollBar implements ViewComponent {
   }
 
 
-  public void addScrollListener( ScrollListener scrollListener ) {
-    listeners.add( scrollListener );
+  public void addSelectionListener( SelectionListener selectionListener ) {
+    listeners.add( selectionListener );
   }
 
-  public void removeScrollListener( ScrollListener scrollListener ) {
-    listeners.remove( scrollListener );
+  public void removeSelectionListener( SelectionListener selectionListener ) {
+    listeners.remove( selectionListener );
   }
 
-  protected void layout() {
-    orientation.layout( this );
-    control.update();
+  @Override
+  public void layout() {
+    direction.layout( this );
+    update();
   }
 
   protected void setSelectionInternal( int selection ) {
@@ -154,10 +157,16 @@ public class FlatScrollBar implements ViewComponent {
   }
 
   public void notifyListeners() {
-    ScrollEvent event = new ScrollEvent( this, getSelection() );
-    for( ScrollListener listener : listeners ) {
-      listener.selectionChanged( event );
+    SelectionEvent selectionEvent = createEvent();
+    for( SelectionListener listener : listeners ) {
+      listener.widgetSelected( selectionEvent );
     }
+  }
+
+  private SelectionEvent createEvent() {
+    Event event = new Event();
+    event.widget = this;
+    return new SelectionEvent( event );
   }
 
   private void adjustThumb() {

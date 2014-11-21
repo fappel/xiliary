@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.TreeFactory;
+import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 public class FlatScrollBarTreeTest {
 
@@ -44,8 +45,8 @@ public class FlatScrollBarTreeTest {
     Control[] children = flatScrollBarTree.getChildren();
 
     assertThat( children ).hasSize( 3 );
-    assertThat( children[ 0 ] ).isExactlyInstanceOf( Composite.class );
-    assertThat( children[ 1 ] ).isExactlyInstanceOf( Composite.class );
+    assertThat( children[ 0 ] ).isExactlyInstanceOf( FlatScrollBar.class );
+    assertThat( children[ 1 ] ).isExactlyInstanceOf( FlatScrollBar.class );
     assertThat( children[ 2 ] ).isExactlyInstanceOf( Tree.class );
     assertThat( layout ).isInstanceOf( FlatScrollBarTreeLayout.class );
   }

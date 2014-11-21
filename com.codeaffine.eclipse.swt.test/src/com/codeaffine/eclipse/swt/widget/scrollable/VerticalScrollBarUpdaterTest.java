@@ -17,7 +17,6 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
-import com.codeaffine.eclipse.swt.widget.scrollbar.Orientation;
 
 public class VerticalScrollBarUpdaterTest {
 
@@ -33,7 +32,7 @@ public class VerticalScrollBarUpdaterTest {
   public void setUp() {
     shell = createShell( displayHelper, SWT.RESIZE );
     tree = createTree( shell, 6, 4 );
-    scrollbar = new FlatScrollBar( shell, Orientation.VERTICAL );
+    scrollbar = new FlatScrollBar( shell, SWT.VERTICAL );
     updater = new VerticalScrollBarUpdater( tree, scrollbar );
     openShell( shell );
   }

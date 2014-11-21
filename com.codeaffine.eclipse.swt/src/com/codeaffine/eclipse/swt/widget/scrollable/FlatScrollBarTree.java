@@ -6,7 +6,6 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Tree;
 
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
-import com.codeaffine.eclipse.swt.widget.scrollbar.Orientation;
 
 public class FlatScrollBarTree extends Composite {
 
@@ -25,13 +24,13 @@ public class FlatScrollBarTree extends Composite {
   public FlatScrollBarTree( Composite parent, TreeFactory treeFactory  ) {
     super( parent, SWT.NONE );
     this.tree = treeFactory.create( this );
-    this.horizontalBar = createFlatScrollBar( this, tree, Orientation.HORIZONTAL );
-    this.verticalBar = createFlatScrollBar( this, tree, Orientation.VERTICAL );
+    this.horizontalBar = createFlatScrollBar( this, tree, SWT.HORIZONTAL );
+    this.verticalBar = createFlatScrollBar( this, tree, SWT.VERTICAL );
     this.watchDog = new WatchDog( tree, verticalBar );
     super.setLayout( new FlatScrollBarTreeLayout( tree, horizontalBar, verticalBar ) );
     setBackground( tree.getBackground() );
-    horizontalBar.addScrollListener( new HorizontalSelectionListener( tree ) );
-    verticalBar.addScrollListener( new VerticalSelectionListener( tree ) );
+    horizontalBar.addSelectionListener( new HorizontalSelectionListener( tree ) );
+    verticalBar.addSelectionListener( new VerticalSelectionListener( tree ) );
     addDisposeListener( watchDog );
   }
 
@@ -44,10 +43,10 @@ public class FlatScrollBarTree extends Composite {
     throw new UnsupportedOperationException( FlatScrollBarTree.class.getName() + " does not allow to change layout." );
   }
 
-  private static FlatScrollBar createFlatScrollBar( Composite parent , Tree tree , Orientation orientation  ) {
-    FlatScrollBar result = new FlatScrollBar( parent, orientation );
-    result.getControl().setBackground( tree.getBackground() );
-    result.getControl().moveAbove( null );
+  private static FlatScrollBar createFlatScrollBar( Composite parent, Tree tree, int direction  ) {
+    FlatScrollBar result = new FlatScrollBar( parent, direction );
+    result.setBackground( tree.getBackground() );
+    result.moveAbove( null );
     return result;
   }
 }

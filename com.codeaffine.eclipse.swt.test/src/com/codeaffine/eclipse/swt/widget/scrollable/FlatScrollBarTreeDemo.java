@@ -16,9 +16,7 @@ import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 import com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.TreeFactory;
 
-
 public class FlatScrollBarTreeDemo {
-
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();

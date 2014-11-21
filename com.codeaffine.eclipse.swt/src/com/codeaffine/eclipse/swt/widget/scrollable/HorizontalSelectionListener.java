@@ -1,12 +1,13 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Tree;
 
-import com.codeaffine.eclipse.swt.widget.scrollbar.ScrollEvent;
-import com.codeaffine.eclipse.swt.widget.scrollbar.ScrollListener;
+import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
-class HorizontalSelectionListener implements ScrollListener {
+class HorizontalSelectionListener extends SelectionAdapter {
 
   private final Tree tree;
 
@@ -15,8 +16,12 @@ class HorizontalSelectionListener implements ScrollListener {
   }
 
   @Override
-  public void selectionChanged( ScrollEvent event ) {
+  public void widgetSelected( SelectionEvent event ) {
     Point location = tree.getLocation();
-    tree.setLocation( - event.getSelection(), location.y );
+    tree.setLocation( - getSelection( event ), location.y );
+  }
+
+  private static int getSelection( SelectionEvent event ) {
+    return ( ( FlatScrollBar )event.widget ).getSelection();
   }
 }

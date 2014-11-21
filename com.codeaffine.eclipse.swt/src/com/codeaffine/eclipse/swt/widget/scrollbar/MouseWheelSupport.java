@@ -33,7 +33,7 @@ public class MouseWheelSupport {
     }
   }
 
-  static class ScrollBarAdapter implements ControlListener, ScrollListener, DisposeListener {
+  static class ScrollBarAdapter extends SelectionAdapter implements ControlListener, DisposeListener {
 
     private final MouseWheelSupport mouseWheelSupport;
 
@@ -52,7 +52,7 @@ public class MouseWheelSupport {
     }
 
     @Override
-    public void selectionChanged( ScrollEvent event ) {
+    public void widgetSelected( SelectionEvent event ) {
       mouseWheelSupport.copySettings();
     }
     @Override
@@ -70,30 +70,30 @@ public class MouseWheelSupport {
   }
 
   public void dispose() {
-    if( !scrollBar.getControl().isDisposed() ) {
-      scrollBar.getControl().removeControlListener( scrollBarAdapter );
+    if( !scrollBar.isDisposed() ) {
+      scrollBar.removeControlListener( scrollBarAdapter );
     }
-    scrollBar.removeScrollListener( scrollBarAdapter );
+    scrollBar.removeSelectionListener( scrollBarAdapter );
     slider.dispose();
   }
 
   public void create() {
-    if( scrollBar.getOrientation() == Orientation.HORIZONTAL ) {
-      slider = new Slider( scrollBar.getControl().getParent(), SWT.HORIZONTAL );
+    if( scrollBar.getDirection() == Direction.HORIZONTAL ) {
+      slider = new Slider( scrollBar.getParent(), SWT.HORIZONTAL );
     } else {
-      slider = new Slider( scrollBar.getControl().getParent(), SWT.VERTICAL );
+      slider = new Slider( scrollBar.getParent(), SWT.VERTICAL );
     }
     scrollBarAdapter = new ScrollBarAdapter( this );
-    scrollBar.getControl().addControlListener( scrollBarAdapter );
-    scrollBar.getControl().addDisposeListener( scrollBarAdapter );
-    scrollBar.addScrollListener( scrollBarAdapter );
+    scrollBar.addControlListener( scrollBarAdapter );
+    scrollBar.addDisposeListener( scrollBarAdapter );
+    scrollBar.addSelectionListener( scrollBarAdapter );
     slider.addSelectionListener( new SliderAdapter( this ) );
     copySettings();
   }
 
   protected void copySettings() {
     if( slider.getLayoutData() == null ) {
-      slider.setBounds( scrollBar.getControl().getBounds() );
+      slider.setBounds( scrollBar.getBounds() );
     }
     slider.moveBelow( null );
     slider.setMinimum( scrollBar.getMinimum() );

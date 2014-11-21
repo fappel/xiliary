@@ -1,6 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
-import static com.codeaffine.eclipse.swt.widget.scrollbar.Orientation.HORIZONTAL;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.HORIZONTAL;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.ShiftData.calculateSelectionRange;
 
 import org.eclipse.swt.graphics.Point;
@@ -27,7 +27,7 @@ final class DragShifter implements DragAction {
 
   private ShiftData newShiftData( int startX, int startY, int currentX, int currentY ) {
     ShiftData result;
-    if( scrollBar.orientation == HORIZONTAL ) {
+    if( scrollBar.direction == HORIZONTAL ) {
       result = new ShiftData( getScrollBarSize().x, getDragSize().x, currentX - startX );
     } else {
       result = new ShiftData( getScrollBarSize().y, getDragSize().y, currentY - startY );
@@ -36,7 +36,7 @@ final class DragShifter implements DragAction {
   }
 
   private Point getScrollBarSize() {
-    return scrollBar.getControl().getSize();
+    return scrollBar.getSize();
   }
 
   private Point getDragSize() {

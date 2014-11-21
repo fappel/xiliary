@@ -1,6 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
-import static com.codeaffine.eclipse.swt.widget.scrollbar.OrientationHelper.stubSizeComputation;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.DirectionHelper.stubSizeComputation;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -18,8 +18,8 @@ public class FlatScrollBarLayoutTest {
   public void computeSize() {
     Point expected = new Point( 100, 200 );
     Composite composite = mock( Composite.class );
-    Orientation orientation = stubSizeComputation( composite, expected, W_HINT, H_HINT, true );
-    FlatScrollBarLayout layout = new FlatScrollBarLayout( orientation );
+    Direction direction = stubSizeComputation( composite, expected, W_HINT, H_HINT, true );
+    FlatScrollBarLayout layout = new FlatScrollBarLayout( direction );
 
     Point actual = layout.computeSize( composite, W_HINT, H_HINT, true );
 

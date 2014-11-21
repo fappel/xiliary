@@ -14,6 +14,8 @@ import static org.mockito.Mockito.verify;
 import java.util.Collection;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -31,56 +33,57 @@ public class DragShifterTest {
 
   @Parameters
   public static Collection<Object[]> data() {
-    return OrientationHelper.valuesForParameterizedTests();
+    return DirectionHelper.valuesForParameterizedTests();
   }
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private final Orientation orientation;
+  private final int direction;
 
   private FlatScrollBar scrollBar;
 
-  public DragShifterTest( Orientation orientation ) {
-    this.orientation = orientation;
+  public DragShifterTest( int direction ) {
+    this.direction = direction;
   }
 
   @Before
   public void setUp() {
     Shell shell = createShell( displayHelper );
-    scrollBar = new FlatScrollBar( shell, orientation );
+    scrollBar = new FlatScrollBar( shell, direction );
     shell.open();
     shell.layout();
   }
 
   @Test
   public void run() {
-    ScrollListener listener = equipScrollBarWithListener( scrollBar );
+    SelectionListener listener = equipScrollBarWithListener( scrollBar );
     Point dragLocation = getControl().getLocation();
 
     trigger( SWT.MouseDown ).at( 1, 1 ).on( getControl() );
     trigger( SWT.MouseMove ).at( 10, 10 ).withStateMask( SWT.BUTTON1 ).on( getControl() );
 
-    ScrollEvent event = verifyNotification( listener );
-    assertThat( event.getSelection() ).isEqualTo( 6 );
+    SelectionEvent event = verifyNotification( listener );
+    assertThat( event.widget ).isSameAs( scrollBar );
     assertThat( getControl().getLocation() ).isNotEqualTo( dragLocation );
   }
 
   @Test
   public void runWithDragToMaximum() {
-    ScrollListener listener = equipScrollBarWithListener( scrollBar );
-    Point size = scrollBar.getControl().getSize();
+    SelectionListener listener = equipScrollBarWithListener( scrollBar );
+    Point size = scrollBar.getSize();
 
     trigger( SWT.MouseDown ).at( 0, 0 ).on( getControl() );
     trigger( SWT.MouseMove ).at( size.x, size.y ).withStateMask( SWT.BUTTON1 ).on( getControl() );
 
-    ScrollEvent event = verifyNotification( listener );
-    assertThat( event.getSelection() ).isEqualTo( DEFAULT_MAXIMUM - DEFAULT_THUMB );
+    SelectionEvent event = verifyNotification( listener );
+    assertThat( scrollBar.getSelection() ).isEqualTo( DEFAULT_MAXIMUM - DEFAULT_THUMB );
+    assertThat( event.widget ).isSameAs( scrollBar );
   }
 
   @Test
   public void runWithBackwardDrag() {
-    Point size = scrollBar.getControl().getSize();
+    Point size = scrollBar.getSize();
     trigger( SWT.MouseDown ).at( 0, 0 ).on( getControl() );
     trigger( SWT.MouseMove ).at( size.x, size.y ).withStateMask( SWT.BUTTON1 ).on( getControl() );
     trigger( SWT.MouseUp ).at( size.x, size.y ).withStateMask( SWT.BUTTON1 ).on( getControl() );
@@ -94,12 +97,12 @@ public class DragShifterTest {
   @Test
   public void runIfDragSizeUsesCompleteSlideRange() {
     scrollBar.setThumb( scrollBar.getMaximum() );
-    ScrollListener listener = equipScrollBarWithListener( scrollBar );
+    SelectionListener listener = equipScrollBarWithListener( scrollBar );
 
     trigger( SWT.MouseDown ).at( 1, 1 ).on( getControl() );
     trigger( SWT.MouseMove ).at( 10, 10 ).withStateMask( SWT.BUTTON1 ).on( getControl() );
 
-    verify( listener, never() ).selectionChanged( any( ScrollEvent.class ) );
+    verify( listener, never() ).widgetSelected( any( SelectionEvent.class ) );
   }
 
   private Control getControl() {

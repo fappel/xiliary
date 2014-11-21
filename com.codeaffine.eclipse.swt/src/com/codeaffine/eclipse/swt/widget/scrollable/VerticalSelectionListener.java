@@ -1,11 +1,12 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Tree;
 
-import com.codeaffine.eclipse.swt.widget.scrollbar.ScrollEvent;
-import com.codeaffine.eclipse.swt.widget.scrollbar.ScrollListener;
+import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
-class VerticalSelectionListener implements ScrollListener {
+class VerticalSelectionListener extends SelectionAdapter {
 
   private final TreeTopItemSelector treeTopItemSelector;
 
@@ -14,7 +15,7 @@ class VerticalSelectionListener implements ScrollListener {
   }
 
   @Override
-  public void selectionChanged( ScrollEvent event ) {
-    treeTopItemSelector.select( event.getSelection() );
+  public void widgetSelected( SelectionEvent event ) {
+    treeTopItemSelector.select( ( ( FlatScrollBar )event.widget ).getSelection() );
   }
 }

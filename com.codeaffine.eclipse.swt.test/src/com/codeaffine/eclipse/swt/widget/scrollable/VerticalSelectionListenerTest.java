@@ -2,10 +2,12 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
+import static com.codeaffine.eclipse.swt.widget.scrollable.SelectionEventHelper.createEvent;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
@@ -14,8 +16,6 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
-import com.codeaffine.eclipse.swt.widget.scrollbar.Orientation;
-import com.codeaffine.eclipse.swt.widget.scrollbar.ScrollEvent;
 
 public class VerticalSelectionListenerTest {
 
@@ -29,7 +29,7 @@ public class VerticalSelectionListenerTest {
     FlatScrollBar scrollBar = prepareScrollBar( shell, tree );
     VerticalSelectionListener listener = new VerticalSelectionListener( tree );
 
-    listener.selectionChanged( new ScrollEvent( scrollBar, 2 ) );
+    listener.widgetSelected( createEvent( scrollBar, 2 ) );
 
     assertThat( tree.getTopItem() ).isSameAs( getThirdTopBranchItem( tree ) );
   }
@@ -42,7 +42,7 @@ public class VerticalSelectionListenerTest {
   }
 
   private static FlatScrollBar prepareScrollBar( Shell shell, Tree tree ) {
-    FlatScrollBar result = new FlatScrollBar( shell, Orientation.VERTICAL );
+    FlatScrollBar result = new FlatScrollBar( shell, SWT.VERTICAL );
     VerticalScrollBarUpdater updater = new VerticalScrollBarUpdater( tree, result );
     updater.update();
     return result;

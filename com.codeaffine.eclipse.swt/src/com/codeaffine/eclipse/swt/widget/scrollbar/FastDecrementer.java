@@ -38,10 +38,10 @@ class FastDecrementer implements ClickAction {
 
   private Rectangle getDragBounds() {
     Rectangle dragBounds = scrollBar.drag.getControl().getBounds();
-    return getDisplay().map( scrollBar.getControl(), null, dragBounds );
+    return getDisplay().map( scrollBar, null, dragBounds );
   }
 
   private Display getDisplay() {
-    return scrollBar.getControl().getDisplay();
+    return scrollBar.getDisplay();
   }
 }

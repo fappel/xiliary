@@ -35,6 +35,6 @@ class FastIncrementer implements ClickAction {
 
   private Rectangle getDragBounds() {
     Rectangle dragBounds = scrollBar.drag.getControl().getBounds();
-    return Display.getCurrent().map( scrollBar.getControl(), null, dragBounds );
+    return Display.getCurrent().map( scrollBar, null, dragBounds );
   }
 }

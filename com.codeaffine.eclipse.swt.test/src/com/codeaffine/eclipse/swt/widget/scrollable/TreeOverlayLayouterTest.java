@@ -19,7 +19,6 @@ import org.junit.Test;
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.testhelper.ShellHelper;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
-import com.codeaffine.eclipse.swt.widget.scrollbar.Orientation;
 
 public class TreeOverlayLayouterTest {
 
@@ -34,8 +33,8 @@ public class TreeOverlayLayouterTest {
   @Before
   public void setUp() {
     shell = ShellHelper.createShellWithoutLayout( displayHelper, SWT.RESIZE );
-    horizontal = new FlatScrollBar( shell, Orientation.HORIZONTAL );
-    vertical = new FlatScrollBar( shell, Orientation.VERTICAL );
+    horizontal = new FlatScrollBar( shell, SWT.HORIZONTAL );
+    vertical = new FlatScrollBar( shell, SWT.VERTICAL );
     layouter = new TreeOverlayLayouter( horizontal, vertical );
   }
 

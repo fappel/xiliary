@@ -25,11 +25,11 @@ class TreeOverlayLayouter {
     if( context.isVerticalBarVisible() ) {
       Rectangle visibleArea = context.getVisibleArea();
       int vHeight = context.isHorizontalBarVisible() ? visibleArea.height - BAR_BREADTH : visibleArea.height;
-      vertical.getControl().setBounds( visibleArea.width - BAR_BREADTH, 0, BAR_BREADTH, vHeight );
-      vertical.getControl().setVisible( true );
+      vertical.setBounds( visibleArea.width - BAR_BREADTH, 0, BAR_BREADTH, vHeight );
+      vertical.setVisible( true );
     } else {
-      vertical.getControl().setVisible( false );
-      vertical.getControl().setBounds( 0, 0, 0, 0 );
+      vertical.setVisible( false );
+      vertical.setBounds( 0, 0, 0, 0 );
     }
   }
 
@@ -37,11 +37,11 @@ class TreeOverlayLayouter {
     if( context.isHorizontalBarVisible() ) {
       Rectangle visibleArea = context.getVisibleArea();
       int hWidth = context.isVerticalBarVisible() ? visibleArea.width - BAR_BREADTH : visibleArea.width;
-      horizontal.getControl().setBounds( 0, visibleArea.height - BAR_BREADTH, hWidth, BAR_BREADTH );
-      horizontal.getControl().setVisible( true );
+      horizontal.setBounds( 0, visibleArea.height - BAR_BREADTH, hWidth, BAR_BREADTH );
+      horizontal.setVisible( true );
     } else {
-      horizontal.getControl().setVisible( false );
-      horizontal.getControl().setBounds( 0, 0, 0, 0 );
+      horizontal.setVisible( false );
+      horizontal.setBounds( 0, 0, 0, 0 );
     }
   }
 }

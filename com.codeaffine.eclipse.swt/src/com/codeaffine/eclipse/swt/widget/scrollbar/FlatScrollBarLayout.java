@@ -6,10 +6,10 @@ import org.eclipse.swt.widgets.Layout;
 
 class FlatScrollBarLayout extends Layout {
 
-  private final Orientation orientation;
+  private final Direction direction;
 
-  public FlatScrollBarLayout( Orientation orientation ) {
-    this.orientation = orientation;
+  public FlatScrollBarLayout( Direction orientation ) {
+    this.direction = orientation;
   }
 
   @Override
@@ -18,6 +18,6 @@ class FlatScrollBarLayout extends Layout {
 
   @Override
   protected Point computeSize( Composite composite, int wHint, int hHint, boolean flushCache ) {
-    return orientation.computeSize( composite, wHint, hHint, flushCache );
+    return direction.computeSize( composite, wHint, hHint, flushCache );
   }
 }

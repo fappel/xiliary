@@ -28,23 +28,23 @@ class MouseTracker extends MouseTrackAdapter implements Runnable {
   public void mouseEnter( MouseEvent event ) {
     mouseOver = true;
     if( originBounds == null ) {
-      originBounds = scrollBar.getControl().getBounds();
-      scrollBar.getOrientation().expand( scrollBar.getControl() );
-      expandedBounds = scrollBar.getControl().getBounds();
+      originBounds = scrollBar.getBounds();
+      scrollBar.getDirection().expand( scrollBar );
+      expandedBounds = scrollBar.getBounds();
     }
   }
 
   @Override
   public void mouseExit( MouseEvent event ) {
     mouseOver = false;
-    scrollBar.getControl().getDisplay().timerExec( DELAY, this );
+    scrollBar.getDisplay().timerExec( DELAY, this );
   }
 
   @Override
   public void run() {
-    if( !mouseOver && !scrollBar.getControl().isDisposed() ) {
-      if( scrollBar.getControl().getBounds().equals( expandedBounds ) ) {
-        scrollBar.getControl().setBounds( originBounds );
+    if( !mouseOver && !scrollBar.isDisposed() ) {
+      if( scrollBar.getBounds().equals( expandedBounds ) ) {
+        scrollBar.setBounds( originBounds );
       }
       originBounds = null;
       expandedBounds = null;

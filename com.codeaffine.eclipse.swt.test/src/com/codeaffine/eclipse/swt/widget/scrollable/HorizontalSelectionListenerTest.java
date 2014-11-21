@@ -1,6 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.widget.scrollable.SelectionEventHelper.createEvent;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -11,7 +12,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.widget.scrollbar.ScrollEvent;
 
 public class HorizontalSelectionListenerTest {
 
@@ -26,7 +26,8 @@ public class HorizontalSelectionListenerTest {
     Tree tree = createTree( shell, 6, 4 );
     Point location = tree.getLocation();
     HorizontalSelectionListener listener = new HorizontalSelectionListener( tree );
-    listener.selectionChanged( new ScrollEvent( null, SELECTION ) );
+
+    listener.widgetSelected( createEvent( shell, SELECTION ) );
 
     assertThat( tree.getLocation().x ).isEqualTo( location.x - SELECTION );
   }

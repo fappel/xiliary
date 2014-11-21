@@ -1,6 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
-import static com.codeaffine.eclipse.swt.widget.scrollbar.Orientation.HORIZONTAL;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.HORIZONTAL;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.ShiftData.calculateSelectionRange;
 
 import org.eclipse.swt.SWT;
@@ -20,7 +20,7 @@ public class MouseWheelShifter implements Listener, DisposeListener {
     this.scrollBar = scrollBar;
     this.parent = parent;
     parent.addListener( getListenerType(), this );
-    scrollBar.getControl().addDisposeListener( this );
+    scrollBar.addDisposeListener( this );
   }
 
   @Override
@@ -44,7 +44,7 @@ public class MouseWheelShifter implements Listener, DisposeListener {
 
   private ShiftData newShiftData( int delta ) {
     ShiftData result;
-    if( scrollBar.orientation == Orientation.HORIZONTAL ) {
+    if( scrollBar.direction == Direction.HORIZONTAL ) {
       result = new ShiftData( getScrollBarSize().x, getDragSize().x, delta );
     } else {
       result = new ShiftData( getScrollBarSize().y, getDragSize().y, delta );
@@ -53,7 +53,7 @@ public class MouseWheelShifter implements Listener, DisposeListener {
   }
 
   private Point getScrollBarSize() {
-    return scrollBar.getControl().getSize();
+    return scrollBar.getSize();
   }
 
   private Point getDragSize() {
@@ -61,6 +61,6 @@ public class MouseWheelShifter implements Listener, DisposeListener {
   }
 
   private int getListenerType() {
-    return scrollBar.orientation == HORIZONTAL ? SWT.MouseHorizontalWheel: SWT.MouseVerticalWheel;
+    return scrollBar.direction == HORIZONTAL ? SWT.MouseHorizontalWheel: SWT.MouseVerticalWheel;
   }
 }

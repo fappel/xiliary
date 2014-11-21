@@ -4,6 +4,7 @@ import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEve
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
@@ -15,7 +16,7 @@ import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class MouseTrackerTest {
 
-  private static final Rectangle BOUNDS = new Rectangle( 10, 20, 30, Orientation.BAR_BREADTH );
+  private static final Rectangle BOUNDS = new Rectangle( 10, 20, 30, Direction.BAR_BREADTH );
   private static final Rectangle BOUNDS_ON_MOUSE_OVER = new Rectangle( 10, 16, 30, 10 );
 
   @Rule
@@ -27,8 +28,8 @@ public class MouseTrackerTest {
   @Before
   public void setUp() {
     Shell shell = displayHelper.createShell();
-    scrollBar = new FlatScrollBar( shell, Orientation.HORIZONTAL );
-    scrollBar.getControl().setBounds( BOUNDS );
+    scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
+    scrollBar.setBounds( BOUNDS );
     mouseTracker = new MouseTracker( scrollBar );
   }
 
@@ -36,7 +37,7 @@ public class MouseTrackerTest {
   public void mouseEnter() {
     mouseTracker.mouseEnter( null );
 
-    Rectangle actual = scrollBar.getControl().getBounds();
+    Rectangle actual = scrollBar.getBounds();
 
     assertThat( actual ).isEqualTo( BOUNDS_ON_MOUSE_OVER );
   }
@@ -47,7 +48,7 @@ public class MouseTrackerTest {
     mouseTracker.mouseExit( null );
     mouseTracker.mouseEnter( null );
 
-    Rectangle actual = scrollBar.getControl().getBounds();
+    Rectangle actual = scrollBar.getBounds();
 
     assertThat( actual ).isEqualTo( BOUNDS_ON_MOUSE_OVER );
   }
@@ -59,7 +60,7 @@ public class MouseTrackerTest {
     mouseTracker.mouseExit( null );
     Thread.sleep( MouseTracker.DELAY + 100 );
     flushPendingEvents();
-    Rectangle actual = scrollBar.getControl().getBounds();
+    Rectangle actual = scrollBar.getBounds();
 
     assertThat( actual ).isEqualTo( BOUNDS );
   }
@@ -68,12 +69,12 @@ public class MouseTrackerTest {
   public void mouseExitAfterBoundsHasBeenChangedExternally() throws InterruptedException {
     Rectangle expected = new Rectangle( 10, 20, 30, 40 );
     mouseTracker.mouseEnter( null );
-    scrollBar.getControl().setBounds( expected );
+    scrollBar.setBounds( expected );
 
     mouseTracker.mouseExit( null );
     Thread.sleep( MouseTracker.DELAY + 100 );
     flushPendingEvents();
-    Rectangle actual = scrollBar.getControl().getBounds();
+    Rectangle actual = scrollBar.getBounds();
 
     assertThat( actual ).isEqualTo( expected );
   }
@@ -84,7 +85,7 @@ public class MouseTrackerTest {
     mouseTracker.mouseExit( null );
 
     mouseTracker.run();
-    Rectangle actual = scrollBar.getControl().getBounds();
+    Rectangle actual = scrollBar.getBounds();
 
     assertThat( actual ).isEqualTo( BOUNDS );
   }
@@ -94,7 +95,7 @@ public class MouseTrackerTest {
     mouseTracker.mouseEnter( null );
 
     mouseTracker.run();
-    Rectangle actual = scrollBar.getControl().getBounds();
+    Rectangle actual = scrollBar.getBounds();
 
     assertThat( actual ).isEqualTo( BOUNDS_ON_MOUSE_OVER );
   }
@@ -103,7 +104,7 @@ public class MouseTrackerTest {
   public void runAfterDisposeOfControl() {
     mouseTracker.mouseEnter( null );
     mouseTracker.mouseExit( null );
-    scrollBar.getControl().dispose();
+    scrollBar.dispose();
 
     Throwable actual = thrown( new Actor() {
       @Override

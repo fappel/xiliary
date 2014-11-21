@@ -8,21 +8,57 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Slider;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
+import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.testhelper.LoremIpsum;
+import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 
-class Demo {
+public class Demo {
+
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
+
+  private Shell shell;
+
+  @Before
+  public void setUp() {
+    shell = displayHelper.createShell( SWT.SHELL_TRIM );
+    shell.setBackgroundMode( SWT.INHERIT_DEFAULT );
+    shell.setLayout( new FillLayout( SWT.HORIZONTAL ) );
+    shell.setBounds( 250, 200, 500, 400 );
+    shell.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
+    shell.open();
+  }
+
+  @Test
+  public void demo() {
+    Shell localShell = displayHelper.createShell( SWT.RESIZE );
+    localShell.setBackgroundMode( SWT.INHERIT_DEFAULT );
+    localShell.setLayout( new FillLayout( SWT.HORIZONTAL ) );
+    localShell.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
+    new Demo().create( localShell );
+    localShell.open();
+    localShell.setBounds( 500, 200, 200, 300 );
+
+    new Demo().createWithSlider( shell );
+    shell.setBounds( 250, 200, 200, 300 );
+    new ReadAndDispatch().spinLoop( shell );
+  }
 
   void create( final Composite parent ) {
     parent.setLayout( new FormLayout() );
 
-    final FlatScrollBar hScroll = new FlatScrollBar( parent, Orientation.HORIZONTAL );
-    final FlatScrollBar vScroll = new FlatScrollBar( parent, Orientation.VERTICAL );
+    final FlatScrollBar hScroll = new FlatScrollBar( parent, SWT.HORIZONTAL );
+    final FlatScrollBar vScroll = new FlatScrollBar( parent, SWT.VERTICAL );
 
     Composite content = new Composite( parent, SWT.NONE );
 
@@ -30,12 +66,10 @@ class Demo {
     label.setText( LoremIpsum.PARAGRAPHS );
     label.pack();
 
-    final int slideWidth = Orientation.BAR_BREADTH;
-    Control hScrollControl = hScroll.getControl();
-    Control vScrollControl = vScroll.getControl();
-    attach( hScrollControl ).toLeft().toBottom().toRight( slideWidth );
-    attach( vScrollControl ).toRight().toTop().toBottom( slideWidth ).withWidth( slideWidth );
-    attach( content ).toLeft().toTop().atBottomTo( hScrollControl ).atRightTo( vScrollControl );
+    final int slideWidth = Direction.BAR_BREADTH;
+    attach( hScroll ).toLeft().toBottom().toRight( slideWidth );
+    attach( vScroll ).toRight().toTop().toBottom( slideWidth ).withWidth( slideWidth );
+    attach( content ).toLeft().toTop().atBottomTo( hScroll ).atRightTo( vScroll );
 
     parent.addControlListener( new ControlAdapter() {
       @Override
@@ -50,19 +84,19 @@ class Demo {
       };
     } );
 
-    hScroll.addScrollListener( new ScrollListener() {
+    hScroll.addSelectionListener( new SelectionAdapter() {
       @Override
-      public void selectionChanged( ScrollEvent event ) {
+      public void widgetSelected( SelectionEvent event ) {
         Point location = label.getLocation();
-        label.setLocation( -event.getSelection(), location.y );
+        label.setLocation( -hScroll.getSelection(), location.y );
       }
     } );
 
-    vScroll.addScrollListener( new ScrollListener() {
+    vScroll.addSelectionListener( new SelectionAdapter() {
       @Override
-      public void selectionChanged( ScrollEvent event ) {
+      public void widgetSelected( SelectionEvent event ) {
         Point location = label.getLocation();
-        label.setLocation( location.x, -event.getSelection() );
+        label.setLocation( location.x, -vScroll.getSelection() );
       }
     } );
   }
@@ -102,6 +136,7 @@ class Demo {
       public void widgetSelected( SelectionEvent e ) {
         Point location = label.getLocation();
         label.setLocation( -hScroll.getSelection(), location.y );
+System.out.println( e.detail );
       }
     } );
 
@@ -110,6 +145,7 @@ class Demo {
       public void widgetSelected( SelectionEvent e ) {
         Point location = label.getLocation();
         label.setLocation( location.x, -vScroll.getSelection() );
+System.out.println( e.detail );
       }
     } );
   }

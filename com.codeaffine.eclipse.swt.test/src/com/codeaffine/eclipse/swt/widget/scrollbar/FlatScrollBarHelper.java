@@ -5,6 +5,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.mockito.ArgumentCaptor;
 
 public class FlatScrollBarHelper {
@@ -16,15 +18,15 @@ public class FlatScrollBarHelper {
     return result;
   }
 
-  static ScrollListener equipScrollBarWithListener( FlatScrollBar scrollBar ) {
-    ScrollListener result = mock( ScrollListener.class );
-    scrollBar.addScrollListener( result );
+  static SelectionListener equipScrollBarWithListener( FlatScrollBar scrollBar ) {
+    SelectionListener result = mock( SelectionListener.class );
+    scrollBar.addSelectionListener( result );
     return result;
   }
 
-  static ScrollEvent verifyNotification( ScrollListener listener ) {
-    ArgumentCaptor<ScrollEvent> captor = forClass( ScrollEvent.class );
-    verify( listener ).selectionChanged( captor.capture() );
+  static SelectionEvent verifyNotification( SelectionListener listener ) {
+    ArgumentCaptor<SelectionEvent> captor = forClass( SelectionEvent.class );
+    verify( listener ).widgetSelected( captor.capture() );
     return captor.getValue();
   }
 }

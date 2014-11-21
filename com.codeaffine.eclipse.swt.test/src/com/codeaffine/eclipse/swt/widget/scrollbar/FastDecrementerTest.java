@@ -26,24 +26,24 @@ public class FastDecrementerTest {
 
   @Parameters
   public static Collection<Object[]> data() {
-    return OrientationHelper.valuesForParameterizedTests();
+    return DirectionHelper.valuesForParameterizedTests();
   }
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private final Orientation orientation;
+  private final int direction;
 
   private FlatScrollBar scrollBar;
 
-  public FastDecrementerTest( Orientation orientation ) {
-    this.orientation = orientation;
+  public FastDecrementerTest( int direction ) {
+    this.direction = direction;
   }
 
   @Before
   public void setUp() {
     Shell shell = createShell( displayHelper, SWT.SHELL_TRIM );
-    scrollBar = new FlatScrollBar( shell, orientation );
+    scrollBar = new FlatScrollBar( shell, direction );
     shell.open();
   }
 
