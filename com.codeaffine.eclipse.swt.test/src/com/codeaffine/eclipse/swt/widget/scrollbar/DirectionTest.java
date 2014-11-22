@@ -24,24 +24,23 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
-import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
-import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class DirectionTest {
 
   private static final int SELECTION = 12;
 
-  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private Shell shell;
+  private Composite parent;
 
   @Before
   public void setUp() {
-    shell = displayHelper.createShell( SWT.RESIZE );
-    shell.setLayout( new FillLayout( SWT.HORIZONTAL ) );
-    shell.setBounds( 200, 200, 475, 475 );
+    Shell shell = displayHelper.createShell( SWT.RESIZE );
+    shell.setBounds( 200, 200, 800, 800 );
+    shell.setBackground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_WHITE ) );
+    parent = new Composite( shell, SWT.NONE );
+    parent.setBounds( 100, 100, 480, 480 );
+    parent.setLayout( new FillLayout() );
     shell.open();
   }
 
@@ -49,7 +48,7 @@ public class DirectionTest {
   public void layoutHorizontal() {
     FlatScrollBar scrollBar = createScrollBar( SWT.HORIZONTAL, SELECTION );
 
-    shell.layout();
+    parent.layout();
 
     ComponentDistribution distribution = getExpectedHorizontalDistribution( scrollBar, SELECTION );
     int height = getExpectedHeight( scrollBar );
@@ -63,10 +62,10 @@ public class DirectionTest {
 
   @Test
   public void layoutHorizontalWithUndercutOfThreeTimesButtonLength() {
-    shell.setSize( BUTTON_LENGTH * 3, 475 );
+    parent.setSize( BUTTON_LENGTH * 3, 475 );
     FlatScrollBar scrollBar = createScrollBar( SWT.HORIZONTAL, SELECTION );
 
-    shell.layout();
+    parent.layout();
 
     ComponentDistribution distribution = getExpectedHorizontalDistribution( scrollBar, SELECTION );
     int height = getExpectedHeight( scrollBar );
@@ -78,10 +77,10 @@ public class DirectionTest {
 
   @Test
   public void layoutHorizontalWithUndercutOfTwoTimesButtonLength() {
-    shell.setSize( BUTTON_LENGTH * 2, 475 );
+    parent.setSize( BUTTON_LENGTH * 2, 475 );
     FlatScrollBar scrollBar = createScrollBar( SWT.HORIZONTAL, SELECTION );
 
-    shell.layout();
+    parent.layout();
 
     int height = getExpectedHeight( scrollBar );
     int halfWidth = scrollBar.getSize().x / 2;
@@ -92,11 +91,10 @@ public class DirectionTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutHorizontalWithMaximumSelection() {
     FlatScrollBar scrollBar = createScrollBar( SWT.HORIZONTAL, DEFAULT_MAXIMUM );
 
-    shell.layout();
+    parent.layout();
 
     ComponentDistribution distribution = getExpectedHorizontalDistribution( scrollBar, scrollBar.getSelection() );
     int height = getExpectedHeight( scrollBar );
@@ -109,12 +107,11 @@ public class DirectionTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutHorizontalWithMaximumSelectionAndDragLengthRounding() {
-    shell.setSize( 500, 500 );
+    parent.setSize( 505, 505 );
     FlatScrollBar scrollBar = createScrollBar( SWT.HORIZONTAL, DEFAULT_MAXIMUM );
 
-    shell.layout();
+    parent.layout();
 
     ComponentDistribution distribution = getExpectedHorizontalDistribution( scrollBar, scrollBar.getSelection() );
     int height = getExpectedHeight( scrollBar );
@@ -145,8 +142,8 @@ public class DirectionTest {
 
   @Test
   public void computeSizeHorizontalIfWHintIsDefault() {
-    Rectangle clientArea = shell.getClientArea();
-    Composite composite = new Composite( shell, SWT.NONE );
+    Rectangle clientArea = parent.getClientArea();
+    Composite composite = new Composite( parent, SWT.NONE );
 
     Point actual = HORIZONTAL.computeSize( composite, SWT.DEFAULT, SWT.DEFAULT, true );
 
@@ -190,7 +187,7 @@ public class DirectionTest {
   public void layoutVertical() {
     FlatScrollBar scrollBar = createScrollBar( SWT.VERTICAL, SELECTION );
 
-    shell.layout();
+    parent.layout();
 
     ComponentDistribution distribution = getExpectedVerticalDistribution( scrollBar, SELECTION );
     int width = getExpectedWidth( scrollBar );
@@ -204,10 +201,10 @@ public class DirectionTest {
 
   @Test
   public void layoutVerticalWithUndercutOfThreeTimesButtonLength() {
-    shell.setSize( 475, BUTTON_LENGTH * 3 );
+    parent.setSize( 475, BUTTON_LENGTH * 3 );
     FlatScrollBar scrollBar = createScrollBar( SWT.VERTICAL, SELECTION );
 
-    shell.layout();
+    parent.layout();
 
     ComponentDistribution distribution = getExpectedVerticalDistribution( scrollBar, SELECTION );
     int width = getExpectedWidth( scrollBar );
@@ -219,10 +216,10 @@ public class DirectionTest {
 
   @Test
   public void layoutVerticalWithUndercutOfTwoTimesButtonLength() {
-    shell.setSize( 475, BUTTON_LENGTH * 2 );
+    parent.setSize( 475, BUTTON_LENGTH * 2 );
     FlatScrollBar scrollBar = createScrollBar( SWT.VERTICAL, SELECTION );
 
-    shell.layout();
+    parent.layout();
 
     int width = getExpectedWidth( scrollBar );
     int halfHeight = scrollBar.getSize().y / 2;
@@ -233,11 +230,10 @@ public class DirectionTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutVerticalWithMaximumSelection() {
     FlatScrollBar scrollBar = createScrollBar( SWT.VERTICAL, DEFAULT_MAXIMUM );
 
-    shell.layout();
+    parent.layout();
 
     ComponentDistribution distribution = getExpectedVerticalDistribution( scrollBar, scrollBar.getSelection() );
     int width = getExpectedWidth( scrollBar );
@@ -251,12 +247,11 @@ public class DirectionTest {
 
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutVerticalWithMaximumSelectionAndDragLengthRounding() {
-    shell.setSize( 500, 500 );
+    parent.setSize( 505, 505 );
     FlatScrollBar scrollBar = createScrollBar( SWT.VERTICAL, DEFAULT_MAXIMUM );
 
-    shell.layout();
+    parent.layout();
 
     ComponentDistribution distribution = getExpectedVerticalDistribution( scrollBar, scrollBar.getSelection() );
     int width = getExpectedWidth( scrollBar );
@@ -287,8 +282,8 @@ public class DirectionTest {
 
   @Test
   public void computeSizeVerticalIfHHintIsDefault() {
-    Rectangle clientArea = shell.getClientArea();
-    Composite composite = new Composite( shell, SWT.NONE );
+    Rectangle clientArea = parent.getClientArea();
+    Composite composite = new Composite( parent, SWT.NONE );
 
     Point actual = Direction.VERTICAL.computeSize( composite, SWT.DEFAULT, SWT.DEFAULT, true );
 
@@ -329,7 +324,7 @@ public class DirectionTest {
   }
 
   private FlatScrollBar createScrollBar( int direction, int selection ) {
-    FlatScrollBar result = new FlatScrollBar( shell, direction );
+    FlatScrollBar result = new FlatScrollBar( parent, direction );
     result.setSelectionInternal( selection, SWT.ARROW_DOWN );
     return result;
   }
@@ -353,13 +348,13 @@ public class DirectionTest {
   }
 
   private Control createControl( Rectangle bounds ) {
-    Control result = new Label( shell, SWT.NONE );
+    Control result = new Label( parent, SWT.NONE );
     result.setBounds( bounds );
     return result;
   }
 
   private Control createControl( Point size ) {
-    Control result = new Label( shell, SWT.NONE );
+    Control result = new Label( parent, SWT.NONE );
     result.setSize( size );
     return result;
   }
@@ -369,6 +364,6 @@ public class DirectionTest {
   }
 
   private void assertTopOfDrawingOrder( Control control ) {
-    assertThat( shell.getChildren() ).hasSize( 2 ).startsWith( control );
+    assertThat( parent.getChildren() ).hasSize( 2 ).startsWith( control );
   }
 }
