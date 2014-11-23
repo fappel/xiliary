@@ -5,33 +5,24 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Tree;
 
-import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
-
 public class FlatScrollBarTree extends Composite {
 
   static final int BAR_BREADTH = 6;
 
-  private final FlatScrollBar horizontalBar;
-  private final FlatScrollBar verticalBar;
-  private final WatchDog watchDog;
   private final Tree tree;
-
 
   public interface TreeFactory {
     Tree create( Composite parent );
   }
 
+  interface Content {
+    Layout getLayout();
+  }
+
   public FlatScrollBarTree( Composite parent, TreeFactory treeFactory  ) {
     super( parent, SWT.NONE );
     this.tree = treeFactory.create( this );
-    this.horizontalBar = createFlatScrollBar( this, tree, SWT.HORIZONTAL );
-    this.verticalBar = createFlatScrollBar( this, tree, SWT.VERTICAL );
-    this.watchDog = new WatchDog( tree, verticalBar );
-    super.setLayout( new FlatScrollBarTreeLayout( tree, horizontalBar, verticalBar ) );
-    setBackground( tree.getBackground() );
-    horizontalBar.addSelectionListener( new HorizontalSelectionListener( tree ) );
-    verticalBar.addSelectionListener( new VerticalSelectionListener( tree ) );
-    addDisposeListener( watchDog );
+    super.setLayout( createContent().getLayout() );
   }
 
   public Tree getTree() {
@@ -43,10 +34,11 @@ public class FlatScrollBarTree extends Composite {
     throw new UnsupportedOperationException( FlatScrollBarTree.class.getName() + " does not allow to change layout." );
   }
 
-  private static FlatScrollBar createFlatScrollBar( Composite parent, Tree tree, int direction  ) {
-    FlatScrollBar result = new FlatScrollBar( parent, direction );
-    result.setBackground( tree.getBackground() );
-    result.moveAbove( null );
+  private Content createContent() {
+    Content result = new NativeContent();
+    if( "win32".equals( SWT.getPlatform() ) || "gtk".equals( SWT.getPlatform() ) ) {
+      result = new CustomContent( this, tree );
+    }
     return result;
   }
 }

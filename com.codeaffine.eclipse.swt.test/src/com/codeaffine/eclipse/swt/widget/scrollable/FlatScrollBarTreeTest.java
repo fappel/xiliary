@@ -7,7 +7,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
@@ -17,7 +16,6 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.TreeFactory;
-import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 public class FlatScrollBarTreeTest {
 
@@ -26,6 +24,7 @@ public class FlatScrollBarTreeTest {
 
   private FlatScrollBarTree flatScrollBarTree;
   private Shell shell;
+  private Tree tree;
 
   @Before
   public void setUp() {
@@ -33,38 +32,25 @@ public class FlatScrollBarTreeTest {
     flatScrollBarTree = new FlatScrollBarTree( shell, new TreeFactory() {
       @Override
       public Tree create( Composite parent ) {
-        return createTree( parent, 2, 6 );
+        tree = createTree( parent, 2, 6 );
+        return tree;
       }
     } );
     shell.open();
   }
 
   @Test
-  public void structureAndDrawingOrder() {
-    Layout layout = flatScrollBarTree.getLayout();
-    Control[] children = flatScrollBarTree.getChildren();
+  public void getTree() {
+    Tree actual = flatScrollBarTree.getTree();
 
-    assertThat( children ).hasSize( 3 );
-    assertThat( children[ 0 ] ).isExactlyInstanceOf( FlatScrollBar.class );
-    assertThat( children[ 1 ] ).isExactlyInstanceOf( FlatScrollBar.class );
-    assertThat( children[ 2 ] ).isExactlyInstanceOf( Tree.class );
-    assertThat( layout ).isInstanceOf( FlatScrollBarTreeLayout.class );
+    assertThat( actual ).isSameAs( tree );
   }
 
   @Test
-  public void background() {
-    Control[] children = flatScrollBarTree.getChildren();
+  public void getLayout() {
+    Layout actual = flatScrollBarTree.getLayout();
 
-    assertThat( children[ 0 ].getBackground() ).isEqualTo( flatScrollBarTree.getBackground() );
-    assertThat( children[ 1 ].getBackground() ).isEqualTo( flatScrollBarTree.getBackground() );
-    assertThat( children[ 2 ].getBackground() ).isEqualTo( flatScrollBarTree.getBackground() );
-  }
-
-  @Test
-  public void dispose() {
-    flatScrollBarTree.dispose();
-
-    assertThat( shell.getChildren() ).isEmpty();
+    assertThat( actual ).isNotNull();
   }
 
   @Test( expected = UnsupportedOperationException.class )

@@ -4,6 +4,7 @@ import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -22,14 +23,22 @@ public class FlatScrollBarTreeDemo {
   public final DisplayHelper displayHelper = new DisplayHelper();
 
   private Shell shell;
+  private Tree tree;
 
   @Before
   public void setUp() {
     shell = createShell( displayHelper, SWT.SHELL_TRIM );
+    shell.setBackground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_WHITE ) );
+    FillLayout layout = new FillLayout();
+    layout.marginHeight = 10;
+    layout.marginWidth = 10;
+    shell.setLayout( layout );
     new FlatScrollBarTree( shell, new TreeFactory() {
+
       @Override
       public Tree create( Composite parent ) {
-        return createTree( parent, 4, 6 );
+        tree = createTree( parent, 4, 6 );
+        return tree;
       }
     } );
     shell.open();
@@ -37,6 +46,8 @@ public class FlatScrollBarTreeDemo {
 
   @Test
   public void demo() {
+    TreeHelper.expandRootLevelItems( tree );
+    TreeHelper.expandTopBranch( tree );
     try {
       new ReadAndDispatch().spinLoop( shell );
     } catch (RuntimeException e) {

@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.getDragBackground;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.getFastBackground;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.getSlowBackground;
@@ -510,6 +511,7 @@ public class FlatScrollBarTest {
 
     Point size = scrollBar.getSize();
     scrollBar.setSize( size.x + 1, size.y );
+    flushPendingEvents();
 
     verify( listener ).paintControl( any( PaintEvent.class ) );
   }

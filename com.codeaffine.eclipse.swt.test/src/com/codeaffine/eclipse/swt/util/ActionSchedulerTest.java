@@ -14,7 +14,7 @@ import com.codeaffine.eclipse.swt.util.ActionScheduler;
 
 public class ActionSchedulerTest {
 
-  private static final int DELAY = 10;
+  private static final int DELAY = 50;
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();

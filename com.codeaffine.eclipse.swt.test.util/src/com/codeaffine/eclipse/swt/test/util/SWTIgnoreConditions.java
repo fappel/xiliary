@@ -13,6 +13,13 @@ public class SWTIgnoreConditions {
     }
   }
 
+  public static class CocoaPlatform implements IgnoreCondition {
+    @Override
+    public boolean isSatisfied() {
+      return "cocoa".equals( SWT.getPlatform() );
+    }
+  }
+
   public static class NonWindowsPlatform implements IgnoreCondition {
     @Override
     public boolean isSatisfied() {
