@@ -15,10 +15,12 @@ public class MouseWheelShifter implements Listener, DisposeListener {
 
   private final FlatScrollBar scrollBar;
   private final Composite parent;
+  private final int buttonLength;
 
-  MouseWheelShifter( FlatScrollBar scrollBar, Composite parent ) {
+  MouseWheelShifter( FlatScrollBar scrollBar, Composite parent, int buttonLength ) {
     this.scrollBar = scrollBar;
     this.parent = parent;
+    this.buttonLength = buttonLength;
     parent.addListener( getListenerType(), this );
     scrollBar.addDisposeListener( this );
   }
@@ -46,9 +48,9 @@ public class MouseWheelShifter implements Listener, DisposeListener {
   private ShiftData newShiftData( int delta ) {
     ShiftData result;
     if( scrollBar.direction == Direction.HORIZONTAL ) {
-      result = new ShiftData( getScrollBarSize().x, getDragSize().x, delta );
+      result = new ShiftData( buttonLength, getScrollBarSize().x, getDragSize().x, delta );
     } else {
-      result = new ShiftData( getScrollBarSize().y, getDragSize().y, delta );
+      result = new ShiftData( buttonLength, getScrollBarSize().y, getDragSize().y, delta );
     }
     return result;
   }

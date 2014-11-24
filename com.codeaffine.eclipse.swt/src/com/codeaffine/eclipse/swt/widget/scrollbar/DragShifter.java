@@ -11,9 +11,11 @@ import com.codeaffine.eclipse.swt.widget.scrollbar.DragControl.DragAction;
 final class DragShifter implements DragAction {
 
   private final FlatScrollBar scrollBar;
+  private final int buttonLength;
 
-  public DragShifter( FlatScrollBar scrollBar ) {
+  public DragShifter( FlatScrollBar scrollBar, int buttonLength ) {
     this.scrollBar = scrollBar;
+    this.buttonLength = buttonLength;
   }
 
   @Override
@@ -40,9 +42,9 @@ final class DragShifter implements DragAction {
   private ShiftData newShiftData( int startX, int startY, int currentX, int currentY ) {
     ShiftData result;
     if( scrollBar.direction == HORIZONTAL ) {
-      result = new ShiftData( getScrollBarSize().x, getDragSize().x, currentX - startX );
+      result = new ShiftData( buttonLength, getScrollBarSize().x, getDragSize().x, currentX - startX );
     } else {
-      result = new ShiftData( getScrollBarSize().y, getDragSize().y, currentY - startY );
+      result = new ShiftData( buttonLength, getScrollBarSize().y, getDragSize().y, currentY - startY );
     }
     return result;
   }

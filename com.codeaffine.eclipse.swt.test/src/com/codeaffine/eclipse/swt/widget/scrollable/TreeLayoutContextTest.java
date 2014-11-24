@@ -117,7 +117,7 @@ public class TreeLayoutContextTest {
   }
 
   private int expectedVerticalBarOffset() {
-    int result = tree.getVerticalBar().getSize().x - BAR_BREADTH;
+    int result = tree.getVerticalBar().getSize().x;
     if( result < 0 ) {
       result = OVERLAY_OFFSET - BAR_BREADTH;
     }

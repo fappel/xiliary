@@ -1,7 +1,8 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
+import static java.lang.Thread.sleep;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -12,10 +13,10 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class MouseTrackerTest {
 
+  private static final int MAX_EXPANSION = Direction.CLEARANCE;
   private static final Rectangle BOUNDS = new Rectangle( 10, 20, 30, Direction.BAR_BREADTH );
   private static final Rectangle BOUNDS_ON_MOUSE_OVER = new Rectangle( 10, 16, 30, 10 );
 
@@ -30,16 +31,25 @@ public class MouseTrackerTest {
     Shell shell = displayHelper.createShell();
     scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setBounds( BOUNDS );
-    mouseTracker = new MouseTracker( scrollBar );
+    mouseTracker = new MouseTracker( scrollBar, MAX_EXPANSION );
   }
 
   @Test
   public void mouseEnter() {
     mouseTracker.mouseEnter( null );
-
     Rectangle actual = scrollBar.getBounds();
 
     assertThat( actual ).isEqualTo( BOUNDS_ON_MOUSE_OVER );
+  }
+
+  @Test
+  public void mouseEnterAfterDisposalOfControl() {
+    trigger( SWT.Dispose ).on( scrollBar );
+
+    mouseTracker.mouseEnter( null );
+    Rectangle actual = scrollBar.getBounds();
+
+    assertThat( actual ).isEqualTo( BOUNDS );
   }
 
   @Test
@@ -47,7 +57,6 @@ public class MouseTrackerTest {
     mouseTracker.mouseEnter( null );
     mouseTracker.mouseExit( null );
     mouseTracker.mouseEnter( null );
-
     Rectangle actual = scrollBar.getBounds();
 
     assertThat( actual ).isEqualTo( BOUNDS_ON_MOUSE_OVER );
@@ -58,11 +67,24 @@ public class MouseTrackerTest {
     mouseTracker.mouseEnter( null );
 
     mouseTracker.mouseExit( null );
-    Thread.sleep( MouseTracker.DELAY + 100 );
+    sleep( MouseTracker.DELAY + 100 );
     flushPendingEvents();
     Rectangle actual = scrollBar.getBounds();
 
     assertThat( actual ).isEqualTo( BOUNDS );
+  }
+
+  @Test
+  public void mouseExitAfterDisposalOfControl() throws InterruptedException {
+    mouseTracker.mouseEnter( null );
+    trigger( SWT.Dispose ).on( scrollBar );
+
+    mouseTracker.mouseExit( null );
+    sleep( MouseTracker.DELAY + 100 );
+    flushPendingEvents();
+    Rectangle actual = scrollBar.getBounds();
+
+    assertThat( actual ).isNotEqualTo( BOUNDS );
   }
 
   @Test
@@ -72,7 +94,7 @@ public class MouseTrackerTest {
     scrollBar.setBounds( expected );
 
     mouseTracker.mouseExit( null );
-    Thread.sleep( MouseTracker.DELAY + 100 );
+    sleep( MouseTracker.DELAY + 100 );
     flushPendingEvents();
     Rectangle actual = scrollBar.getBounds();
 
@@ -101,18 +123,14 @@ public class MouseTrackerTest {
   }
 
   @Test
-  public void runAfterDisposeOfControl() {
+  public void runAfterDisposeOfControl() throws InterruptedException {
     mouseTracker.mouseEnter( null );
     mouseTracker.mouseExit( null );
-    scrollBar.dispose();
+    trigger( SWT.Dispose ).on( scrollBar );
 
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        mouseTracker.run();
-      }
-    } );
-
-    assertThat( actual ).isNull();
+    sleep( MouseTracker.DELAY + 100 );
+    flushPendingEvents();
+    Rectangle actual = scrollBar.getBounds();
+    assertThat( actual ).isNotEqualTo( BOUNDS );
   }
 }

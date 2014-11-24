@@ -6,9 +6,7 @@ import java.util.HashSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Layout;
 
@@ -20,6 +18,8 @@ public class FlatScrollBar extends Composite {
   static final int DEFAULT_THUMB = 10;
   static final int DEFAULT_PAGE_INCREMENT = DEFAULT_THUMB;
   static final int DEFAULT_SELECTION = 0;
+  static final int DEFAULT_BUTTON_LENGTH = 0;
+  static final int DEFAULT_MAX_EXPANSION = Direction.CLEARANCE + 4;
 
   final ClickControl up;
   final ClickControl upFast;
@@ -36,27 +36,34 @@ public class FlatScrollBar extends Composite {
   private int pageIncrement;
   private int thumb;
   private int selection;
+  private final int buttonLength;
 
-  public FlatScrollBar( Composite parent, int style ) {
+  public FlatScrollBar( final Composite parent, int style ) {
+    this( parent, style, DEFAULT_BUTTON_LENGTH, DEFAULT_MAX_EXPANSION );
+  }
+
+  FlatScrollBar( final Composite parent, int style, int buttonLength, int maxExpansion ) {
     super( parent, SWT.NONE );
+    Overlay overlay = new Overlay( this );
     this.minimum = DEFAULT_MINIMUM;
     this.maximum = DEFAULT_MAXIMUM;
     this.increment = DEFAULT_INCREMENT;
     this.pageIncrement = DEFAULT_PAGE_INCREMENT;
     this.thumb = DEFAULT_THUMB;
     this.selection = DEFAULT_SELECTION;
+    this.buttonLength = buttonLength;
     this.direction = ( style & SWT.HORIZONTAL ) > 0 ? Direction.HORIZONTAL : Direction.VERTICAL;
-    super.setLayout( new FlatScrollBarLayout( direction ) );
     this.direction.setDefaultSize( this );
-    this.up = new ClickControl( this, getSlowBackground(), new Decrementer( this ) );
-    this.upFast = new ClickControl( this, getFastBackground(), new FastDecrementer( this ) );
-    this.drag = new DragControl( this, getDragBackground(), new DragShifter( this ) );
-    this.downFast = new ClickControl( this, getFastBackground(), new FastIncrementer( this ) );
-    this.down = new ClickControl( this, getSlowBackground(), new Incrementer( this ) );
-    addMouseTrackListener( new MouseTracker( this ) );
-    addControlListener( new ResizeObserver( this ) );
-    this.mouseWheelHandler = new MouseWheelShifter( this, parent );
+    this.up = new ClickControl( overlay, new Decrementer( this ) );
+    this.upFast = new ClickControl( overlay, new FastDecrementer( this ) );
+    this.drag = new DragControl( overlay, new DragShifter( this, buttonLength ), maxExpansion );
+    this.downFast = new ClickControl( overlay, new FastIncrementer( this ) );
+    this.down = new ClickControl( overlay, new Incrementer( this ) );
+    this.mouseWheelHandler = new MouseWheelShifter( this, parent, buttonLength );
     this.listeners = new HashSet<SelectionListener>();
+    overlay.getControl().setLayout( new FlatScrollBarLayout( direction ) );
+    overlay.getControl().addMouseTrackListener( new MouseTracker( this, maxExpansion ) );
+    overlay.getControl().addControlListener( new ResizeObserver( this ) );
   }
 
   @Override
@@ -138,7 +145,6 @@ public class FlatScrollBar extends Composite {
     return selection;
   }
 
-
   public void addSelectionListener( SelectionListener selectionListener ) {
     listeners.add( selectionListener );
   }
@@ -149,7 +155,7 @@ public class FlatScrollBar extends Composite {
 
   @Override
   public void layout() {
-    direction.layout( this );
+    direction.layout( this, buttonLength );
     update();
   }
 
@@ -185,17 +191,5 @@ public class FlatScrollBar extends Composite {
   private void adjustSelection() {
     selection = Math.min( selection, maximum - thumb );
     selection = Math.max( selection, minimum );
-  }
-
-  static Color getDragBackground() {
-    return Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW );
-  }
-
-  static Color getSlowBackground() {
-    return Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_LIGHT_SHADOW );
-  }
-
-  static Color getFastBackground() {
-    return new Color( Display.getCurrent(), 245, 245, 245 );
   }
 }

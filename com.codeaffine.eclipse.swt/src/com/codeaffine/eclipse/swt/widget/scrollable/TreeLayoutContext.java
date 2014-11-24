@@ -62,10 +62,10 @@ class TreeLayoutContext {
   }
 
   private static int computeVerticalBarOffset( Tree tree ) {
-    int verticalScrollBarWidth = tree.getVerticalBar().getSize().x;
-    if( verticalScrollBarWidth == 0 ) {
-      verticalScrollBarWidth = OVERLAY_OFFSET;
+    int result = tree.getVerticalBar().getSize().x;
+    if( result == 0 ) {
+      result = OVERLAY_OFFSET;
     }
-    return verticalScrollBarWidth - BAR_BREADTH;
+    return result;
   }
 }

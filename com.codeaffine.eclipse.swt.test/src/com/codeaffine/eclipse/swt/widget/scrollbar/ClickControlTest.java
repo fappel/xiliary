@@ -4,6 +4,7 @@ import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
 import static com.codeaffine.eclipse.swt.testhelper.MouseDownActionTimerHelper.waitTillMouseDownTimerHasBeenTriggered;
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.util.MouseClick.LEFT_BUTTON;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.OverlayHelper.stubOverlay;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.inOrder;
@@ -12,9 +13,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Rule;
@@ -31,12 +30,14 @@ public class ClickControlTest {
 
   private ClickControl clickControl;
   private ClickAction action;
+  private Overlay overlay;
 
   @Before
   public void setUp() {
     Shell shell = createShell( displayHelper, SWT.SHELL_TRIM );
     action = mock( ClickAction.class );
-    clickControl = new ClickControl( shell, getSystemColorBlue(), action );
+    overlay = stubOverlay( shell );
+    clickControl = new ClickControl( overlay, action );
     shell.open();
   }
 
@@ -44,7 +45,6 @@ public class ClickControlTest {
   public void getControl() {
     Control control = clickControl.getControl();
 
-    assertThat( control.getBackground() ).isEqualTo( getSystemColorBlue() );
     assertThat( control.getLayoutData() ).isNull();
   }
 
@@ -82,11 +82,15 @@ public class ClickControlTest {
     verify( action, never() ).run();
   }
 
-  private void triggerLeftButtonMouseEvent( int event ) {
-    trigger( event ).at( 1, 1 ).withButton( LEFT_BUTTON ).on( clickControl.getControl() );
+  @Test
+  public void mouseDownFocusHandling() {
+    triggerLeftButtonMouseEvent( SWT.MouseDown );
+    waitTillMouseDownTimerHasBeenTriggered();
+
+    verify( overlay ).keepParentShellActivated();
   }
 
-  private static Color getSystemColorBlue() {
-    return Display.getCurrent().getSystemColor( SWT.COLOR_BLUE );
+  private void triggerLeftButtonMouseEvent( int event ) {
+    trigger( event ).at( 1, 1 ).withButton( LEFT_BUTTON ).on( clickControl.getControl() );
   }
 }

@@ -1,26 +1,27 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ControlAdapter;
+import org.eclipse.swt.events.ControlEvent;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.DragDetectEvent;
 import org.eclipse.swt.events.DragDetectListener;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.events.MouseMoveListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 
 import com.codeaffine.eclipse.swt.util.DragDetector;
 
-class DragControl
-  implements ViewComponent, MouseListener, MouseMoveListener, DragDetectListener
-{
+class DragControl extends ControlAdapter implements ViewComponent, DragDetectListener, DisposeListener, Listener {
 
-  private final Label control;
+  private final DragImageUpdate dragImageUpdate;
   private final DragDetector dragDetector;
   private final DragAction dragAction;
+  private final Overlay overlay;
+  private final Label control;
 
   private Point startingPosition;
 
@@ -30,15 +31,17 @@ class DragControl
     void end();
   }
 
-  DragControl( Composite parent, Color background, DragAction dragAction ) {
-    this.control = new Label( parent, SWT.NONE );
+  DragControl( Overlay overlay, DragAction dragAction, int maxExpansion ) {
+    this.control = new Label( overlay.getControl(), SWT.NONE );
+    this.dragImageUpdate = new DragImageUpdate( control, maxExpansion );
     this.dragDetector = new DragDetector( control, 0 );
     this.dragAction = dragAction;
-    initializeControl( background );
+    this.overlay = overlay;
+    initializeControl();
   }
 
   @Override
-  public Control getControl() {
+  public Label getControl() {
     return control;
   }
 
@@ -51,32 +54,53 @@ class DragControl
   }
 
   @Override
-  public void mouseMove( MouseEvent event ) {
-    dragDetector.mouseMove( event );
+  public void handleEvent( Event event ) {
+    if( event.type == SWT.MouseDown ) {
+      if( event.widget == control ) {
+        mouseDown( event );
+        overlay.keepParentShellActivated();
+      }
+    } else if( event.type == SWT.MouseMove ) {
+      mouseMove( event );
+    } else if( event.type == SWT.MouseUp ) {
+      mouseUp();
+    }
   }
 
   @Override
-  public void mouseDoubleClick( MouseEvent e ) {
+  public void controlResized( ControlEvent event ) {
+    dragImageUpdate.update();
   }
 
   @Override
-  public void mouseDown( MouseEvent event ) {
+  public void widgetDisposed( DisposeEvent e ) {
+    control.getDisplay().removeFilter( SWT.MouseMove, this );
+    control.getDisplay().removeFilter( SWT.MouseDown, this );
+    control.getDisplay().removeFilter( SWT.MouseUp, this );
+  }
+
+  private void initializeControl( ) {
+    control.getDisplay().addFilter( SWT.MouseMove, this );
+    control.getDisplay().addFilter( SWT.MouseDown, this );
+    control.getDisplay().addFilter( SWT.MouseUp, this );
+    control.addControlListener( this );
+    control.addDragDetectListener( this );
+    control.addDisposeListener( this );
+  }
+
+  private void mouseDown( Event event ) {
     startingPosition = new Point( event.x, event.y );
     dragAction.start();
   }
 
-  @Override
-  public void mouseUp( MouseEvent e ) {
+  private void mouseMove( Event event ) {
+    dragDetector.mouseMove( new MouseEvent( event ) );
+  }
+
+  private void mouseUp() {
     if( startingPosition != null ) {
       dragAction.end();
     }
     startingPosition = null;
-  }
-
-  private void initializeControl( Color background ) {
-    control.setBackground( background );
-    control.addMouseListener( this );
-    control.addMouseMoveListener( this );
-    control.addDragDetectListener( this );
   }
 }

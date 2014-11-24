@@ -30,7 +30,7 @@ class CustomContent implements Content {
   private static FlatScrollBar createFlatScrollBar( Composite parent, Tree tree, int direction  ) {
     FlatScrollBar result = new FlatScrollBar( parent, direction );
     result.setBackground( tree.getBackground() );
-    result.moveAbove( null );
+//    result.moveAbove( null );
     return result;
   }
 }

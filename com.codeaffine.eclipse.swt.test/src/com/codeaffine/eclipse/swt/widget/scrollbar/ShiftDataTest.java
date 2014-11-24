@@ -8,9 +8,11 @@ import org.junit.Test;
 
 public class ShiftDataTest {
 
+  private static final int BUTTON_LENGTH = 17;
+
   @Test
   public void canShift() {
-    ShiftData shiftData = new ShiftData( 60, 2, 2 );
+    ShiftData shiftData = new ShiftData( BUTTON_LENGTH, 60, 2, 2 );
 
     boolean actual = shiftData.canShift();
 
@@ -19,7 +21,7 @@ public class ShiftDataTest {
 
   @Test
   public void canShiftIfShifterIsToSmall() {
-    ShiftData shiftData = new ShiftData( 30, 2, 2 );
+    ShiftData shiftData = new ShiftData( BUTTON_LENGTH, 30, 2, 2 );
 
     boolean actual = shiftData.canShift();
 
@@ -28,7 +30,7 @@ public class ShiftDataTest {
 
   @Test
   public void calculateSelectionDelta() {
-    ShiftData shiftData = new ShiftData( 60, 2, 2 );
+    ShiftData shiftData = new ShiftData( BUTTON_LENGTH, 60, 2, 2 );
 
     int actual = shiftData.calculateSelectionDelta( 30 );
 

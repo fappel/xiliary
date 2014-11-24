@@ -4,8 +4,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseTrackListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
@@ -15,18 +13,19 @@ import com.codeaffine.eclipse.swt.util.MouseDownActionTimer.TimerAction;
 
 class ClickControl implements ViewComponent, TimerAction, MouseListener, MouseTrackListener {
 
-  private final Label control;
-  private final MouseClick mouseClick;
   private final MouseDownActionTimer mouseDownActionTimer;
   private final ClickAction clickAction;
+  private final MouseClick mouseClick;
+  private final Overlay overlay;
+  private final Label control;
 
   public interface ClickAction extends Runnable {
     void setCoordinates( int x, int y );
   }
 
-  ClickControl( Composite parent, Color background, ClickAction clickAction ) {
-    this.control = new Label( parent, SWT.NONE );
-    this.control.setBackground( background );
+  ClickControl( Overlay overlay, ClickAction clickAction ) {
+    this.overlay = overlay;
+    this.control = new Label( overlay.getControl(), SWT.NONE );
     this.mouseClick = new MouseClick();
     this.mouseDownActionTimer = new MouseDownActionTimer( this, mouseClick, control.getDisplay() );
     this.clickAction = clickAction;
@@ -44,6 +43,7 @@ class ClickControl implements ViewComponent, TimerAction, MouseListener, MouseTr
     mouseClick.arm( event );
     clickAction.setCoordinates( event.x, event.y );
     mouseDownActionTimer.activate();
+    overlay.keepParentShellActivated();
   }
 
   @Override

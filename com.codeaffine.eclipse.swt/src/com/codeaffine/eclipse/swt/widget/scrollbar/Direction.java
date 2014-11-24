@@ -1,6 +1,5 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
-import static com.codeaffine.eclipse.swt.widget.scrollbar.ComponentDistribution.BUTTON_LENGTH;
 import static java.lang.Math.max;
 
 import org.eclipse.swt.SWT;
@@ -14,14 +13,14 @@ enum Direction {
   HORIZONTAL( SWT.HORIZONTAL ) {
 
     @Override
-    protected void layout( FlatScrollBar scrollBar ) {
-      ComponentDistribution distribution = calculateComponentDistribution( scrollBar );
+    protected void layout( FlatScrollBar scrollBar, int buttonLength  ) {
+      ComponentDistribution distribution = calculateComponentDistribution( scrollBar, buttonLength );
       Rectangle[] componentBounds = calculateComponentBounds( distribution, scrollBar );
       applyComponentBounds( scrollBar, componentBounds );
     }
 
-    private ComponentDistribution calculateComponentDistribution( FlatScrollBar scrollBar ) {
-      return calculateComponentDistribution( scrollBar, getControlBounds( scrollBar ).width );
+    private ComponentDistribution calculateComponentDistribution( FlatScrollBar scrollBar, int buttonLength  ) {
+      return calculateComponentDistribution( scrollBar, buttonLength, getControlBounds( scrollBar ).width );
     }
 
     private Rectangle[] calculateComponentBounds( ComponentDistribution distribution, FlatScrollBar scrollBar ) {
@@ -29,17 +28,17 @@ enum Direction {
       int height = getControlBounds( scrollBar ).height - BAR_BREADTH + 1;
       int balance = getRoundingBalance( distribution, scrollBar );
       return new Rectangle[] {
-        calcButtons( width, $( 0, CLEARANCE, BUTTON_LENGTH, height ) ),
-        $( BUTTON_LENGTH, CLEARANCE, distribution.upFastLength, height ),
+        calcButtons( distribution, width, $( 0, CLEARANCE, distribution.buttonLen, height ) ),
+        $( distribution.buttonLen, CLEARANCE, distribution.upFastLength, height ),
         calcDrag( distribution, $( distribution.dragStart, CLEARANCE, distribution.dragLength + balance, height ) ),
         $( distribution.downFastStart, CLEARANCE, distribution.downFastLength - balance, height ),
-        calcButtons( width, $( distribution.downStart, CLEARANCE, BUTTON_LENGTH, height ) )
+        calcButtons( distribution, width, $( distribution.downStart, CLEARANCE, distribution.buttonLen, height ) )
       };
     }
 
-    private Rectangle calcButtons( int length, Rectangle bounds ) {
+    private Rectangle calcButtons( ComponentDistribution distribution, int length, Rectangle bounds ) {
       Rectangle result = bounds;
-      if( length <= ComponentDistribution.BUTTON_LENGTH * 2 ) {
+      if( length <= distribution.buttonLen* 2 ) {
         int downStart = calcDownStartForSmallLength( bounds.x, length );
         result = $( downStart, CLEARANCE, length / 2, bounds.height );
       }
@@ -59,24 +58,23 @@ enum Direction {
     }
 
     @Override
-    protected void expand( Control control ) {
+    protected void expand( Control control, int maxEexpansion ) {
       Rectangle bounds = control.getBounds();
-      int expand = expand( bounds.height );
+      int expand = expand( bounds.height, maxEexpansion );
       control.setBounds( bounds.x, bounds.y - expand, bounds.width, bounds.height + expand );
-      control.moveAbove( null );
     }
   },
 
   VERTICAL( SWT.VERTICAL ) {
 
     @Override
-    protected void layout( FlatScrollBar scrollBar ) {
-      ComponentDistribution calculation = calculateComponentDistribution( scrollBar );
+    protected void layout( FlatScrollBar scrollBar, int buttonLength ) {
+      ComponentDistribution calculation = calculateComponentDistribution( scrollBar, buttonLength );
       applyComponentBounds( scrollBar, calculateComponentBounds( calculation, scrollBar ) );
     }
 
-    private ComponentDistribution calculateComponentDistribution( FlatScrollBar scrollBar ) {
-      return calculateComponentDistribution( scrollBar, getControlBounds( scrollBar ).height );
+    private ComponentDistribution calculateComponentDistribution( FlatScrollBar scrollBar, int buttonLength ) {
+      return calculateComponentDistribution( scrollBar, buttonLength, getControlBounds( scrollBar ).height );
     }
 
     private Rectangle[] calculateComponentBounds( ComponentDistribution distribution, FlatScrollBar scrollBar ) {
@@ -84,17 +82,17 @@ enum Direction {
       int height = getControlBounds( scrollBar ).height;
       int balance = getRoundingBalance( distribution, scrollBar );
       return new Rectangle[] {
-        calculateButtons( height, $( CLEARANCE, 0, width, BUTTON_LENGTH ) ),
-        $( CLEARANCE, BUTTON_LENGTH, width, distribution.upFastLength ),
+        calculateButtons( distribution, height, $( CLEARANCE, 0, width, distribution.buttonLen ) ),
+        $( CLEARANCE, distribution.buttonLen, width, distribution.upFastLength ),
         calcDrag( distribution, $( CLEARANCE, distribution.dragStart, width, distribution.dragLength + balance ) ),
         $( CLEARANCE, distribution.downFastStart, width, distribution.downFastLength - balance ),
-        calculateButtons( height, $( CLEARANCE, distribution.downStart, width, BUTTON_LENGTH ) )
+        calculateButtons( distribution, height, $( CLEARANCE, distribution.downStart, width, distribution.buttonLen ) )
       };
     }
 
-    private Rectangle calculateButtons( int length, Rectangle bounds ) {
+    private Rectangle calculateButtons( ComponentDistribution distribution, int length, Rectangle bounds ) {
       Rectangle result = bounds;
-      if( length <= ComponentDistribution.BUTTON_LENGTH * 2 ) {
+      if( length <= distribution.buttonLen * 2 ) {
         int downStart = calcDownStartForSmallLength( bounds.y, length );
         result = $( CLEARANCE, downStart, bounds.width, length / 2 );
       }
@@ -114,25 +112,23 @@ enum Direction {
     }
 
     @Override
-    protected void expand( Control control ) {
+    protected void expand( Control control, int maxExpansion ) {
       Rectangle bounds = control.getBounds();
-      int expand = expand( bounds.width );
+      int expand = expand( bounds.width, maxExpansion );
       control.setBounds( bounds.x - expand, bounds.y, bounds.width + expand, bounds.height );
-      control.moveAbove( null );
     }
   };
 
   static final Rectangle EMPTY_RECTANGLE = $( 0, 0, 0, 0 );
   static final int BAR_BREADTH = 6;
   static final int CLEARANCE = BAR_BREADTH - 2;
-  static final int MAX_EXPAND = CLEARANCE;
 
   private final int value;
 
-  protected abstract void layout( FlatScrollBar scrollBar );
+  protected abstract void layout( FlatScrollBar scrollBar, int buttonLength );
   protected abstract void setDefaultSize( Control control );
   protected abstract Point computeSize( Composite comp, int wHint, int hHint, boolean changed );
-  protected abstract void expand( Control control );
+  protected abstract void expand( Control control, int maxExpansion  );
 
   Direction( int value ) {
     this.value = value;
@@ -142,11 +138,13 @@ enum Direction {
     return value;
   }
 
-  private static ComponentDistribution calculateComponentDistribution( FlatScrollBar scrollBar, int length ) {
+  private static ComponentDistribution calculateComponentDistribution(
+    FlatScrollBar scrollBar , int buttonLength , int length  )
+  {
     int range = scrollBar.getMaximum() - scrollBar.getMinimum();
     int position = scrollBar.getSelection() - scrollBar.getMinimum();
     int thumb = scrollBar.getThumb();
-    return new ComponentDistribution( length, range, position, thumb );
+    return new ComponentDistribution( buttonLength, length, range, position, thumb );
   }
 
   private static Rectangle getControlBounds( FlatScrollBar scrollBar ) {
@@ -172,8 +170,8 @@ enum Direction {
     return result;
   }
 
-  private static int expand( int toExpand ) {
-    return max( 0, BAR_BREADTH + MAX_EXPAND - max( BAR_BREADTH, toExpand ) );
+  private static int expand( int toExpand, int maxExpansion ) {
+    return max( 0, BAR_BREADTH + maxExpansion - max( BAR_BREADTH, toExpand ) );
   }
 
   private static Rectangle calcDrag( ComponentDistribution distribution, Rectangle bounds ) {
@@ -185,7 +183,7 @@ enum Direction {
   }
 
   private static boolean isUndercutOfDragVisibility( ComponentDistribution distribution ) {
-    return distribution.dragLength + BUTTON_LENGTH >= distribution.downStart;
+    return distribution.dragLength + distribution.buttonLen >= distribution.downStart;
   }
 
   private static int calcDownStartForSmallLength( int position, int length ) {

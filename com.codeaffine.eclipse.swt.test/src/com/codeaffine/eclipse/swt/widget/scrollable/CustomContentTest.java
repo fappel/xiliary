@@ -41,9 +41,9 @@ public class CustomContentTest {
     Control[] children = flatScrollBarTree.getChildren();
 
     assertThat( children ).hasSize( 3 );
-    assertThat( children[ 0 ] ).isExactlyInstanceOf( FlatScrollBar.class );
+    assertThat( children[ 0 ] ).isSameAs( tree );
     assertThat( children[ 1 ] ).isExactlyInstanceOf( FlatScrollBar.class );
-    assertThat( children[ 2 ] ).isSameAs( tree );
+    assertThat( children[ 2 ] ).isExactlyInstanceOf( FlatScrollBar.class );
   }
 
   @Test

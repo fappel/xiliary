@@ -1,12 +1,10 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.getDragBackground;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.getFastBackground;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.getSlowBackground;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -16,7 +14,6 @@ import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -29,9 +26,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
-import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class FlatScrollBarTest {
 
@@ -438,18 +433,6 @@ public class FlatScrollBarTest {
   }
 
   @Test
-  @ConditionalIgnore(condition=GtkPlatform.class)
-  public void colorSettings() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-
-    assertThat( getBackground( scrollBar.up ) ).isEqualTo( getSlowBackground() );
-    assertThat( getBackground( scrollBar.upFast ) ).isEqualTo( getFastBackground() );
-    assertThat( getBackground( scrollBar.drag ) ).isEqualTo( getDragBackground() );
-    assertThat( getBackground( scrollBar.downFast ) ).isEqualTo( getFastBackground() );
-    assertThat( getBackground( scrollBar.down ) ).isEqualTo( getSlowBackground() );
-  }
-
-  @Test
   public void addSelectionListener() {
     ArgumentCaptor<SelectionEvent> captor = forClass( SelectionEvent.class );
     FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
@@ -513,7 +496,7 @@ public class FlatScrollBarTest {
     scrollBar.setSize( size.x + 1, size.y );
     flushPendingEvents();
 
-    verify( listener ).paintControl( any( PaintEvent.class ) );
+    verify( listener, atLeastOnce() ).paintControl( any( PaintEvent.class ) );
   }
 
   @Test
@@ -522,10 +505,6 @@ public class FlatScrollBarTest {
 
     Layout layout = scrollBar.getLayout();
 
-    assertThat( layout ).isInstanceOf( FlatScrollBarLayout.class );
-  }
-
-  private static Color getBackground( ViewComponent viewComponent ) {
-    return viewComponent.getControl().getBackground();
+    assertThat( layout ).isNull();
   }
 }

@@ -7,70 +7,70 @@ import java.math.RoundingMode;
 
 class ComponentDistribution {
 
-  static final int BUTTON_LENGTH = 17;
-
   final int upFastLength;
   final int dragStart;
   final int dragLength;
   final int downFastStart;
   final int downFastLength;
   final int downStart;
+  final int buttonLen;
 
-  ComponentDistribution( int len, int range, int pos, int thumb ) {
-    int slideLen = slideLen( len );
+  ComponentDistribution( int buttonLen, int len, int range, int pos, int thumb ) {
+    int slideLen = slideLen( buttonLen, len );
     int relDragLen = relDragLen( slideLen, range, thumb );
-    this.dragLength = dragLen( relDragLen );
-    this.upFastLength = upFastLen( range, pos, slideLen, relDragLen, dragLength );
-    this.downStart = downStart( len );
-    this.downFastStart = downFastStart( upFastLength, dragLength );
-    this.dragStart = dragStart( upFastLength );
-    this.downFastLength = downFastLen( range, pos, slideLen, relDragLen, dragLength, upFastLength );
+    this.dragLength = dragLen( buttonLen, relDragLen );
+    this.upFastLength = upFastLen( buttonLen, range, pos, slideLen, relDragLen, dragLength );
+    this.downStart = downStart( buttonLen, len );
+    this.downFastStart = downFastStart( buttonLen, upFastLength, dragLength );
+    this.dragStart = dragStart( buttonLen, upFastLength );
+    this.downFastLength = downFastLen( buttonLen, range, pos, slideLen, relDragLen, dragLength, upFastLength );
+    this.buttonLen = buttonLen;
   }
 
-  private static int slideLen( int len ) {
-    return len - BUTTON_LENGTH * 2;
+  private static int slideLen( int buttonLen, int len ) {
+    return len - buttonLen * 2;
   }
 
   private static int relDragLen( int slideLen, int range, int thumb ) {
     return divide( slideLen * thumb, range );
   }
 
-  private static int dragLen( int relDragLen ) {
-    return max( relDragLen, BUTTON_LENGTH );
+  private static int dragLen( int buttonLen, int relDragLen   ) {
+    return max( relDragLen, buttonLen );
   }
 
-  private static int upFastLen( int range, int pos, int slideLen, int relDragLen, int dragLen ) {
+  private static int upFastLen( int buttonLen, int range, int pos, int slideLen, int relDragLen, int dragLen ) {
     int result = slideLen * pos / range;
-    if( useMinDragLen( relDragLen ) ) {
+    if( useMinDragLen( buttonLen, relDragLen ) ) {
       result -= divide( ( dragLen - relDragLen ) * pos, range );
     }
     return result;
   }
 
-  private static int downStart( int len ) {
-    return len - BUTTON_LENGTH;
+  private static int downStart( int buttonLen, int len ) {
+    return len - buttonLen;
   }
 
-  private static int downFastStart( int upFastLength, int dragLength ) {
-    return BUTTON_LENGTH + upFastLength + dragLength;
+  private static int downFastStart( int buttonLen, int upFastLength, int dragLength ) {
+    return buttonLen + upFastLength + dragLength;
   }
 
-  private static int dragStart( int upFastLen ) {
-    return BUTTON_LENGTH + upFastLen;
+  private static int dragStart( int buttonLen, int upFastLen ) {
+    return buttonLen + upFastLen;
   }
 
   private static int downFastLen(
-    int range, int pos, int slideLen, int relDragLen, int dragLen, int upFastLen )
+    int buttonLen, int range, int pos, int slideLen, int relDragLen, int dragLen, int upFastLen )
   {
     int result = divide( slideLen * ( range - pos ), range ) - dragLen;
-    if( useMinDragLen( relDragLen ) ) {
+    if( useMinDragLen( buttonLen, relDragLen ) ) {
       result += divide( ( dragLen - relDragLen ) * pos, range );
     }
     return adjustDownFastLen( result, slideLen, dragLen, upFastLen );
   }
 
-  private static boolean useMinDragLen( int relDragLen ) {
-    return relDragLen < BUTTON_LENGTH;
+  private static boolean useMinDragLen( int buttonLen, int relDragLen ) {
+    return relDragLen < buttonLen;
   }
 
   static int divide( int dividend, int divisor ) {

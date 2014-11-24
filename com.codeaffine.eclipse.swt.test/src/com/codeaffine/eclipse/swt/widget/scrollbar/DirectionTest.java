@@ -1,10 +1,8 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
-import static com.codeaffine.eclipse.swt.widget.scrollbar.ComponentDistribution.BUTTON_LENGTH;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.CLEARANCE;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.HORIZONTAL;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.MAX_EXPAND;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.VERTICAL;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_MAXIMUM;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_THUMB;
@@ -28,6 +26,8 @@ import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 public class DirectionTest {
 
   private static final int SELECTION = 12;
+  private static final int BUTTON_LENGTH = 17;
+  private static final int MAX_EXPAND = Direction.CLEARANCE;
 
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -156,7 +156,7 @@ public class DirectionTest {
     Rectangle bounds = new Rectangle( 4, 10, 40, 0 );
     Control control = createControl( bounds );
 
-    HORIZONTAL.expand( control );
+    HORIZONTAL.expand( control, MAX_EXPAND );
 
     assertTopOfDrawingOrder( control );
     assertThat( control.getBounds() )
@@ -169,7 +169,7 @@ public class DirectionTest {
     Rectangle bounds = new Rectangle( 4, 10, 40, 10 );
     Control control = createControl( bounds );
 
-    HORIZONTAL.expand( control );
+    HORIZONTAL.expand( control, MAX_EXPAND );
 
     assertTopOfDrawingOrder( control );
     assertThat( control.getBounds() )
@@ -296,7 +296,7 @@ public class DirectionTest {
     Rectangle bounds = new Rectangle( 10, 4, 0, 40 );
     Control control = createControl( bounds );
 
-    VERTICAL.expand( control );
+    VERTICAL.expand( control, MAX_EXPAND );
 
     assertTopOfDrawingOrder( control );
     assertThat( control.getBounds() )
@@ -309,7 +309,7 @@ public class DirectionTest {
     Rectangle bounds = new Rectangle( 10, 4, 10, 40 );
     Control control = createControl( bounds );
 
-    VERTICAL.expand( control );
+    VERTICAL.expand( control, MAX_EXPAND );
 
     assertTopOfDrawingOrder( control );
     assertThat( control.getBounds() )
@@ -324,14 +324,14 @@ public class DirectionTest {
   }
 
   private FlatScrollBar createScrollBar( int direction, int selection ) {
-    FlatScrollBar result = new FlatScrollBar( parent, direction );
+    FlatScrollBar result = new FlatScrollBar( parent, direction, BUTTON_LENGTH, MAX_EXPAND );
     result.setSelectionInternal( selection, SWT.ARROW_DOWN );
     return result;
   }
 
   private static ComponentDistribution getExpectedHorizontalDistribution( FlatScrollBar bar, int selection ) {
     int width = bar.getSize().x;
-    return new ComponentDistribution( width, DEFAULT_MAXIMUM, selection, DEFAULT_THUMB );
+    return new ComponentDistribution( BUTTON_LENGTH, width, DEFAULT_MAXIMUM, selection, DEFAULT_THUMB );
   }
 
   private static int getExpectedHeight( FlatScrollBar scrollBar ) {
@@ -340,7 +340,7 @@ public class DirectionTest {
 
   private static ComponentDistribution getExpectedVerticalDistribution( FlatScrollBar scrollBar, int selection ) {
     int height = scrollBar.getSize().y;
-    return new ComponentDistribution( height, DEFAULT_MAXIMUM, selection, DEFAULT_THUMB );
+    return new ComponentDistribution( BUTTON_LENGTH, height, DEFAULT_MAXIMUM, selection, DEFAULT_THUMB );
   }
 
   private static int getExpectedWidth( FlatScrollBar scrollBar ) {
@@ -364,6 +364,6 @@ public class DirectionTest {
   }
 
   private void assertTopOfDrawingOrder( Control control ) {
-    assertThat( parent.getChildren() ).hasSize( 2 ).startsWith( control );
+    assertThat( parent.getChildren() ).hasSize( 2 ).endsWith( control );
   }
 }
