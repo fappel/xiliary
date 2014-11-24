@@ -1,6 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,7 +34,7 @@ public class CustomContentTest {
     flatScrollBarTree = new Composite( shell, SWT.NONE );
     tree = createTree( flatScrollBarTree, 2, 6 );
     customContent = new CustomContent( flatScrollBarTree, tree );
-    shell.open();
+    openShell( shell );
   }
 
   @Test

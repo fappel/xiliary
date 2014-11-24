@@ -2,6 +2,8 @@ package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
+import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
+import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.waitForGtkRendering;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -18,10 +20,10 @@ import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 
 public class OverlayTest {
 
-  private static final int X_LOCATION = 30;
-  private static final int Y_LOCATION = 40;
-  private static final int X_OFFSET = 10;
-  private static final int Y_OFFSET = 20;
+  private static final int X_LOCATION = 10;
+  private static final int Y_LOCATION = 20;
+  private static final int X_OFFSET = 1;
+  private static final int Y_OFFSET = 2;
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
@@ -35,6 +37,7 @@ public class OverlayTest {
     parent = createParentShell();
     toOverlay = createCompositeToOverlay( parent );
     overlay = new Overlay( toOverlay );
+    openShell( parent );
   }
 
   @Test
@@ -50,6 +53,7 @@ public class OverlayTest {
 
   @Test
   public void initialization() {
+    waitForGtkRendering();
     Shell actual = overlay.getControl();
 
     assertThat( actual.getAlpha() ).isEqualTo( Overlay.ALPHA );
@@ -72,6 +76,7 @@ public class OverlayTest {
     Point expected = Display.getCurrent().map( parent, null, point );
 
     toOverlay.setLocation( point );
+    waitForGtkRendering();
     Point actual = overlay.getControl().getLocation();
 
     assertThat( actual ).isEqualTo( expected );
@@ -82,7 +87,9 @@ public class OverlayTest {
     Point current = Display.getCurrent().map( parent, null, toOverlay.getLocation() );
     Point expected = addOffset( current, X_OFFSET, Y_OFFSET );
 
+    waitForGtkRendering();
     parent.setLocation( addOffset( parent.getLocation(), X_OFFSET, Y_OFFSET ) );
+    waitForGtkRendering();
     Point actual = overlay.getControl().getLocation();
 
     assertThat( actual ).isEqualTo( expected );

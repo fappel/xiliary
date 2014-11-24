@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarHelper.equipScrollBarWithListener;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarHelper.verifyNotification;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -251,7 +252,9 @@ public class MouseWheelSupportTest {
 
   private FlatScrollBar createScrollBar() {
     Shell parent = displayHelper.createShell();
-    return new FlatScrollBar( parent, direction );
+    FlatScrollBar result = new FlatScrollBar( parent, direction );
+    flushPendingEvents();
+    return result;
   }
 
   private static void configureScrollBar(

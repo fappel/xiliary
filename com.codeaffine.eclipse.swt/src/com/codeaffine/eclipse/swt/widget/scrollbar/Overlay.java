@@ -49,6 +49,7 @@ class Overlay extends MouseAdapter implements ViewComponent, ControlListener {
 
   @Override
   public void controlMoved( ControlEvent event ) {
+    parent.getLocation();
     Point location = Display.getCurrent().map( parent, null, toOverlay.getLocation() );
     overlay.setLocation( location );
   }
