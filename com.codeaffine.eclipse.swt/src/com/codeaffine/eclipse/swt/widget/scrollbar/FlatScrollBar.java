@@ -73,7 +73,7 @@ public class FlatScrollBar extends Composite {
 
   @Override
   public int getStyle() {
-    return direction != null ? direction.value() : SWT.NONE;
+    return direction != null ? super.getStyle() | direction.value() : super.getStyle();
   };
 
   Direction getDirection() {
