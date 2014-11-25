@@ -36,7 +36,7 @@ public class OverlayTest {
   @Before
   public void setUp() {
     parent = createParentShell();
-    toOverlay = createCompositeToOverlay( parent );
+    toOverlay = createFlatScrollBarFakeToOverlay( parent );
     overlay = new Overlay( toOverlay );
     parent.open();
   }
@@ -124,9 +124,10 @@ public class OverlayTest {
     return result;
   }
 
-  private static Composite createCompositeToOverlay( Shell parent  ) {
+  private static Composite createFlatScrollBarFakeToOverlay( Shell parent  ) {
     Composite result = new Composite( parent, SWT.NONE );
     result.setBounds( X_LOCATION, Y_LOCATION, 400, 400 );
+    result.setLayout( new FlatScrollBarLayout( Direction.HORIZONTAL ) );
     return result;
   }
 
