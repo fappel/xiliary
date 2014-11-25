@@ -46,7 +46,9 @@ class ScrollableAdapter<T extends Scrollable> extends Composite {
     return createLayoutFactory( platform, mappings ).create( adapter, scrollable );
   }
 
-  private LayoutFactory<T> createLayoutFactory( Platform platform, LayoutMapping<T>[] mappings  ) {
+  private static <T extends Scrollable> LayoutFactory<T> createLayoutFactory(
+    Platform platform, LayoutMapping<T>[] mappings  )
+  {
     LayoutFactory<T> result = new NativeLayoutFactory<T>();
     for( LayoutMapping<T> layoutMapping : mappings ) {
       if( platform.matchesOneOf( layoutMapping.getPlatformTypes() ) ) {
