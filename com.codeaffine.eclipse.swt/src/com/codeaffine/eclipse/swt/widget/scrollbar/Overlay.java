@@ -26,7 +26,7 @@ class Overlay extends MouseAdapter implements ViewComponent, ControlListener {
     this.toOverlay = toOverlay;
     this.parentShell = parent.getShell();
     if( !"gtk".equals( SWT.getPlatform() ) ) {
-      this.overlay = new Shell( parentShell, SWT.NO_TRIM | SWT.TOOL );
+      this.overlay = new Shell( parentShell, SWT.NO_TRIM );
       overlay.setBackgroundMode( SWT.INHERIT_DEFAULT );
       parentShell.addControlListener( this );
       toOverlay.addControlListener( this );

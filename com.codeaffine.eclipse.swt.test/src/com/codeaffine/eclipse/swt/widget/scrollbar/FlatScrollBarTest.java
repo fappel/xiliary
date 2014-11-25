@@ -74,7 +74,7 @@ public class FlatScrollBarTest {
 
     int actual = scrollBar.getStyle();
 
-    assertThat( actual ).isEqualTo( SWT.HORIZONTAL );
+    assertThat( actual & SWT.HORIZONTAL ).isEqualTo( SWT.HORIZONTAL );
   }
 
   @Test
