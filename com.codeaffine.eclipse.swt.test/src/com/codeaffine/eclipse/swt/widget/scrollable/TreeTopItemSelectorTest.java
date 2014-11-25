@@ -1,7 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -35,7 +34,7 @@ public class TreeTopItemSelectorTest {
   private Tree createTree( int tenItemsPerLevel, int levelCount ) {
     Shell shell = createShell( displayHelper );
     Tree result = TreeHelper.createTree( shell, tenItemsPerLevel, levelCount );
-    openShell( shell );
+    shell.open();
     return result;
   }
 

@@ -44,6 +44,7 @@ public class FlatScrollBar extends Composite {
 
   FlatScrollBar( final Composite parent, int style, int buttonLength, int maxExpansion ) {
     super( parent, SWT.NONE );
+    super.setLayout( new FlatScrollBarLayout( getDirection( style ) ) );
     Overlay overlay = new Overlay( this );
     this.minimum = DEFAULT_MINIMUM;
     this.maximum = DEFAULT_MAXIMUM;
@@ -52,7 +53,7 @@ public class FlatScrollBar extends Composite {
     this.thumb = DEFAULT_THUMB;
     this.selection = DEFAULT_SELECTION;
     this.buttonLength = buttonLength;
-    this.direction = ( style & SWT.HORIZONTAL ) > 0 ? Direction.HORIZONTAL : Direction.VERTICAL;
+    this.direction = getDirection( style );
     this.direction.setDefaultSize( this );
     this.up = new ClickControl( overlay, new Decrementer( this ) );
     this.upFast = new ClickControl( overlay, new FastDecrementer( this ) );
@@ -61,7 +62,6 @@ public class FlatScrollBar extends Composite {
     this.down = new ClickControl( overlay, new Incrementer( this ) );
     this.mouseWheelHandler = new MouseWheelShifter( this, parent, buttonLength );
     this.listeners = new HashSet<SelectionListener>();
-    overlay.getControl().setLayout( new FlatScrollBarLayout( direction ) );
     overlay.getControl().addMouseTrackListener( new MouseTracker( this, maxExpansion ) );
     overlay.getControl().addControlListener( new ResizeObserver( this ) );
   }
@@ -191,5 +191,9 @@ public class FlatScrollBar extends Composite {
   private void adjustSelection() {
     selection = Math.min( selection, maximum - thumb );
     selection = Math.max( selection, minimum );
+  }
+
+  private static Direction getDirection( int style ) {
+    return ( style & SWT.HORIZONTAL ) > 0 ? Direction.HORIZONTAL : Direction.VERTICAL;
   }
 }

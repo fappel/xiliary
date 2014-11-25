@@ -1,7 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.SelectionEventHelper.createEvent;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
@@ -36,7 +35,7 @@ public class VerticalSelectionListenerTest {
 
   private static Tree createTreeWithExpandedTopBranch( Shell shell ) {
     Tree result = createTree( shell, 6, 4 );
-    openShell( shell );
+    shell.open();
     expandTopBranch( result );
     return result;
   }

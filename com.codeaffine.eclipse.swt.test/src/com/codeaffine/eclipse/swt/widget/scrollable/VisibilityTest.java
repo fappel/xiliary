@@ -1,7 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
@@ -50,7 +49,7 @@ public class VisibilityTest {
   public void setUp() {
     shell = createShell( displayHelper, SWT.RESIZE );
     tree = createTree( shell, 2, 4 );
-    openShell( shell );
+    shell.open();
     visibility = createVisibility();
   }
 

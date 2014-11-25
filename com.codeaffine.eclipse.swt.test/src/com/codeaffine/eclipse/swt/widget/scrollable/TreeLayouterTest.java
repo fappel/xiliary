@@ -19,7 +19,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.testhelper.ShellHelper;
 
 public class TreeLayouterTest {
 
@@ -35,7 +34,7 @@ public class TreeLayouterTest {
     shell = createShell( displayHelper );
     tree = createTree( shell, 6, 4 );
     layouter = new TreeLayouter( tree );
-    ShellHelper.openShell( shell );
+    shell.open();
   }
 
   @Test

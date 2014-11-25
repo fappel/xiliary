@@ -13,6 +13,13 @@ public class SWTIgnoreConditions {
     }
   }
 
+  public static class NonGtkPlatform implements IgnoreCondition {
+    @Override
+    public boolean isSatisfied() {
+      return !"gtk".equals( SWT.getPlatform() );
+    }
+  }
+
   public static class CocoaPlatform implements IgnoreCondition {
     @Override
     public boolean isSatisfied() {

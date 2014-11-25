@@ -1,7 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,12 +15,16 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonGtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class CustomContentTest {
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private Composite flatScrollBarTree;
   private CustomContent customContent;
@@ -34,10 +37,11 @@ public class CustomContentTest {
     flatScrollBarTree = new Composite( shell, SWT.NONE );
     tree = createTree( flatScrollBarTree, 2, 6 );
     customContent = new CustomContent( flatScrollBarTree, tree );
-    openShell( shell );
+    shell.open();
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void structureAndDrawingOrder() {
     Control[] children = flatScrollBarTree.getChildren();
 
@@ -45,6 +49,18 @@ public class CustomContentTest {
     assertThat( children[ 0 ] ).isSameAs( tree );
     assertThat( children[ 1 ] ).isExactlyInstanceOf( FlatScrollBar.class );
     assertThat( children[ 2 ] ).isExactlyInstanceOf( FlatScrollBar.class );
+  }
+
+
+  @Test
+  @ConditionalIgnore( condition = NonGtkPlatform.class )
+  public void structureAndDrawingOrderGtk() {
+    Control[] children = flatScrollBarTree.getChildren();
+
+    assertThat( children ).hasSize( 3 );
+    assertThat( children[ 0 ] ).isExactlyInstanceOf( FlatScrollBar.class );
+    assertThat( children[ 1 ] ).isExactlyInstanceOf( FlatScrollBar.class );
+    assertThat( children[ 2 ] ).isSameAs( tree );
   }
 
   @Test

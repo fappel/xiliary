@@ -1,8 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.waitForGtkRendering;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
@@ -37,7 +36,7 @@ public class VerticalScrollBarUpdaterTest {
     tree = createTree( shell, 6, 4 );
     scrollbar = new FlatScrollBar( shell, SWT.VERTICAL );
     updater = new VerticalScrollBarUpdater( tree, scrollbar );
-    openShell( shell );
+    shell.open();
   }
 
   @Test
@@ -76,7 +75,7 @@ public class VerticalScrollBarUpdaterTest {
   public void updateWithGtkWorkaround() {
     adjustTreeHeightForGtkWorkaround();
     tree.setTopItem( tree.getItem( 1 ) );
-    waitForGtkRendering();
+    flushPendingEvents();
 
     updater.update();
 

@@ -2,8 +2,6 @@ package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.waitForGtkRendering;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -17,6 +15,9 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class OverlayTest {
 
@@ -25,8 +26,8 @@ public class OverlayTest {
   private static final int X_OFFSET = 1;
   private static final int Y_OFFSET = 2;
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private Composite toOverlay;
   private Overlay overlay;
@@ -37,12 +38,13 @@ public class OverlayTest {
     parent = createParentShell();
     toOverlay = createCompositeToOverlay( parent );
     overlay = new Overlay( toOverlay );
-    openShell( parent );
+    parent.open();
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void keepParentShellActivated() {
-    Shell control = overlay.getControl();
+    Shell control = ( Shell )overlay.getControl();
     control.setActive();
 
     overlay.keepParentShellActivated();
@@ -52,18 +54,20 @@ public class OverlayTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void initialization() {
-    waitForGtkRendering();
-    Shell actual = overlay.getControl();
+    Shell actual = ( Shell )overlay.getControl();
 
     assertThat( actual.getAlpha() ).isEqualTo( Overlay.ALPHA );
     assertThat( actual.getBackgroundMode() ).isEqualTo( SWT.INHERIT_DEFAULT );
     assertThat( actual.getStyle() & SWT.NO_TRIM ).isEqualTo( SWT.NO_TRIM );
     assertThat( actual.getParent() ).isSameAs( parent );
     assertThat( actual.getLocation() ).isEqualTo( expectedInitialLocation() );
+    assertThat( actual.getLayout() ).isExactlyInstanceOf( FlatScrollBarLayout.class );
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void mouseDown() {
     trigger( SWT.MouseDown ).on( overlay.getControl() );
 
@@ -71,31 +75,31 @@ public class OverlayTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void moveToOverlay() {
     Point point = new Point( 20, 30 );
     Point expected = Display.getCurrent().map( parent, null, point );
 
     toOverlay.setLocation( point );
-    waitForGtkRendering();
     Point actual = overlay.getControl().getLocation();
 
     assertThat( actual ).isEqualTo( expected );
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void moveParentShell() {
     Point current = Display.getCurrent().map( parent, null, toOverlay.getLocation() );
     Point expected = addOffset( current, X_OFFSET, Y_OFFSET );
 
-    waitForGtkRendering();
     parent.setLocation( addOffset( parent.getLocation(), X_OFFSET, Y_OFFSET ) );
-    waitForGtkRendering();
     Point actual = overlay.getControl().getLocation();
 
     assertThat( actual ).isEqualTo( expected );
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void controlResized() {
     Point expected = new Point( 323, 214 );
 
@@ -106,6 +110,7 @@ public class OverlayTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void dispose() {
     parent.dispose();
 

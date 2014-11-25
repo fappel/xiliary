@@ -505,6 +505,6 @@ public class FlatScrollBarTest {
 
     Layout layout = scrollBar.getLayout();
 
-    assertThat( layout ).isNull();
+    assertThat( layout ).isExactlyInstanceOf( FlatScrollBarLayout.class );
   }
 }

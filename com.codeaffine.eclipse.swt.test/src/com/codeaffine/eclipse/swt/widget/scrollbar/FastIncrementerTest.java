@@ -1,10 +1,9 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
 import static com.codeaffine.eclipse.swt.testhelper.MouseDownActionTimerHelper.waitTillMouseDownTimerHasBeenTriggered;
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.openShell;
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.waitForGtkRendering;
 import static com.codeaffine.eclipse.swt.util.MouseClick.LEFT_BUTTON;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarHelper.equipScrollBarWithListener;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarHelper.verifyNotification;
@@ -48,7 +47,7 @@ public class FastIncrementerTest {
   public void setUp() {
     Shell shell = createShell( displayHelper, SWT.SHELL_TRIM );
     scrollBar = new FlatScrollBar( shell, direction );
-    openShell( shell );
+    shell.open();
   }
 
   @Test
@@ -58,7 +57,7 @@ public class FastIncrementerTest {
     triggerLeftButtonMouseDown();
     waitTillTimerHasFiredAtLeastTwice();
     triggerMouseUp();
-    waitForGtkRendering();
+    flushPendingEvents();
 
     SelectionEvent event = verifyNotification( listener );
     assertThat( event.detail ).isEqualTo( SWT.PAGE_DOWN );

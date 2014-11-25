@@ -1,7 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
@@ -11,6 +10,7 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextAsse
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
@@ -52,6 +52,7 @@ public class TreeLayoutContextTest {
   public void preferredWidthExceedsVisibleAreaWidth() {
     shell.setSize( 200, 400 );
     expandTopBranch( tree );
+    waitForGtkRendering();
 
     TreeLayoutContext context = new TreeLayoutContext( tree );
 
@@ -64,6 +65,7 @@ public class TreeLayoutContextTest {
   public void preferredHeightExceedsVisibleAreaHeight() {
     shell.setSize( 200, 100 );
     expandRootLevelItems( tree );
+    waitForGtkRendering();
 
     TreeLayoutContext context = new TreeLayoutContext( tree );
 
@@ -118,9 +120,18 @@ public class TreeLayoutContextTest {
 
   private int expectedVerticalBarOffset() {
     int result = tree.getVerticalBar().getSize().x;
-    if( result < 0 ) {
-      result = OVERLAY_OFFSET - BAR_BREADTH;
+    if( result <= 0 ) {
+      result = OVERLAY_OFFSET;
     }
     return result;
+  }
+
+  public static void waitForGtkRendering() {
+    if( "gtk".equals( SWT.getPlatform() ) ) {
+      long start = System.currentTimeMillis();
+      while( ( System.currentTimeMillis() - start ) < 500 ) {
+        if( !Display.getCurrent().readAndDispatch() ) {}
+      }
+    }
   }
 }
