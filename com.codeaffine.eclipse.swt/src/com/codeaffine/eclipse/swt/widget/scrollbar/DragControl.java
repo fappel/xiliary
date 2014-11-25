@@ -34,7 +34,7 @@ class DragControl
 
   DragControl( Composite parent, DragAction dragAction, int maxExpansion ) {
     this.control = new Label( parent, SWT.NONE );
-    this.imageUpdate = new ImageUpdate( control, maxExpansion, SWT.COLOR_INFO_FOREGROUND );
+    this.imageUpdate = new ImageUpdate( control, maxExpansion, SWT.COLOR_WIDGET_FOREGROUND );
     this.dragDetector = new DragDetector( control, 0 );
     this.dragAction = dragAction;
     initializeControl();

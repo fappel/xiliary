@@ -1,5 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
+import static java.lang.Math.min;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.GC;
@@ -32,7 +34,8 @@ class ImageDrawer {
     gc.setAdvanced( true );
     gc.setAntialias( SWT.ON );
     gc.setAlpha( 170 );
-    gc.fillRoundRectangle( 0, 0, width, height, maxExpansion + 2, maxExpansion + 2 );
+    int arc = min( width, height ) == 1 ? 1 : maxExpansion + 2;
+    gc.fillRoundRectangle( 0, 0, width, height, arc, arc );
   }
 
   private static Display getDisplay() {
