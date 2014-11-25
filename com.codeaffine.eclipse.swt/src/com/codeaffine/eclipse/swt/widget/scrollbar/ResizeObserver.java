@@ -14,5 +14,6 @@ class ResizeObserver extends ControlAdapter {
   @Override
   public void controlResized( ControlEvent event ) {
     flatScrollBar.layout();
+    flatScrollBar.moveAbove( null );
   }
 }

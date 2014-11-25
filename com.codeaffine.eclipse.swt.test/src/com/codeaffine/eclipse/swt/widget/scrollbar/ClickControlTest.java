@@ -4,7 +4,6 @@ import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
 import static com.codeaffine.eclipse.swt.testhelper.MouseDownActionTimerHelper.waitTillMouseDownTimerHasBeenTriggered;
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.util.MouseClick.LEFT_BUTTON;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.OverlayHelper.stubOverlay;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.inOrder;
@@ -30,14 +29,12 @@ public class ClickControlTest {
 
   private ClickControl clickControl;
   private ClickAction action;
-  private Overlay overlay;
 
   @Before
   public void setUp() {
     Shell shell = createShell( displayHelper, SWT.SHELL_TRIM );
     action = mock( ClickAction.class );
-    overlay = stubOverlay( shell );
-    clickControl = new ClickControl( overlay, action );
+    clickControl = new ClickControl( shell, action );
     shell.open();
   }
 
@@ -80,14 +77,6 @@ public class ClickControlTest {
     waitTillMouseDownTimerHasBeenTriggered();
 
     verify( action, never() ).run();
-  }
-
-  @Test
-  public void mouseDownFocusHandling() {
-    triggerLeftButtonMouseEvent( SWT.MouseDown );
-    waitTillMouseDownTimerHasBeenTriggered();
-
-    verify( overlay ).keepParentShellActivated();
   }
 
   private void triggerLeftButtonMouseEvent( int event ) {

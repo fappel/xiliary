@@ -1,6 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
+import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.MAX_EXPANSION;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.stubContext;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal.H_INVISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal.H_VISIBLE;
@@ -46,10 +47,10 @@ public class TreeOverlayLayouterTest {
 
     assertThat( horizontal )
       .isVisible()
-      .hasBounds( 0, expectedHorizontalY(), getVisibleArea().width - BAR_BREADTH, BAR_BREADTH );
+      .hasBounds( 0, expectedHorizontalY(), getVisibleArea().width - MAX_EXPANSION, BAR_BREADTH );
     assertThat( vertical )
       .isVisible()
-      .hasBounds( expectedVerticalX(), 0, BAR_BREADTH, getVisibleArea().height - BAR_BREADTH );
+      .hasBounds( expectedVerticalX(), 0, BAR_BREADTH, getVisibleArea().height - MAX_EXPANSION );
   }
 
   @Test

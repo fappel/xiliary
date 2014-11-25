@@ -13,6 +13,8 @@ class CustomContent implements Content {
   private final FlatScrollBarTreeLayout flatScrollBarTreeLayout;
 
   CustomContent( Composite parent, Tree tree ) {
+    parent.setBackgroundMode( SWT.INHERIT_DEFAULT );
+    parent.setBackground( tree.getBackground() );
     FlatScrollBar horizontalBar = createFlatScrollBar( parent, tree, SWT.HORIZONTAL );
     FlatScrollBar verticalBar = createFlatScrollBar( parent, tree, SWT.VERTICAL );
     parent.setBackground( tree.getBackground() );
@@ -30,7 +32,6 @@ class CustomContent implements Content {
   private static FlatScrollBar createFlatScrollBar( Composite parent, Tree tree, int direction  ) {
     FlatScrollBar result = new FlatScrollBar( parent, direction );
     result.setBackground( tree.getBackground() );
-//    result.moveAbove( null );
     return result;
   }
 }

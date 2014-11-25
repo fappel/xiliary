@@ -1,11 +1,9 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.OverlayHelper.stubOverlay;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import org.eclipse.swt.SWT;
@@ -32,15 +30,13 @@ public class DragControlTest {
 
   private DragControl clickControl;
   private DragAction dragAction;
-  private Overlay overlay;
   private Shell parent;
 
   @Before
   public void setUp() {
     parent = displayHelper.createShell( SWT.SHELL_TRIM );
     dragAction = mock( DragAction.class );
-    overlay = stubOverlay( parent );
-    clickControl = new DragControl( overlay, dragAction, FlatScrollBar.DEFAULT_MAX_EXPANSION );
+    clickControl = new DragControl( parent, dragAction, FlatScrollBar.DEFAULT_MAX_EXPANSION );
   }
 
   @Test
@@ -96,28 +92,12 @@ public class DragControlTest {
   }
 
   @Test
-  public void mouseDownFocusHandling() {
-    trigger( SWT.MouseDown ).at( 1, 1 ).on( getControl() );
-
-    verify( overlay ).keepParentShellActivated();
-  }
-
-  @Test
   public void controlResized() {
     getControl().setSize( WIDTH, HEIGHT );
 
     Image actual = getControl().getImage();
 
     assertThat( actual.getBounds() ).isEqualTo( expectedImageBounds( WIDTH, HEIGHT ) );
-  }
-
-  @Test
-  public void widgetDisposed() {
-    trigger( SWT.Dispose ).on( getControl() );
-
-    trigger( SWT.MouseDown ).at( 1, 1 ).on( getControl() );
-    trigger( SWT.MouseMove ).at( 10, 10 ).withStateMask( SWT.BUTTON1 ).on( getControl() );
-    verifyNoMoreInteractions( dragAction );
   }
 
   @Test

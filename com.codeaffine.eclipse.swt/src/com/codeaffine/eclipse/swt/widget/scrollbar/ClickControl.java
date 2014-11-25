@@ -4,6 +4,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseTrackListener;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
@@ -16,16 +17,14 @@ class ClickControl implements ViewComponent, TimerAction, MouseListener, MouseTr
   private final MouseDownActionTimer mouseDownActionTimer;
   private final ClickAction clickAction;
   private final MouseClick mouseClick;
-  private final Overlay overlay;
   private final Label control;
 
   public interface ClickAction extends Runnable {
     void setCoordinates( int x, int y );
   }
 
-  ClickControl( Overlay overlay, ClickAction clickAction ) {
-    this.overlay = overlay;
-    this.control = new Label( overlay.getControl(), SWT.NONE );
+  ClickControl( Composite parent, ClickAction clickAction ) {
+    this.control = new Label( parent, SWT.NONE );
     this.mouseClick = new MouseClick();
     this.mouseDownActionTimer = new MouseDownActionTimer( this, mouseClick, control.getDisplay() );
     this.clickAction = clickAction;
@@ -43,7 +42,6 @@ class ClickControl implements ViewComponent, TimerAction, MouseListener, MouseTr
     mouseClick.arm( event );
     clickAction.setCoordinates( event.x, event.y );
     mouseDownActionTimer.activate();
-    overlay.keepParentShellActivated();
   }
 
   @Override

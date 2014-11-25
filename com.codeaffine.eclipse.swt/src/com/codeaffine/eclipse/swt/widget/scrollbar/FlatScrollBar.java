@@ -19,7 +19,7 @@ public class FlatScrollBar extends Composite {
   static final int DEFAULT_PAGE_INCREMENT = DEFAULT_THUMB;
   static final int DEFAULT_SELECTION = 0;
   static final int DEFAULT_BUTTON_LENGTH = 0;
-  static final int DEFAULT_MAX_EXPANSION = Direction.CLEARANCE + 4;
+  static final int DEFAULT_MAX_EXPANSION = Direction.CLEARANCE + 2;
 
   final ClickControl up;
   final ClickControl upFast;
@@ -45,7 +45,6 @@ public class FlatScrollBar extends Composite {
   FlatScrollBar( final Composite parent, int style, int buttonLength, int maxExpansion ) {
     super( parent, SWT.NONE );
     super.setLayout( new FlatScrollBarLayout( getDirection( style ) ) );
-    Overlay overlay = new Overlay( this );
     this.minimum = DEFAULT_MINIMUM;
     this.maximum = DEFAULT_MAXIMUM;
     this.increment = DEFAULT_INCREMENT;
@@ -55,15 +54,15 @@ public class FlatScrollBar extends Composite {
     this.buttonLength = buttonLength;
     this.direction = getDirection( style );
     this.direction.setDefaultSize( this );
-    this.up = new ClickControl( overlay, new Decrementer( this ) );
-    this.upFast = new ClickControl( overlay, new FastDecrementer( this ) );
-    this.drag = new DragControl( overlay, new DragShifter( this, buttonLength ), maxExpansion );
-    this.downFast = new ClickControl( overlay, new FastIncrementer( this ) );
-    this.down = new ClickControl( overlay, new Incrementer( this ) );
+    this.up = new ClickControl( this, new Decrementer( this ) );
+    this.upFast = new ClickControl( this, new FastDecrementer( this ) );
+    this.drag = new DragControl( this, new DragShifter( this, buttonLength ), maxExpansion );
+    this.downFast = new ClickControl( this, new FastIncrementer( this ) );
+    this.down = new ClickControl( this, new Incrementer( this ) );
     this.mouseWheelHandler = new MouseWheelShifter( this, parent, buttonLength );
     this.listeners = new HashSet<SelectionListener>();
-    overlay.getControl().addMouseTrackListener( new MouseTracker( this, maxExpansion ) );
-    overlay.getControl().addControlListener( new ResizeObserver( this ) );
+    addMouseTrackListener( new MouseTracker( this, maxExpansion ) );
+    addControlListener( new ResizeObserver( this ) );
   }
 
   @Override

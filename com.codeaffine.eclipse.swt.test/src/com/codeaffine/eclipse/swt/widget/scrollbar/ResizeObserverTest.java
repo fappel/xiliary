@@ -15,5 +15,6 @@ public class ResizeObserverTest {
     observer.controlResized( null );
 
     verify( scrollBar ).layout();
+    verify( scrollBar ).moveAbove( null );
   }
 }

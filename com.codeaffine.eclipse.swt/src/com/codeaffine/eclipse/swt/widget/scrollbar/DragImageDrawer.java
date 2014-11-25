@@ -29,7 +29,8 @@ class DragImageDrawer {
     gc.setBackground( getDragColor() );
     gc.setAdvanced( true );
     gc.setAntialias( SWT.ON );
-    gc.fillRoundRectangle( 0, 0, width, height, maxExpansion, maxExpansion );
+    gc.setAlpha( 100 );
+    gc.fillRoundRectangle( 0, 0, width, height, maxExpansion + 2, maxExpansion + 2 );
   }
 
   private static Display getDisplay() {

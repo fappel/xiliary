@@ -8,6 +8,7 @@ import org.eclipse.swt.widgets.Tree;
 public class FlatScrollBarTree extends Composite {
 
   static final int BAR_BREADTH = 6;
+  static final int MAX_EXPANSION = BAR_BREADTH + 2;
 
   private final Tree tree;
 

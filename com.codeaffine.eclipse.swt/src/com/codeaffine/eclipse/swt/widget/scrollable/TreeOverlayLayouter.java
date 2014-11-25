@@ -1,6 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
+import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.MAX_EXPANSION;
 
 import org.eclipse.swt.graphics.Rectangle;
 
@@ -24,7 +25,7 @@ class TreeOverlayLayouter {
   private void layoutVertical( TreeLayoutContext context ) {
     if( context.isVerticalBarVisible() ) {
       Rectangle visibleArea = context.getVisibleArea();
-      int vHeight = context.isHorizontalBarVisible() ? visibleArea.height - BAR_BREADTH : visibleArea.height;
+      int vHeight = context.isHorizontalBarVisible() ? visibleArea.height - MAX_EXPANSION: visibleArea.height;
       vertical.setBounds( visibleArea.width - BAR_BREADTH, 0, BAR_BREADTH, vHeight );
       vertical.setVisible( true );
     } else {
@@ -36,7 +37,7 @@ class TreeOverlayLayouter {
   private void layoutHorizontal( TreeLayoutContext context ) {
     if( context.isHorizontalBarVisible() ) {
       Rectangle visibleArea = context.getVisibleArea();
-      int hWidth = context.isVerticalBarVisible() ? visibleArea.width - BAR_BREADTH : visibleArea.width;
+      int hWidth = context.isVerticalBarVisible() ? visibleArea.width - MAX_EXPANSION : visibleArea.width;
       horizontal.setBounds( 0, visibleArea.height - BAR_BREADTH, hWidth, BAR_BREADTH );
       horizontal.setVisible( true );
     } else {
