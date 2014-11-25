@@ -12,6 +12,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
@@ -24,6 +26,9 @@ import com.codeaffine.eclipse.swt.widget.scrollbar.ClickControl.ClickAction;
 
 public class ClickControlTest {
 
+  private static final int WIDTH = 100;
+  private static final int HEIGHT = 200;
+
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -34,7 +39,7 @@ public class ClickControlTest {
   public void setUp() {
     Shell shell = createShell( displayHelper, SWT.SHELL_TRIM );
     action = mock( ClickAction.class );
-    clickControl = new ClickControl( shell, action );
+    clickControl = new ClickControl( shell, action, FlatScrollBar.DEFAULT_MAX_EXPANSION );
     shell.open();
   }
 
@@ -79,7 +84,20 @@ public class ClickControlTest {
     verify( action, never() ).run();
   }
 
+  @Test
+  public void controlResized() {
+    clickControl.getControl().setSize( WIDTH, HEIGHT );
+
+    Image actual = clickControl.getControl().getImage();
+
+    assertThat( actual.getBounds() ).isEqualTo( expectedImageBounds( WIDTH, HEIGHT ) );
+  }
+
   private void triggerLeftButtonMouseEvent( int event ) {
     trigger( event ).at( 1, 1 ).withButton( LEFT_BUTTON ).on( clickControl.getControl() );
+  }
+
+  private static Rectangle expectedImageBounds( int width, int height ) {
+    return new Rectangle( 0, 0, width, height );
   }
 }

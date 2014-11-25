@@ -54,11 +54,11 @@ public class FlatScrollBar extends Composite {
     this.buttonLength = buttonLength;
     this.direction = getDirection( style );
     this.direction.setDefaultSize( this );
-    this.up = new ClickControl( this, new Decrementer( this ) );
-    this.upFast = new ClickControl( this, new FastDecrementer( this ) );
+    this.up = new ClickControl( this, new Decrementer( this ), maxExpansion );
+    this.upFast = new ClickControl( this, new FastDecrementer( this ), maxExpansion );
     this.drag = new DragControl( this, new DragShifter( this, buttonLength ), maxExpansion );
-    this.downFast = new ClickControl( this, new FastIncrementer( this ) );
-    this.down = new ClickControl( this, new Incrementer( this ) );
+    this.downFast = new ClickControl( this, new FastIncrementer( this ), maxExpansion );
+    this.down = new ClickControl( this, new Incrementer( this ), maxExpansion );
     this.mouseWheelHandler = new MouseWheelShifter( this, parent, buttonLength );
     this.listeners = new HashSet<SelectionListener>();
     addMouseTrackListener( new MouseTracker( this, maxExpansion ) );

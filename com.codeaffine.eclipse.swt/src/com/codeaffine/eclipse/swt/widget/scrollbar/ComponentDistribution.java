@@ -7,6 +7,8 @@ import java.math.RoundingMode;
 
 class ComponentDistribution {
 
+  private static final int MIN_DRAG_LENGTH = 17;
+
   final int upFastLength;
   final int dragStart;
   final int dragLength;
@@ -18,14 +20,18 @@ class ComponentDistribution {
   ComponentDistribution( int buttonLen, int len, int range, int pos, int thumb ) {
     int slideLen = slideLen( buttonLen, len );
     int relDragLen = relDragLen( slideLen, range, thumb );
-    this.dragLength = dragLen( buttonLen, relDragLen );
-    this.upFastLength = upFastLen( buttonLen, range, pos, slideLen, relDragLen, dragLength );
+    int minDragLength = max( MIN_DRAG_LENGTH, buttonLen );
+    int interval = interval( range, relDragLen, minDragLength );
+    this.dragLength = dragLen( minDragLength, relDragLen );
+    this.upFastLength = upFastLen( minDragLength, interval, pos, slideLen, relDragLen, dragLength );
     this.downStart = downStart( buttonLen, len );
     this.downFastStart = downFastStart( buttonLen, upFastLength, dragLength );
     this.dragStart = dragStart( buttonLen, upFastLength );
-    this.downFastLength = downFastLen( buttonLen, range, pos, slideLen, relDragLen, dragLength, upFastLength );
+    this.downFastLength = downFastLen( minDragLength, interval, pos, slideLen, relDragLen, dragLength, upFastLength );
     this.buttonLen = buttonLen;
   }
+
+
 
   private static int slideLen( int buttonLen, int len ) {
     return len - buttonLen * 2;
@@ -33,6 +39,14 @@ class ComponentDistribution {
 
   private static int relDragLen( int slideLen, int range, int thumb ) {
     return divide( slideLen * thumb, range );
+  }
+
+  private static int interval( int range, int relDragLen, int minDragLength ) {
+    int result = range;
+    if( useMinDragLen( minDragLength, relDragLen ) ) {
+      result += minDragLength - relDragLen / 2;
+    }
+    return result;
   }
 
   private static int dragLen( int buttonLen, int relDragLen   ) {

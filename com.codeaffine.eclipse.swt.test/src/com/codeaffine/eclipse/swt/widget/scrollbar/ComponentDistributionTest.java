@@ -51,4 +51,26 @@ public class ComponentDistributionTest {
       .hasDownFastLength( 249 )
       .hasDownStart( 283 );
   }
+
+  @Test
+  public void distributionWithUnderflowOfMinimumDragLengthAndLowestDragPosition() {
+    assertThat( new ComponentDistribution( 0, 90, 720, 0, 93 ) )
+      .hasUpFastLength( 0 )
+      .hasDragStart( 0 )
+      .hasDragLength( 17 )
+      .hasDownFastStart( 17 )
+      .hasDownFastLength( 73 )
+      .hasDownStart( 90 );
+  }
+
+  @Test
+  public void distributionWithUnderflowOfMinimumDragLengthAndHighestDragPosition() {
+    assertThat( new ComponentDistribution( 0, 90, 720, 672, 93 ) )
+      .hasUpFastLength( 77 )
+      .hasDragStart( 77 )
+      .hasDragLength( 17 )
+      .hasDownFastStart( 94 )
+      .hasDownFastLength( -4 )
+      .hasDownStart( 90 );
+  }
 }

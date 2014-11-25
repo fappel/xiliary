@@ -19,8 +19,8 @@ class DragControl
   implements ViewComponent, DragDetectListener, MouseListener, MouseMoveListener
 {
 
-  private final DragImageUpdate dragImageUpdate;
   private final DragDetector dragDetector;
+  private final ImageUpdate imageUpdate;
   private final DragAction dragAction;
   private final Label control;
 
@@ -34,7 +34,7 @@ class DragControl
 
   DragControl( Composite parent, DragAction dragAction, int maxExpansion ) {
     this.control = new Label( parent, SWT.NONE );
-    this.dragImageUpdate = new DragImageUpdate( control, maxExpansion );
+    this.imageUpdate = new ImageUpdate( control, maxExpansion, SWT.COLOR_INFO_FOREGROUND );
     this.dragDetector = new DragDetector( control, 0 );
     this.dragAction = dragAction;
     initializeControl();
@@ -74,7 +74,7 @@ class DragControl
 
   @Override
   public void controlResized( ControlEvent event ) {
-    dragImageUpdate.update();
+    imageUpdate.update();
   }
 
   private void initializeControl( ) {

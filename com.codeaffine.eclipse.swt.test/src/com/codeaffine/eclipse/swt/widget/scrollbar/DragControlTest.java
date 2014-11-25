@@ -41,8 +41,8 @@ public class DragControlTest {
 
   @Test
   public void dragDetection() {
-    trigger( SWT.MouseDown ).at( 1, 1 ).on( getControl() );
-    trigger( SWT.MouseMove ).at( 10, 10 ).withStateMask( SWT.BUTTON1 ).on( getControl() );
+    trigger( SWT.MouseDown ).at( 1, 1 ).on( getClickControl() );
+    trigger( SWT.MouseMove ).at( 10, 10 ).withStateMask( SWT.BUTTON1 ).on( getClickControl() );
 
     InOrder order = inOrder( dragAction );
     order.verify( dragAction ).start();
@@ -53,16 +53,16 @@ public class DragControlTest {
   @Test
   public void dragDetectionIfMouseDownNotOnControl() {
     trigger( SWT.MouseDown ).at( 1, 1 ).on( parent );
-    trigger( SWT.MouseMove ).at( 10, 10 ).withStateMask( SWT.BUTTON1 ).on( getControl() );
+    trigger( SWT.MouseMove ).at( 10, 10 ).withStateMask( SWT.BUTTON1 ).on( getClickControl() );
 
     verifyNoMoreInteractions( dragAction );
   }
 
   @Test
   public void dragDetectionWithConsecutiveEvents() {
-    trigger( SWT.MouseDown ).at( 1, 1 ).on( getControl() );
-    trigger( SWT.MouseMove ).at( 10, 10 ).withStateMask( SWT.BUTTON1 ).on( getControl() );
-    trigger( SWT.MouseMove ).at( 20, 20 ).withStateMask( SWT.BUTTON1 ).on( getControl() );
+    trigger( SWT.MouseDown ).at( 1, 1 ).on( getClickControl() );
+    trigger( SWT.MouseMove ).at( 10, 10 ).withStateMask( SWT.BUTTON1 ).on( getClickControl() );
+    trigger( SWT.MouseMove ).at( 20, 20 ).withStateMask( SWT.BUTTON1 ).on( getClickControl() );
 
     InOrder order = inOrder( dragAction );
     order.verify( dragAction ).start();
@@ -73,10 +73,10 @@ public class DragControlTest {
 
   @Test
   public void dragDetectionAfterMouseUp() {
-    trigger( SWT.MouseDown ).at( 1, 1 ).on( getControl() );
-    trigger( SWT.MouseMove ).at( 10, 10 ).withStateMask( SWT.BUTTON1 ).on( getControl() );
-    trigger( SWT.MouseUp ).at( 10, 10 ).on( getControl() );
-    trigger( SWT.MouseMove ).at( 20, 20 ).withStateMask( SWT.BUTTON1 ).on( getControl() );
+    trigger( SWT.MouseDown ).at( 1, 1 ).on( getClickControl() );
+    trigger( SWT.MouseMove ).at( 10, 10 ).withStateMask( SWT.BUTTON1 ).on( getClickControl() );
+    trigger( SWT.MouseUp ).at( 10, 10 ).on( getClickControl() );
+    trigger( SWT.MouseMove ).at( 20, 20 ).withStateMask( SWT.BUTTON1 ).on( getClickControl() );
 
     InOrder order = inOrder( dragAction );
     order.verify( dragAction ).start();
@@ -86,28 +86,28 @@ public class DragControlTest {
   }
   @Test
   public void mouseUp() {
-    trigger( SWT.MouseUp ).at( 10, 10 ).on( getControl() );
+    trigger( SWT.MouseUp ).at( 10, 10 ).on( getClickControl() );
 
     verifyNoMoreInteractions( dragAction );
   }
 
   @Test
   public void controlResized() {
-    getControl().setSize( WIDTH, HEIGHT );
+    getClickControl().setSize( WIDTH, HEIGHT );
 
-    Image actual = getControl().getImage();
+    Image actual = getClickControl().getImage();
 
     assertThat( actual.getBounds() ).isEqualTo( expectedImageBounds( WIDTH, HEIGHT ) );
   }
 
   @Test
-  public void testGetControl() {
+  public void getControl() {
     Control control = clickControl.getControl();
 
     assertThat( control.getLayoutData() ).isNull();
   }
 
-  private Label getControl() {
+  private Label getClickControl() {
     return clickControl.getControl();
   }
 
