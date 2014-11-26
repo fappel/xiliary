@@ -15,13 +15,13 @@ public class MouseDownActionTimerTest {
 
   private MouseDownActionTimer timer;
   private TimerAction timerAction;
-  private MouseClick mouseClick;
+  private ButtonClick mouseClick;
   private Display display;
 
   @Before
   public void setUp() {
     timerAction = mock( TimerAction.class );
-    mouseClick = mock( MouseClick.class );
+    mouseClick = mock( ButtonClick.class );
     display = mock( Display.class );
     timer = new MouseDownActionTimer( timerAction, mouseClick, display );
   }

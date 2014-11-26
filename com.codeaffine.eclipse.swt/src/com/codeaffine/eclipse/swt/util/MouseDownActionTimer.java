@@ -9,13 +9,13 @@ public class MouseDownActionTimer implements Runnable {
 
   private final ActionScheduler scheduler;
   private final TimerAction timerAction;
-  private final MouseClick mouseClick;
+  private final ButtonClick mouseClick;
 
   public interface TimerAction extends Runnable {
     boolean isEnabled();
   }
 
-  public MouseDownActionTimer( TimerAction timerAction, MouseClick mouseClick, Display display ) {
+  public MouseDownActionTimer( TimerAction timerAction, ButtonClick mouseClick, Display display ) {
     this.scheduler = new ActionScheduler( display, this );
     this.timerAction = timerAction;
     this.mouseClick = mouseClick;

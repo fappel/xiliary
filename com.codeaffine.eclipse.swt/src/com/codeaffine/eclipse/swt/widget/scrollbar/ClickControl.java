@@ -9,7 +9,7 @@ import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import com.codeaffine.eclipse.swt.util.MouseClick;
+import com.codeaffine.eclipse.swt.util.ButtonClick;
 import com.codeaffine.eclipse.swt.util.MouseDownActionTimer;
 import com.codeaffine.eclipse.swt.util.MouseDownActionTimer.TimerAction;
 
@@ -17,7 +17,7 @@ class ClickControl extends ControlAdapter implements ViewComponent, TimerAction,
 
   private final MouseDownActionTimer mouseDownActionTimer;
   private final ClickAction clickAction;
-  private final MouseClick mouseClick;
+  private final ButtonClick mouseClick;
   private final Label control;
   private final ImageUpdate imageUpdate;
 
@@ -29,7 +29,7 @@ class ClickControl extends ControlAdapter implements ViewComponent, TimerAction,
     this.control = new Label( parent, SWT.NONE );
     this.control.setBackground( parent.getDisplay().getSystemColor( SWT.COLOR_WIDGET_LIGHT_SHADOW ) );
     this.imageUpdate = new ImageUpdate( control, maxExtension, SWT.COLOR_WIDGET_BACKGROUND );
-    this.mouseClick = new MouseClick();
+    this.mouseClick = new ButtonClick();
     this.mouseDownActionTimer = new MouseDownActionTimer( this, mouseClick, control.getDisplay() );
     this.clickAction = clickAction;
     this.control.addMouseTrackListener( this );
