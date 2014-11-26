@@ -2,8 +2,10 @@ package com.codeaffine.eclipse.swt.util;
 
 import static com.codeaffine.eclipse.swt.util.ButtonClick.LEFT_BUTTON;
 import static com.codeaffine.eclipse.swt.util.MouseEventHelper.createMouseEvent;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
 import static junitparams.JUnitParamsRunner.$;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -18,6 +20,8 @@ import org.eclipse.swt.widgets.Control;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 @RunWith( JUnitParamsRunner.class )
 public class ButtonClickTest {
@@ -85,6 +89,22 @@ public class ButtonClickTest {
   }
 
   @Test
+  public void triggerWithProblemOnAction() {
+    RuntimeException expected = equipActionRunWithProblem();
+    final MouseEvent event = createLeftButtonMouseEventOnControlStub( X_RANGE, Y_RANGE, IN_X_RANGE, IN_Y_RANGE );
+    mouseClick.arm( event );
+
+    Throwable actual = thrown( new Actor() {
+      @Override
+      public void act() {
+        mouseClick.trigger( event, action );
+      }
+    } );
+
+    assertThat( actual ).isSameAs( expected );
+  }
+
+  @Test
   public void triggerWithoutPrecedingMouseDown() {
     MouseEvent event = createLeftButtonMouseEventOnControlStub( X_RANGE, Y_RANGE, IN_X_RANGE, IN_Y_RANGE );
 
@@ -132,6 +152,12 @@ public class ButtonClickTest {
   private static Control stubControl( int width, int height ) {
     Control result = mock( Control.class );
     when( result.getSize() ).thenReturn( new Point( width, height ) );
+    return result;
+  }
+
+  private RuntimeException equipActionRunWithProblem() {
+    RuntimeException result = new RuntimeException();
+    doThrow( result ).when( action ).run();
     return result;
   }
 }

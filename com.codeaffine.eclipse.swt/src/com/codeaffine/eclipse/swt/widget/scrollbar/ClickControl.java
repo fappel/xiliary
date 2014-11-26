@@ -17,7 +17,7 @@ class ClickControl extends ControlAdapter implements ViewComponent, TimerAction,
 
   private final MouseDownActionTimer mouseDownActionTimer;
   private final ClickAction clickAction;
-  private final ButtonClick mouseClick;
+  private final ButtonClick buttonClick;
   private final Label control;
   private final ImageUpdate imageUpdate;
 
@@ -29,8 +29,8 @@ class ClickControl extends ControlAdapter implements ViewComponent, TimerAction,
     this.control = new Label( parent, SWT.NONE );
     this.control.setBackground( parent.getDisplay().getSystemColor( SWT.COLOR_WIDGET_LIGHT_SHADOW ) );
     this.imageUpdate = new ImageUpdate( control, maxExtension, SWT.COLOR_WIDGET_BACKGROUND );
-    this.mouseClick = new ButtonClick();
-    this.mouseDownActionTimer = new MouseDownActionTimer( this, mouseClick, control.getDisplay() );
+    this.buttonClick = new ButtonClick();
+    this.mouseDownActionTimer = new MouseDownActionTimer( this, buttonClick, control.getDisplay() );
     this.clickAction = clickAction;
     this.control.addMouseTrackListener( this );
     this.control.addMouseListener( this );
@@ -49,14 +49,14 @@ class ClickControl extends ControlAdapter implements ViewComponent, TimerAction,
 
   @Override
   public void mouseDown( MouseEvent event ) {
-    mouseClick.arm( event );
+    buttonClick.arm( event );
     clickAction.setCoordinates( event.x, event.y );
     mouseDownActionTimer.activate();
   }
 
   @Override
   public void mouseUp( MouseEvent event ) {
-    mouseClick.trigger( event, clickAction );
+    buttonClick.trigger( event, clickAction );
   }
 
   @Override
@@ -71,7 +71,7 @@ class ClickControl extends ControlAdapter implements ViewComponent, TimerAction,
 
   @Override
   public void mouseExit( MouseEvent event ) {
-    mouseClick.disarm();
+    buttonClick.disarm();
   }
 
   @Override

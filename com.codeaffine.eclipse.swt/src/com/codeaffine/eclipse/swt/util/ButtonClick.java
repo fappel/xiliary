@@ -25,10 +25,17 @@ public class ButtonClick {
   }
 
   public void trigger( MouseEvent event, Runnable action ) {
+    try {
+      doTrigger( event, action );
+    } finally {
+      disarm();
+    }
+  }
+
+  private void doTrigger( MouseEvent event, Runnable action ) {
     if( armed && inRange( event ) ) {
       action.run();
     }
-    armed = false;
   }
 
   private static boolean inRange( MouseEvent event ) {
