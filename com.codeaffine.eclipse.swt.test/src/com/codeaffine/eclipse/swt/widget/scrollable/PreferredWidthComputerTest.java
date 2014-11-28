@@ -13,6 +13,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutFactory.TreeLayoutContextFactory;
 
 public class PreferredWidthComputerTest {
 
@@ -25,7 +26,7 @@ public class PreferredWidthComputerTest {
   public void setUp() {
     Shell shell = createShell( displayHelper );
     tree = createTree( shell, 6, 4 );
-    computer = new PreferredWidthComputer( tree );
+    computer = new PreferredWidthComputer( tree, new TreeLayoutContextFactory( tree ) );
     shell.open();
   }
 
@@ -50,6 +51,6 @@ public class PreferredWidthComputerTest {
   }
 
   private int overlayAdjustment() {
-    return preferredWidth() + new TreeLayoutContext( tree ).getVerticalBarOffset();
+    return preferredWidth() + new LayoutContext( tree, tree.getItemHeight() ).getVerticalBarOffset();
   }
 }

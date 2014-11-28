@@ -1,7 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContext.OVERLAY_OFFSET;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContext.OVERLAY_OFFSET;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -32,10 +32,10 @@ class TreeLayoutContextHelper {
     }
   }
 
-  static TreeLayoutContext stubContext(
+  static LayoutContext stubContext(
     Vertical verticalBarVisible, Horizontal horizontalBarVisible, Point preferredSize, Rectangle visibleArea )
   {
-    TreeLayoutContext result = mock( TreeLayoutContext.class );
+    LayoutContext result = mock( LayoutContext.class );
     when( result.isVerticalBarVisible() ).thenReturn( verticalBarVisible.value );
     when( result.isHorizontalBarVisible() ).thenReturn( horizontalBarVisible.value );
     when( result.getPreferredSize() ).thenReturn( preferredSize );

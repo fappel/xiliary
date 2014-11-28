@@ -1,12 +1,13 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyVararg;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
@@ -15,46 +16,59 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.TreeFactory;
+import com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType;
 
 public class FlatScrollBarTreeTest {
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private FlatScrollBarTree flatScrollBarTree;
+  private TestTreeFactory testTreeFactory;
+  private Platform platform;
   private Shell shell;
-  private Tree tree;
 
   @Before
   public void setUp() {
     shell = createShell( displayHelper, SWT.RESIZE );
-    flatScrollBarTree = new FlatScrollBarTree( shell, new TreeFactory() {
-      @Override
-      public Tree create( Composite parent ) {
-        tree = createTree( parent, 2, 6 );
-        return tree;
-      }
-    } );
+    platform = mock( Platform.class );
+    testTreeFactory = new TestTreeFactory();
     shell.open();
   }
 
   @Test
   public void getTree() {
-    Tree actual = flatScrollBarTree.getTree();
+    FlatScrollBarTree adapter = createTreeAdapter();
 
-    assertThat( actual ).isSameAs( tree );
+    Tree actual = adapter.getTree();
+
+    assertThat( actual ).isSameAs( testTreeFactory.getTree() );
   }
 
   @Test
-  public void getLayout() {
-    Layout actual = flatScrollBarTree.getLayout();
+  public void getLayoutIfPlatformMatches() {
+    stubPlatformToMatchAnyType( platform );
+    FlatScrollBarTree adapter = createTreeAdapter();
 
-    assertThat( actual ).isNotNull();
+    Layout actual = adapter.getLayout();
+
+    assertThat( actual ).isExactlyInstanceOf( ScrollableLayout.class );
   }
 
-  @Test( expected = UnsupportedOperationException.class )
-  public void setLayout() {
-    flatScrollBarTree.setLayout( new FillLayout() );
+  @Test
+  public void getLayoutIfPlatformDoesNotMatch() {
+    FlatScrollBarTree adapter = createTreeAdapter();
+
+    Layout actual = adapter.getLayout();
+
+    assertThat( actual ).isExactlyInstanceOf( FillLayout.class );
+  }
+
+  @SuppressWarnings("unchecked")
+  private FlatScrollBarTree createTreeAdapter() {
+    return new FlatScrollBarTree( shell, platform, testTreeFactory, FlatScrollBarTree.createLayoutMapping() );
+  }
+
+  private static void stubPlatformToMatchAnyType( Platform platform ) {
+    when( platform.matchesOneOf( ( PlatformType[] )anyVararg() ) ).thenReturn( true );
   }
 }

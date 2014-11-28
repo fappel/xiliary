@@ -15,6 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutFactory.TreeLayoutContextFactory;
 
 public class TreeWidthTest {
 
@@ -31,7 +32,7 @@ public class TreeWidthTest {
     shell = createShellWithoutLayout( displayHelper, SWT.RESIZE );
     tree = createTree( shell, 6, 4 );
     preferredWidthComputer = mock( PreferredWidthComputer.class );
-    treeWidth = new TreeWidth( preferredWidthComputer, tree );
+    treeWidth = new TreeWidth( preferredWidthComputer, tree, new TreeLayoutContextFactory( tree ) );
     shell.open();
   }
 
@@ -103,7 +104,7 @@ public class TreeWidthTest {
   }
 
   private int getVerticalBarOffset() {
-    return new TreeLayoutContext( tree ).getVerticalBarOffset();
+    return new LayoutContext( tree, tree.getItemHeight() ).getVerticalBarOffset();
   }
 
   private void equipPreferredComputerWith( int preferredWidth ) {

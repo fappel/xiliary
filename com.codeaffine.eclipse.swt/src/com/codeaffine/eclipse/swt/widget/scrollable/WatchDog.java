@@ -3,41 +3,40 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.Scrollable;
 
 import com.codeaffine.eclipse.swt.util.ActionScheduler;
-import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class WatchDog implements Runnable, DisposeListener {
 
   static final int DELAY = 10;
 
+  private final VerticalScrollBarUpdater verticalBarUpdater;
   private final Visibility vScrollVisibility;
   private final Visibility hScrollVisibility;
-  private final VerticalScrollBarUpdater verticalSettingCopier;
-  private final TreeWidth treeWidth;
-  private final ActionScheduler scheduler;
   private final LayoutTrigger layoutTrigger;
+  private final ActionScheduler scheduler;
+  private final TreeWidth treeWidth;
 
   private boolean disposed;
 
-  WatchDog( Tree tree, FlatScrollBar vertical  ) {
-    this( new VerticalScrollBarUpdater( tree, vertical ),
-          new Visibility( tree.getHorizontalBar() ),
-          new Visibility( tree.getVerticalBar() ),
+  WatchDog( Scrollable scrollable, LayoutContextFactory contextFactory, VerticalScrollBarUpdater verticalBarUpdater  ) {
+    this( verticalBarUpdater,
+          new Visibility( scrollable.getHorizontalBar(), contextFactory ),
+          new Visibility( scrollable.getVerticalBar(), contextFactory ),
           null,
-          new LayoutTrigger( tree.getParent() ),
-          new TreeWidth( tree ) );
+          new LayoutTrigger( scrollable.getParent() ),
+          new TreeWidth( scrollable, contextFactory ) );
   }
 
-  WatchDog( VerticalScrollBarUpdater settingCopier,
+  WatchDog( VerticalScrollBarUpdater verticalBarUpdater,
             Visibility hScrollVisibility,
             Visibility vScrollVisibility,
             ActionScheduler actionScheduler,
             LayoutTrigger layoutTrigger,
             TreeWidth treeWidth )
   {
-    this.verticalSettingCopier = settingCopier;
+    this.verticalBarUpdater = verticalBarUpdater;
     this.hScrollVisibility = hScrollVisibility;
     this.vScrollVisibility = vScrollVisibility;
     this.scheduler = ensureScheduler( actionScheduler );
@@ -67,7 +66,7 @@ class WatchDog implements Runnable, DisposeListener {
     vScrollVisibility.update();
     hScrollVisibility.update();
     if( vScrollVisibility.isVisible() ) {
-      verticalSettingCopier.update();
+      verticalBarUpdater.update();
     }
   }
 

@@ -4,13 +4,13 @@ import org.assertj.core.api.AbstractAssert;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 
-public class TreeLayoutContextAssert extends AbstractAssert<TreeLayoutContextAssert, TreeLayoutContext> {
+public class TreeLayoutContextAssert extends AbstractAssert<TreeLayoutContextAssert, LayoutContext> {
 
-  public TreeLayoutContextAssert( TreeLayoutContext actual ) {
+  public TreeLayoutContextAssert( LayoutContext actual ) {
     super( actual, TreeLayoutContextAssert.class );
   }
 
-  public static TreeLayoutContextAssert assertThat( TreeLayoutContext actual ) {
+  public static TreeLayoutContextAssert assertThat( LayoutContext actual ) {
     return new TreeLayoutContextAssert( actual );
   }
 

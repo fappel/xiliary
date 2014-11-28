@@ -1,45 +1,32 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-import org.eclipse.swt.SWT;
+import static com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType.GTK;
+import static com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType.WIN32;
+
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Tree;
 
-public class FlatScrollBarTree extends Composite {
+public class FlatScrollBarTree extends ScrollableAdapter<Tree> {
 
   static final int BAR_BREADTH = 6;
   static final int MAX_EXPANSION = BAR_BREADTH + 2;
 
-  private final Tree tree;
-
-  public interface TreeFactory {
-    Tree create( Composite parent );
+  @SuppressWarnings("unchecked")
+  public FlatScrollBarTree( Composite parent, ScrollableFactory<Tree> factory  ) {
+    this( parent, new Platform(), factory, createLayoutMapping() );
   }
 
-  interface Content {
-    Layout getLayout();
-  }
-
-  public FlatScrollBarTree( Composite parent, TreeFactory treeFactory  ) {
-    super( parent, SWT.NONE );
-    this.tree = treeFactory.create( this );
-    super.setLayout( createContent().getLayout() );
+  FlatScrollBarTree(
+    Composite parent, Platform platform, ScrollableFactory<Tree> factory, LayoutMapping<Tree> ...mappings )
+  {
+    super( parent, platform, factory, mappings );
   }
 
   public Tree getTree() {
-    return tree;
+    return getScrollable();
   }
 
-  @Override
-  public void setLayout( Layout layout ) {
-    throw new UnsupportedOperationException( FlatScrollBarTree.class.getName() + " does not allow to change layout." );
-  }
-
-  private Content createContent() {
-    Content result = new NativeContent();
-    if( "win32".equals( SWT.getPlatform() ) || "gtk".equals( SWT.getPlatform() ) ) {
-      result = new CustomContent( this, tree );
-    }
-    return result;
+  static LayoutMapping<Tree> createLayoutMapping() {
+    return new LayoutMapping<Tree>( new TreeLayoutFactory(), WIN32, GTK );
   }
 }

@@ -1,26 +1,28 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.Scrollable;
 
 class TreeWidth {
 
   private final PreferredWidthComputer preferredWidthComputer;
-  private final Tree tree;
+  private final LayoutContextFactory contextFactory;
+  private final Scrollable scrollable;
 
   private int width;
 
-  TreeWidth( Tree tree ) {
-    this( new PreferredWidthComputer( tree ), tree );
+  TreeWidth( Scrollable scrollable, LayoutContextFactory contextFactory ) {
+    this( new PreferredWidthComputer( scrollable, contextFactory ), scrollable, contextFactory );
   }
 
-  TreeWidth( PreferredWidthComputer expectedWidthComputer, Tree tree ) {
-    this.preferredWidthComputer = expectedWidthComputer;
-    this.tree = tree;
+  TreeWidth( PreferredWidthComputer widthComputer, Scrollable scrollable, LayoutContextFactory contextFactory ) {
+    this.preferredWidthComputer = widthComputer;
+    this.contextFactory = contextFactory;
+    this.scrollable = scrollable;
   }
 
   void update() {
-    width = tree.getSize().x;
+    width = scrollable.getSize().x;
   }
 
   boolean hasScrollEffectingChange() {
@@ -34,9 +36,9 @@ class TreeWidth {
   }
 
   private boolean exeedsVisibleRangeWidth( int preferredWidth ) {
-    Rectangle parentClientArea = tree.getParent().getClientArea();
+    Rectangle parentClientArea = scrollable.getParent().getClientArea();
     int visibleAreaWidth = parentClientArea.width;
-    TreeLayoutContext context = new TreeLayoutContext( tree );
+    LayoutContext context = contextFactory.create();
     if( context.isVerticalBarVisible() ) {
       visibleAreaWidth += context.getVerticalBarOffset();
     }
@@ -56,7 +58,7 @@ class TreeWidth {
   }
 
   private boolean hasHorizontalScrollBarPadding() {
-    Rectangle parentClientArea = tree.getParent().getClientArea();
-    return tree.getSize().y < parentClientArea.height;
+    Rectangle parentClientArea = scrollable.getParent().getClientArea();
+    return scrollable.getSize().y < parentClientArea.height;
   }
 }

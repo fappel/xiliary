@@ -15,7 +15,7 @@ import com.codeaffine.eclipse.swt.util.ActionScheduler;
 
 public class WatchDogTest {
 
-  private VerticalScrollBarUpdater settingCopier;
+  private TreeVerticalScrollBarUpdater settingCopier;
   private Visibility hScrollVisibility;
   private Visibility vScrollVisibility;
   private ActionScheduler scheduler;
@@ -25,7 +25,7 @@ public class WatchDogTest {
 
   @Before
   public void setUp() {
-    settingCopier = mock( VerticalScrollBarUpdater.class );
+    settingCopier = mock( TreeVerticalScrollBarUpdater.class );
     hScrollVisibility = mock( Visibility.class );
     vScrollVisibility = mock( Visibility.class );
     scheduler = mock( ActionScheduler.class );

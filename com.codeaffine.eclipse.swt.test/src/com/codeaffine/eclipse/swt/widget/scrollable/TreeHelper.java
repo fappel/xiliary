@@ -17,7 +17,6 @@ class TreeHelper {
       item = item.getItem( 0 );
       item.setExpanded( true );
     }
-//    waitForGtkRendering();
     flushPendingEvents();
   }
 
@@ -26,7 +25,6 @@ class TreeHelper {
     for( TreeItem treeItem : items ) {
       treeItem.setExpanded( true );
     }
-//    waitForGtkRendering();
     flushPendingEvents();
   }
 

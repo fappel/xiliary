@@ -20,6 +20,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutFactory.TreeLayoutContextFactory;
 
 @RunWith( Parameterized.class )
 public class VisibilityTest {
@@ -115,9 +116,10 @@ public class VisibilityTest {
   }
 
   private Visibility createVisibility() {
-    Visibility result = new Visibility( tree.getHorizontalBar() );
+    TreeLayoutContextFactory factory = new TreeLayoutContextFactory( tree );
+    Visibility result = new Visibility( tree.getHorizontalBar(), factory );
     if( ( orientation & SWT.VERTICAL ) > 0  ) {
-      result = new Visibility( tree.getVerticalBar() );
+      result = new Visibility( tree.getVerticalBar(), factory );
     }
     return result;
   }
