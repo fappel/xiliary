@@ -11,7 +11,9 @@ class ScrollableAdapter<T extends Scrollable> extends Composite {
 
   private final T scrollable;
 
-  ScrollableAdapter( Composite parent, Platform platform, ScrollableFactory<T> factory, LayoutMapping<T> ... mappings ){
+  ScrollableAdapter(
+    Composite parent, Platform platform, ScrollableFactory<T> factory, LayoutMapping<T> ... mappings )
+  {
     super( parent, SWT.NONE );
     this.scrollable = createScrollable( factory );
     super.setLayout( createLayout( this, scrollable, platform, mappings ) );
