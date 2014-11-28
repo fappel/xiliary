@@ -10,6 +10,7 @@ import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.as
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeItem;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -88,6 +89,21 @@ public class TreeVerticalScrollBarUpdaterTest {
       .hasSelection( 1 );
   }
 
+  @Test
+  public void updateWithoutItems() {
+    disposeAllItems();
+
+    updater.update();
+
+    assertThat( scrollbar )
+      .hasIncrement( 1 )
+      .hasPageIncrement( updater.calculateThumb() )
+      .hasThumb( updater.calculateThumb() )
+      .hasMaximum( 100 )
+      .hasMinimum( 0 )
+      .hasSelection( 0 );
+  }
+
   private void adjustTreeHeightForGtkWorkaround() {
     int treeHeight = expectedMaximum() * tree.getItemHeight() - tree.getItemHeight() / 2;
     tree.setSize( tree.getSize().x, treeHeight );
@@ -95,5 +111,12 @@ public class TreeVerticalScrollBarUpdaterTest {
 
   private int expectedMaximum() {
     return new TreeItemCollector( tree ).collectVisibleItems().size();
+  }
+
+  private void disposeAllItems() {
+    TreeItem[] items = tree.getItems();
+    for( TreeItem treeItem : items ) {
+      treeItem.dispose();
+    }
   }
 }

@@ -57,6 +57,6 @@ class TreeVerticalScrollBarUpdater implements VerticalScrollBarUpdater {
   // if top item is only half visible. The tree is moved correctly but top item returns the old value.
   // This recognizes such a situation and increases the flat scrollbar selection anyway.
   private static int cornerCaseWorkaroundForGtk( int selection, TreeItem topItem ) {
-    return topItem.getBounds().y < 0 ? selection + 1 : selection;
+    return topItem != null && topItem.getBounds().y < 0 ? selection + 1 : selection;
   }
 }
