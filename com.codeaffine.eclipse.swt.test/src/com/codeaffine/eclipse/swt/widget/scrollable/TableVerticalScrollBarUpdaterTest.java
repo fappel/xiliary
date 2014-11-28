@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.assertThat;
 
@@ -29,6 +30,7 @@ public class TableVerticalScrollBarUpdaterTest {
     scrollbar = new FlatScrollBar( shell, SWT.VERTICAL );
     updater = new TableVerticalScrollBarUpdater( table, scrollbar );
     shell.open();
+    flushPendingEvents();
   }
 
   @Test
