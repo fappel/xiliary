@@ -1,6 +1,12 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_INCREMENT;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_MAXIMUM;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_MINIMUM;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_PAGE_INCREMENT;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_SELECTION;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_THUMB;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.Matchers.any;
@@ -79,12 +85,12 @@ public class FlatScrollBarTest {
   public void getMinimum() {
     int actual = scrollBar.getMinimum();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MINIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MINIMUM );
   }
 
   @Test
   public void setMinimum() {
-    int expected = FlatScrollBar.DEFAULT_MAXIMUM - 1;
+    int expected = DEFAULT_MAXIMUM - 1;
     scrollBar.setMinimum( expected );
 
     int actual = scrollBar.getMinimum();
@@ -94,21 +100,21 @@ public class FlatScrollBarTest {
 
   @Test
   public void setMinimumTwice() {
-    scrollBar.setMinimum( FlatScrollBar.DEFAULT_MAXIMUM - 1 );
+    scrollBar.setMinimum( DEFAULT_MAXIMUM - 1 );
     PaintListener listener = registerPaintListener( scrollBar );
 
-    scrollBar.setMinimum( FlatScrollBar.DEFAULT_MAXIMUM - 1 );
+    scrollBar.setMinimum( DEFAULT_MAXIMUM - 1 );
 
     assertThatNoLayoutUpdateHasBeenTriggered( listener );
   }
 
   @Test
   public void setMinimumWithTooLargeValue() {
-    scrollBar.setMinimum( FlatScrollBar.DEFAULT_MAXIMUM );
+    scrollBar.setMinimum( DEFAULT_MAXIMUM );
 
     int actual = scrollBar.getMinimum();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MINIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MINIMUM );
   }
 
   @Test
@@ -117,7 +123,7 @@ public class FlatScrollBarTest {
 
     int actual = scrollBar.getMinimum();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MINIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MINIMUM );
   }
 
   @Test
@@ -135,7 +141,7 @@ public class FlatScrollBarTest {
   public void getMaximum() {
     int actual = scrollBar.getMaximum();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MAXIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MAXIMUM );
   }
 
   @Test
@@ -166,7 +172,7 @@ public class FlatScrollBarTest {
 
     int actual = scrollBar.getMaximum();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MAXIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MAXIMUM );
   }
 
   @Test
@@ -175,7 +181,7 @@ public class FlatScrollBarTest {
 
     int actual = scrollBar.getMaximum();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MAXIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MAXIMUM );
   }
 
   @Test
@@ -193,7 +199,7 @@ public class FlatScrollBarTest {
   public void getThumb() {
     int actual = scrollBar.getThumb();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_THUMB );
+    assertThat( actual ).isEqualTo( DEFAULT_THUMB );
   }
 
   @Test
@@ -207,7 +213,7 @@ public class FlatScrollBarTest {
 
   @Test
   public void getThumbOnMinimumAdjustment() {
-    scrollBar.setMinimum( FlatScrollBar.DEFAULT_MAXIMUM - 1 );
+    scrollBar.setMinimum( DEFAULT_MAXIMUM - 1 );
 
     int actual = scrollBar.getThumb();
 
@@ -241,16 +247,16 @@ public class FlatScrollBarTest {
 
     int actual = scrollBar.getThumb();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_THUMB );
+    assertThat( actual ).isEqualTo( DEFAULT_THUMB );
   }
 
   @Test
   public void setThumbWithTooLargeValue() {
-    scrollBar.setThumb( FlatScrollBar.DEFAULT_MAXIMUM + 10 );
+    scrollBar.setThumb( DEFAULT_MAXIMUM + 10 );
 
     int actual = scrollBar.getThumb();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MAXIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MAXIMUM );
   }
 
   @Test
@@ -268,7 +274,7 @@ public class FlatScrollBarTest {
   public void getIncrement() {
     int actual = scrollBar.getIncrement();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_INCREMENT );
+    assertThat( actual ).isEqualTo( DEFAULT_INCREMENT );
   }
 
   @Test
@@ -296,7 +302,7 @@ public class FlatScrollBarTest {
   public void getPageIncrement() {
     int actual = scrollBar.getPageIncrement();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_PAGE_INCREMENT );
+    assertThat( actual ).isEqualTo( DEFAULT_PAGE_INCREMENT );
   }
 
   @Test
@@ -313,12 +319,12 @@ public class FlatScrollBarTest {
   public void getSelection() {
     int actual = scrollBar.getSelection();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_SELECTION );
+    assertThat( actual ).isEqualTo( DEFAULT_SELECTION );
   }
 
   @Test
   public void getSelectionOnMinimumAdjustment() {
-    scrollBar.setMinimum( FlatScrollBar.DEFAULT_MAXIMUM - 1 );
+    scrollBar.setMinimum( DEFAULT_MAXIMUM - 1 );
 
     int actual = scrollBar.getSelection();
 
@@ -334,6 +340,16 @@ public class FlatScrollBarTest {
     int actual = scrollBar.getSelection();
 
     assertThat( actual ).isEqualTo( 1 );
+  }
+
+  @Test
+  public void getSelectionAfterThumbEnlargement() {
+    scrollBar.setSelection( DEFAULT_MAXIMUM - DEFAULT_THUMB );
+    scrollBar.setThumb( DEFAULT_THUMB * 2 );
+
+    int actual = scrollBar.getSelection();
+
+    assertThat( actual ).isEqualTo( DEFAULT_MAXIMUM - DEFAULT_THUMB * 2 );
   }
 
   @Test
@@ -359,7 +375,7 @@ public class FlatScrollBarTest {
 
   @Test
   public void setSelectionWithValueBelowMinimum() {
-    scrollBar.setSelection( FlatScrollBar.DEFAULT_MINIMUM - 1 );
+    scrollBar.setSelection( DEFAULT_MINIMUM - 1 );
 
     int actual = scrollBar.getSelection();
 
@@ -369,7 +385,7 @@ public class FlatScrollBarTest {
 
   @Test
   public void setSelectionWithMaximumValue() {
-    scrollBar.setSelection( FlatScrollBar.DEFAULT_MAXIMUM );
+    scrollBar.setSelection( DEFAULT_MAXIMUM );
 
     int actual = scrollBar.getSelection();
 
@@ -399,7 +415,7 @@ public class FlatScrollBarTest {
 
   @Test
   public void setSelectionInternalWithValueBelowMinimum() {
-    scrollBar.setSelectionInternal( FlatScrollBar.DEFAULT_MINIMUM - 1, SWT.NONE );
+    scrollBar.setSelectionInternal( DEFAULT_MINIMUM - 1, SWT.NONE );
 
     int actual = scrollBar.getSelection();
 
@@ -408,7 +424,7 @@ public class FlatScrollBarTest {
 
   @Test
   public void setSelectionInternalWithMaximumValue() {
-    scrollBar.setSelectionInternal( FlatScrollBar.DEFAULT_MAXIMUM, SWT.NONE );
+    scrollBar.setSelectionInternal( DEFAULT_MAXIMUM, SWT.NONE );
 
     int actual = scrollBar.getSelection();
 

@@ -109,6 +109,7 @@ public class FlatScrollBar extends Composite {
     if( this.thumb != thumb && thumb >= 1 ) {
       this.thumb = thumb;
       adjustThumb();
+      adjustSelection();
       layout();
     }
   }
