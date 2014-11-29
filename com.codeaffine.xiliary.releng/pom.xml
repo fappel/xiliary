@@ -48,6 +48,12 @@
     <module>../com.codeaffine.eclipse.swt.test.util</module>
     <module>../com.codeaffine.eclipse.swt.test.util.test</module>
     
+    <!-- Eclipse UI -->
+    <module>../com.codeaffine.eclipse.ui.feature</module>
+    
+    <module>../com.codeaffine.eclipse.ui</module>
+    <module>../com.codeaffine.eclipse.ui.test</module>
+
     <!-- to be continued :-) -->
     
   </modules>

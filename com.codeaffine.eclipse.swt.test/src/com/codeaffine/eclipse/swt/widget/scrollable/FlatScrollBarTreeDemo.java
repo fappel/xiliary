@@ -1,6 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;

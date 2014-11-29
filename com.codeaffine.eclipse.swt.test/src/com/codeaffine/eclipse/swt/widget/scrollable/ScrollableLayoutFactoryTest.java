@@ -12,7 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.testhelper.ShellHelper;
+import com.codeaffine.eclipse.swt.test.util.ShellHelper;
 
 public class ScrollableLayoutFactoryTest {
 

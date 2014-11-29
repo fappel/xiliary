@@ -1,6 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-import static com.codeaffine.eclipse.swt.testhelper.ShellHelper.createShellWithoutLayout;
+import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShellWithoutLayout;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static org.assertj.core.api.Assertions.assertThat;
