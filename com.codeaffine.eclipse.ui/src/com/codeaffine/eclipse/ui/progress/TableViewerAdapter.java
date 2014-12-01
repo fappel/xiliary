@@ -1,10 +1,10 @@
 package com.codeaffine.eclipse.ui.progress;
 
-import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.AbstractTableViewer;
 
-public class TableViewerAdapter extends StructuredViewerAdapter<TableViewer> {
+public class TableViewerAdapter extends StructuredViewerAdapter<AbstractTableViewer> {
 
-  public TableViewerAdapter( TableViewer tableViewer ) {
+  public TableViewerAdapter( AbstractTableViewer tableViewer ) {
     super( tableViewer );
   }
 

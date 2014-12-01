@@ -1,10 +1,10 @@
 package com.codeaffine.eclipse.ui.progress;
 
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.AbstractTreeViewer;
 
-public class TreeViewerAdapter extends StructuredViewerAdapter<TreeViewer> {
+public class TreeViewerAdapter extends StructuredViewerAdapter<AbstractTreeViewer> {
 
-  public TreeViewerAdapter( TreeViewer treeViewer ) {
+  public TreeViewerAdapter( AbstractTreeViewer treeViewer ) {
     super( treeViewer );
   }
 
