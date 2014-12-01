@@ -80,7 +80,7 @@ public class FlatScrollBar extends Composite {
   }
 
   public void setMinimum( int minimum ) {
-    if( minimum >= 0 && minimum < maximum ) {
+    if( this.minimum != minimum && minimum >= 0 && minimum < maximum ) {
       this.minimum = minimum;
       adjustThumb();
       adjustSelection();
@@ -93,7 +93,7 @@ public class FlatScrollBar extends Composite {
   }
 
   public void setMaximum( int maximum ) {
-    if( maximum >= 0 && maximum > minimum ) {
+    if( this.maximum != maximum && maximum >= 0 && maximum > minimum ) {
       this.maximum = maximum;
       adjustThumb();
       adjustSelection();
@@ -106,9 +106,10 @@ public class FlatScrollBar extends Composite {
   }
 
   public void setThumb( int thumb ) {
-    if( thumb >= 1 ) {
+    if( this.thumb != thumb && thumb >= 1 ) {
       this.thumb = thumb;
       adjustThumb();
+      adjustSelection();
       layout();
     }
   }
@@ -118,8 +119,10 @@ public class FlatScrollBar extends Composite {
   }
 
   public void setIncrement( int increment ) {
-    this.increment = increment;
-    layout();
+    if( this.increment != increment ) {
+      this.increment = increment;
+      layout();
+    }
   }
 
   public int getIncrement() {
@@ -135,9 +138,11 @@ public class FlatScrollBar extends Composite {
   }
 
   public void setSelection( int selection ) {
-    this.selection = selection;
-    adjustSelection();
-    layout();
+    if( this.selection != selection ) {
+      this.selection = selection;
+      adjustSelection();
+      layout();
+    }
   }
 
   public int getSelection() {

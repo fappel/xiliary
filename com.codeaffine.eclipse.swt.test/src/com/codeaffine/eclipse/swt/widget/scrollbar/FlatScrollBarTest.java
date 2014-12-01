@@ -1,6 +1,12 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_INCREMENT;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_MAXIMUM;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_MINIMUM;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_PAGE_INCREMENT;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_SELECTION;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.DEFAULT_THUMB;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.Matchers.any;
@@ -33,6 +39,7 @@ public class FlatScrollBarTest {
   @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
+  private FlatScrollBar scrollBar;
   private Shell shell;
 
   @Before
@@ -43,11 +50,12 @@ public class FlatScrollBarTest {
     shell.setBounds( 250, 200, 500, 400 );
     shell.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
     shell.open();
+    scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
   }
 
   @Test( expected = UnsupportedOperationException.class )
   public void setLayout() {
-    new FlatScrollBar( shell, SWT.HORIZONTAL ).setLayout( null );
+    scrollBar.setLayout( null );
   }
 
   @Test
@@ -61,8 +69,6 @@ public class FlatScrollBarTest {
 
   @Test
   public void getDirection() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-
     Direction actual = scrollBar.getDirection();
 
     assertThat( actual ).isSameAs( Direction.HORIZONTAL );
@@ -70,8 +76,6 @@ public class FlatScrollBarTest {
 
   @Test
   public void getStyle() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-
     int actual = scrollBar.getStyle();
 
     assertThat( actual & SWT.HORIZONTAL ).isEqualTo( SWT.HORIZONTAL );
@@ -79,18 +83,15 @@ public class FlatScrollBarTest {
 
   @Test
   public void getMinimum() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-
     int actual = scrollBar.getMinimum();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MINIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MINIMUM );
   }
 
   @Test
   public void setMinimum() {
-    int expected = FlatScrollBar.DEFAULT_MAXIMUM - 1;
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    scrollBar.setMinimum( FlatScrollBar.DEFAULT_MAXIMUM - 1 );
+    int expected = DEFAULT_MAXIMUM - 1;
+    scrollBar.setMinimum( expected );
 
     int actual = scrollBar.getMinimum();
 
@@ -98,28 +99,35 @@ public class FlatScrollBarTest {
   }
 
   @Test
+  public void setMinimumTwice() {
+    scrollBar.setMinimum( DEFAULT_MAXIMUM - 1 );
+    PaintListener listener = registerPaintListener( scrollBar );
+
+    scrollBar.setMinimum( DEFAULT_MAXIMUM - 1 );
+
+    assertThatNoLayoutUpdateHasBeenTriggered( listener );
+  }
+
+  @Test
   public void setMinimumWithTooLargeValue() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    scrollBar.setMinimum( FlatScrollBar.DEFAULT_MAXIMUM );
+    scrollBar.setMinimum( DEFAULT_MAXIMUM );
 
     int actual = scrollBar.getMinimum();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MINIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MINIMUM );
   }
 
   @Test
   public void setMinimumWithTooSmallValue() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setMinimum( -1 );
 
     int actual = scrollBar.getMinimum();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MINIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MINIMUM );
   }
 
   @Test
   public void setMinimumTriggersLayout() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     shell.layout();
 
     Rectangle before = scrollBar.drag.getControl().getBounds();
@@ -131,17 +139,14 @@ public class FlatScrollBarTest {
 
   @Test
   public void getMaximum() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-
     int actual = scrollBar.getMaximum();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MAXIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MAXIMUM );
   }
 
   @Test
   public void setMaximum() {
     int expected = 110;
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setMaximum( expected );
 
     int actual = scrollBar.getMaximum();
@@ -150,29 +155,37 @@ public class FlatScrollBarTest {
   }
 
   @Test
+  public void setMaximumTwice() {
+    int maximum = 110;
+    scrollBar.setMaximum( maximum );
+    PaintListener listener = registerPaintListener( scrollBar );
+
+    scrollBar.setMaximum( maximum );
+
+    assertThatNoLayoutUpdateHasBeenTriggered( listener );
+  }
+
+  @Test
   public void setMaximumWithValueEqualsMinimum() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setMinimum( 10 );
     scrollBar.setMaximum( 10 );
 
     int actual = scrollBar.getMaximum();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MAXIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MAXIMUM );
   }
 
   @Test
   public void setMaximumWithNegativeValue() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setMaximum( -1 );
 
     int actual = scrollBar.getMaximum();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MAXIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MAXIMUM );
   }
 
   @Test
   public void setMaximumTriggersLayout() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     shell.layout();
 
     Rectangle before = scrollBar.drag.getControl().getBounds();
@@ -184,16 +197,13 @@ public class FlatScrollBarTest {
 
   @Test
   public void getThumb() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-
     int actual = scrollBar.getThumb();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_THUMB );
+    assertThat( actual ).isEqualTo( DEFAULT_THUMB );
   }
 
   @Test
   public void getThumbOnMaximumAdjustment() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setMaximum( 1 );
 
     int actual = scrollBar.getThumb();
@@ -203,8 +213,7 @@ public class FlatScrollBarTest {
 
   @Test
   public void getThumbOnMinimumAdjustment() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    scrollBar.setMinimum( FlatScrollBar.DEFAULT_MAXIMUM - 1 );
+    scrollBar.setMinimum( DEFAULT_MAXIMUM - 1 );
 
     int actual = scrollBar.getThumb();
 
@@ -214,7 +223,6 @@ public class FlatScrollBarTest {
   @Test
   public void setThumb() {
     int expected = 20;
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setThumb( expected );
 
     int actual = scrollBar.getThumb();
@@ -223,28 +231,36 @@ public class FlatScrollBarTest {
   }
 
   @Test
+  public void setThumbTwice() {
+    int thumb = 20;
+    scrollBar.setThumb( thumb );
+    PaintListener listener = registerPaintListener( scrollBar );
+
+    scrollBar.setThumb( thumb );
+
+    assertThatNoLayoutUpdateHasBeenTriggered( listener );
+  }
+
+  @Test
   public void setThumbWithTooSmallValue() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setThumb( 0 );
 
     int actual = scrollBar.getThumb();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_THUMB );
+    assertThat( actual ).isEqualTo( DEFAULT_THUMB );
   }
 
   @Test
   public void setThumbWithTooLargeValue() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    scrollBar.setThumb( FlatScrollBar.DEFAULT_MAXIMUM + 10 );
+    scrollBar.setThumb( DEFAULT_MAXIMUM + 10 );
 
     int actual = scrollBar.getThumb();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_MAXIMUM );
+    assertThat( actual ).isEqualTo( DEFAULT_MAXIMUM );
   }
 
   @Test
   public void setThumbTriggersLayout() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     shell.layout();
 
     Rectangle before = scrollBar.drag.getControl().getBounds();
@@ -256,17 +272,14 @@ public class FlatScrollBarTest {
 
   @Test
   public void getIncrement() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-
     int actual = scrollBar.getIncrement();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_INCREMENT );
+    assertThat( actual ).isEqualTo( DEFAULT_INCREMENT );
   }
 
   @Test
   public void setIncrement() {
     int expected = 10;
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setIncrement( expected );
 
     int actual = scrollBar.getIncrement();
@@ -275,18 +288,26 @@ public class FlatScrollBarTest {
   }
 
   @Test
-  public void getPageIncrement() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
+  public void setIncrementTwice() {
+    int increment = 10;
+    scrollBar.setIncrement( increment );
+    PaintListener listener = registerPaintListener( scrollBar );
 
+    scrollBar.setIncrement( increment );
+
+    assertThatNoLayoutUpdateHasBeenTriggered( listener );
+  }
+
+  @Test
+  public void getPageIncrement() {
     int actual = scrollBar.getPageIncrement();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_PAGE_INCREMENT );
+    assertThat( actual ).isEqualTo( DEFAULT_PAGE_INCREMENT );
   }
 
   @Test
   public void setPageIncrement() {
     int expected = 25;
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setPageIncrement( expected );
 
     int actual = scrollBar.getPageIncrement();
@@ -296,17 +317,14 @@ public class FlatScrollBarTest {
 
   @Test
   public void getSelection() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-
     int actual = scrollBar.getSelection();
 
-    assertThat( actual ).isEqualTo( FlatScrollBar.DEFAULT_SELECTION );
+    assertThat( actual ).isEqualTo( DEFAULT_SELECTION );
   }
 
   @Test
   public void getSelectionOnMinimumAdjustment() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    scrollBar.setMinimum( FlatScrollBar.DEFAULT_MAXIMUM - 1 );
+    scrollBar.setMinimum( DEFAULT_MAXIMUM - 1 );
 
     int actual = scrollBar.getSelection();
 
@@ -315,7 +333,6 @@ public class FlatScrollBarTest {
 
   @Test
   public void getSelectionOnMaximumAdjustment() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setThumb( 1 );
     scrollBar.setSelectionInternal( 10, SWT.NONE );
     scrollBar.setMaximum( 2 );
@@ -326,9 +343,18 @@ public class FlatScrollBarTest {
   }
 
   @Test
+  public void getSelectionAfterThumbEnlargement() {
+    scrollBar.setSelection( DEFAULT_MAXIMUM - DEFAULT_THUMB );
+    scrollBar.setThumb( DEFAULT_THUMB * 2 );
+
+    int actual = scrollBar.getSelection();
+
+    assertThat( actual ).isEqualTo( DEFAULT_MAXIMUM - DEFAULT_THUMB * 2 );
+  }
+
+  @Test
   public void setSelection() {
     int expected = 12;
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setSelection( expected );
 
     int actual = scrollBar.getSelection();
@@ -337,19 +363,29 @@ public class FlatScrollBarTest {
   }
 
   @Test
+  public void setSelectionTwice() {
+    int selection = 12;
+    scrollBar.setSelection( selection );
+    PaintListener listener = registerPaintListener( scrollBar );
+
+    scrollBar.setSelection( selection );
+
+    assertThatNoLayoutUpdateHasBeenTriggered( listener );
+  }
+
+  @Test
   public void setSelectionWithValueBelowMinimum() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    scrollBar.setSelection( FlatScrollBar.DEFAULT_MINIMUM - 1 );
+    scrollBar.setSelection( DEFAULT_MINIMUM - 1 );
 
     int actual = scrollBar.getSelection();
 
     assertThat( actual ).isEqualTo( scrollBar.getMinimum() );
   }
 
+
   @Test
   public void setSelectionWithMaximumValue() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    scrollBar.setSelection( FlatScrollBar.DEFAULT_MAXIMUM );
+    scrollBar.setSelection( DEFAULT_MAXIMUM );
 
     int actual = scrollBar.getSelection();
 
@@ -358,7 +394,6 @@ public class FlatScrollBarTest {
 
   @Test
   public void setSelectionTriggersLayout() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     shell.layout();
 
     Rectangle before = scrollBar.drag.getControl().getBounds();
@@ -371,7 +406,6 @@ public class FlatScrollBarTest {
   @Test
   public void setSelectionInternal() {
     int expected = 12;
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     scrollBar.setSelectionInternal( expected, SWT.NONE );
 
     int actual = scrollBar.getSelection();
@@ -381,8 +415,7 @@ public class FlatScrollBarTest {
 
   @Test
   public void setSelectionInternalWithValueBelowMinimum() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    scrollBar.setSelectionInternal( FlatScrollBar.DEFAULT_MINIMUM - 1, SWT.NONE );
+    scrollBar.setSelectionInternal( DEFAULT_MINIMUM - 1, SWT.NONE );
 
     int actual = scrollBar.getSelection();
 
@@ -391,8 +424,7 @@ public class FlatScrollBarTest {
 
   @Test
   public void setSelectionInternalWithMaximumValue() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    scrollBar.setSelectionInternal( FlatScrollBar.DEFAULT_MAXIMUM, SWT.NONE );
+    scrollBar.setSelectionInternal( DEFAULT_MAXIMUM, SWT.NONE );
 
     int actual = scrollBar.getSelection();
 
@@ -401,7 +433,6 @@ public class FlatScrollBarTest {
 
   @Test
   public void setSelectionInternalTriggersLayout() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     shell.layout();
 
     Rectangle before = scrollBar.drag.getControl().getBounds();
@@ -413,7 +444,6 @@ public class FlatScrollBarTest {
 
   @Test
   public void resize() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     shell.layout();
 
     Rectangle before = scrollBar.drag.getControl().getBounds();
@@ -425,8 +455,6 @@ public class FlatScrollBarTest {
 
   @Test
   public void initialSizeSettings() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-
     Point size = scrollBar.getSize();
 
     assertThat( size.y ).isEqualTo( Direction.BAR_BREADTH );
@@ -435,7 +463,6 @@ public class FlatScrollBarTest {
   @Test
   public void addSelectionListener() {
     ArgumentCaptor<SelectionEvent> captor = forClass( SelectionEvent.class );
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     SelectionListener listener = mock( SelectionListener.class );
 
     scrollBar.addSelectionListener( listener );
@@ -449,7 +476,6 @@ public class FlatScrollBarTest {
 
   @Test
   public void removeSelectionListener() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     SelectionListener listener = mock( SelectionListener.class );
     scrollBar.addSelectionListener( listener );
 
@@ -461,7 +487,6 @@ public class FlatScrollBarTest {
 
   @Test
   public void setSelectionDoesNotTriggerScrollEvent() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     SelectionListener listener = mock( SelectionListener.class );
 
     scrollBar.addSelectionListener( listener );
@@ -473,7 +498,6 @@ public class FlatScrollBarTest {
   @Test
   public void notifyListeners() {
     ArgumentCaptor<SelectionEvent> captor = forClass( SelectionEvent.class );
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
     SelectionListener listener = mock( SelectionListener.class );
     scrollBar.addSelectionListener( listener );
     scrollBar.setSelection( 2 );
@@ -488,9 +512,7 @@ public class FlatScrollBarTest {
 
   @Test
   public void layoutTriggersPaint() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-    PaintListener listener = mock( PaintListener.class );
-    scrollBar.addPaintListener( listener );
+    PaintListener listener = registerPaintListener( scrollBar );
 
     Point size = scrollBar.getSize();
     scrollBar.setSize( size.x + 1, size.y );
@@ -501,10 +523,19 @@ public class FlatScrollBarTest {
 
   @Test
   public void controlLayout() {
-    FlatScrollBar scrollBar = new FlatScrollBar( shell, SWT.HORIZONTAL );
-
     Layout layout = scrollBar.getLayout();
 
     assertThat( layout ).isExactlyInstanceOf( FlatScrollBarLayout.class );
+  }
+
+
+  private static PaintListener registerPaintListener( FlatScrollBar scrollBar ) {
+    PaintListener result = mock( PaintListener.class );
+    scrollBar.addPaintListener( result );
+    return result;
+  }
+
+  private static void assertThatNoLayoutUpdateHasBeenTriggered( PaintListener listener ) {
+    verify( listener, never() ).paintControl( any( PaintEvent.class ) );
   }
 }
