@@ -1,0 +1,43 @@
+package com.codeaffine.eclipse.ui.progress;
+
+import static com.codeaffine.eclipse.ui.progress.TestItems.cast;
+
+import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.Viewer;
+
+class TestItemContentProvider implements ITreeContentProvider {
+
+  private final DeferredContentManager contentManager;
+
+  TestItemContentProvider( DeferredContentManager contentManager ) {
+    this.contentManager = contentManager;
+  }
+
+  @Override
+  public void inputChanged( Viewer viewer, Object oldInput, Object newInput ) {
+  }
+
+  @Override
+  public void dispose() {
+  }
+
+  @Override
+  public boolean hasChildren( Object element ) {
+    return contentManager.mayHaveChildren( element );
+  }
+
+  @Override
+  public Object getParent( Object element ) {
+    return cast( element ).getParent();
+  }
+
+  @Override
+  public Object[] getElements( Object inputElement ) {
+    return getChildren( inputElement );
+  }
+
+  @Override
+  public Object[] getChildren( Object parentElement ) {
+    return contentManager.getChildren( parentElement );
+  }
+}

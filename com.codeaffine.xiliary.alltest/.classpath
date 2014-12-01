@@ -8,5 +8,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.swt.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.swt.test.util.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.test.util.test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.ui.test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

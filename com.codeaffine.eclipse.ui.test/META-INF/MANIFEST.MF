@@ -7,6 +7,7 @@ Bundle-Vendor: CODE AFFINE
 Fragment-Host: com.codeaffine.eclipse.ui;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: com.codeaffine.eclipse.swt.test.util;version="[0.1.0,1.0.0)",
+ com.codeaffine.eclipse.swt.util;version="[0.1.0,1.0.0)",
  com.codeaffine.osgi.testuite;version="[1.0.0,2.0.0)",
  com.codeaffine.test.util.lang;version="[0.1.0,1.0.0)",
  org.assertj.core.api;version="[1.6.0,2.0.0)",
@@ -22,3 +23,4 @@ Import-Package: com.codeaffine.eclipse.swt.test.util;version="[0.1.0,1.0.0)",
  org.mockito.invocation;version="[1.8.4,2.0.0)",
  org.mockito.runners;version="[1.8.4,2.0.0)",
  org.mockito.stubbing;version="[1.8.4,2.0.0)"
+Export-Package: com.codeaffine.eclipse.ui.progress;version="0.1.0"
