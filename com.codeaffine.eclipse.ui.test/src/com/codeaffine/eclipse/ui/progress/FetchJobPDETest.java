@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.ui.progress;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.core.runtime.Status.OK_STATUS;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -64,6 +65,7 @@ public class FetchJobPDETest {
   private DeferredContentManager stubContentManager( IDeferredWorkbenchAdapter adapter ) {
     DeferredContentManager result = mock( DeferredContentManager.class );
     when( result.getAdapter( parent ) ).thenReturn( adapter );
+    when( result.getFetchJobName( anyObject(), any( IDeferredWorkbenchAdapter.class ) ) ).thenReturn( "Fetching.." );
     return result;
   }
 }

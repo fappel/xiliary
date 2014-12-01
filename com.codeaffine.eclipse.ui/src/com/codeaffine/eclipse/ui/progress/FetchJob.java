@@ -4,8 +4,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.osgi.util.NLS;
-import org.eclipse.ui.progress.IDeferredWorkbenchAdapter;
 
 class FetchJob extends Job {
 
@@ -14,7 +12,7 @@ class FetchJob extends Job {
   private final Object parent;
 
   FetchJob( DeferredContentManager manager, Object parent, PendingUpdatePlaceHolder placeHolder ) {
-    super( getName( parent, manager.getAdapter( parent ) ) );
+    super( manager.getFetchJobName( parent, manager.getAdapter( parent ) ) );
     this.collector = new ElementCollector( manager, parent, placeHolder );
     this.contentManager = manager;
     this.parent = parent;
@@ -34,9 +32,5 @@ class FetchJob extends Job {
   @Override
   public boolean belongsTo( Object family ) {
     return new BelongToJobFamilyChecker( contentManager, parent ).check( family );
-  }
-
-  private static String getName( Object parent, IDeferredWorkbenchAdapter adapter ) {
-    return NLS.bind( ProgressMessages.DeferredTreeContentManager_FetchingName, adapter.getLabel( parent ) );
   }
 }

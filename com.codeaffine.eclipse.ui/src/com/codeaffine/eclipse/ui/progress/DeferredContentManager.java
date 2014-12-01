@@ -4,6 +4,7 @@ import static org.eclipse.core.runtime.Assert.isNotNull;
 
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.progress.IDeferredWorkbenchAdapter;
@@ -91,6 +92,11 @@ public class DeferredContentManager {
       new ClearJob( completionObservers, viewerAdapter, placeHolder ).schedule();
     }
   }
+
+  protected String getFetchJobName( Object parent, IDeferredWorkbenchAdapter adapter ) {
+    return NLS.bind( ProgressMessages.DeferredTreeContentManager_FetchingName, adapter.getLabel( parent ) );
+  }
+
 
   private Object[] startDeferredFetchingOfChildren( Object parent ) {
     PendingUpdatePlaceHolder placeholder = placeHolderFactory.create();
