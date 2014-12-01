@@ -9,6 +9,5 @@ Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.ui.workbench;bundle-version="[3.7.0,4.0.0)",
  org.eclipse.swt;bundle-version="[3.7.0,4.0.0)",
  org.eclipse.jface;bundle-version="[3.7.0,4.0.0)",
- org.eclipse.core.jobs;bundle-version="[3.6.0,4.0.0)",
  org.eclipse.core.runtime;bundle-version="[3.7.0,4.0.0)"
 Export-Package: com.codeaffine.eclipse.ui.progress;version="0.1.0"
