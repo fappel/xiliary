@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
    <feature url="../features/com.codeaffine.eclipse.core.runtime.feature_0.1.0.qualifier.jar" id="com.codeaffine.eclipse.core.runtime.feature" version="0.1.0.qualifier">
-      <category name="com.codeaffine.xiliary.eclipse"/>
+      <category name="com.codeaffine.xiliary.all"/>
    </feature>
    <feature url="../features/com.codeaffine.eclipse.core.runtime.test.util.feature_0.1.0.qualifier.jar" id="com.codeaffine.eclipse.core.runtime.test.util.feature" version="0.1.0.qualifier">
-      <category name="com.codeaffine.xiliary.eclipse"/>
+      <category name="com.codeaffine.xiliary.all"/>
    </feature>
    <feature url="features/com.codeaffine.eclipse.swt.feature_0.1.0.qualifier.jar" id="com.codeaffine.eclipse.swt.feature" version="0.1.0.qualifier">
-      <category name="com.codeaffine.xiliary.eclipse"/>
+      <category name="com.codeaffine.xiliary.all"/>
    </feature>
    <feature url="features/com.codeaffine.eclipse.swt.test.util.feature_0.1.0.qualifier.jar" id="com.codeaffine.eclipse.swt.test.util.feature" version="0.1.0.qualifier">
-      <category name="com.codeaffine.xiliary.eclipse"/>
+      <category name="com.codeaffine.xiliary.all"/>
    </feature>
    <feature url="features/com.codeaffine.test.util.feature_0.1.0.qualifier.jar" id="com.codeaffine.test.util.feature" version="0.1.0.qualifier">
-      <category name="com.codeaffine.xiliary.eclipse"/>
+      <category name="com.codeaffine.xiliary.all"/>
    </feature>
    <feature url="features/com.codeaffine.eclipse.ui.feature_0.1.0.qualifier.jar" id="com.codeaffine.eclipse.ui.feature" version="0.1.0.qualifier">
-      <category name="com.codeaffine.xiliary.eclipse"/>
+      <category name="com.codeaffine.xiliary.all"/>
    </feature>
-   <category-def name="com.codeaffine.xiliary.eclipse" label="Eclipse">
+   <category-def name="com.codeaffine.xiliary.all" label="All Xiliary Features">
       <description>
-         Auxiliary bundles for eclipse development
+         Auxiliary libraries for Eclipse, JUnit and Java development in general.
       </description>
    </category-def>
 </site>
