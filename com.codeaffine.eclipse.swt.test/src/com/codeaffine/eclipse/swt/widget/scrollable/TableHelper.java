@@ -31,8 +31,8 @@ class TableHelper {
       TableItem item = new TableItem( parent, SWT.NONE );
       for( int j = 0; j < HEADER_TITLES.length; j++ ) {
         item.setText( 0, String.valueOf( i ) );
-        item.setText( 1, name + j );
-        item.setText( 2, "This text is the very important description of" + name + j + "." );
+        item.setText( 1, name + i );
+        item.setText( 2, "This text is the very important description of" + name + i + "." );
       }
     }
     TableColumn[] columns = parent.getColumns();

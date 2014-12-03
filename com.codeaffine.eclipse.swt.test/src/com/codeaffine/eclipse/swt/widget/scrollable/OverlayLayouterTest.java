@@ -10,6 +10,7 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelp
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Vertical.V_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -25,6 +26,8 @@ import com.codeaffine.eclipse.swt.test.util.ShellHelper;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 public class OverlayLayouterTest {
+
+  private static final int OFFSET = 2;
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
@@ -110,17 +113,25 @@ public class OverlayLayouterTest {
 
   @Test
   public void cornerOverlayBoundsCalculation() {
+    LayoutContext context = stubContextWithOffset( OFFSET );
     horizontal.setSize( 10, 20 );
     vertical.setSize( 30, 40 );
 
-    Rectangle actual = OverlayLayouter.calculateCornerOverlayBounds( horizontal, vertical );
+    Rectangle actual = OverlayLayouter.calculateCornerOverlayBounds( horizontal, vertical, context );
 
     assertThat( actual )
-      .isEqualTo( new Rectangle( 10, 40, 30, 20 ) );
+      .isEqualTo( new Rectangle( 10, 40, 30 + OFFSET, 20 ) );
+  }
+
+  private LayoutContext stubContextWithOffset( int offset ) {
+    LayoutContext result = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    when( result.getOffset() ).thenReturn( offset );
+    return result;
   }
 
   private Rectangle expectedCornerOverlayBounds() {
-    return calculateCornerOverlayBounds( horizontal, vertical );
+    LayoutContext context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    return calculateCornerOverlayBounds( horizontal, vertical , context);
   }
 
   private int expectedHorizontalY() {

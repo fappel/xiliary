@@ -14,12 +14,16 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class TableVerticalScrollBarUpdaterTest {
 
   private static final int ITEM_INDEX = 2;
 
+  @Rule public final ConditionalIgnoreRule conditionIgnoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private TableVerticalScrollBarUpdater updater;
@@ -98,8 +102,32 @@ public class TableVerticalScrollBarUpdaterTest {
 
     assertThat( actual ).isLessThan( SELECTION_RASTER_SMOOTH_FACTOR * height / table.getItemHeight() );
   }
+  @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
+  public void updateWithGtkWorkaround() {
+    int index = 3;
+    adjustTableHeightForGtkWorkaround();
+    table.setTopIndex( index );
+    flushPendingEvents();
+
+    updater.update();
+
+    assertThat( scrollbar )
+      .hasIncrement( SELECTION_RASTER_SMOOTH_FACTOR )
+      .hasPageIncrement( updater.calculateThumb() )
+      .hasThumb( updater.calculateThumb() )
+      .hasMaximum( expectedMaximum() )
+      .hasMinimum( 0 )
+      .hasSelection( index * SELECTION_RASTER_SMOOTH_FACTOR );
+  }
 
   private int expectedMaximum() {
     return SELECTION_RASTER_SMOOTH_FACTOR * table.getItemCount();
+  }
+
+  private void adjustTableHeightForGtkWorkaround() {
+    int size = table.getItemCount();
+    int tableHeight = size * table.getItemHeight() - table.getItemHeight() / 2;
+    table.setSize( table.getSize().x, tableHeight );
   }
 }

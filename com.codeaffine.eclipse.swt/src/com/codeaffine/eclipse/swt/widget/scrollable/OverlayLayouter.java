@@ -24,7 +24,7 @@ class OverlayLayouter {
   void layout( LayoutContext context ) {
     layoutVertical( context );
     layoutHorizontal( context );
-    layoutCornerOverlay();
+    layoutCornerOverlay( context );
   }
 
   private void layoutVertical( LayoutContext context ) {
@@ -51,14 +51,14 @@ class OverlayLayouter {
     }
   }
 
-  private void layoutCornerOverlay() {
-    cornerOverlay.setBounds( calculateCornerOverlayBounds( horizontal, vertical ) );
+  private void layoutCornerOverlay( LayoutContext context ) {
+    cornerOverlay.setBounds( calculateCornerOverlayBounds( horizontal, vertical, context ) );
   }
 
-  static Rectangle calculateCornerOverlayBounds( FlatScrollBar horizontal, FlatScrollBar vertical ) {
+  static Rectangle calculateCornerOverlayBounds( FlatScrollBar horizontal, FlatScrollBar vertical, LayoutContext context  ) {
     Point hSize = horizontal.getSize();
     Point vSize = vertical.getSize();
-    return new Rectangle( hSize.x, vSize.y, vSize.x, hSize.y );
+    return new Rectangle( hSize.x, vSize.y, vSize.x + context.getOffset(), hSize.y );
   }
 
 }
