@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
 import static java.lang.Math.max;
 
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Scrollable;
 
 class ScrollableLayouter {
@@ -14,8 +15,13 @@ class ScrollableLayouter {
   }
 
   void layout( LayoutContext context ) {
-    scrollable.setLocation( context.getLocation( ) );
+    scrollable.setLocation( computeLocation( context ) );
     scrollable.setSize( computeWidth( context ), computeHeight( context ) );
+  }
+
+  private static Point computeLocation( LayoutContext context ) {
+    Point origin = context.getLocation();
+    return new Point( origin.x - context.getOffset(), origin.y - context.getOffset() );
   }
 
   private static int computeWidth( LayoutContext context ) {
@@ -23,7 +29,7 @@ class ScrollableLayouter {
     if( context.isVerticalBarVisible() ) {
       result = computeWidthWithVerticalBarPadding( context );
     }
-    return result;
+    return result + context.getOffset() * 2;
   }
 
   private static int computeWidthWithVerticalBarPadding( LayoutContext context ) {
@@ -38,7 +44,7 @@ class ScrollableLayouter {
     if( context.isHorizontalBarVisible() ) {
       result = computeHeightWithHorizontalBarPadding( context );
     }
-    return result;
+    return result + context.getOffset() * 2;
   }
 
   private static int computeHeightWithHorizontalBarPadding( LayoutContext context ) {

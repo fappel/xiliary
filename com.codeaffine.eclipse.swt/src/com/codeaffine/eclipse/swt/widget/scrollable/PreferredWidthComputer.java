@@ -15,6 +15,6 @@ class PreferredWidthComputer {
     if( context.isVerticalBarVisible() ) {
       result += context.getVerticalBarOffset();
     }
-    return result;
+    return result + context.getOffset() * 2;
   }
 }

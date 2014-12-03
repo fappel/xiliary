@@ -1,7 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContext.OFFSET;
 import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContext.OVERLAY_OFFSET;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
@@ -127,7 +126,7 @@ public class LayoutContextTest {
   }
 
   private Point expectedLocation() {
-    return new Point( getVisibleArea().x - OFFSET, getVisibleArea().y - OFFSET );
+    return new Point( getVisibleArea().x, getVisibleArea().y );
   }
 
   private Rectangle getVisibleArea() {

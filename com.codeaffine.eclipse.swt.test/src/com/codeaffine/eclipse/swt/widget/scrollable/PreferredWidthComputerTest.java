@@ -46,7 +46,8 @@ public class PreferredWidthComputerTest {
   }
 
   private int preferredWidth() {
-    return new LayoutContext( tree, tree.getItemHeight() ).getPreferredSize().x;
+    LayoutContext context = new LayoutContext( tree, tree.getItemHeight() );
+    return context.getPreferredSize().x + context.getOffset() * 2;
   }
 
   private int overlayAdjustment() {

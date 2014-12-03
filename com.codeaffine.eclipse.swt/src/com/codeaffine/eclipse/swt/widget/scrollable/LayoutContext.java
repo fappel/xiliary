@@ -13,7 +13,7 @@ class LayoutContext {
 
   static final int OVERLAY_OFFSET = 40;
   static final int WIDTH_BUFFER = 2;
-  static final int OFFSET = new Platform().matches( PlatformType.GTK ) ? 2 : 0;
+  static final int OFFSET = new Platform().matches( PlatformType.GTK ) ? 4 : 0;
 
   private final boolean horizontalBarVisible;
   private final boolean verticalBarVisible;
@@ -24,17 +24,26 @@ class LayoutContext {
 
   LayoutContext( Scrollable scrollable, int itemHeight ) {
     Point computed = scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
-    preferredSize = new Point( computed.x + OFFSET + WIDTH_BUFFER, computed.y + OFFSET );
+    preferredSize = new Point( computed.x + WIDTH_BUFFER, computed.y );
     visibleArea = scrollable.getParent().getClientArea();
-    location = new Point( visibleArea.x - OFFSET, visibleArea.y - OFFSET );
+    location = new Point( visibleArea.x, visibleArea.y );
     horizontalBarVisible = preferredSize.x > visibleArea.width;
     verticalBarOffset = computeVerticalBarOffset( scrollable );
     verticalBarVisible
       = computeVerticalBarVisible( horizontalBarVisible, preferredSize.y, visibleArea.height, itemHeight );
   }
 
+
+  int getOffset() {
+    return OFFSET;
+  }
+
   Point getLocation() {
     return location;
+  }
+
+  Point getPreferredSize() {
+    return preferredSize;
   }
 
   boolean isVerticalBarVisible() {
@@ -43,10 +52,6 @@ class LayoutContext {
 
   boolean isHorizontalBarVisible() {
     return horizontalBarVisible;
-  }
-
-  Point getPreferredSize() {
-    return preferredSize;
   }
 
   Rectangle getVisibleArea() {

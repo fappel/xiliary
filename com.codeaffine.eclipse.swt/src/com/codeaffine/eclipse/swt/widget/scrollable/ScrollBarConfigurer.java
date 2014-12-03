@@ -13,7 +13,7 @@ class ScrollBarConfigurer {
   void configure( LayoutContext context ) {
     scrollBar.setIncrement( 1 );
     scrollBar.setMaximum( context.getPreferredSize().x );
-    scrollBar.setMinimum( 0 );
+    scrollBar.setMinimum( context.getOffset() );
     scrollBar.setPageIncrement( context.getVisibleArea().width );
     scrollBar.setThumb( context.getVisibleArea().width );
   }
