@@ -49,7 +49,7 @@ public class TreeLayoutContextAssert extends AbstractAssert<TreeLayoutContextAss
   public TreeLayoutContextAssert hasPreferredSize( Point expected ) {
     isNotNull();
     if( !actual.getPreferredSize().equals( expected ) ) {
-      failWithMessage( "Expected preferred tree size to be <%s> but was <%s>.", expected, actual.getPreferredSize()  );
+      failWithMessage( "Expected preferred tree size to be <%s> but was <%s>.", expected, actual.getPreferredSize() );
     }
     return this;
   }

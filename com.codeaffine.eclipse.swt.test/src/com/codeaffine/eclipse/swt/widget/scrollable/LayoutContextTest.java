@@ -111,7 +111,8 @@ public class LayoutContextTest {
   }
 
   private Point computePreferredTreeSize() {
-    return tree.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+    Point size = tree.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+    return new Point( size.x + LayoutContext.WIDTH_BUFFER, size.y );
   }
 
   private Rectangle getVisibleArea() {

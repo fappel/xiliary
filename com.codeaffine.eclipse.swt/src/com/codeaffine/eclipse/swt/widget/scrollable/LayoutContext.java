@@ -10,6 +10,7 @@ import org.eclipse.swt.widgets.Scrollable;
 class LayoutContext {
 
   static final int OVERLAY_OFFSET = 40;
+  static final int WIDTH_BUFFER = 2;
 
   private final boolean horizontalBarVisible;
   private final boolean verticalBarVisible;
@@ -18,7 +19,8 @@ class LayoutContext {
   private final Point preferredSize;
 
   LayoutContext( Scrollable scrollable, int itemHeight ) {
-    preferredSize = scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+    Point computed = scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+    preferredSize = new Point( computed.x + WIDTH_BUFFER, computed.y );
     visibleArea = scrollable.getParent().getClientArea();
     horizontalBarVisible = preferredSize.x > visibleArea.width;
     verticalBarOffset = computeVerticalBarOffset( scrollable );

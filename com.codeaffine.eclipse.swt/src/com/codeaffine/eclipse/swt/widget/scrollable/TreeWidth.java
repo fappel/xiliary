@@ -12,7 +12,7 @@ class TreeWidth {
   private int width;
 
   TreeWidth( Scrollable scrollable, LayoutContextFactory contextFactory ) {
-    this( new PreferredWidthComputer( scrollable, contextFactory ), scrollable, contextFactory );
+    this( new PreferredWidthComputer( contextFactory ), scrollable, contextFactory );
   }
 
   TreeWidth( PreferredWidthComputer widthComputer, Scrollable scrollable, LayoutContextFactory contextFactory ) {

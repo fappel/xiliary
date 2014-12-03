@@ -5,7 +5,6 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
@@ -26,7 +25,7 @@ public class PreferredWidthComputerTest {
   public void setUp() {
     Shell shell = createShell( displayHelper );
     tree = createTree( shell, 6, 4 );
-    computer = new PreferredWidthComputer( tree, new TreeLayoutContextFactory( tree ) );
+    computer = new PreferredWidthComputer( new TreeLayoutContextFactory( tree ) );
     shell.open();
   }
 
@@ -47,7 +46,7 @@ public class PreferredWidthComputerTest {
   }
 
   private int preferredWidth() {
-    return tree.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).x;
+    return new LayoutContext( tree, tree.getItemHeight() ).getPreferredSize().x;
   }
 
   private int overlayAdjustment() {
