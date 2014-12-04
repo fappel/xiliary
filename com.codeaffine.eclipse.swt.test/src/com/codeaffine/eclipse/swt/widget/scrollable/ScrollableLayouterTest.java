@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.STUB_VERTICAL_BAR_OFFSET;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.stubContext;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal.H_INVISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal.H_VISIBLE;
@@ -99,11 +100,11 @@ public class ScrollableLayouterTest {
   }
 
   private int verticalHeightIfTreeFits() {
-    return getVisibleArea().width + TreeLayoutContextHelper.STUB_OFFSET;
+    return getVisibleArea().width + TreeLayoutContextHelper.STUB_VERTICAL_BAR_OFFSET;
   }
 
   private int verticalHeightIfTreeDoesNotFit() {
-    return exceedVisibleArea().x + TreeLayoutContextHelper.STUB_OFFSET;
+    return exceedVisibleArea().x + STUB_VERTICAL_BAR_OFFSET;
   }
 
   private Rectangle getVisibleArea() {

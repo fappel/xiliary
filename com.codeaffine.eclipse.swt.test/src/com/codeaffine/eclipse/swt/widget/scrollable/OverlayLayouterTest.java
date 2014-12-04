@@ -2,16 +2,19 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.MAX_EXPANSION;
+import static com.codeaffine.eclipse.swt.widget.scrollable.OverlayLayouter.calculateCornerOverlayBounds;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.stubContext;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal.H_INVISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal.H_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Vertical.V_INVISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Vertical.V_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Rule;
@@ -26,17 +29,19 @@ public class OverlayLayouterTest {
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private Shell shell;
   private FlatScrollBar horizontal;
-  private FlatScrollBar vertical;
   private OverlayLayouter layouter;
+  private FlatScrollBar vertical;
+  private Label cornerOverlay;
+  private Shell shell;
 
   @Before
   public void setUp() {
     shell = ShellHelper.createShellWithoutLayout( displayHelper, SWT.RESIZE );
     horizontal = new FlatScrollBar( shell, SWT.HORIZONTAL );
     vertical = new FlatScrollBar( shell, SWT.VERTICAL );
-    layouter = new OverlayLayouter( horizontal, vertical );
+    cornerOverlay = new Label( shell, SWT.NONE );
+    layouter = new OverlayLayouter( horizontal, vertical, cornerOverlay );
   }
 
   @Test
@@ -51,6 +56,8 @@ public class OverlayLayouterTest {
     assertThat( vertical )
       .isVisible()
       .hasBounds( expectedVerticalX(), 0, BAR_BREADTH, getVisibleArea().height - MAX_EXPANSION );
+    assertThat( cornerOverlay.getBounds() )
+      .isEqualTo( expectedCornerOverlayBounds() );
   }
 
   @Test
@@ -65,6 +72,8 @@ public class OverlayLayouterTest {
     assertThat( vertical )
       .isVisible()
       .hasBounds( expectedVerticalX(), 0, BAR_BREADTH, getVisibleArea().height );
+    assertThat( cornerOverlay.getBounds() )
+      .isEqualTo( expectedCornerOverlayBounds() );
   }
 
   @Test
@@ -79,6 +88,8 @@ public class OverlayLayouterTest {
     assertThat( vertical )
       .isNotVisible()
       .hasBounds( 0, 0, 0, 0 );
+    assertThat( cornerOverlay.getBounds() )
+      .isEqualTo( expectedCornerOverlayBounds() );
   }
 
   @Test
@@ -93,6 +104,23 @@ public class OverlayLayouterTest {
     assertThat( vertical )
       .isNotVisible()
       .hasBounds( 0, 0, 0, 0 );
+    assertThat( cornerOverlay.getBounds() )
+      .isEqualTo( expectedCornerOverlayBounds() );
+  }
+
+  @Test
+  public void cornerOverlayBoundsCalculation() {
+    horizontal.setSize( 10, 20 );
+    vertical.setSize( 30, 40 );
+
+    Rectangle actual = OverlayLayouter.calculateCornerOverlayBounds( horizontal, vertical );
+
+    assertThat( actual )
+      .isEqualTo( new Rectangle( 10, 40, 30, 20 ) );
+  }
+
+  private Rectangle expectedCornerOverlayBounds() {
+    return calculateCornerOverlayBounds( horizontal, vertical );
   }
 
   private int expectedHorizontalY() {

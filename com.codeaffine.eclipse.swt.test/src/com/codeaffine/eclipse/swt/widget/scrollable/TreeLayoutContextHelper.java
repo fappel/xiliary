@@ -10,7 +10,8 @@ import org.eclipse.swt.graphics.Rectangle;
 
 class TreeLayoutContextHelper {
 
-  static final int STUB_OFFSET = OVERLAY_OFFSET - BAR_BREADTH;
+  static final int STUB_VERTICAL_BAR_OFFSET = OVERLAY_OFFSET - BAR_BREADTH;
+  static final int OFFSET = 0;
 
   enum Horizontal {
     H_VISIBLE( true ), H_INVISIBLE( false );
@@ -41,7 +42,8 @@ class TreeLayoutContextHelper {
     when( result.getPreferredSize() ).thenReturn( preferredSize );
     when( result.getVisibleArea() ).thenReturn( visibleArea );
     when( result.getLocation() ).thenReturn( new Point( visibleArea.x, visibleArea.y ) );
-    when( result.getVerticalBarOffset() ).thenReturn( STUB_OFFSET );
+    when( result.getVerticalBarOffset() ).thenReturn( STUB_VERTICAL_BAR_OFFSET );
+    when( result.getOffset() ).thenReturn( OFFSET );
     return result;
   }
 }

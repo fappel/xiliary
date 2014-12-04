@@ -9,6 +9,7 @@ import java.util.Collection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Shell;
@@ -67,10 +68,11 @@ public class LayoutFactoriesTest {
   @Test
   public void structureAndDrawingOrder() {
     Control[] children = flatScrollBarControl.getChildren();
-    assertThat( children ).hasSize( 3 );
-    assertThat( children[ 0 ] ).isSameAs( scrollable );
-    assertThat( children[ 1 ] ).isExactlyInstanceOf( FlatScrollBar.class );
+    assertThat( children ).hasSize( 4 );
+    assertThat( children[ 0 ] ).isExactlyInstanceOf( Label.class );
+    assertThat( children[ 1 ] ).isSameAs( scrollable );
     assertThat( children[ 2 ] ).isExactlyInstanceOf( FlatScrollBar.class );
+    assertThat( children[ 3 ] ).isExactlyInstanceOf( FlatScrollBar.class );
   }
 
   @Test
@@ -79,6 +81,7 @@ public class LayoutFactoriesTest {
     assertThat( children[ 0 ].getBackground() ).isEqualTo( flatScrollBarControl.getBackground() );
     assertThat( children[ 1 ].getBackground() ).isEqualTo( flatScrollBarControl.getBackground() );
     assertThat( children[ 2 ].getBackground() ).isEqualTo( flatScrollBarControl.getBackground() );
+    assertThat( children[ 3 ].getBackground() ).isEqualTo( flatScrollBarControl.getBackground() );
   }
 
   @Test

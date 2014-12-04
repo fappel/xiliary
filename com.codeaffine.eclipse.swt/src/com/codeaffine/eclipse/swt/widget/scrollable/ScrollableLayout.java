@@ -2,6 +2,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Scrollable;
 
@@ -15,12 +16,15 @@ class ScrollableLayout<T extends Scrollable> extends Layout {
   private final OverlayLayouter overlayLayouter;
   private final T scrollable;
 
-  ScrollableLayout(
-    T scrollable, LayoutContextFactory contextFactory, FlatScrollBar horizontal, FlatScrollBar vertical )
+  ScrollableLayout( T scrollable,
+                    LayoutContextFactory contextFactory,
+                    FlatScrollBar horizontal,
+                    FlatScrollBar vertical,
+                    Label cornerOverlay )
   {
     this( scrollable,
           contextFactory,
-          new OverlayLayouter( horizontal, vertical ),
+          new OverlayLayouter( horizontal, vertical, cornerOverlay ),
           new ScrollableLayouter( scrollable ),
           new ScrollBarConfigurer( horizontal ) );
   }

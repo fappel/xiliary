@@ -2,6 +2,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Tree;
 
@@ -24,8 +25,8 @@ class TreeLayoutFactory extends ScrollableLayoutFactory<Tree> {
   }
 
   @Override
-  public Layout create( Tree tree, FlatScrollBar horizontal, FlatScrollBar vertical ) {
-    return new ScrollableLayout<Tree>( tree, createContextFactory( tree ), horizontal, vertical );
+  public Layout create( Tree tree, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay ) {
+    return new ScrollableLayout<Tree>( tree, createContextFactory( tree ), horizontal, vertical, cornerOverlay );
   }
 
   @Override

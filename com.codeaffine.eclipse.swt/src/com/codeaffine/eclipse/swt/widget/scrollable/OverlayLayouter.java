@@ -3,7 +3,9 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.MAX_EXPANSION;
 
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Label;
 
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
@@ -11,8 +13,10 @@ class OverlayLayouter {
 
   private final FlatScrollBar horizontal;
   private final FlatScrollBar vertical;
+  private final Label cornerOverlay;
 
-  OverlayLayouter( FlatScrollBar horizontal, FlatScrollBar vertical ) {
+  OverlayLayouter( FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay  ) {
+    this.cornerOverlay = cornerOverlay;
     this.horizontal = horizontal;
     this.vertical = vertical;
   }
@@ -20,6 +24,7 @@ class OverlayLayouter {
   void layout( LayoutContext context ) {
     layoutVertical( context );
     layoutHorizontal( context );
+    layoutCornerOverlay();
   }
 
   private void layoutVertical( LayoutContext context ) {
@@ -45,4 +50,15 @@ class OverlayLayouter {
       horizontal.setBounds( 0, 0, 0, 0 );
     }
   }
+
+  private void layoutCornerOverlay() {
+    cornerOverlay.setBounds( calculateCornerOverlayBounds( horizontal, vertical ) );
+  }
+
+  static Rectangle calculateCornerOverlayBounds( FlatScrollBar horizontal, FlatScrollBar vertical ) {
+    Point hSize = horizontal.getSize();
+    Point vSize = vertical.getSize();
+    return new Rectangle( hSize.x, vSize.y, vSize.x, hSize.y );
+  }
+
 }

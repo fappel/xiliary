@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.OFFSET;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.stubContext;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal.H_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Vertical.V_INVISIBLE;
@@ -26,7 +27,7 @@ public class ScrollBarConfigurerTest {
 
     verify( scrollBar ).setIncrement( 1 );
     verify( scrollBar ).setMaximum( PREFERRED_SIZE.x );
-    verify( scrollBar ).setMinimum( 0 );
+    verify( scrollBar ).setMinimum( OFFSET );
     verify( scrollBar ).setPageIncrement( VISIBLE_AREA.width );
     verify( scrollBar ).setThumb( VISIBLE_AREA.width );
   }

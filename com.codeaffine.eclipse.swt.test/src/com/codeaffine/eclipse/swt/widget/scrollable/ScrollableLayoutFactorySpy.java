@@ -5,6 +5,7 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Scrollable;
 
@@ -19,13 +20,15 @@ class ScrollableLayoutFactorySpy
   private DisposeEvent disposeEvent;
   private FlatScrollBar horizontal;
   private FlatScrollBar vertical;
+  private Label cornerOverlay;
   private FillLayout layout;
 
   @Override
-  public Layout create( Scrollable scrollable, FlatScrollBar horizontal, FlatScrollBar vertical ) {
+  public Layout create( Scrollable scrollable, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay ) {
     this.horizontal = horizontal;
     this.vertical = vertical;
-    layout = new FillLayout();
+    this.cornerOverlay = cornerOverlay;
+    this.layout = new FillLayout();
     return layout;
   }
 
@@ -76,5 +79,9 @@ class ScrollableLayoutFactorySpy
 
   Layout getLayout() {
     return layout;
+  }
+
+  Label getCornerOverlay() {
+    return cornerOverlay;
   }
 }

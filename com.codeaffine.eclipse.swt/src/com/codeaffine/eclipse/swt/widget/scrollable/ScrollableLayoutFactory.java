@@ -1,9 +1,11 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Scrollable;
 
@@ -17,7 +19,7 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
     scrollBarFactory = new ScrollBarFactory();
   }
 
-  public abstract Layout create( T scrollable, FlatScrollBar horizontal, FlatScrollBar vertical );
+  public abstract Layout create( T scrollable, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay );
   public abstract SelectionListener createHorizontalSelectionListener( T scrollable );
   public abstract SelectionListener createVerticalSelectionListener( T scrollable );
   public abstract DisposeListener createWatchDog( T scrollable, FlatScrollBar horizontal, FlatScrollBar vertical );
@@ -31,8 +33,13 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
     horizontalBar.addSelectionListener( createHorizontalSelectionListener( scrollable ) );
     verticalBar.addSelectionListener( createVerticalSelectionListener( scrollable ) );
     parent.addDisposeListener( createWatchDog( scrollable, horizontalBar, verticalBar ) );
-    return create( scrollable, horizontalBar, verticalBar );
+    Label cornerOverlay = createCornerOverlay( parent );
+    return create( scrollable, horizontalBar, verticalBar, cornerOverlay );
   }
 
-
+  private static Label createCornerOverlay( Composite parent ) {
+    Label result = new Label( parent, SWT.NONE );
+    result.moveAbove( null );
+    return result;
+  }
 }
