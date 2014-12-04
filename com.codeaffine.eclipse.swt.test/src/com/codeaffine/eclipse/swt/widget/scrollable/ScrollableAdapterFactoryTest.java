@@ -42,6 +42,7 @@ public class ScrollableAdapterFactoryTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void create() {
     Tree tree = createTree( shell, 1, 1 );
 
@@ -53,6 +54,7 @@ public class ScrollableAdapterFactoryTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void createForTreeWithBorder() {
     Tree tree = new Tree( shell, SWT.BORDER );
 

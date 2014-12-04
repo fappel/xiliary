@@ -1,6 +1,5 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-import static com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType.GTK;
 import static com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType.WIN32;
 import static com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.createLayoutFactory;
 
@@ -32,13 +31,16 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
   @Override
   @SuppressWarnings("unchecked")
   public void adapt( Table table ) {
-    this.layoutFactory = createLayoutFactory( new Platform(), createLayoutMapping() );
+    Platform platform = new Platform();
+    this.layoutFactory = createLayoutFactory( platform, createLayoutMapping() );
     this.table = table;
-    table.setParent( this );
-    context = new LayoutContext<Table>( this, table );
-    reconciliation = context.getReconciliation();
-    super.setLayout( layoutFactory.create( context ) );
-    table.addDisposeListener( this );
+    if( platform.matchesOneOf( WIN32 ) ) {
+      table.setParent( this );
+      context = new LayoutContext<Table>( this, table );
+      reconciliation = context.getReconciliation();
+      super.setLayout( layoutFactory.create( context ) );
+      table.addDisposeListener( this );
+    }
   }
 
   @Override
@@ -292,6 +294,6 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
   // private helper methods
 
   private static LayoutMapping<Table> createLayoutMapping() {
-    return new LayoutMapping<Table>( new TableLayoutFactory(), WIN32, GTK );
+    return new LayoutMapping<Table>( new TableLayoutFactory(), WIN32 );
   }
 }

@@ -13,7 +13,6 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
@@ -53,9 +52,9 @@ public class LayoutContextTest {
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
       .hasOffset( new OffsetComputer( tree ).compute() )
-      .hasVisibleArea( getVisibleArea( tree ) )
+      .hasVisibleArea( expectedVisibleArea() )
       .hasHorizontalAdapterSelection( 0 )
-      .hasBorderWidth( tree.getBorderWidth() )
+      .hasBorderWidth( expectedBorderWidth() )
       .isNotScrollableReplacement();
   }
 
@@ -70,9 +69,9 @@ public class LayoutContextTest {
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
       .hasOffset( new OffsetComputer( tree ).compute() )
-      .hasVisibleArea( getVisibleArea( tree ) )
+      .hasVisibleArea( expectedVisibleArea() )
       .hasHorizontalAdapterSelection( 0 )
-      .hasBorderWidth( tree.getBorderWidth() )
+      .hasBorderWidth( expectedBorderWidth() )
       .isNotScrollableReplacement();
   }
 
@@ -87,9 +86,9 @@ public class LayoutContextTest {
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
       .hasOffset( new OffsetComputer( tree ).compute() )
-      .hasVisibleArea( getVisibleArea( tree ) )
+      .hasVisibleArea( expectedVisibleArea() )
       .hasHorizontalAdapterSelection( 0 )
-      .hasBorderWidth( tree.getBorderWidth() )
+      .hasBorderWidth( expectedBorderWidth() )
       .isNotScrollableReplacement();
   }
 
@@ -192,7 +191,7 @@ public class LayoutContextTest {
   public void getOriginOfScrollableOrdinates() {
     LayoutContext<Tree> actual = layoutContext.newContext( tree.getItemHeight() );
 
-    assertThat( actual ).hasOriginOfScrollableOrdinates( expectedOriginOfScrollableOrdinates( tree ) );
+    assertThat( actual ).hasOriginOfScrollableOrdinates( expectedOriginOfScrollableOrdinates() );
   }
 
   @Test
@@ -226,14 +225,15 @@ public class LayoutContextTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void createContextOnScrollableWithBorder() {
     Tree scrollable = new Tree( shell, SWT.BORDER );
     LayoutContext<Tree> actual = new LayoutContext<Tree>( shell, scrollable );
 
     assertThat( actual )
-      .hasOriginOfScrollableOrdinates( expectedOriginOfScrollableOrdinates( scrollable ) )
+      .hasOriginOfScrollableOrdinates( expectedOriginOfScrollableOrdinates() )
       .hasBorderWidth( scrollable.getBorderWidth() )
-      .hasVisibleArea( getVisibleArea( scrollable ) );
+      .hasVisibleArea( expectedVisibleArea() );
   }
 
   private int computeThresholdHeight() {
@@ -245,14 +245,14 @@ public class LayoutContextTest {
     return new PreferredSizeComputer( tree, shell ).getPreferredSize();
   }
 
-  private Point expectedOriginOfScrollableOrdinates( Scrollable scrollable ) {
-    int borderWidth = scrollable.getBorderWidth();
-    return new Point( getVisibleArea( scrollable ).x - borderWidth, getVisibleArea( scrollable ).y - borderWidth );
+  private Point expectedOriginOfScrollableOrdinates() {
+    int borderWidth = expectedBorderWidth();
+    return new Point( expectedVisibleArea().x - borderWidth, expectedVisibleArea().y - borderWidth );
   }
 
-  private Rectangle getVisibleArea( Scrollable scrollable ) {
+  private Rectangle expectedVisibleArea() {
     Rectangle area = shell.getClientArea();
-    int borderAdjustment = scrollable.getBorderWidth() * 2;
+    int borderAdjustment = expectedBorderWidth() * 2;
     return new Rectangle( area.x, area.y, area.width + borderAdjustment, area.height + borderAdjustment );
   }
 
@@ -262,6 +262,13 @@ public class LayoutContextTest {
       result = OVERLAY_OFFSET;
     }
     return result;
+  }
+
+  private int expectedBorderWidth() {
+    if( ( tree.getStyle() & SWT.BORDER ) > 0 ) {
+      return tree.getBorderWidth();
+    }
+    return 0;
   }
 
   public static void waitForGtkRendering() {

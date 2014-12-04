@@ -16,15 +16,18 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class TableAdapterTest {
 
   private static final int SELECTION = 50;
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ScrollableAdapterFactory adapterFactory;
   private TableAdapter adapter;
@@ -43,6 +46,7 @@ public class TableAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void adapt() {
     assertThat( adapter.getChildren() ).contains( table );
     assertThat( adapter.getLayout() ).isInstanceOf( ScrollableLayout.class );
@@ -63,6 +67,7 @@ public class TableAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void disposalOfAdapter() {
     adapter.dispose();
 
@@ -70,6 +75,7 @@ public class TableAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void disposalOfTree() {
     table.dispose();
 
@@ -92,6 +98,7 @@ public class TableAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTableBounds() {
     openShellWithoutLayout();
     table = new Table( shell, SWT.NONE );
@@ -105,6 +112,7 @@ public class TableAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTableBoundsWithVisibleScrollBars() {
     openShellWithoutLayout();
 
@@ -116,6 +124,7 @@ public class TableAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTableBoundsWithHorizontalScroll() {
     openShellWithoutLayout();
 
@@ -129,6 +138,7 @@ public class TableAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTableVisibility() {
     table.setVisible( false );
     waitForReconciliation();

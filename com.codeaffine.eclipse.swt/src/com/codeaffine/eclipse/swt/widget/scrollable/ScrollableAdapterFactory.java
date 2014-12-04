@@ -1,6 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.ControlReflectionUtil.$;
+import static com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType.WIN32;
 import static java.lang.Integer.valueOf;
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
@@ -36,13 +37,17 @@ public class ScrollableAdapterFactory {
     Composite parent = scrollable.getParent();
     int ordinalNumber = captureDrawingOrderOrdinalNumber( scrollable );
     final A result = createAdapter( scrollable, type );
-    scrollable.setData( ADAPTED, Boolean.TRUE );
-    applyDrawingOrderOrdinalNumber( result, ordinalNumber );
-    result.setLayoutData( scrollable.getLayoutData() );
+    if( new Platform().matchesOneOf( WIN32 ) ) {
+      scrollable.setData( ADAPTED, Boolean.TRUE );
+      applyDrawingOrderOrdinalNumber( result, ordinalNumber );
+      result.setLayoutData( scrollable.getLayoutData() );
+    }
     result.adapt( scrollable );
-    parent.layout();
-    result.setBackground( scrollable.getBackground() );
-    reflectionUtil.setField( scrollable, "parent", parent );
+    if( new Platform().matchesOneOf( WIN32 ) ) {
+      parent.layout();
+      result.setBackground( scrollable.getBackground() );
+      reflectionUtil.setField( scrollable, "parent", parent );
+    }
     return result;
   }
 
@@ -79,10 +84,12 @@ public class ScrollableAdapterFactory {
   private <S extends Scrollable, A extends Scrollable & Adapter<S>> A createAdapter( S scrollable, Class<A> type ) {
     int style = SWT.BORDER & scrollable.getStyle();
     A result = reflectionUtil.newInstance( type );
-    reflectionUtil.setField( result, "display", Display.getCurrent() );
-    reflectionUtil.setField( result, "parent", scrollable.getParent() );
-    reflectionUtil.setField( result, "style", Integer.valueOf( style ) );
-    reflectionUtil.invoke( result, "createWidget", $( valueOf( 0 ), int.class ) );
+    if( new Platform().matchesOneOf( WIN32 ) ) {
+      reflectionUtil.setField( result, "display", Display.getCurrent() );
+      reflectionUtil.setField( result, "parent", scrollable.getParent() );
+      reflectionUtil.setField( result, "style", Integer.valueOf( style ) );
+      reflectionUtil.invoke( result, "createWidget", $( valueOf( 0 ), int.class ) );
+    }
     return result;
   }
 

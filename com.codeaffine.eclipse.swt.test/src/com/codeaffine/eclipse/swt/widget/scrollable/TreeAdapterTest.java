@@ -16,15 +16,18 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class TreeAdapterTest {
 
   private static final int SELECTION = 50;
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ScrollableAdapterFactory adapterFactory;
   private TreeAdapter adapter;
@@ -44,6 +47,7 @@ public class TreeAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void adapt() {
     assertThat( adapter.getChildren() ).contains( tree );
     assertThat( adapter.getLayout() ).isInstanceOf( ScrollableLayout.class );
@@ -64,6 +68,7 @@ public class TreeAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void disposalOfAdapter() {
     adapter.dispose();
 
@@ -71,6 +76,7 @@ public class TreeAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void disposalOfTree() {
     tree.dispose();
 
@@ -93,6 +99,7 @@ public class TreeAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTreeBounds() {
     openShellWithoutLayout();
     tree = createTree( shell, 1, 1 );
@@ -106,6 +113,7 @@ public class TreeAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTreeBoundsWithVisibleScrollBars() {
     openShellWithoutLayout();
     expandTopBranch( tree );
@@ -118,6 +126,7 @@ public class TreeAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTreeBoundsByTreeEvent() {
     openShellWithoutLayout();
     Rectangle expected = adapter.getBounds();
@@ -131,6 +140,7 @@ public class TreeAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTreeBoundsWithHorizontalScroll() {
     openShellWithoutLayout();
     expandTopBranch( tree );
@@ -145,6 +155,7 @@ public class TreeAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTreeVisibility() {
     tree.setVisible( false );
     waitForReconciliation();

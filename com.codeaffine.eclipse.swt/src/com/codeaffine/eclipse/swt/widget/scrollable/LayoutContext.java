@@ -2,6 +2,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
@@ -113,7 +114,10 @@ class LayoutContext<T extends Scrollable> {
   }
 
   int getBorderWidth() {
-    return scrollable.getBorderWidth();
+    if( ( scrollable.getStyle() & SWT.BORDER ) > 0 ) {
+      return scrollable.getBorderWidth();
+    }
+    return 0;
   }
 
   private static boolean computeVerticalBarVisible(
