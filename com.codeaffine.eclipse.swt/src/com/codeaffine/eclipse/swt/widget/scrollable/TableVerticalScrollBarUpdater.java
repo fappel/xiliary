@@ -23,7 +23,15 @@ class TableVerticalScrollBarUpdater implements VerticalScrollBarUpdater {
     scrollBar.setMinimum( 0 );
     scrollBar.setPageIncrement( calculateThumb() );
     scrollBar.setThumb( calculateThumb() );
-    scrollBar.setSelection( cornerCaseWorkaroundForGtk( table.getTopIndex(), table.getItem( table.getTopIndex() ) ) * SELECTION_RASTER_SMOOTH_FACTOR );
+    scrollBar.setSelection( calculateSelection() );
+  }
+
+  private int calculateSelection() {
+    if( table.getItemCount() > 0 ) {
+      int topIndex = table.getTopIndex();
+      return cornerCaseWorkaroundForGtk( topIndex, table.getItem( topIndex ) ) * SELECTION_RASTER_SMOOTH_FACTOR;
+    }
+    return 0;
   }
 
   int calculateThumb() {

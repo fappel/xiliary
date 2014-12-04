@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -71,6 +72,21 @@ public class TableVerticalScrollBarUpdaterTest {
   }
 
   @Test
+  public void updateWithoutItems() {
+    disposeOfAllItems();
+
+    updater.update();
+
+    assertThat( scrollbar )
+      .hasIncrement( SELECTION_RASTER_SMOOTH_FACTOR )
+      .hasPageIncrement( updater.calculateThumb() )
+      .hasThumb( SELECTION_RASTER_SMOOTH_FACTOR )
+      .hasMaximum( SELECTION_RASTER_SMOOTH_FACTOR )
+      .hasMinimum( 0 )
+      .hasSelection( 0 );
+  }
+
+  @Test
   public void updateWithoutHeader() {
     table.setHeaderVisible( false );
 
@@ -102,6 +118,7 @@ public class TableVerticalScrollBarUpdaterTest {
 
     assertThat( actual ).isLessThan( SELECTION_RASTER_SMOOTH_FACTOR * height / table.getItemHeight() );
   }
+
   @Test
   @ConditionalIgnore( condition = CocoaPlatform.class )
   public void updateWithGtkWorkaround() {
@@ -129,5 +146,12 @@ public class TableVerticalScrollBarUpdaterTest {
     int size = table.getItemCount();
     int tableHeight = size * table.getItemHeight() - table.getItemHeight() / 2;
     table.setSize( table.getSize().x, tableHeight );
+  }
+
+  private void disposeOfAllItems() {
+    TableItem[] items = table.getItems();
+    for (TableItem tableItem : items) {
+      tableItem.dispose();
+    }
   }
 }
