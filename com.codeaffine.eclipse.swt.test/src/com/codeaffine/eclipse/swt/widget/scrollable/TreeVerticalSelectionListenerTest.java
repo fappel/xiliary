@@ -4,6 +4,7 @@ import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.SelectionEventHelper.createEvent;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
+import static com.codeaffine.eclipse.swt.widget.scrollable.VerticalScrollBarUpdater.SELECTION_RASTER_SMOOTH_FACTOR;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -18,6 +19,8 @@ import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 public class TreeVerticalSelectionListenerTest {
 
+  private static final int ITEM_INDEX = 2;
+
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -28,7 +31,7 @@ public class TreeVerticalSelectionListenerTest {
     FlatScrollBar scrollBar = prepareScrollBar( shell, tree );
     TreeVerticalSelectionListener listener = new TreeVerticalSelectionListener( tree );
 
-    listener.widgetSelected( createEvent( scrollBar, 2 ) );
+    listener.widgetSelected( createEvent( scrollBar, ITEM_INDEX * SELECTION_RASTER_SMOOTH_FACTOR ) );
 
     assertThat( tree.getTopItem() ).isSameAs( getThirdTopBranchItem( tree ) );
   }
@@ -42,7 +45,7 @@ public class TreeVerticalSelectionListenerTest {
 
   private static FlatScrollBar prepareScrollBar( Shell shell, Tree tree ) {
     FlatScrollBar result = new FlatScrollBar( shell, SWT.VERTICAL );
-    TreeVerticalScrollBarUpdater updater = new TreeVerticalScrollBarUpdater( tree, result );
+    VerticalScrollBarUpdater updater = new TreeVerticalScrollBarUpdater( tree, result );
     updater.update();
     return result;
   }

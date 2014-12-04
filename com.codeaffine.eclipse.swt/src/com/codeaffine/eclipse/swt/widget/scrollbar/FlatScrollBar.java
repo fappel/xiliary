@@ -29,6 +29,7 @@ public class FlatScrollBar extends Composite {
   final Direction direction;
   final MouseWheelShifter mouseWheelHandler;
   final Collection<SelectionListener> listeners;
+  final int buttonLength;
 
   private int minimum;
   private int maximum;
@@ -36,7 +37,7 @@ public class FlatScrollBar extends Composite {
   private int pageIncrement;
   private int thumb;
   private int selection;
-  private final int buttonLength;
+  private boolean onDrag;
 
   public FlatScrollBar( final Composite parent, int style ) {
     this( parent, style, DEFAULT_BUTTON_LENGTH, DEFAULT_MAX_EXPANSION );
@@ -138,10 +139,8 @@ public class FlatScrollBar extends Composite {
   }
 
   public void setSelection( int selection ) {
-    if( this.selection != selection ) {
-      this.selection = selection;
-      adjustSelection();
-      layout();
+    if( !onDrag ) {
+      updateSelection( selection );
     }
   }
 
@@ -165,17 +164,30 @@ public class FlatScrollBar extends Composite {
 
   protected void setSelectionInternal( int selection, int detail ) {
     int oldSelection = this.selection;
-    setSelection( selection );
+    updateSelection( selection );
     if( oldSelection != this.selection ) {
       notifyListeners( detail );
     }
   }
 
+  private void updateSelection( int selection ) {
+    if( this.selection != selection ) {
+      this.selection = selection;
+      adjustSelection();
+      layout();
+    }
+  }
+
   public void notifyListeners( int detail ) {
+    updateOnDrag( detail );
     SelectionEvent selectionEvent = createEvent( detail );
     for( SelectionListener listener : listeners ) {
       listener.widgetSelected( selectionEvent );
     }
+  }
+
+  private void updateOnDrag( int detail ) {
+    onDrag = ( onDrag || ( SWT.DRAG & detail ) > 0 ) && ( SWT.NONE != detail );
   }
 
   private SelectionEvent createEvent( int detail ) {

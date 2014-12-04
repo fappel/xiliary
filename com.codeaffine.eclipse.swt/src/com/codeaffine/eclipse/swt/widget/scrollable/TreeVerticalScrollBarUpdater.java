@@ -23,22 +23,28 @@ class TreeVerticalScrollBarUpdater implements VerticalScrollBarUpdater {
   @Override
   public void update() {
     List<TreeItem> visibleItems = treeItemCollector.collectVisibleItems();
-    scrollBar.setIncrement( 1 );
-    scrollBar.setMaximum( visibleItems.size() );
+    scrollBar.setIncrement( SELECTION_RASTER_SMOOTH_FACTOR );
+    scrollBar.setMaximum( calculateMaximum( visibleItems ) );
     scrollBar.setMinimum( 0 );
     scrollBar.setPageIncrement( calculateThumb() );
     scrollBar.setThumb( calculateThumb() );
     scrollBar.setSelection( calculateSelection( visibleItems ) );
   }
 
+  int calculateMaximum( List<TreeItem> visibleItems ) {
+    return SELECTION_RASTER_SMOOTH_FACTOR * visibleItems.size();
+  }
+
   int calculateThumb() {
-    return tree.getClientArea().height / tree.getItemHeight();
+    int height = tree.getClientArea().height;
+    int ratio = height / tree.getItemHeight();
+    return SELECTION_RASTER_SMOOTH_FACTOR * ratio;
   }
 
   private int calculateSelection( List<TreeItem> visibleItems ) {
     TreeItem topItem = tree.getTopItem();
     int result = calculateSelection( visibleItems.iterator(), topItem );
-    return cornerCaseWorkaroundForGtk( result, topItem );
+    return SELECTION_RASTER_SMOOTH_FACTOR * cornerCaseWorkaroundForGtk( result, topItem );
   }
 
   private static int calculateSelection( Iterator<TreeItem> iterator, TreeItem topItem ) {

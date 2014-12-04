@@ -496,6 +496,37 @@ public class FlatScrollBarTest {
   }
 
   @Test
+  public void setSelectionOnDrag() {
+    scrollBar.notifyListeners( SWT.DRAG );
+    scrollBar.setSelection( 12 );
+    int actual = scrollBar.getSelection();
+
+    assertThat( actual ).isEqualTo( DEFAULT_SELECTION );
+  }
+
+  @Test
+  public void setSelectionOnDragWithUnrelatedType() {
+    scrollBar.notifyListeners( SWT.DRAG );
+    scrollBar.notifyListeners( SWT.HOME );
+    scrollBar.setSelection( 12 );
+    int actual = scrollBar.getSelection();
+
+    assertThat( actual ).isEqualTo( DEFAULT_SELECTION );
+  }
+
+  @Test
+  public void setSelectionAfterDragEnd() {
+    int expected = 12;
+
+    scrollBar.notifyListeners( SWT.DRAG );
+    scrollBar.notifyListeners( SWT.NONE );
+    scrollBar.setSelection( expected );
+    int actual = scrollBar.getSelection();
+
+    assertThat( actual ).isEqualTo( expected );
+  }
+
+  @Test
   public void notifyListeners() {
     ArgumentCaptor<SelectionEvent> captor = forClass( SelectionEvent.class );
     SelectionListener listener = mock( SelectionListener.class );

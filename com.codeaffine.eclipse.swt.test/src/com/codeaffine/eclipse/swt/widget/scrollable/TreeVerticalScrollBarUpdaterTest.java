@@ -5,7 +5,9 @@ import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
+import static com.codeaffine.eclipse.swt.widget.scrollable.VerticalScrollBarUpdater.SELECTION_RASTER_SMOOTH_FACTOR;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
@@ -22,6 +24,8 @@ import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class TreeVerticalScrollBarUpdaterTest {
+
+  private static final int DEFAULT_MAXIMUM = 100;
 
   @Rule public final ConditionalIgnoreRule conditionIgnoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
@@ -47,7 +51,7 @@ public class TreeVerticalScrollBarUpdaterTest {
     updater.update();
 
     assertThat( scrollbar )
-      .hasIncrement( 1 )
+      .hasIncrement( SELECTION_RASTER_SMOOTH_FACTOR )
       .hasPageIncrement( updater.calculateThumb() )
       .hasThumb( updater.calculateThumb() )
       .hasMaximum( expectedMaximum() )
@@ -63,12 +67,12 @@ public class TreeVerticalScrollBarUpdaterTest {
     updater.update();
 
     assertThat( scrollbar )
-      .hasIncrement( 1 )
+      .hasIncrement( SELECTION_RASTER_SMOOTH_FACTOR )
       .hasPageIncrement( updater.calculateThumb() )
       .hasThumb( updater.calculateThumb() )
       .hasMaximum( expectedMaximum() )
       .hasMinimum( 0 )
-      .hasSelection( 1 );
+      .hasSelection( SELECTION_RASTER_SMOOTH_FACTOR );
   }
 
   @Test
@@ -81,12 +85,12 @@ public class TreeVerticalScrollBarUpdaterTest {
     updater.update();
 
     assertThat( scrollbar )
-      .hasIncrement( 1 )
+      .hasIncrement( SELECTION_RASTER_SMOOTH_FACTOR )
       .hasPageIncrement( updater.calculateThumb() )
       .hasThumb( updater.calculateThumb() )
       .hasMaximum( expectedMaximum() )
       .hasMinimum( 0 )
-      .hasSelection( 1 );
+      .hasSelection( SELECTION_RASTER_SMOOTH_FACTOR );
   }
 
   @Test
@@ -96,21 +100,48 @@ public class TreeVerticalScrollBarUpdaterTest {
     updater.update();
 
     assertThat( scrollbar )
-      .hasIncrement( 1 )
+      .hasIncrement( SELECTION_RASTER_SMOOTH_FACTOR )
       .hasPageIncrement( updater.calculateThumb() )
-      .hasThumb( updater.calculateThumb() )
-      .hasMaximum( 100 )
+      .hasThumb( DEFAULT_MAXIMUM )
+      .hasMaximum( DEFAULT_MAXIMUM )
       .hasMinimum( 0 )
       .hasSelection( 0 );
   }
 
+  @Test
+  public void updateWithoutHeader() {
+    expandRootLevelItems( tree );
+
+    updater.update();
+
+    assertThat( scrollbar )
+      .hasIncrement( SELECTION_RASTER_SMOOTH_FACTOR )
+      .hasPageIncrement( updater.calculateThumb() )
+      .hasThumb( updater.calculateThumb() )
+      .hasMaximum( expectedMaximum() )
+      .hasMinimum( 0 )
+      .hasSelection( 0 );
+  }
+
+  @Test
+  public void ensureCorrectRounding() {
+    expandRootLevelItems( tree );
+    int height = tree.getClientArea().height;
+
+    int actual = updater.calculateThumb();
+
+    assertThat( actual ).isLessThan( SELECTION_RASTER_SMOOTH_FACTOR * height / tree.getItemHeight() );
+  }
+
   private void adjustTreeHeightForGtkWorkaround() {
-    int treeHeight = expectedMaximum() * tree.getItemHeight() - tree.getItemHeight() / 2;
+    int size = new TreeItemCollector( tree ).collectVisibleItems().size();
+    int treeHeight = size * tree.getItemHeight() - tree.getItemHeight() / 2;
     tree.setSize( tree.getSize().x, treeHeight );
   }
 
   private int expectedMaximum() {
-    return new TreeItemCollector( tree ).collectVisibleItems().size();
+    int size = new TreeItemCollector( tree ).collectVisibleItems().size();
+    return SELECTION_RASTER_SMOOTH_FACTOR * size;
   }
 
   private void disposeAllItems() {
