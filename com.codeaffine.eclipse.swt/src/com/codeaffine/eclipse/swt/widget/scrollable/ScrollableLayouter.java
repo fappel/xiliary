@@ -14,7 +14,7 @@ class ScrollableLayouter {
   }
 
   void layout( LayoutContext context ) {
-    scrollable.setLocation( context.getVisibleArea().x, context.getVisibleArea().y );
+    scrollable.setLocation( context.getLocation( ) );
     scrollable.setSize( computeWidth( context ), computeHeight( context ) );
   }
 

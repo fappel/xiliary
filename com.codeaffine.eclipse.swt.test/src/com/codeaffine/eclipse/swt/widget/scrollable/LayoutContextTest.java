@@ -1,11 +1,13 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContext.OFFSET;
 import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContext.OVERLAY_OFFSET;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextAssert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -105,6 +107,15 @@ public class LayoutContextTest {
       .horizontalBarIsVisible();
   }
 
+  @Test
+  public void getLocation() {
+    LayoutContext context = new LayoutContext( tree, tree.getItemHeight() );
+
+    Point actual = context.getLocation();
+
+    assertThat( actual ).isEqualTo( expectedLocation() );
+  }
+
   private int computeThresholdHeight() {
     int trim = shell.getSize().x - shell.getClientArea().height;
     return tree.getItemHeight() * 2  + trim + 3;
@@ -113,6 +124,10 @@ public class LayoutContextTest {
   private Point computePreferredTreeSize() {
     Point size = tree.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
     return new Point( size.x + LayoutContext.WIDTH_BUFFER, size.y );
+  }
+
+  private Point expectedLocation() {
+    return new Point( getVisibleArea().x - OFFSET, getVisibleArea().y - OFFSET );
   }
 
   private Rectangle getVisibleArea() {

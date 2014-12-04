@@ -7,25 +7,34 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Scrollable;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType;
+
 class LayoutContext {
 
   static final int OVERLAY_OFFSET = 40;
   static final int WIDTH_BUFFER = 2;
+  static final int OFFSET = new Platform().matches( PlatformType.GTK ) ? 2 : 0;
 
   private final boolean horizontalBarVisible;
   private final boolean verticalBarVisible;
   private final Rectangle visibleArea;
   private final int verticalBarOffset;
   private final Point preferredSize;
+  private final Point location;
 
   LayoutContext( Scrollable scrollable, int itemHeight ) {
     Point computed = scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
-    preferredSize = new Point( computed.x + WIDTH_BUFFER, computed.y );
+    preferredSize = new Point( computed.x + OFFSET + WIDTH_BUFFER, computed.y + OFFSET );
     visibleArea = scrollable.getParent().getClientArea();
+    location = new Point( visibleArea.x - OFFSET, visibleArea.y - OFFSET );
     horizontalBarVisible = preferredSize.x > visibleArea.width;
     verticalBarOffset = computeVerticalBarOffset( scrollable );
     verticalBarVisible
       = computeVerticalBarVisible( horizontalBarVisible, preferredSize.y, visibleArea.height, itemHeight );
+  }
+
+  Point getLocation() {
+    return location;
   }
 
   boolean isVerticalBarVisible() {

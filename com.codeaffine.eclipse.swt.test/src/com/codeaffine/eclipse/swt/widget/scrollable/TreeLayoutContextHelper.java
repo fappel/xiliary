@@ -40,6 +40,7 @@ class TreeLayoutContextHelper {
     when( result.isHorizontalBarVisible() ).thenReturn( horizontalBarVisible.value );
     when( result.getPreferredSize() ).thenReturn( preferredSize );
     when( result.getVisibleArea() ).thenReturn( visibleArea );
+    when( result.getLocation() ).thenReturn( new Point( visibleArea.x, visibleArea.y ) );
     when( result.getVerticalBarOffset() ).thenReturn( STUB_OFFSET );
     return result;
   }
