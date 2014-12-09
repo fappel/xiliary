@@ -4,34 +4,39 @@ import static org.eclipse.core.runtime.Assert.isNotNull;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.PlatformObject;
 
 class Adapters {
 
   public <T> T getAdapter( Object adaptable, Class<T> adapterType ) {
     isNotNull( adapterType );
 
-    if( adaptable != null ) {
-      return doGetAdapter( adaptable, adapterType );
+    if( adaptable == null ) {
+      return null;
     }
-    return null;
-  }
 
-  private static <T> T doGetAdapter( Object adaptable, Class<T> adapterType ) {
-    T result;
     if( adapterType.isInstance( adaptable ) ) {
-      result = adapterType.cast( adaptable );
-    } else  if( adaptable instanceof IAdaptable ) {
-      result = getAdapterFromAdaptable( adaptable, adapterType );
-    } else {
-      result = getAdapterFromRegistry( adaptable, adapterType );
+      return adapterType.cast( adaptable );
     }
-    return result;
+
+    if( adaptable instanceof IAdaptable ) {
+      return getAdapterFromAdaptable( adaptable, adapterType );
+    }
+
+    return getAdapterFromRegistry( adaptable, adapterType );
   }
 
   private static <T> T getAdapterFromAdaptable( Object adaptable, Class<T> adapterType ) {
     Object adapter = ( ( IAdaptable )adaptable).getAdapter( adapterType );
     if( adapter != null ) {
       return adapterType.cast( adapter );
+    }
+    return getAdapterOfNonPlatformObjectFromRegistry( adaptable, adapterType );
+  }
+
+  private static <T> T getAdapterOfNonPlatformObjectFromRegistry( Object adaptable, Class<T> adapterType) {
+    if( !( adaptable instanceof PlatformObject ) ) {
+      return getAdapterFromRegistry( adaptable, adapterType );
     }
     return null;
   }
