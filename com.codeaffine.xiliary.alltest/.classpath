@@ -9,5 +9,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.swt.test.util.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.test.util.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.ui.test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.workflow.persistence.test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.workflow.test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.workflow.test.util.test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

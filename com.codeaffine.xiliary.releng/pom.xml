@@ -54,6 +54,17 @@
     <module>../com.codeaffine.eclipse.ui</module>
     <module>../com.codeaffine.eclipse.ui.test</module>
 
+    <!-- Workflow -->
+    <module>../com.codeaffine.workflow.feature</module>
+    <module>../com.codeaffine.workflow.test.util.feature</module>
+    
+    <module>../com.codeaffine.workflow</module>
+    <module>../com.codeaffine.workflow.test</module>
+    <module>../com.codeaffine.workflow.persistence</module>
+    <module>../com.codeaffine.workflow.persistence.test</module>
+    <module>../com.codeaffine.workflow.test.util</module>
+    <module>../com.codeaffine.workflow.test.util.test</module>
+
     <!-- to be continued :-) -->
     
   </modules>

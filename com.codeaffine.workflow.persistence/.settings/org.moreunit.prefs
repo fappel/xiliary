@@ -1,0 +1,7 @@
+eclipse.preferences.version=1
+org.moreunit.preferences.version=2
+org.moreunit.test.test_methodDefaultContent=
+org.moreunit.testClassNameTemplate=${srcFile}(Test|PDETest)
+org.moreunit.test_methodType=testMethodTypeNoPrefix
+org.moreunit.unitsourcefolder=com.codeaffine.workflow.persistence\:src\:com.codeaffine.workflow.persistence.test\:src
+org.moreunit.useprojectsettings=true

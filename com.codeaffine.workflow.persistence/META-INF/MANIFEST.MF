@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Workflow Persistence Module
+Bundle-SymbolicName: com.codeaffine.workflow.persistence;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: CODE AFFINE
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Require-Bundle: com.codeaffine.workflow;bundle-version="[0.1.0,1.0.0)",
+ com.google.gson;bundle-version="[2.1.0,3.0.0)"
+Export-Package: com.codeaffine.workflow.persistence;version="0.1.0",
+ com.codeaffine.workflow.persistence.internal;x-internal:=true

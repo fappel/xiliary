@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.codeaffine.workflow.test.util.feature"
+      label="Utilities for Worflow Tests"
+      version="0.1.0.qualifier"
+      provider-name="CODE AFFINE">
+
+   <description url="http://fappel.github.io/xiliary/">
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update url="http://fappel.github.io/xiliary/"/>
+   </url>
+
+   <requires>
+      <import plugin="com.codeaffine.workflow" version="0.1.0" match="compatible"/>
+      <import plugin="com.codeaffine.test.util"/>
+      <import plugin="org.assertj.core"/>
+      <import plugin="org.junit"/>
+      <import plugin="org.mockito.mockito-all"/>
+   </requires>
+
+   <plugin
+         id="com.codeaffine.workflow.test.util"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.codeaffine.workflow.test.util.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
