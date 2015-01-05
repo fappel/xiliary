@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.UUID;
 
 import com.codeaffine.workflow.NodeLoader;
-import com.codeaffine.workflow.Task;
-import com.codeaffine.workflow.VariableDeclaration;
 import com.codeaffine.workflow.Workflow;
-import com.codeaffine.workflow.WorkflowDefinition;
 import com.codeaffine.workflow.WorkflowFactory;
+import com.codeaffine.workflow.definition.Task;
+import com.codeaffine.workflow.definition.VariableDeclaration;
+import com.codeaffine.workflow.definition.WorkflowDefinition;
 import com.codeaffine.workflow.internal.FlowEventNotifier;
 import com.codeaffine.workflow.internal.NodeLoaderImpl;
 import com.codeaffine.workflow.internal.OperationPointer;

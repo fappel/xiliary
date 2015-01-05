@@ -11,13 +11,13 @@ import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.workflow.FlowEvent;
-import com.codeaffine.workflow.FlowListener;
-import com.codeaffine.workflow.TaskEvent;
-import com.codeaffine.workflow.TaskListener;
 import com.codeaffine.workflow.Workflow;
-import com.codeaffine.workflow.WorkflowDefinition;
-import com.codeaffine.workflow.WorkflowDefinitionProvider;
+import com.codeaffine.workflow.definition.WorkflowDefinition;
+import com.codeaffine.workflow.definition.WorkflowDefinitionProvider;
+import com.codeaffine.workflow.event.FlowEvent;
+import com.codeaffine.workflow.event.FlowListener;
+import com.codeaffine.workflow.event.TaskEvent;
+import com.codeaffine.workflow.event.TaskListener;
 import com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.TestActivity;
 import com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.TestTask;
 

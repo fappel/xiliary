@@ -2,6 +2,7 @@ package com.codeaffine.workflow;
 
 import java.util.UUID;
 
+import com.codeaffine.workflow.definition.Task;
 import com.codeaffine.workflow.internal.WorkflowImpl;
 
 public class TaskHolder {

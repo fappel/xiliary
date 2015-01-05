@@ -8,11 +8,11 @@ import static org.mockito.Mockito.when;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.codeaffine.workflow.Activity;
-import com.codeaffine.workflow.Decision;
 import com.codeaffine.workflow.NodeLoader;
 import com.codeaffine.workflow.WorkflowContext;
-import com.codeaffine.workflow.WorkflowDefinitionProvider;
+import com.codeaffine.workflow.definition.Activity;
+import com.codeaffine.workflow.definition.Decision;
+import com.codeaffine.workflow.definition.WorkflowDefinitionProvider;
 import com.codeaffine.workflow.internal.NodeLoaderImpl;
 
 public class NodeLoaderHelper {

@@ -1,5 +1,8 @@
 package com.codeaffine.workflow;
 
+import com.codeaffine.workflow.definition.ActivityAspect;
+import com.codeaffine.workflow.definition.VariableDeclaration;
+
 public interface Workflow {
 
   WorkflowContext getContext();

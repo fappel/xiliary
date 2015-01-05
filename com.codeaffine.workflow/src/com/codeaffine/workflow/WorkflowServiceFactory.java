@@ -1,5 +1,6 @@
 package com.codeaffine.workflow;
 
+import com.codeaffine.workflow.definition.WorkflowDefinitionProvider;
 import com.codeaffine.workflow.internal.NodeLoaderImpl;
 import com.codeaffine.workflow.internal.WorkflowContextImpl;
 import com.codeaffine.workflow.internal.WorkflowServiceImpl;

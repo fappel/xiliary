@@ -10,8 +10,8 @@ import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.workflow.FlowEvent;
-import com.codeaffine.workflow.FlowEventProvider;
+import com.codeaffine.workflow.event.FlowEvent;
+import com.codeaffine.workflow.event.FlowEventProvider;
 import com.codeaffine.workflow.test.util.FlowEventLogEntry.EventType;
 
 public class FlowEventLogTest {

@@ -8,9 +8,9 @@ import static org.mockito.Mockito.mock;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.workflow.Activity;
-import com.codeaffine.workflow.VariableDeclaration;
 import com.codeaffine.workflow.WorkflowContext;
+import com.codeaffine.workflow.definition.Activity;
+import com.codeaffine.workflow.definition.VariableDeclaration;
 
 public class ContextLookupTest {
 

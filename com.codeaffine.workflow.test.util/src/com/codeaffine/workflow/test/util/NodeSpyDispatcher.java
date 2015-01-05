@@ -2,8 +2,8 @@ package com.codeaffine.workflow.test.util;
 
 import java.util.Map;
 
-import com.codeaffine.workflow.Activity;
-import com.codeaffine.workflow.Decision;
+import com.codeaffine.workflow.definition.Activity;
+import com.codeaffine.workflow.definition.Decision;
 import com.codeaffine.workflow.internal.WorkflowDefinitionImpl;
 
 class NodeSpyDispatcher extends WorkflowDefinitionImpl {

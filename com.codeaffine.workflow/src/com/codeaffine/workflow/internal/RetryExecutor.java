@@ -1,8 +1,8 @@
 package com.codeaffine.workflow.internal;
 
-import com.codeaffine.workflow.Activity;
-import com.codeaffine.workflow.ActivityAspects;
-import com.codeaffine.workflow.Retry;
+import com.codeaffine.workflow.definition.Activity;
+import com.codeaffine.workflow.definition.ActivityAspects;
+import com.codeaffine.workflow.definition.Retry;
 
 class RetryExecutor {
 

@@ -8,9 +8,9 @@ import static com.codeaffine.workflow.test.util.PersistenceTestHelper.VAR_RESULT
 
 import java.util.UUID;
 
-import com.codeaffine.workflow.Task;
 import com.codeaffine.workflow.TaskList;
 import com.codeaffine.workflow.WorkflowContext;
+import com.codeaffine.workflow.definition.Task;
 
 public class PersistenceTestTask implements Task {
 

@@ -7,12 +7,12 @@ import static com.codeaffine.workflow.internal.Successors.toSuccessors;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.codeaffine.workflow.Activity;
-import com.codeaffine.workflow.Decision;
-import com.codeaffine.workflow.Matcher;
 import com.codeaffine.workflow.NodeDefinition;
-import com.codeaffine.workflow.Task;
-import com.codeaffine.workflow.WorkflowDefinition;
+import com.codeaffine.workflow.definition.Activity;
+import com.codeaffine.workflow.definition.Decision;
+import com.codeaffine.workflow.definition.Matcher;
+import com.codeaffine.workflow.definition.Task;
+import com.codeaffine.workflow.definition.WorkflowDefinition;
 
 public class WorkflowDefinitionImpl implements WorkflowDefinition {
 

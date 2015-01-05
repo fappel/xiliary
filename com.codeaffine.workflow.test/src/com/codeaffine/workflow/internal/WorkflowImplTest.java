@@ -24,8 +24,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
 
-import com.codeaffine.workflow.ActivityAspect;
-import com.codeaffine.workflow.Task;
+import com.codeaffine.workflow.definition.ActivityAspect;
+import com.codeaffine.workflow.definition.Task;
 import com.codeaffine.workflow.test.util.FlowEventLog;
 import com.codeaffine.workflow.test.util.WorkflowDefinitionHelper;
 import com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.TestActivity;

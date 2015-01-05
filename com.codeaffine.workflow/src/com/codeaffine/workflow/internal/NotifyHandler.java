@@ -1,8 +1,8 @@
 package com.codeaffine.workflow.internal;
 
-import com.codeaffine.workflow.VariableDeclaration;
-import com.codeaffine.workflow.WorkflowContextEvent;
-import com.codeaffine.workflow.WorkflowContextListener;
+import com.codeaffine.workflow.definition.VariableDeclaration;
+import com.codeaffine.workflow.event.WorkflowContextEvent;
+import com.codeaffine.workflow.event.WorkflowContextListener;
 
 class NotifyHandler<T> {
 

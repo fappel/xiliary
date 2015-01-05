@@ -1,10 +1,10 @@
 package com.codeaffine.workflow.internal;
 
-import com.codeaffine.workflow.Decision;
 import com.codeaffine.workflow.NodeDefinition;
 import com.codeaffine.workflow.NodeLoader;
 import com.codeaffine.workflow.WorkflowContext;
-import com.codeaffine.workflow.WorkflowDefinition;
+import com.codeaffine.workflow.definition.Decision;
+import com.codeaffine.workflow.definition.WorkflowDefinition;
 import com.codeaffine.workflow.persistence.OperationPointerMemento;
 
 public class OperationPointer {

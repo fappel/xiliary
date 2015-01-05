@@ -8,9 +8,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import com.codeaffine.workflow.VariableDeclaration;
 import com.codeaffine.workflow.WorkflowContext;
-import com.codeaffine.workflow.WorkflowContextListener;
+import com.codeaffine.workflow.definition.VariableDeclaration;
+import com.codeaffine.workflow.event.WorkflowContextListener;
 import com.codeaffine.workflow.persistence.WorkflowContextMemento;
 
 public class WorkflowContextImpl implements WorkflowContext {

@@ -10,9 +10,9 @@ import java.util.Map;
 
 import com.codeaffine.workflow.NodeLoader;
 import com.codeaffine.workflow.TaskHolder;
-import com.codeaffine.workflow.VariableDeclaration;
 import com.codeaffine.workflow.WorkflowFactory;
 import com.codeaffine.workflow.WorkflowService;
+import com.codeaffine.workflow.definition.VariableDeclaration;
 import com.codeaffine.workflow.persistence.internal.ClassTypeAdapter;
 import com.codeaffine.workflow.persistence.internal.TaskListTypeAdapter;
 import com.codeaffine.workflow.persistence.internal.VariableDeclarationTypeAdapter;

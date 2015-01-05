@@ -12,9 +12,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.workflow.VariableDeclaration;
-import com.codeaffine.workflow.WorkflowContextEvent;
-import com.codeaffine.workflow.WorkflowContextListener;
+import com.codeaffine.workflow.definition.VariableDeclaration;
+import com.codeaffine.workflow.event.WorkflowContextEvent;
+import com.codeaffine.workflow.event.WorkflowContextListener;
 import com.codeaffine.workflow.persistence.WorkflowContextMemento;
 
 @SuppressWarnings( { "rawtypes", "unchecked" } )

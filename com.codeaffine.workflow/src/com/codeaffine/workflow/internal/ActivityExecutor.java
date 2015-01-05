@@ -4,8 +4,8 @@ package com.codeaffine.workflow.internal;
 import java.util.Collection;
 import java.util.HashSet;
 
-import com.codeaffine.workflow.Activity;
-import com.codeaffine.workflow.ActivityAspect;
+import com.codeaffine.workflow.definition.Activity;
+import com.codeaffine.workflow.definition.ActivityAspect;
 
 class ActivityExecutor {
 

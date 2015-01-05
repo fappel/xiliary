@@ -2,7 +2,7 @@ package com.codeaffine.workflow.persistence.internal;
 
 import java.lang.reflect.Type;
 
-import com.codeaffine.workflow.VariableDeclaration;
+import com.codeaffine.workflow.definition.VariableDeclaration;
 import com.codeaffine.workflow.persistence.ClassFinder;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

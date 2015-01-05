@@ -4,7 +4,7 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.codeaffine.workflow.VariableDeclaration;
+import com.codeaffine.workflow.definition.VariableDeclaration;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

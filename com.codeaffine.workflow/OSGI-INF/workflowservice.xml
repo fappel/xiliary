@@ -8,7 +8,7 @@
    </service>
    <reference bind="addWorkflowDefinition" 
               cardinality="0..n"
-              interface="com.codeaffine.workflow.WorkflowDefinitionProvider"
+              interface="com.codeaffine.workflow.definition.WorkflowDefinitionProvider"
               name="WorkflowDefinitionProvider"
               policy="dynamic"
               unbind="removeWorkflowDefinition"/>

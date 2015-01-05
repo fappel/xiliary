@@ -7,8 +7,8 @@ import static org.mockito.Mockito.mock;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.workflow.Matcher;
 import com.codeaffine.workflow.NodeDefinition;
+import com.codeaffine.workflow.definition.Matcher;
 import com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.TestActivity;
 import com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.TestDecision;
 import com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.TestTask;

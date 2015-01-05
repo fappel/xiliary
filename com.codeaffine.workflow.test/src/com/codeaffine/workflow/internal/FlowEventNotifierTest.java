@@ -11,9 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import com.codeaffine.workflow.FlowEvent;
-import com.codeaffine.workflow.FlowListener;
 import com.codeaffine.workflow.NodeDefinition;
+import com.codeaffine.workflow.event.FlowEvent;
+import com.codeaffine.workflow.event.FlowListener;
 
 public class FlowEventNotifierTest {
 

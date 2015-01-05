@@ -1,5 +1,8 @@
 package com.codeaffine.workflow;
 
+import com.codeaffine.workflow.definition.VariableDeclaration;
+import com.codeaffine.workflow.event.WorkflowContextListener;
+
 
 public interface WorkflowContext {
 

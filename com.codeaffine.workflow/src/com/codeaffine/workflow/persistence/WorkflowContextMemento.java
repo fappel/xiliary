@@ -2,8 +2,8 @@ package com.codeaffine.workflow.persistence;
 
 import java.util.Map;
 
-import com.codeaffine.workflow.VariableDeclaration;
 import com.codeaffine.workflow.WorkflowContext;
+import com.codeaffine.workflow.definition.VariableDeclaration;
 
 public class WorkflowContextMemento {
 

@@ -3,9 +3,9 @@ package com.codeaffine.workflow.test.util;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.codeaffine.workflow.FlowEvent;
-import com.codeaffine.workflow.FlowEventProvider;
-import com.codeaffine.workflow.FlowListener;
+import com.codeaffine.workflow.event.FlowEvent;
+import com.codeaffine.workflow.event.FlowEventProvider;
+import com.codeaffine.workflow.event.FlowListener;
 import com.codeaffine.workflow.test.util.FlowEventLogEntry.EventType;
 
 public class FlowEventLog implements FlowListener {

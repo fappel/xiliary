@@ -7,11 +7,11 @@ import java.util.Map;
 import java.util.UUID;
 
 import com.codeaffine.workflow.NodeLoader;
-import com.codeaffine.workflow.Task;
 import com.codeaffine.workflow.TaskHolder;
-import com.codeaffine.workflow.VariableDeclaration;
 import com.codeaffine.workflow.Workflow;
 import com.codeaffine.workflow.WorkflowFactory;
+import com.codeaffine.workflow.definition.Task;
+import com.codeaffine.workflow.definition.VariableDeclaration;
 import com.codeaffine.workflow.persistence.OperationPointerMemento;
 import com.codeaffine.workflow.persistence.WorkflowAdapter;
 import com.codeaffine.workflow.persistence.WorkflowContextMemento;

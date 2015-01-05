@@ -6,7 +6,9 @@ Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: CODE AFFINE
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Export-Package: com.codeaffine.workflow,
+Export-Package: com.codeaffine.workflow;version="0.1.0",
+ com.codeaffine.workflow.definition;version="0.1.0",
+ com.codeaffine.workflow.event;version="0.1.0",
  com.codeaffine.workflow.internal;x-friends:="com.codeaffine.workflow.test.util",
- com.codeaffine.workflow.persistence
+ com.codeaffine.workflow.persistence;version="0.1.0"
 Service-Component: OSGI-INF/workflowservice.xml

@@ -3,15 +3,15 @@ package com.codeaffine.workflow.internal;
 import static com.codeaffine.workflow.WorkflowContext.VARIABLE_CONTEXT;
 import static com.codeaffine.workflow.WorkflowContext.VARIABLE_TASK_LIST;
 
-import com.codeaffine.workflow.Activity;
-import com.codeaffine.workflow.ActivityAspect;
 import com.codeaffine.workflow.NodeDefinition;
 import com.codeaffine.workflow.NodeLoader;
-import com.codeaffine.workflow.Task;
-import com.codeaffine.workflow.VariableDeclaration;
 import com.codeaffine.workflow.Workflow;
 import com.codeaffine.workflow.WorkflowContext;
-import com.codeaffine.workflow.WorkflowDefinition;
+import com.codeaffine.workflow.definition.Activity;
+import com.codeaffine.workflow.definition.ActivityAspect;
+import com.codeaffine.workflow.definition.Task;
+import com.codeaffine.workflow.definition.VariableDeclaration;
+import com.codeaffine.workflow.definition.WorkflowDefinition;
 import com.codeaffine.workflow.persistence.WorkflowMemento;
 
 public class WorkflowImpl implements Workflow {
@@ -52,7 +52,7 @@ public class WorkflowImpl implements Workflow {
   @SuppressWarnings( "unchecked" )
   public void copyContext( WorkflowContext workflowContext ) {
     for( VariableDeclaration<?> variableDeclaration : workflowContext.getVariableDeclarations() ) {
-      VariableDeclaration<Object> variableDeclaration2 = ( VariableDeclaration<Object> )variableDeclaration;
+      VariableDeclaration<Object> variableDeclaration2 = (com.codeaffine.workflow.definition.VariableDeclaration<Object> )variableDeclaration;
       defineVariable( variableDeclaration2, workflowContext.getVariableValue( variableDeclaration ) );
     }
   }

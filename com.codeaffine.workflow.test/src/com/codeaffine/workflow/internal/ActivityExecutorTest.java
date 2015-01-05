@@ -13,9 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
 
-import com.codeaffine.workflow.Activity;
-import com.codeaffine.workflow.ActivityAspect;
-import com.codeaffine.workflow.Retry;
+import com.codeaffine.workflow.definition.Activity;
+import com.codeaffine.workflow.definition.ActivityAspect;
+import com.codeaffine.workflow.definition.Retry;
 
 public class ActivityExecutorTest {
 

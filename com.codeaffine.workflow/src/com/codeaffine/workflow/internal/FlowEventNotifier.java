@@ -4,10 +4,10 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.codeaffine.workflow.FlowEvent;
-import com.codeaffine.workflow.FlowEventProvider;
-import com.codeaffine.workflow.FlowListener;
 import com.codeaffine.workflow.NodeDefinition;
+import com.codeaffine.workflow.event.FlowEvent;
+import com.codeaffine.workflow.event.FlowEventProvider;
+import com.codeaffine.workflow.event.FlowListener;
 
 public class FlowEventNotifier implements FlowEventProvider {
 

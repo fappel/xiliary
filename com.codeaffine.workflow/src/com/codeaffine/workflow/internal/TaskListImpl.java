@@ -6,10 +6,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-import com.codeaffine.workflow.Task;
 import com.codeaffine.workflow.TaskHolder;
 import com.codeaffine.workflow.TaskList;
 import com.codeaffine.workflow.TaskPredicate;
+import com.codeaffine.workflow.definition.Task;
 import com.codeaffine.workflow.persistence.Memento;
 
 public class TaskListImpl implements TaskList {

@@ -13,8 +13,8 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.workflow.Task;
 import com.codeaffine.workflow.TaskPredicate;
+import com.codeaffine.workflow.definition.Task;
 import com.codeaffine.workflow.persistence.Memento;
 
 public class TaskListImplTest {

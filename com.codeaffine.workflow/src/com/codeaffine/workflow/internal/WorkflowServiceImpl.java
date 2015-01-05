@@ -5,13 +5,13 @@ import static com.codeaffine.workflow.WorkflowContext.VARIABLE_SERVICE;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.codeaffine.workflow.FlowListener;
 import com.codeaffine.workflow.NodeLoader;
 import com.codeaffine.workflow.TaskList;
-import com.codeaffine.workflow.TaskListener;
 import com.codeaffine.workflow.Workflow;
-import com.codeaffine.workflow.WorkflowDefinitionProvider;
 import com.codeaffine.workflow.WorkflowService;
+import com.codeaffine.workflow.definition.WorkflowDefinitionProvider;
+import com.codeaffine.workflow.event.FlowListener;
+import com.codeaffine.workflow.event.TaskListener;
 import com.codeaffine.workflow.persistence.ClassFinder;
 import com.codeaffine.workflow.persistence.Memento;
 

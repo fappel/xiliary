@@ -11,9 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import com.codeaffine.workflow.Task;
-import com.codeaffine.workflow.TaskEvent;
-import com.codeaffine.workflow.TaskListener;
+import com.codeaffine.workflow.definition.Task;
+import com.codeaffine.workflow.event.TaskEvent;
+import com.codeaffine.workflow.event.TaskListener;
 
 public class TaskEventNotifierTest {
 

@@ -3,12 +3,12 @@ package com.codeaffine.workflow.test.util;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.codeaffine.workflow.Activity;
-import com.codeaffine.workflow.Decision;
-import com.codeaffine.workflow.Matcher;
-import com.codeaffine.workflow.Task;
-import com.codeaffine.workflow.VariableDeclaration;
-import com.codeaffine.workflow.WorkflowDefinition;
+import com.codeaffine.workflow.definition.Activity;
+import com.codeaffine.workflow.definition.Decision;
+import com.codeaffine.workflow.definition.Matcher;
+import com.codeaffine.workflow.definition.Task;
+import com.codeaffine.workflow.definition.VariableDeclaration;
+import com.codeaffine.workflow.definition.WorkflowDefinition;
 import com.codeaffine.workflow.internal.WorkflowDefinitionImpl;
 
 public class WorkflowDefinitionHelper {

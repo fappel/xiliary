@@ -4,11 +4,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.codeaffine.workflow.Task;
-import com.codeaffine.workflow.TaskEvent;
-import com.codeaffine.workflow.TaskEventProvider;
 import com.codeaffine.workflow.TaskList;
-import com.codeaffine.workflow.TaskListener;
+import com.codeaffine.workflow.definition.Task;
+import com.codeaffine.workflow.event.TaskEvent;
+import com.codeaffine.workflow.event.TaskEventProvider;
+import com.codeaffine.workflow.event.TaskListener;
 
 public class TaskEventNotifier implements TaskEventProvider {
 

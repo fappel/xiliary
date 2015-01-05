@@ -11,9 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
-import com.codeaffine.workflow.VariableDeclaration;
-import com.codeaffine.workflow.WorkflowContextEvent;
-import com.codeaffine.workflow.WorkflowContextListener;
+import com.codeaffine.workflow.definition.VariableDeclaration;
+import com.codeaffine.workflow.event.WorkflowContextEvent;
+import com.codeaffine.workflow.event.WorkflowContextListener;
 
 public class NotifyHandlerTest {
 

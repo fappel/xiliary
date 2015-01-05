@@ -6,8 +6,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import com.codeaffine.workflow.NodeLoader;
-import com.codeaffine.workflow.VariableDeclaration;
 import com.codeaffine.workflow.WorkflowContext;
+import com.codeaffine.workflow.definition.VariableDeclaration;
 
 public class NodeLoaderImpl implements NodeLoader {
 
