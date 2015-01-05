@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.codeaffine.workflow.test.util.feature"
-      label="Utilities for Worflow Tests"
+      label="Utilities for Workflow Tests"
       version="0.1.0.qualifier"
       provider-name="CODE AFFINE">
 

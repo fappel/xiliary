@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Utilities for Worflow Tests
+Bundle-Name: Utilities for Workflow Tests
 Bundle-SymbolicName: com.codeaffine.workflow.test.util;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: CODE AFFINE
