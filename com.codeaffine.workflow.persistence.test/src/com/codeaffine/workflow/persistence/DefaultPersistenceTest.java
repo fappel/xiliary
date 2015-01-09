@@ -1,5 +1,6 @@
 package com.codeaffine.workflow.persistence;
 
+import static com.codeaffine.workflow.WorkflowContext.VARIABLE_SERVICE;
 import static com.codeaffine.workflow.test.util.PersistenceTestHelper.VALUE;
 import static com.codeaffine.workflow.test.util.PersistenceTestHelper.VAR_LIST;
 import static com.codeaffine.workflow.test.util.PersistenceTestHelper.VAR_RESULT;
@@ -14,6 +15,7 @@ import java.util.UUID;
 import org.junit.Test;
 
 import com.codeaffine.workflow.Workflow;
+import com.codeaffine.workflow.WorkflowService;
 import com.codeaffine.workflow.test.util.PersistenceTestHelper;
 import com.codeaffine.workflow.test.util.PersistenceTestTask;
 import com.codeaffine.workflow.test.util.TestClassFinder;
@@ -38,7 +40,9 @@ public class DefaultPersistenceTest {
     boolean actualIsCompleted = task.complete( token );
     String actualStringVariable = task.getContext().getVariableValue( VAR_RESULT );
     List<String> actualListVariable = task.getContext().getVariableValue( VAR_LIST );
+    WorkflowService actualService = task.getContext().getVariableValue( VARIABLE_SERVICE );
 
+    assertThat( actualService).isNotNull();
     assertThat( actualIsCompleted ).isTrue();
     assertThat( actualStringVariable ).isEqualTo( VALUE );
     assertThat( actualListVariable )

@@ -134,10 +134,20 @@ public class WorkflowImplTest {
   }
 
   @Test
-  public void setVariable() {
+  public void defineVariable() {
+    Object oldValue = workflow.defineVariable( NAME, VALUE );
+
+    assertThat( oldValue ).isNull();
+    assertThat( workflow.getContext().getVariableValue( NAME ) ).isSameAs( VALUE );
+  }
+
+  @Test
+  public void defineVariableThatAlreadyExists() {
     workflow.defineVariable( NAME, VALUE );
 
-    assertThat( workflow.getContext().getVariableValue( NAME ) ).isSameAs( VALUE );
+    Object actual = workflow.defineVariable( NAME, new Object() );
+
+    assertThat( actual ).isSameAs( VALUE );
   }
 
   @Test

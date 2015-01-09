@@ -1,5 +1,6 @@
 package com.codeaffine.workflow.internal;
 
+import static com.codeaffine.workflow.WorkflowContext.VARIABLE_SERVICE;
 import static com.codeaffine.workflow.internal.TaskListAssert.assertThat;
 import static com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.OPERATION_ID;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.codeaffine.workflow.Workflow;
+import com.codeaffine.workflow.WorkflowService;
 import com.codeaffine.workflow.definition.WorkflowDefinition;
 import com.codeaffine.workflow.definition.WorkflowDefinitionProvider;
 import com.codeaffine.workflow.event.FlowEvent;
@@ -53,12 +55,13 @@ public class WorkflowServiceImplTest {
   }
 
   @Test
-  public void findById() {
+  public void create() {
     service.addWorkflowDefinition( new DefinitionProvider() );
 
     Workflow workflow = service.create( ID );
 
     assertThat( workflow ).isNotNull();
+    assertThat( workflow.getContext().getVariableValue( VARIABLE_SERVICE ) ).isSameAs( service );
   }
 
   @Test
@@ -139,5 +142,18 @@ public class WorkflowServiceImplTest {
 
     verify( listener, never() ).taskCreated( any( TaskEvent.class ) );
     assertThat( service.getTaskList() ).hasSize( 1 );
+  }
+
+  @Test
+  public void defineVariable() {
+    WorkflowService newService = mock( WorkflowService.class );
+    WorkflowService oldService = service.defineVariable( VARIABLE_SERVICE, newService );
+
+    service.addWorkflowDefinition( new DefinitionProvider() );
+    Workflow workflow = service.create( ID );
+
+    assertThat( oldService ).isSameAs( service );
+    assertThat( workflow ).isNotNull();
+    assertThat( workflow.getContext().getVariableValue( VARIABLE_SERVICE ) ).isSameAs( newService );
   }
 }

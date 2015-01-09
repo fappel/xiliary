@@ -8,7 +8,9 @@ import java.util.Map;
 import com.codeaffine.workflow.NodeLoader;
 import com.codeaffine.workflow.TaskList;
 import com.codeaffine.workflow.Workflow;
+import com.codeaffine.workflow.WorkflowFactory;
 import com.codeaffine.workflow.WorkflowService;
+import com.codeaffine.workflow.definition.VariableDeclaration;
 import com.codeaffine.workflow.definition.WorkflowDefinitionProvider;
 import com.codeaffine.workflow.event.FlowListener;
 import com.codeaffine.workflow.event.TaskListener;
@@ -17,11 +19,13 @@ import com.codeaffine.workflow.persistence.Memento;
 
 public class WorkflowServiceImpl implements WorkflowService {
 
-  private final WorkflowDefinitionChecker definitionChecker;
   private final Map<String, WorkflowDefinitionImpl> definitions;
   private final FlowEventNotifier flowEventNotifier;
   private final TaskEventNotifier taskEventNotifier;
+  private final DefinitionFactory definitionFactory;
   private final ClassFinderImpl classFinderImpl;
+  private final WorkflowFactory flowFactory;
+  private final ScopeImpl serviceScope;
   private final TaskListImpl taskList;
   private final NodeLoader nodeLoader;
 
@@ -30,19 +34,22 @@ public class WorkflowServiceImpl implements WorkflowService {
   }
 
   public WorkflowServiceImpl( NodeLoader nodeLoader ) {
-    this.definitionChecker = new WorkflowDefinitionChecker();
+    this.definitionFactory = new DefinitionFactory();
     this.flowEventNotifier = new FlowEventNotifier();
     this.taskEventNotifier = new TaskEventNotifier();
     this.taskList = new TaskListImpl( taskEventNotifier );
     this.nodeLoader = nodeLoader;
     this.definitions = new HashMap<String, WorkflowDefinitionImpl>();
     this.classFinderImpl = new ClassFinderImpl( definitions );
+    this.serviceScope = new ScopeImpl();
+    this.flowFactory = new WorkflowFactoryImpl( serviceScope, definitions, taskList, flowEventNotifier, nodeLoader );
+    defineVariable( VARIABLE_SERVICE, this );
   }
 
   @Override
   public Workflow create( String id ) {
     synchronized( definitions ) {
-      return doCreate( id );
+      return flowFactory.create( id );
     }
   }
 
@@ -56,6 +63,11 @@ public class WorkflowServiceImpl implements WorkflowService {
   @Override
   public TaskList getTaskList() {
     return taskList;
+  }
+
+  @Override
+  public <T> T defineVariable( VariableDeclaration<T> declaration, T value ) {
+    return serviceScope.defineVariable( declaration, value );
   }
 
   @Override
@@ -90,14 +102,14 @@ public class WorkflowServiceImpl implements WorkflowService {
 
   public void addWorkflowDefinition( WorkflowDefinitionProvider definitionProvider ) {
     synchronized( definitions ) {
-      WorkflowDefinitionImpl definition = defineWorkflow( definitionProvider );
+      WorkflowDefinitionImpl definition = definitionFactory.defineWorkflow( definitionProvider );
       definitions.put( definition.getId(), definition );
     }
   }
 
   public void removeWorkflowDefinition( WorkflowDefinitionProvider definitionProvider ) {
     synchronized( definitions ) {
-      WorkflowDefinitionImpl definition = defineWorkflow( definitionProvider );
+      WorkflowDefinitionImpl definition = definitionFactory.defineWorkflow( definitionProvider );
       definitions.remove( definition.getId() );
     }
   }
@@ -110,19 +122,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     return classFinderImpl;
   }
 
-  private WorkflowDefinitionImpl defineWorkflow( WorkflowDefinitionProvider definitionProvider ) {
-    WorkflowDefinitionImpl result = new WorkflowDefinitionImpl();
-    definitionProvider.define( result );
-    definitionChecker.checkDefinition( result );
-    return result;
-  }
-
-  private Workflow doCreate( String id ) {
-    WorkflowImpl result = null;
-    if( definitions.get( id ) != null ) {
-      result = new WorkflowImpl( definitions.get( id ), taskList, flowEventNotifier, nodeLoader );
-      result.defineVariable( VARIABLE_SERVICE, this );
-    }
-    return result;
+  public ScopeImpl getServiceScope() {
+    return serviceScope;
   }
 }

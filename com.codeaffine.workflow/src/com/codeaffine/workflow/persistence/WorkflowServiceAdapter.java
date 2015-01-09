@@ -2,6 +2,8 @@ package com.codeaffine.workflow.persistence;
 
 import com.codeaffine.workflow.NodeLoader;
 import com.codeaffine.workflow.WorkflowService;
+import com.codeaffine.workflow.definition.VariableDeclaration;
+import com.codeaffine.workflow.internal.ScopeContext;
 import com.codeaffine.workflow.internal.WorkflowServiceImpl;
 
 public class WorkflowServiceAdapter {
@@ -18,5 +20,9 @@ public class WorkflowServiceAdapter {
 
   public NodeLoader getNodeLoader() {
     return workflowService.getNodeLoader();
+  }
+
+  public VariableDeclaration<?>[] getVariableDeclarations() {
+    return ( ( ScopeContext )workflowService.getServiceScope() ).getVariableDeclarations();
   }
 }

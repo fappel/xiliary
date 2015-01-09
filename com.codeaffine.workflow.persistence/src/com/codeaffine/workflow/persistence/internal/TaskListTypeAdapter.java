@@ -34,7 +34,7 @@ public class TaskListTypeAdapter
   private static final int WORKFLOW_DEFINITION_ID_INDEX = 2;
 
   private final WorkflowFactory workflowFactory;
-  private final WorkflowServiceBuffer workflowServiceBuffer;
+  private final ServiceScopedVariableBuffer workflowServiceBuffer;
   private final NodeLoader nodeLoader;
 
   public static Type getType() {
@@ -42,7 +42,7 @@ public class TaskListTypeAdapter
   }
 
   public TaskListTypeAdapter( WorkflowFactory workflowFactory, NodeLoader nodeLoader ) {
-    this.workflowServiceBuffer = new WorkflowServiceBuffer();
+    this.workflowServiceBuffer = new ServiceScopedVariableBuffer();
     this.workflowFactory = workflowFactory;
     this.nodeLoader = nodeLoader;
   }

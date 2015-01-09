@@ -58,8 +58,8 @@ public class WorkflowImpl implements Workflow {
   }
 
   @Override
-  public <T> void defineVariable( VariableDeclaration<T> declaration, T value ) {
-    context.defineVariable( declaration, value );
+  public <T> T defineVariable( VariableDeclaration<T> declaration, T value ) {
+    return context.defineVariable( declaration, value );
   }
 
   @Override

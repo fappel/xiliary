@@ -1,12 +1,7 @@
 package com.codeaffine.workflow.internal;
 
-import static com.codeaffine.workflow.internal.ArgumentVerification.verifyCondition;
-import static com.codeaffine.workflow.internal.ArgumentVerification.verifyNotNull;
-
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 import com.codeaffine.workflow.WorkflowContext;
 import com.codeaffine.workflow.definition.VariableDeclaration;
@@ -15,38 +10,30 @@ import com.codeaffine.workflow.persistence.WorkflowContextMemento;
 
 public class WorkflowContextImpl implements WorkflowContext {
 
-  static final String NO_DECLARATION = "Variable declaration <%s> does not exist.";
-
-  private final Map<VariableDeclaration<?>, Object> content;
   private final Collection<WorkflowContextListener> listeners;
+  private final ScopeImpl content;
 
   public WorkflowContextImpl() {
-    this.content = new HashMap<VariableDeclaration<?>, Object>();
-    this.listeners = new HashSet<WorkflowContextListener>();
+    content = new ScopeImpl();
+    listeners = new HashSet<WorkflowContextListener>();
   }
 
   @Override
-  public <T> void defineVariable( VariableDeclaration<T> declaration, T value ) {
-    verifyNotNull( declaration, "declaration" );
-
-    NotifyHandler<T> notifyHandler = doSetVariable( declaration, value );
+  public <T> T defineVariable( VariableDeclaration<T> declaration, T value ) {
+    T result = content.defineVariable( declaration, value );
+    NotifyHandler<T> notifyHandler = new NotifyHandler<T>( declaration, value, result, getListeners() );
     notifyHandler.triggerVariableChanged();
+    return result;
   }
 
   @Override
   public boolean hasVariableDefinition( VariableDeclaration<?> declaration ) {
-    verifyNotNull( declaration, "declaration" );
-
-    synchronized( content ) {
-      return content.get( declaration ) != null;
-    }
+    return content.hasVariableDefinition( declaration );
   }
 
   @Override
   public VariableDeclaration<?>[] getVariableDeclarations() {
-    synchronized( content ) {
-      return content.keySet().toArray( new VariableDeclaration<?>[ content.size() ] );
-    }
+    return content.getVariableDeclarations();
   }
 
   @Override
@@ -60,37 +47,19 @@ public class WorkflowContextImpl implements WorkflowContext {
   }
 
   public WorkflowContextMemento save() {
-    Map<VariableDeclaration<?>, Object> copy = new HashMap<VariableDeclaration<?>, Object>();
-    copy.putAll( content );
-    return new WorkflowContextMemento( copy );
+    return new WorkflowContextMemento( content.getContent() );
   }
 
   public void restore( WorkflowContextMemento memento ) {
-    content.clear();
-    content.putAll( memento.getContent() );
+    content.setContent( memento.getContent() );
   }
 
   private WorkflowContextListener[] getListeners() {
     return listeners.toArray( new WorkflowContextListener[ listeners.size() ] );
   }
 
-  @SuppressWarnings( "unchecked" )
-  private <T> NotifyHandler<T> doSetVariable( VariableDeclaration<T> declaration, T value ) {
-    synchronized( content ) {
-      T oldValue = ( T )content.get( declaration );
-      content.put( declaration, value );
-      return new NotifyHandler<T>( declaration, value, oldValue, getListeners() );
-    }
-  }
-
   @Override
-  @SuppressWarnings( "unchecked" )
   public <T> T getVariableValue( VariableDeclaration<T> declaration ) {
-    verifyNotNull( declaration, "declaration" );
-    synchronized( content ) {
-      verifyCondition( content.containsKey( declaration ), NO_DECLARATION, declaration.toString() );
-
-      return ( T )content.get( declaration );
-    }
+    return content.getVariableValue( declaration );
   }
 }

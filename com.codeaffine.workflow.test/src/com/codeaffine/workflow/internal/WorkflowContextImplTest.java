@@ -1,5 +1,8 @@
 package com.codeaffine.workflow.internal;
 
+import static com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.VALUE;
+import static com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.VAR_DECL;
+import static com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.VAR_LIST;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -17,13 +20,10 @@ import com.codeaffine.workflow.event.WorkflowContextEvent;
 import com.codeaffine.workflow.event.WorkflowContextListener;
 import com.codeaffine.workflow.persistence.WorkflowContextMemento;
 
-@SuppressWarnings( { "rawtypes", "unchecked" } )
+@SuppressWarnings( "unchecked" )
 public class WorkflowContextImplTest {
 
-  private static final String NAME = "name";
-  private static final String VALUE = "value";
-  private static final VariableDeclaration<String> VAR_DECL = new VariableDeclaration<String>( NAME, String.class );
-  private static final VariableDeclaration<List> VAR_LIST = new VariableDeclaration<List>( "list", List.class );
+  private static final String NEW_VALUE = "newValue";
 
   private WorkflowContextImpl context;
 
@@ -34,9 +34,10 @@ public class WorkflowContextImplTest {
 
   @Test
   public void defineVariable() {
-    context.defineVariable( VAR_DECL, VALUE );
+    String oldValue = context.defineVariable( VAR_DECL, VALUE );
     String actual = context.getVariableValue( VAR_DECL );
 
+    assertThat( oldValue ).isNull();
     assertThat( actual ).isSameAs( VALUE );
   }
 
@@ -75,6 +76,17 @@ public class WorkflowContextImplTest {
     context.defineVariable( VAR_DECL, VALUE );
 
     verify( listener, never() ).variableChanged( any( WorkflowContextEvent.class ) );
+  }
+
+  @Test
+  public void defineVariableThatAlreadyExists() {
+    context.defineVariable( VAR_DECL, VALUE );
+
+    String oldValue = context.defineVariable( VAR_DECL, NEW_VALUE );
+    String actual = context.getVariableValue( VAR_DECL );
+
+    assertThat( oldValue ).isSameAs( VALUE );
+    assertThat( actual ).isSameAs( NEW_VALUE );
   }
 
   @Test

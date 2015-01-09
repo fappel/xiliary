@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import com.codeaffine.workflow.NodeLoader;
 import com.codeaffine.workflow.Workflow;
+import com.codeaffine.workflow.WorkflowContext;
 import com.codeaffine.workflow.WorkflowFactory;
 import com.codeaffine.workflow.definition.Task;
 import com.codeaffine.workflow.definition.VariableDeclaration;
@@ -18,6 +19,7 @@ import com.codeaffine.workflow.internal.OperationPointer;
 import com.codeaffine.workflow.internal.TaskEventNotifier;
 import com.codeaffine.workflow.internal.TaskListImpl;
 import com.codeaffine.workflow.internal.WorkflowImpl;
+import com.codeaffine.workflow.internal.WorkflowServiceImpl;
 import com.codeaffine.workflow.persistence.Persistence;
 
 @SuppressWarnings( "rawtypes" )
@@ -48,7 +50,9 @@ public class PersistenceTestHelper implements WorkflowFactory {
   @Override
   public Workflow create( String definitionId ) {
     if( definitionId.equals( definition.getId() ) ) {
-      return new WorkflowImpl( definition, taskList, notifier, createNodeLoader() );
+      WorkflowImpl result = new WorkflowImpl( definition, taskList, notifier, createNodeLoader() );
+      result.defineVariable( WorkflowContext.VARIABLE_SERVICE, new WorkflowServiceImpl() );
+      return result;
     }
     return null;
   }

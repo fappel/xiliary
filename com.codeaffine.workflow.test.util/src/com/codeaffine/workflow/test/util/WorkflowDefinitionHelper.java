@@ -3,6 +3,8 @@ package com.codeaffine.workflow.test.util;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+
 import com.codeaffine.workflow.definition.Activity;
 import com.codeaffine.workflow.definition.Decision;
 import com.codeaffine.workflow.definition.Matcher;
@@ -11,6 +13,7 @@ import com.codeaffine.workflow.definition.VariableDeclaration;
 import com.codeaffine.workflow.definition.WorkflowDefinition;
 import com.codeaffine.workflow.internal.WorkflowDefinitionImpl;
 
+@SuppressWarnings("rawtypes")
 public class WorkflowDefinitionHelper {
 
   public static final String START = "start";
@@ -19,7 +22,9 @@ public class WorkflowDefinitionHelper {
   public static final String OPERATION_ID_1 = "operationId1";
   public static final String OPERATION_ID_2 = "operationId2";
   public static final VariableDeclaration<Object> NAME = new VariableDeclaration<Object>( "name", Object.class );
-  public static final Object VALUE = new Object();
+  public static final VariableDeclaration<String> VAR_DECL = new VariableDeclaration<String>( "varDecl", String.class );
+  public static final VariableDeclaration<List> VAR_LIST = new VariableDeclaration<List>( "list", List.class );
+  public static final String VALUE = "value";
 
   private final WorkflowDefinitionImpl definition;
 
