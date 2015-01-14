@@ -10,6 +10,9 @@ The batch process' working directory must point to the working directory of the
 local xiliary git repository. You might use the 'Create Module' launch
 configuration, which provides an appropriate configuration automatically.
 
+Note that the batch file expects the environment variable M2_HOME to point to your
+local maven installation.
+
 
 Usage:
 
