@@ -30,6 +30,10 @@ public class FlowEventLog implements FlowListener {
     return log.toArray( new FlowEventLogEntry[ log.size() ] );
   }
 
+  public void clear() {
+    log.clear();
+  }
+
   public static FlowEventLog registerFlowEventLog( FlowEventProvider provider ) {
     FlowEventLog result = new FlowEventLog();
     provider.addFlowListener( result );

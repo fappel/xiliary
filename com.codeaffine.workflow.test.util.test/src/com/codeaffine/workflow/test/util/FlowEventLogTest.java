@@ -52,6 +52,17 @@ public class FlowEventLogTest {
     FlowEventLog actual = FlowEventLog.registerFlowEventLog( provider );
 
     verify( provider ).addFlowListener( actual );
-
   }
+
+
+  @Test
+  public void clear() {
+    log.onNodeEnter( new FlowEvent( NODE_ID ) );
+    log.clear();
+
+    FlowEventLogEntry[] actual = log.getContent();
+
+    assertThat( actual ).isEmpty();
+  }
+
 }
