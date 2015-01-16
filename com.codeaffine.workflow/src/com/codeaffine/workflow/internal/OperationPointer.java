@@ -12,6 +12,7 @@ public class OperationPointer {
   static final String ERROR_UNAVAILABLE_OPERATION = "Must not call acquire on undefined operation pointer";
   static final String ERROR_ILLEGAL_MOVE = "Must not move on before current node has been acquired.";
 
+  private final DecisionVerificator decisionVerificator;
   private final WorkflowDefinitionImpl definition;
   private final WorkflowContext context;
   private final FlowEventNotifier notifier;
@@ -24,6 +25,7 @@ public class OperationPointer {
   public OperationPointer(
     NodeLoader loader, FlowEventNotifier notifier, WorkflowContext context, WorkflowDefinition definition )
   {
+    this.decisionVerificator = new DecisionVerificator();
     this.nodeLoader = loader;
     this.context = context;
     this.definition = ( WorkflowDefinitionImpl )definition;
@@ -107,7 +109,9 @@ public class OperationPointer {
 
   private String getDecisionSuccessorId( NodeDefinition nodeDefinition ) {
     Decision decision = ( Decision )nodeLoader.load( nodeDefinition.getType(), context );
-    return decision.decide();
+    String result = decision.decide();
+    decisionVerificator.verify( nodeDefinition, result );
+    return result;
   }
 
   private static boolean isOperation( NodeDefinition nodeDefinition ) {

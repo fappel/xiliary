@@ -1,6 +1,7 @@
 package com.codeaffine.workflow.internal;
 
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.workflow.internal.DecisionVerificator.ERROR_UNREACHABLE_NODE;
 import static com.codeaffine.workflow.internal.OperationPointer.ERROR_ILLEGAL_MOVE;
 import static com.codeaffine.workflow.internal.OperationPointer.ERROR_UNAVAILABLE_OPERATION;
 import static com.codeaffine.workflow.test.util.FlowEventLog.$;
@@ -11,6 +12,8 @@ import static com.codeaffine.workflow.test.util.NodeDefinitionAssert.assertThat;
 import static com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.DECISION_ID;
 import static com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.OPERATION_ID;
 import static com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.OPERATION_ID_1;
+import static com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.OPERATION_ID_2;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
@@ -66,6 +69,24 @@ public class OperationPointerTest {
       .hasNodeId( OPERATION_ID )
       .hasType( TestActivity.class )
       .hasSuccessors();
+  }
+
+  @Test
+  public void moveWithDecisionToUnreachableNode() {
+    definition.addDecision( DECISION_ID, TestDecision.class, OPERATION_ID_1, OPERATION_ID_2 );
+    definition.addActivity( OPERATION_ID, TestActivity.class, null );
+    definition.setStart( DECISION_ID );
+
+    Throwable actual = thrown( new Actor() {
+      @Override
+      public void act() throws Throwable {
+        pointer.move();
+      }
+    } );
+
+    assertThat( actual )
+      .hasMessage( format( ERROR_UNREACHABLE_NODE, OPERATION_ID, DECISION_ID ) )
+      .isInstanceOf( IllegalStateException.class );
   }
 
   @Test
