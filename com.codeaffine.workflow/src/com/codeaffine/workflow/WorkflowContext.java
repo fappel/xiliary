@@ -1,5 +1,7 @@
 package com.codeaffine.workflow;
 
+import static com.codeaffine.workflow.WorkflowContexts.prefix;
+
 import com.codeaffine.workflow.definition.VariableDeclaration;
 import com.codeaffine.workflow.event.WorkflowContextListener;
 import com.codeaffine.workflow.internal.ScopeContext;
@@ -8,11 +10,11 @@ import com.codeaffine.workflow.internal.ScopeContext;
 public interface WorkflowContext extends ScopeContext {
 
   public static final VariableDeclaration<WorkflowContext> VARIABLE_CONTEXT
-    = new VariableDeclaration<WorkflowContext>( "workflowContext", WorkflowContext.class );
+    = new VariableDeclaration<WorkflowContext>( prefix( "workflowContext" ), WorkflowContext.class );
   public static final VariableDeclaration<WorkflowService> VARIABLE_SERVICE
-    = new VariableDeclaration<WorkflowService>( "workflowService", WorkflowService.class );
+    = new VariableDeclaration<WorkflowService>( prefix( "workflowService" ), WorkflowService.class );
   public static final VariableDeclaration<TaskList> VARIABLE_TASK_LIST
-    = new VariableDeclaration<TaskList>( "taskList", TaskList.class );
+    = new VariableDeclaration<TaskList>( prefix( "taskList" ), TaskList.class );
 
   @Override
   boolean hasVariableDefinition( VariableDeclaration<?> declaration );
