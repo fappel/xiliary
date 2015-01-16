@@ -25,10 +25,10 @@ public class NodeLoaderHelper {
 
   public static <T> T load( WorkflowContext context, LoadAdapter<T> loadAdapter ) {
     try {
-      NodeLoaderImpl.lookupContext = context;
+      NodeLoaderImpl.lookupContext.set( context );
       return loadAdapter.load();
     } finally {
-      NodeLoaderImpl.lookupContext = null;
+      NodeLoaderImpl.lookupContext.set( null );
     }
   }
 
