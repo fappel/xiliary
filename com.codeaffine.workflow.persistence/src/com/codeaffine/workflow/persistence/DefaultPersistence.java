@@ -77,12 +77,12 @@ public class DefaultPersistence implements Persistence {
     return new WorkflowContextMemento( ( Map<VariableDeclaration<?>, Object> )fromJson );
   }
 
-  String serializeOperationPointer( OperationPointerMemento memento ) {
-    return gson.toJson( memento, OperationPointerMemento.class );
+  String serializeFlowProcessor( FlowProcessorMemento memento ) {
+    return gson.toJson( memento, FlowProcessorMemento.class );
   }
 
-  OperationPointerMemento deserializeOperationPointer( String json ) {
-    return gson.fromJson( json, OperationPointerMemento.class );
+  FlowProcessorMemento deserializeFlowProcessor( String json ) {
+    return gson.fromJson( json, FlowProcessorMemento.class );
   }
 
   String serializeTaskList( Memento memento ) {

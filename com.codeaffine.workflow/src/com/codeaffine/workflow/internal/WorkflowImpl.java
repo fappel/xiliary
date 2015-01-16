@@ -18,7 +18,7 @@ public class WorkflowImpl implements Workflow {
 
   private final WorkflowDefinitionImpl definition;
   private final ActivityExecutor activityExecutor;
-  private final OperationPointer operationPointer;
+  private final FlowProcessor flowProcessor;
   private final WorkflowContextImpl context;
   private final NodeLoader nodeLoader;
   private final TaskListImpl taskList;
@@ -31,7 +31,7 @@ public class WorkflowImpl implements Workflow {
     this.nodeLoader = nodeLoader;
     this.context = new WorkflowContextImpl();
     this.activityExecutor = new ActivityExecutor();
-    this.operationPointer = new OperationPointer( nodeLoader, notifier, context, this.definition );
+    this.flowProcessor = new FlowProcessor( nodeLoader, notifier, context, this.definition );
     defineDefaultVariables();
   }
 
@@ -68,11 +68,11 @@ public class WorkflowImpl implements Workflow {
   }
 
   public WorkflowMemento save() {
-    return new WorkflowMemento( operationPointer.save(), context.save() );
+    return new WorkflowMemento( flowProcessor.save(), context.save() );
   }
 
   public void restore( WorkflowMemento memento ) {
-    operationPointer.restore( memento.getPointerMemento() );
+    flowProcessor.restore( memento.getFlowProcessorMemento() );
     context.restore( memento.getContextMemento() );
     defineDefaultVariables();
   }
@@ -88,9 +88,9 @@ public class WorkflowImpl implements Workflow {
   }
 
   public void continueWorkflow() {
-    operationPointer.move();
-    if( operationPointer.isAvailable() ) {
-      handleNode( operationPointer.acquire() );
+    flowProcessor.move();
+    if( flowProcessor.isAvailable() ) {
+      handleNode( flowProcessor.acquire() );
     }
   }
 

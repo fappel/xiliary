@@ -14,8 +14,8 @@ import com.codeaffine.workflow.definition.Task;
 import com.codeaffine.workflow.definition.VariableDeclaration;
 import com.codeaffine.workflow.definition.WorkflowDefinition;
 import com.codeaffine.workflow.internal.FlowEventNotifier;
+import com.codeaffine.workflow.internal.FlowProcessor;
 import com.codeaffine.workflow.internal.NodeLoaderImpl;
-import com.codeaffine.workflow.internal.OperationPointer;
 import com.codeaffine.workflow.internal.TaskEventNotifier;
 import com.codeaffine.workflow.internal.TaskListImpl;
 import com.codeaffine.workflow.internal.WorkflowImpl;
@@ -61,8 +61,8 @@ public class PersistenceTestHelper implements WorkflowFactory {
     return create( WORKFLOW_DEFINITION_ID );
   }
 
-  OperationPointer createOperationPointer() {
-    return new OperationPointer( new NodeLoaderImpl(), notifier, createWorkflow().getContext(), definition );
+  FlowProcessor createFlowProcessor() {
+    return new FlowProcessor( new NodeLoaderImpl(), notifier, createWorkflow().getContext(), definition );
   }
 
   public static NodeLoader createNodeLoader() {

@@ -2,16 +2,16 @@ package com.codeaffine.workflow.persistence;
 
 public class WorkflowMemento {
 
-  private final OperationPointerMemento pointerMemento;
+  private final FlowProcessorMemento flowProcessorMemento;
   private final WorkflowContextMemento contextMemento;
 
-  public WorkflowMemento( OperationPointerMemento pointerMemento, WorkflowContextMemento contextMemento ) {
-    this.pointerMemento = pointerMemento;
+  public WorkflowMemento( FlowProcessorMemento flowProcessorMemento, WorkflowContextMemento contextMemento ) {
+    this.flowProcessorMemento = flowProcessorMemento;
     this.contextMemento = contextMemento;
   }
 
-  public OperationPointerMemento getPointerMemento() {
-    return pointerMemento;
+  public FlowProcessorMemento getFlowProcessorMemento() {
+    return flowProcessorMemento;
   }
 
   public WorkflowContextMemento getContextMemento() {

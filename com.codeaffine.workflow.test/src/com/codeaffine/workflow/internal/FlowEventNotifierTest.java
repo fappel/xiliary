@@ -18,7 +18,7 @@ import com.codeaffine.workflow.event.FlowListener;
 public class FlowEventNotifierTest {
 
   private static final String NODE_ID = "id";
-  private static final NodeDefinition NODE_DEFINITION = new NodeDefinition( NODE_ID, null, null );
+  private static final NodeDefinition NODE_DEFINITION = new NodeDefinition( NODE_ID, null, ( String[])null );
 
   private ArgumentCaptor<FlowEvent> flowEventCaptor;
   private FlowEventNotifier flowEventNotifier;

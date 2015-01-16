@@ -12,7 +12,7 @@ import com.codeaffine.workflow.Workflow;
 import com.codeaffine.workflow.WorkflowFactory;
 import com.codeaffine.workflow.definition.Task;
 import com.codeaffine.workflow.definition.VariableDeclaration;
-import com.codeaffine.workflow.persistence.OperationPointerMemento;
+import com.codeaffine.workflow.persistence.FlowProcessorMemento;
 import com.codeaffine.workflow.persistence.WorkflowAdapter;
 import com.codeaffine.workflow.persistence.WorkflowContextMemento;
 import com.codeaffine.workflow.persistence.WorkflowMemento;
@@ -59,7 +59,7 @@ public class TaskListTypeAdapter
       entry.add( context.serialize( taskHolder.getTask().getClass() ) );
       entry.add( context.serialize( adapter.getDefinitionId() ) );
       entry.add( context.serialize( workflowMemento.getContextMemento().getContent(), WorkflowContextTypeAdapter.getType() ) );
-      entry.add( context.serialize( workflowMemento.getPointerMemento(), OperationPointerMemento.class ) );
+      entry.add( context.serialize( workflowMemento.getFlowProcessorMemento(), FlowProcessorMemento.class ) );
       result.add( entry );
     }
     return result;
@@ -76,8 +76,8 @@ public class TaskListTypeAdapter
       JsonArray entry = entries.get( i ).getAsJsonArray();
 
       WorkflowContextMemento contextMemento = new WorkflowContextMemento( ( Map<VariableDeclaration<?>, Object> )context.deserialize( entry.get( 3 ), WorkflowContextTypeAdapter.getType() ) );
-      OperationPointerMemento pointerMemento = context.deserialize( entry.get( 4 ), OperationPointerMemento.class );
-      WorkflowMemento workflowMemento = new WorkflowMemento( pointerMemento, contextMemento );
+      FlowProcessorMemento flowProcessorMemento = context.deserialize( entry.get( 4 ), FlowProcessorMemento.class );
+      WorkflowMemento workflowMemento = new WorkflowMemento( flowProcessorMemento, contextMemento );
 
       result.add( restorTaskHolder( context, entry, workflowMemento ) );
     }
