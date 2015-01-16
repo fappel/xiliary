@@ -1,8 +1,11 @@
 package com.codeaffine.workflow.internal;
 
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
 import static com.codeaffine.workflow.WorkflowContext.VARIABLE_SERVICE;
 import static com.codeaffine.workflow.internal.TaskListAssert.assertThat;
+import static com.codeaffine.workflow.internal.WorkflowServiceImpl.ERROR_DEFINITON_NOT_FOUND;
 import static com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.OPERATION_ID;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -12,6 +15,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 import com.codeaffine.workflow.Workflow;
 import com.codeaffine.workflow.WorkflowService;
 import com.codeaffine.workflow.definition.WorkflowDefinition;
@@ -65,6 +69,20 @@ public class WorkflowServiceImplTest {
   }
 
   @Test
+  public void createWithNonExistingId() {
+    Throwable actual = thrown( new Actor() {
+      @Override
+      public void act() throws Throwable {
+        service.create( ID );
+      }
+    } );
+
+    assertThat( actual )
+      .hasMessage( format( ERROR_DEFINITON_NOT_FOUND, ID ) )
+      .isInstanceOf( IllegalArgumentException.class );
+  }
+
+  @Test
   public void getIds() {
     service.addWorkflowDefinition( new DefinitionProvider() );
 
@@ -80,9 +98,9 @@ public class WorkflowServiceImplTest {
     service.addWorkflowDefinition( new DefinitionProvider() );
 
     service.removeWorkflowDefinition( new DefinitionProvider() );
-    Workflow actual = service.create( ID );
+    String[] actual = service.getWorkflowDefinitionIds();
 
-    assertThat( actual ).isNull();
+    assertThat( actual ).isEmpty();
   }
 
   @Test( expected = IllegalArgumentException.class )

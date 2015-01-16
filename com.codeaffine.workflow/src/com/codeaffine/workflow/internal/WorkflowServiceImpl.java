@@ -1,6 +1,7 @@
 package com.codeaffine.workflow.internal;
 
 import static com.codeaffine.workflow.WorkflowContext.VARIABLE_SERVICE;
+import static java.lang.String.format;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +19,8 @@ import com.codeaffine.workflow.persistence.ClassFinder;
 import com.codeaffine.workflow.persistence.Memento;
 
 public class WorkflowServiceImpl implements WorkflowService {
+
+  static final String ERROR_DEFINITON_NOT_FOUND = "Could not find definintion with id <%s>.";
 
   private final Map<String, WorkflowDefinitionImpl> definitions;
   private final FlowEventNotifier flowEventNotifier;
@@ -49,7 +52,7 @@ public class WorkflowServiceImpl implements WorkflowService {
   @Override
   public Workflow create( String id ) {
     synchronized( definitions ) {
-      return flowFactory.create( id );
+      return checkExistence( flowFactory.create( id ), id );
     }
   }
 
@@ -124,5 +127,12 @@ public class WorkflowServiceImpl implements WorkflowService {
 
   public ScopeImpl getServiceScope() {
     return serviceScope;
+  }
+
+  private static Workflow checkExistence( Workflow result, String id ) {
+    if( result == null ) {
+      throw new IllegalArgumentException( format( ERROR_DEFINITON_NOT_FOUND, id ) );
+    }
+    return result;
   }
 }
