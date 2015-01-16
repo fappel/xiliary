@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.codeaffine.workflow.TaskHolder;
 import com.codeaffine.workflow.TaskList;
 import com.codeaffine.workflow.TaskPredicate;
+import com.codeaffine.workflow.Workflow;
 import com.codeaffine.workflow.definition.Task;
 import com.codeaffine.workflow.persistence.Memento;
 
@@ -46,6 +47,17 @@ public class TaskListImpl implements TaskList {
     synchronized( content ) {
       return createSnapshot( filter );
     }
+  }
+
+  @Override
+  public Workflow getWorkflow( Task task ) {
+    synchronized( content ) {
+      TaskHolder taskHolder = find( task );
+      if( taskHolder != null ) {
+        return taskHolder.getWorkflow();
+      }
+    }
+    return null;
   }
 
   @Override

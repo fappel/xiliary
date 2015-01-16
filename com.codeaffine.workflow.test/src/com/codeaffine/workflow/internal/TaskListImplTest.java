@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.codeaffine.workflow.TaskPredicate;
+import com.codeaffine.workflow.Workflow;
 import com.codeaffine.workflow.definition.Task;
 import com.codeaffine.workflow.persistence.Memento;
 
@@ -249,5 +250,21 @@ public class TaskListImplTest {
     newTaskList.restore( memento );
 
     assertThat( newTaskList ).hasSize( 1 );
+  }
+
+  @Test
+  public void getWorkflow() {
+    taskList.add( task, workflow );
+
+    Workflow actual = taskList.getWorkflow( task );
+
+    assertThat( actual ).isSameAs( workflow );
+  }
+
+  @Test
+  public void getWorkflowForTaskThatDoesNotExist() {
+    Workflow actual = taskList.getWorkflow( task );
+
+    assertThat( actual ).isNull();
   }
 }

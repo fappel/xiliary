@@ -8,6 +8,7 @@ import com.codeaffine.workflow.definition.Task;
 public interface TaskList {
   List<Task> snapshot();
   List<Task> snapshot( TaskPredicate filter );
+  Workflow getWorkflow( Task task );
   UUID acquireAssignment( Task task );
   void dropAssigment( UUID assignmentToken );
   boolean isAssigned( Task task );
