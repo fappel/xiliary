@@ -24,7 +24,9 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Rule;
@@ -483,6 +485,54 @@ public class FlatScrollBarTest {
     scrollBar.setSelectionInternal( 2, SWT.NONE );
 
     verify( listener, never() ).widgetSelected( any( SelectionEvent.class ) );
+  }
+
+  @Test
+  public void addUntypedSelectionListener() {
+    ArgumentCaptor<Event> captor = forClass( Event.class );
+    Listener listener = mock( Listener.class );
+
+    scrollBar.addListener( SWT.Selection, listener );
+    scrollBar.setSelectionInternal( 2, SWT.DRAG );
+
+    verify( listener ).handleEvent( captor.capture() );
+    assertThat( captor.getValue().widget ).isSameAs( scrollBar );
+    assertThat( captor.getValue().detail ).isEqualTo( SWT.DRAG );
+    assertThat( scrollBar.getSelection() ).isEqualTo( 2 );
+  }
+
+  @Test
+  public void removeUntypedSelectionListener() {
+    Listener listener = mock( Listener.class );
+    scrollBar.addListener( SWT.Selection, listener );
+
+    scrollBar.removeListener( SWT.Selection, listener );
+    scrollBar.setSelectionInternal( 2, SWT.NONE );
+
+    verify( listener, never() ).handleEvent( any( Event.class ) );
+  }
+
+  @Test
+  public void addCommonListener() {
+    ArgumentCaptor<Event> captor = forClass( Event.class );
+    Listener listener = mock( Listener.class );
+
+    scrollBar.addListener( SWT.FocusIn, listener );
+    scrollBar.forceFocus();
+
+    verify( listener ).handleEvent( captor.capture() );
+    assertThat( captor.getValue().widget ).isSameAs( scrollBar );
+  }
+
+  @Test
+  public void removeCommonListener() {
+    Listener listener = mock( Listener.class );
+    scrollBar.addListener( SWT.FocusIn, listener );
+
+    scrollBar.removeListener( SWT.FocusIn, listener );
+    scrollBar.forceFocus();
+
+    verify( listener, never() ).handleEvent( any( Event.class ) );
   }
 
   @Test

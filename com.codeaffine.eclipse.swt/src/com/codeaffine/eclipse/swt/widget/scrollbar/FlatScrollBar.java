@@ -1,5 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
+import static com.codeaffine.eclipse.swt.widget.scrollbar.UntypedSelectionAdapter.lookup;
+
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -9,6 +11,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.Listener;
 
 public class FlatScrollBar extends Composite {
 
@@ -154,6 +157,24 @@ public class FlatScrollBar extends Composite {
 
   public void removeSelectionListener( SelectionListener selectionListener ) {
     listeners.remove( selectionListener );
+  }
+
+  @Override
+  public void addListener( int eventType, final Listener listener ) {
+    if( eventType == SWT.Selection ) {
+      addSelectionListener( new UntypedSelectionAdapter( listener ) );
+    } else {
+      super.addListener( eventType, listener );
+    }
+  }
+
+  @Override
+  public void removeListener( int eventType, Listener listener ) {
+    if( eventType == SWT.Selection ) {
+      removeSelectionListener( lookup( listeners, listener ) );
+    } else {
+      super.removeListener( eventType, listener );
+    }
   }
 
   @Override
