@@ -6,6 +6,7 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.MouseTrackListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
@@ -27,8 +28,7 @@ class ClickControl extends ControlAdapter implements ViewComponent, TimerAction,
 
   ClickControl( Composite parent, ClickAction clickAction, int maxExtension  ) {
     this.control = new Label( parent, SWT.NONE );
-    this.control.setBackground( parent.getDisplay().getSystemColor( SWT.COLOR_WIDGET_LIGHT_SHADOW ) );
-    this.imageUpdate = new ImageUpdate( control, maxExtension, SWT.COLOR_WIDGET_BACKGROUND );
+    this.imageUpdate = new ImageUpdate( control, maxExtension );
     this.buttonClick = new ButtonClick();
     this.mouseDownActionTimer = new MouseDownActionTimer( this, buttonClick, control.getDisplay() );
     this.clickAction = clickAction;
@@ -72,6 +72,14 @@ class ClickControl extends ControlAdapter implements ViewComponent, TimerAction,
   @Override
   public void mouseExit( MouseEvent event ) {
     buttonClick.disarm();
+  }
+
+  void setColor( Color color ) {
+    imageUpdate.setColor( color );
+  }
+
+  Color getColor() {
+    return imageUpdate.getColor();
   }
 
   @Override

@@ -1,16 +1,25 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Label;
 
 class ImageUpdate {
 
-  private final Label control;
   private final ImageDrawer imageDrawer;
+  private final Label control;
 
-  ImageUpdate( Label control, int maxExpansion, int colorCode  ) {
-    this.imageDrawer = new ImageDrawer( maxExpansion, colorCode );
+  ImageUpdate( Label control, int maxExpansion ) {
+    this.imageDrawer = new ImageDrawer( maxExpansion );
     this.control = control;
+  }
+
+  void setColor( Color color ) {
+    imageDrawer.setColor( color );
+  }
+
+  Color getColor() {
+    return imageDrawer.getColor();
   }
 
   void update() {

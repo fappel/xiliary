@@ -58,6 +58,11 @@ public class FlatScrollBarDemo {
     final FlatScrollBar hScroll = new FlatScrollBar( parent, SWT.HORIZONTAL );
     final FlatScrollBar vScroll = new FlatScrollBar( parent, SWT.VERTICAL );
 
+    vScroll.setIncrementButtonLength( 20 );
+    vScroll.setIncrementColor( Display.getCurrent().getSystemColor( SWT.COLOR_BLUE ) );
+    vScroll.setThumbColor( Display.getCurrent().getSystemColor( SWT.COLOR_DARK_BLUE ) );
+    vScroll.setPageIncrementColor( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_LIGHT_SHADOW ) );
+
     final Label label = new Label( content, SWT.NONE );
     label.setText( LoremIpsum.PARAGRAPHS );
     label.pack();

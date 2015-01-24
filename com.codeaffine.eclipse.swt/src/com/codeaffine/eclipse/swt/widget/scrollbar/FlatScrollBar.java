@@ -8,7 +8,9 @@ import java.util.HashSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Listener;
@@ -32,7 +34,6 @@ public class FlatScrollBar extends Composite {
   final Direction direction;
   final MouseWheelShifter mouseWheelHandler;
   final Collection<SelectionListener> listeners;
-  final int buttonLength;
 
   private int minimum;
   private int maximum;
@@ -41,6 +42,7 @@ public class FlatScrollBar extends Composite {
   private int thumb;
   private int selection;
   private boolean onDrag;
+  private int buttonLength;
 
   public FlatScrollBar( final Composite parent, int style ) {
     this( parent, style, DEFAULT_BUTTON_LENGTH, DEFAULT_MAX_EXPANSION );
@@ -67,6 +69,7 @@ public class FlatScrollBar extends Composite {
     this.listeners = new HashSet<SelectionListener>();
     addMouseTrackListener( new MouseTracker( this, maxExpansion ) );
     addControlListener( new ResizeObserver( this ) );
+    setDefaultColorScheme();
   }
 
   @Override
@@ -183,6 +186,41 @@ public class FlatScrollBar extends Composite {
     update();
   }
 
+  public void setIncrementButtonLength( int length ) {
+    this.buttonLength = length;
+    layout();
+  }
+
+  public int getIncrementButtonLength() {
+    return buttonLength;
+  }
+
+  public void setIncrementColor( Color color ) {
+    up.setColor( color );
+    down.setColor( color );
+  }
+
+  public Color getIncrementColor() {
+    return up.getColor();
+  }
+
+  public void setPageIncrementColor( Color color ) {
+    upFast.setColor( color );
+    downFast.setColor( color );
+  }
+
+  public Color getPageIncrementColor() {
+    return upFast.getColor();
+  }
+
+  public void setThumbColor( Color color ) {
+    drag.setColor( color );
+  }
+
+  public Color getThumbColor() {
+    return drag.getColor();
+  }
+
   protected void setSelectionInternal( int selection, int detail ) {
     int oldSelection = this.selection;
     updateSelection( selection );
@@ -232,5 +270,13 @@ public class FlatScrollBar extends Composite {
 
   private static Direction getDirection( int style ) {
     return ( style & SWT.HORIZONTAL ) > 0 ? Direction.HORIZONTAL : Direction.VERTICAL;
+  }
+
+  private void setDefaultColorScheme() {
+    up.setColor( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
+    upFast.setColor( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
+    drag.setColor( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_FOREGROUND ) );
+    downFast.setColor( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
+    down.setColor( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
   }
 }

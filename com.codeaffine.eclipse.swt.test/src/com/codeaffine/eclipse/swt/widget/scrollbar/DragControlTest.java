@@ -7,7 +7,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -105,6 +107,32 @@ public class DragControlTest {
     Control control = clickControl.getControl();
 
     assertThat( control.getLayoutData() ).isNull();
+  }
+
+  @Test
+  public void setColor() {
+    clickControl.getControl().setSize( 20, 20 );
+
+    ImageData first = renderImage( displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED ) );
+    ImageData second = renderImage( displayHelper.getDisplay().getSystemColor( SWT.COLOR_CYAN ) );
+
+    assertThat( first.data ).isNotEqualTo( second.data );
+  }
+
+  @Test
+  public void getColor() {
+    Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLACK );
+
+    clickControl.setColor( expected );
+    Color actual = clickControl.getColor();
+
+    assertThat( actual ).isSameAs( expected );
+  }
+
+  private ImageData renderImage( Color foreground ) {
+    clickControl.setColor( foreground );
+    clickControl.controlResized( null );
+    return clickControl.getControl().getImage().getImageData();
   }
 
   private Label getClickControl() {

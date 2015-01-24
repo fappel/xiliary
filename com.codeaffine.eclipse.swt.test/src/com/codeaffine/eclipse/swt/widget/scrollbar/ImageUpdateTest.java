@@ -4,7 +4,9 @@ import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -27,7 +29,7 @@ public class ImageUpdateTest {
   public void setUp() {
     shell = createShell( displayHelper );
     control = new Label( shell, SWT.NONE );
-    update = new ImageUpdate( control, FlatScrollBar.DEFAULT_MAX_EXPANSION, SWT.COLOR_RED );
+    update = new ImageUpdate( control, FlatScrollBar.DEFAULT_MAX_EXPANSION );
     shell.open();
   }
 
@@ -69,6 +71,27 @@ public class ImageUpdateTest {
 
     assertThat( actual ).isNotSameAs( oldImage );
     assertThat( oldImage.isDisposed() ).isTrue();
+  }
+
+  @Test
+  public void updateWithDifferntColors() {
+    update.update();
+    ImageData first = control.getImage().getImageData();
+    update.setColor( displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED ) );
+    update.update();
+    ImageData second = control.getImage().getImageData();
+
+    assertThat( first.data ).isNotEqualTo( second.data );
+  }
+
+  @Test
+  public void setColor() {
+    Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED );
+
+    update.setColor( expected );
+    Color actual = update.getColor();
+
+    assertThat( actual ).isSameAs( expected );
   }
 
   private Rectangle expectedImageBounds() {
