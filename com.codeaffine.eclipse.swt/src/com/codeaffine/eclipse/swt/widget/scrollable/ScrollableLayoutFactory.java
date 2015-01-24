@@ -4,6 +4,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
@@ -14,6 +15,9 @@ import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFactory<T> {
 
   private final ScrollBarFactory scrollBarFactory;
+
+  private FlatScrollBar horizontalBar;
+  private FlatScrollBar verticalBar;
 
   ScrollableLayoutFactory() {
     scrollBarFactory = new ScrollBarFactory();
@@ -28,8 +32,8 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
   public Layout create( Composite parent, T scrollable ) {
     parent.setBackgroundMode( SWT.INHERIT_DEFAULT );
     parent.setBackground( scrollable.getBackground() );
-    FlatScrollBar horizontalBar = scrollBarFactory.create( parent, scrollable, SWT.HORIZONTAL );
-    FlatScrollBar verticalBar = scrollBarFactory.create( parent, scrollable, SWT.VERTICAL );
+    horizontalBar = scrollBarFactory.create( parent, scrollable, SWT.HORIZONTAL );
+    verticalBar = scrollBarFactory.create( parent, scrollable, SWT.VERTICAL );
     horizontalBar.addSelectionListener( createHorizontalSelectionListener( scrollable ) );
     verticalBar.addSelectionListener( createVerticalSelectionListener( scrollable ) );
     parent.addDisposeListener( createWatchDog( scrollable, horizontalBar, verticalBar ) );
@@ -41,5 +45,49 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
     Label result = new Label( parent, SWT.NONE );
     result.moveAbove( null );
     return result;
+  }
+
+  @Override
+  public void setIncrementButtonLength( int incrementButtonLength ) {
+    horizontalBar.setIncrementButtonLength( incrementButtonLength );
+    verticalBar.setIncrementButtonLength( incrementButtonLength );
+  }
+
+  @Override
+  public int getIncrementButtonLength() {
+    return horizontalBar.getIncrementButtonLength();
+  }
+
+  @Override
+  public void setIncrementColor( Color incrementColor ) {
+    horizontalBar.setIncrementColor( incrementColor );
+    verticalBar.setIncrementColor( incrementColor );
+  }
+
+  @Override
+  public Color getIncrementColor() {
+    return horizontalBar.getIncrementColor();
+  }
+
+  @Override
+  public void setPageIncrementColor( Color pageIncrementColor ) {
+    horizontalBar.setPageIncrementColor( pageIncrementColor );
+    verticalBar.setPageIncrementColor( pageIncrementColor );
+  }
+
+  @Override
+  public Color getPageIncrementColor() {
+    return horizontalBar.getPageIncrementColor();
+  }
+
+  @Override
+  public void setThumbColor( Color thumbColor ) {
+    horizontalBar.setThumbColor( thumbColor );
+    verticalBar.setThumbColor( thumbColor );
+  }
+
+  @Override
+  public Color getThumbColor() {
+    return horizontalBar.getThumbColor();
   }
 }

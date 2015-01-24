@@ -116,12 +116,7 @@ public class ScrollableAdapterTest {
   }
 
   private static LayoutMapping<Scrollable> createLayoutMapping( final Layout expected, PlatformType ... types ) {
-    return new LayoutMapping<Scrollable>( new LayoutFactory<Scrollable>() {
-      @Override
-      public Layout create( Composite parent, Scrollable scrollable ) {
-        return expected;
-      }
-    }, types );
+    return new LayoutMapping<Scrollable>( new TestLayoutFactory( expected ), types );
   }
 
   private ScrollableAdapter<Scrollable> createAdapter( LayoutMapping<Scrollable> ... layoutMappings ) {
