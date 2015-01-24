@@ -196,29 +196,39 @@ public class FlatScrollBar extends Composite {
   }
 
   public void setIncrementColor( Color color ) {
-    up.setColor( color );
-    down.setColor( color );
+    up.setForeground( color );
+    down.setForeground( color );
   }
 
   public Color getIncrementColor() {
-    return up.getColor();
+    return up.getForeground();
   }
 
   public void setPageIncrementColor( Color color ) {
-    upFast.setColor( color );
-    downFast.setColor( color );
+    upFast.setForeground( color );
+    downFast.setForeground( color );
   }
 
   public Color getPageIncrementColor() {
-    return upFast.getColor();
+    return upFast.getForeground();
   }
 
   public void setThumbColor( Color color ) {
-    drag.setColor( color );
+    drag.setForeground( color );
   }
 
   public Color getThumbColor() {
-    return drag.getColor();
+    return drag.getForeground();
+  }
+
+  @Override
+  public void setBackground( Color color ) {
+    up.setBackground( color );
+    upFast.setBackground( color );
+    drag.setBackground( color );
+    downFast.setBackground( color );
+    down.setBackground( color );
+    super.setBackground( color );
   }
 
   protected void setSelectionInternal( int selection, int detail ) {
@@ -273,10 +283,11 @@ public class FlatScrollBar extends Composite {
   }
 
   private void setDefaultColorScheme() {
-    up.setColor( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
-    upFast.setColor( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
-    drag.setColor( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_FOREGROUND ) );
-    downFast.setColor( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
-    down.setColor( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
+    up.setForeground( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
+    upFast.setForeground( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
+    drag.setForeground( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_FOREGROUND ) );
+    downFast.setForeground( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
+    down.setForeground( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_NORMAL_SHADOW ) );
+    setBackground( getBackground() );
   }
 }

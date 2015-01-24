@@ -14,12 +14,20 @@ class ImageUpdate {
     this.control = control;
   }
 
-  void setColor( Color color ) {
-    imageDrawer.setColor( color );
+  void setForeground( Color color ) {
+    imageDrawer.setForeground( color );
   }
 
-  Color getColor() {
-    return imageDrawer.getColor();
+  Color getForeground() {
+    return imageDrawer.getForeground();
+  }
+
+  void setBackground( Color color ) {
+    imageDrawer.setBackground( color );
+  }
+
+  Color getBackground() {
+    return imageDrawer.getBackground();
   }
 
   void update() {

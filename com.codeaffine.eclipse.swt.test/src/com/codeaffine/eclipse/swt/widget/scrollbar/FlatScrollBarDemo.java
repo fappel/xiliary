@@ -62,6 +62,7 @@ public class FlatScrollBarDemo {
     vScroll.setIncrementColor( Display.getCurrent().getSystemColor( SWT.COLOR_BLUE ) );
     vScroll.setThumbColor( Display.getCurrent().getSystemColor( SWT.COLOR_DARK_BLUE ) );
     vScroll.setPageIncrementColor( Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_LIGHT_SHADOW ) );
+    vScroll.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_BLACK ) );
 
     final Label label = new Label( content, SWT.NONE );
     label.setText( LoremIpsum.PARAGRAPHS );

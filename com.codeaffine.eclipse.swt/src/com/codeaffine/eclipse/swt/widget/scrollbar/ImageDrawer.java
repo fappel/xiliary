@@ -12,21 +12,33 @@ class ImageDrawer {
 
   private final int maxExpansion;
 
-  private Color color;
+  private Color background;
+  private Color foreground;
 
   ImageDrawer( int expansion  ) {
     this.maxExpansion = expansion;
-    this.color = Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_DARK_SHADOW );
+    this.foreground = Display.getCurrent().getSystemColor( SWT.COLOR_WIDGET_DARK_SHADOW );
+    this.background = Display.getCurrent().getSystemColor( SWT.COLOR_LIST_BACKGROUND );
   }
 
-  void setColor( Color color ) {
-    if( color != null ) {
-      this.color = color;
+  void setForeground( Color foreground ) {
+    if( foreground != null ) {
+      this.foreground = foreground;
     }
   }
 
-  Color getColor() {
-    return color;
+  Color getForeground() {
+    return foreground;
+  }
+
+  void setBackground( Color background ) {
+    if( background != null ) {
+      this.background = background;
+    }
+  }
+
+  Color getBackground() {
+    return background;
   }
 
   Image draw( int width, int height ) {
@@ -41,12 +53,11 @@ class ImageDrawer {
   }
 
   private void draw( GC gc, int width, int height ) {
-    gc.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
+    gc.setBackground( background );
     gc.fillRectangle( 0, 0, width, height );
-    gc.setBackground( color );
+    gc.setBackground( foreground );
     gc.setAdvanced( true );
     gc.setAntialias( SWT.ON );
-    gc.setAlpha( 170 );
     int arc = min( width, height ) == 1 ? 1 : maxExpansion + 2;
     gc.fillRoundRectangle( 0, 0, width, height, arc, arc );
   }

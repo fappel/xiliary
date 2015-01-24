@@ -77,7 +77,7 @@ public class ImageUpdateTest {
   public void updateWithDifferntColors() {
     update.update();
     ImageData first = control.getImage().getImageData();
-    update.setColor( displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED ) );
+    update.setForeground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED ) );
     update.update();
     ImageData second = control.getImage().getImageData();
 
@@ -85,11 +85,21 @@ public class ImageUpdateTest {
   }
 
   @Test
-  public void setColor() {
+  public void setForeground() {
     Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED );
 
-    update.setColor( expected );
-    Color actual = update.getColor();
+    update.setForeground( expected );
+    Color actual = update.getForeground();
+
+    assertThat( actual ).isSameAs( expected );
+  }
+
+  @Test
+  public void setBackground() {
+    Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED );
+
+    update.setBackground( expected );
+    Color actual = update.getBackground();
 
     assertThat( actual ).isSameAs( expected );
   }

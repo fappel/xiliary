@@ -110,27 +110,56 @@ public class DragControlTest {
   }
 
   @Test
-  public void setColor() {
+  public void setForeground() {
     clickControl.getControl().setSize( 20, 20 );
 
-    ImageData first = renderImage( displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED ) );
-    ImageData second = renderImage( displayHelper.getDisplay().getSystemColor( SWT.COLOR_CYAN ) );
+    ImageData first = renderImageWithForeground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED ) );
+    ImageData second = renderImageWithForeground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_CYAN ) );
 
     assertThat( first.data ).isNotEqualTo( second.data );
   }
 
   @Test
-  public void getColor() {
+  public void getForeground() {
     Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLACK );
 
-    clickControl.setColor( expected );
-    Color actual = clickControl.getColor();
+    clickControl.setForeground( expected );
+    Color actual = clickControl.getForeground();
 
     assertThat( actual ).isSameAs( expected );
   }
 
-  private ImageData renderImage( Color foreground ) {
-    clickControl.setColor( foreground );
+  @Test
+  public void setBackground() {
+    clickControl.getControl().setSize( 20, 20 );
+
+    ImageData first = renderImageWithBackground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED ) );
+    ImageData second = renderImageWithBackground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_CYAN ) );
+
+    assertThat( first.data ).isNotEqualTo( second.data );
+  }
+
+  @Test
+  public void getBackground() {
+    Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLACK );
+
+    clickControl.setBackground( expected );
+    Color actual = clickControl.getBackground();
+
+    assertThat( actual ).isSameAs( expected );
+  }
+
+  private ImageData renderImageWithForeground( Color color ) {
+    clickControl.setForeground( color );
+    return renderImage();
+  }
+
+  private ImageData renderImageWithBackground( Color color ) {
+    clickControl.setBackground( color );
+    return renderImage();
+  }
+
+  private ImageData renderImage() {
     clickControl.controlResized( null );
     return clickControl.getControl().getImage().getImageData();
   }

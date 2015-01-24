@@ -96,25 +96,49 @@ public class ClickControlTest {
   }
 
   @Test
-  public void setColor() {
-    ImageData first = renderImage( displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED ) );
-    ImageData second = renderImage( displayHelper.getDisplay().getSystemColor( SWT.COLOR_GREEN ) );
+  public void setForeground() {
+    ImageData first = renderImageWithForeground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED ) );
+    ImageData second = renderImageWithForeground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_GREEN ) );
 
     assertThat( first.data ).isNotEqualTo( second.data );
   }
 
   @Test
-  public void getColor() {
+  public void getForeground() {
     Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED );
 
-    clickControl.setColor( expected );
-    Color actual = clickControl.getColor();
+    clickControl.setForeground( expected );
+    Color actual = clickControl.getForeground();
 
     assertThat( actual ).isSameAs( expected );
   }
 
-  private ImageData renderImage( Color foreground ) {
-    clickControl.setColor( foreground );
+  @Test
+  public void setBackground() {
+    ImageData first = renderImageWithBackground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED ) );
+    ImageData second = renderImageWithBackground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_GREEN ) );
+
+    assertThat( first.data ).isNotEqualTo( second.data );
+  }
+
+  @Test
+  public void getBackground() {
+    Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED );
+
+    clickControl.setBackground( expected );
+    Color actual = clickControl.getBackground();
+
+    assertThat( actual ).isSameAs( expected );
+  }
+
+  private ImageData renderImageWithForeground( Color foreground ) {
+    clickControl.setForeground( foreground );
+    clickControl.controlResized( null );
+    return clickControl.getControl().getImage().getImageData();
+  }
+
+  private ImageData renderImageWithBackground( Color foreground ) {
+    clickControl.setBackground( foreground );
     clickControl.controlResized( null );
     return clickControl.getControl().getImage().getImageData();
   }

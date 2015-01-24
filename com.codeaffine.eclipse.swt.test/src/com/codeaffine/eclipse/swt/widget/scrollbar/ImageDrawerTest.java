@@ -27,21 +27,41 @@ public class ImageDrawerTest {
   }
 
   @Test
-  public void getColor() {
+  public void getForeground() {
     ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
 
-    Color actual = drawer.getColor();
+    Color actual = drawer.getForeground();
 
     assertThat( actual ).isNotNull();
   }
 
   @Test
-  public void setColorWithNullAsParameter() {
+  public void getBackground() {
     ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
-    Color expected = drawer.getColor();
 
-    drawer.setColor( null );
-    Color actual = drawer.getColor();
+    Color actual = drawer.getBackground();
+
+    assertThat( actual ).isNotNull();
+  }
+
+  @Test
+  public void setForegroundWithNullAsParameter() {
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+    Color expected = drawer.getForeground();
+
+    drawer.setForeground( null );
+    Color actual = drawer.getForeground();
+
+    assertThat( actual ).isSameAs( expected );
+  }
+
+  @Test
+  public void setBackgroundWithNullAsParameter() {
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+    Color expected = drawer.getBackground();
+
+    drawer.setBackground( null );
+    Color actual = drawer.getBackground();
 
     assertThat( actual ).isSameAs( expected );
   }
@@ -49,7 +69,7 @@ public class ImageDrawerTest {
   @Test
   public void draw() {
     ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
-    drawer.setColor( displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLUE ) );
+    drawer.setForeground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLUE ) );
 
     Image actual = drawer.draw( WIDTH, HEIGHT );
 
@@ -64,10 +84,13 @@ public class ImageDrawerTest {
 
     ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
     Image first = drawer.draw( WIDTH, HEIGHT );
-    drawer.setColor( displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLUE ) );
+    drawer.setForeground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLUE ) );
     Image second = drawer.draw( WIDTH, HEIGHT );
+    drawer.setBackground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED ) );
+    Image third = drawer.draw( WIDTH, HEIGHT );
 
     assertThat( first.getImageData().data ).isNotEqualTo( second.getImageData().data );
+    assertThat( second.getImageData().data ).isNotEqualTo( third.getImageData().data );
   }
 
   private byte[] emptyImageDataArray() {

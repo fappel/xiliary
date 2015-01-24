@@ -74,12 +74,20 @@ class ClickControl extends ControlAdapter implements ViewComponent, TimerAction,
     buttonClick.disarm();
   }
 
-  void setColor( Color color ) {
-    imageUpdate.setColor( color );
+  void setForeground( Color color ) {
+    imageUpdate.setForeground( color );
   }
 
-  Color getColor() {
-    return imageUpdate.getColor();
+  Color getForeground() {
+    return imageUpdate.getForeground();
+  }
+
+  void setBackground( Color color ) {
+    imageUpdate.setBackground( color );
+  }
+
+  Color getBackground() {
+    return imageUpdate.getBackground();
   }
 
   @Override

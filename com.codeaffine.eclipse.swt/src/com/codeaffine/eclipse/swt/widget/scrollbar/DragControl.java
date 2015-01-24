@@ -78,12 +78,20 @@ class DragControl
     imageUpdate.update();
   }
 
-  void setColor( Color color ) {
-    imageUpdate.setColor( color );
+  void setForeground( Color color ) {
+    imageUpdate.setForeground( color );
   }
 
-  Color getColor() {
-    return imageUpdate.getColor();
+  Color getForeground() {
+    return imageUpdate.getForeground();
+  }
+
+  Color getBackground() {
+    return imageUpdate.getBackground();
+  }
+
+  void setBackground( Color color ) {
+    imageUpdate.setBackground( color );
   }
 
   private void initializeControl( ) {
