@@ -12,5 +12,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.workflow.persistence.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.workflow.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.workflow.test.util.test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.osgi.test.util.test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

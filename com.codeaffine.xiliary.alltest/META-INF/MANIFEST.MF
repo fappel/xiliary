@@ -21,4 +21,5 @@ Require-Bundle: com.codeaffine.eclipse.core.runtime;bundle-version="[0.1.0,1.0.0
  com.codeaffine.workflow;bundle-version="0.1.0",
  com.codeaffine.workflow.persistence;bundle-version="0.1.0",
  net.johanneslink.cpsuite;bundle-version="[1.2.6,2.0.0)",
- com.codeaffine.workflow.test.util;bundle-version="[0.1.0,1.0.0)"
+ com.codeaffine.workflow.test.util;bundle-version="[0.1.0,1.0.0)",
+ com.codeaffine.osgi.test.util;bundle-version="0.1.0"
