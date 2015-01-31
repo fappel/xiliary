@@ -54,6 +54,12 @@
     <module>../com.codeaffine.eclipse.ui</module>
     <module>../com.codeaffine.eclipse.ui.test</module>
 
+    <!-- OSGi -->
+    <module>../com.codeaffine.osgi.test.util.feature</module>
+    
+    <module>../com.codeaffine.osgi.test.util</module>
+    <module>../com.codeaffine.eclipse.osgi.test.util.test</module>
+
     <!-- Workflow -->
     <module>../com.codeaffine.workflow.feature</module>
     <module>../com.codeaffine.workflow.test.util.feature</module>

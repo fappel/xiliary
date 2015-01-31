@@ -14,19 +14,31 @@
    </feature>
    <feature url="features/com.codeaffine.test.util.feature_0.1.0.qualifier.jar" id="com.codeaffine.test.util.feature" version="0.1.0.qualifier">
       <category name="com.codeaffine.xiliary.all"/>
+      <category name="com.codeaffine.xiliary.workflow"/>
    </feature>
    <feature url="features/com.codeaffine.eclipse.ui.feature_0.1.0.qualifier.jar" id="com.codeaffine.eclipse.ui.feature" version="0.1.0.qualifier">
       <category name="com.codeaffine.xiliary.all"/>
    </feature>
    <feature url="features/com.codeaffine.workflow.feature_0.1.0.qualifier.jar" id="com.codeaffine.workflow.feature" version="0.1.0.qualifier">
       <category name="com.codeaffine.xiliary.all"/>
+      <category name="com.codeaffine.xiliary.workflow"/>
    </feature>
    <feature url="features/com.codeaffine.workflow.test.util.feature_0.1.0.qualifier.jar" id="com.codeaffine.workflow.test.util.feature" version="0.1.0.qualifier">
       <category name="com.codeaffine.xiliary.all"/>
+      <category name="com.codeaffine.xiliary.workflow"/>
+   </feature>
+   <feature url="features/com.codeaffine.osgi.test.util.feature_0.1.0.qualifier.jar" id="com.codeaffine.osgi.test.util.feature" version="0.1.0.qualifier">
+      <category name="com.codeaffine.xiliary.all"/>
+      <category name="com.codeaffine.xiliary.workflow"/>
    </feature>
    <category-def name="com.codeaffine.xiliary.all" label="All Xiliary Features">
       <description>
          Auxiliary libraries for Eclipse, JUnit and Java development in general.
+      </description>
+   </category-def>
+   <category-def name="com.codeaffine.xiliary.workflow" label="Xiliary Workflow Features">
+      <description>
+         Auxiliary libraries for plain workflow support and related test helpers.
       </description>
    </category-def>
 </site>

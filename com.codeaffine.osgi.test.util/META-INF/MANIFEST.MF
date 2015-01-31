@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OSGi Test Auxiliaries
+Bundle-SymbolicName: com.codeaffine.osgi.test.util;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Bundle-Vendor: CODE AFFINE
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
