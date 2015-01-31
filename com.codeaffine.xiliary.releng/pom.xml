@@ -58,7 +58,7 @@
     <module>../com.codeaffine.osgi.test.util.feature</module>
     
     <module>../com.codeaffine.osgi.test.util</module>
-    <module>../com.codeaffine.eclipse.osgi.test.util.test</module>
+    <module>../com.codeaffine.osgi.test.util.test</module>
 
     <!-- Workflow -->
     <module>../com.codeaffine.workflow.feature</module>
