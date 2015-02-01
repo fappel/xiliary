@@ -7,17 +7,17 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.util.Hashtable;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runners.model.Statement;
-import org.osgi.framework.ServiceRegistration;
 
 import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class ServiceRegistrationRulePDETest {
 
-  private ServiceRegistration<TestService> registration;
   private ServiceRegistrationRule rule;
 
   @Before
@@ -27,17 +27,34 @@ public class ServiceRegistrationRulePDETest {
 
   @After
   public void tearDown() {
-    if( registration != null ) {
-      registration.unregister();
-    }
+    rule.cleanup();
   }
 
   @Test
   public void register() {
-    registration = rule.register( TestService.class, new TestServiceImpl(), null );
+    Registration<TestService> registration = rule.register( TestService.class, new TestServiceImpl() );
+
+    assertThat( registration ).isNotNull();
+    assertThat( registration.getServiceRegistration() ).isNotNull();
+    assertThat( collectServices( TestService.class, TestServiceImpl.class ) ).hasSize( 1 );
+  }
+
+  @Test
+  public void registerWithProperties() {
+    Hashtable<String, Object> properties = new Hashtable<String, Object>();
+
+    Registration<TestService> registration = rule.register( TestService.class, new TestServiceImpl(), properties );
 
     assertThat( registration ).isNotNull();
     assertThat( collectServices( TestService.class, TestServiceImpl.class ) ).hasSize( 1 );
+  }
+
+  @Test
+  public void unregister() {
+    Registration<TestService> registration = rule.register( TestService.class, new TestServiceImpl() );
+    registration.unregister();
+
+    assertThat( collectServices( TestService.class, TestServiceImpl.class ) ).isEmpty();
   }
 
   @Test

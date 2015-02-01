@@ -21,10 +21,16 @@ public class ServiceRegistrationRule implements TestRule {
     registrations = new HashSet<ServiceRegistration<?>>();
   }
 
-  public <S> ServiceRegistration<S> register( Class<S> type, S service, Dictionary<String, ?> properties ) {
+  public <S> Registration<S> register( Class<S> type, S service ) {
+    return register( type, service, null );
+  }
+
+  public <S> Registration<S> register( Class<S> type, S service, Dictionary<String, ?> properties ) {
     ServiceRegistration<S> result = context.registerService( type, service, properties );
-    registrations.add( result );
-    return result;
+    synchronized( registrations ) {
+      registrations.add( result );
+    }
+    return new Registration<S>( result, this );
   }
 
   @Override
@@ -41,9 +47,18 @@ public class ServiceRegistrationRule implements TestRule {
     };
   }
 
-  private void cleanup() {
-    for( ServiceRegistration<?> registration : registrations ) {
-      registration.unregister();
+  void remove( ServiceRegistration<?> registration ) {
+    synchronized( registrations ) {
+      registrations.remove( registration );
+    }
+  }
+
+  void cleanup() {
+    synchronized( registrations ) {
+      for( ServiceRegistration<?> registration : registrations ) {
+        registration.unregister();
+      }
+      registrations.clear();
     }
   }
 }
