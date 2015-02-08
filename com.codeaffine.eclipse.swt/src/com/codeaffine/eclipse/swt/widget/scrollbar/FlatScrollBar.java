@@ -48,7 +48,7 @@ public class FlatScrollBar extends Composite {
     this( parent, style, DEFAULT_BUTTON_LENGTH, DEFAULT_MAX_EXPANSION );
   }
 
-  FlatScrollBar( final Composite parent, int style, int buttonLength, int maxExpansion ) {
+  FlatScrollBar( Composite parent, int style, int buttonLength, int maxExpansion ) {
     super( parent, SWT.NONE );
     super.setLayout( new FlatScrollBarLayout( getDirection( style ) ) );
     this.minimum = DEFAULT_MINIMUM;
