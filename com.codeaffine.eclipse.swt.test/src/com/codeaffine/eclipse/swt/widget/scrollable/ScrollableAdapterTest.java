@@ -115,7 +115,7 @@ public class ScrollableAdapterTest {
     assertThat( layout ).isExactlyInstanceOf( FillLayout.class );
   }
 
-  private static LayoutMapping<Scrollable> createLayoutMapping( final Layout expected, PlatformType ... types ) {
+  private static LayoutMapping<Scrollable> createLayoutMapping( Layout expected, PlatformType ... types ) {
     return new LayoutMapping<Scrollable>( new TestLayoutFactory( expected ), types );
   }
 

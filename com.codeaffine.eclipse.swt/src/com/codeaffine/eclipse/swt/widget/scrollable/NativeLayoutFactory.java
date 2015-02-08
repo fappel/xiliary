@@ -8,9 +8,15 @@ import org.eclipse.swt.widgets.Scrollable;
 
 class NativeLayoutFactory<T extends Scrollable> implements LayoutFactory<T> {
 
+  static final Class<FillLayout> LAYOUT_TYPE = FillLayout.class;
+
   @Override
   public Layout create( Composite parent, T scrollable ) {
-    return new FillLayout();
+    try {
+      return LAYOUT_TYPE.newInstance();
+    } catch( Exception shouldNotHappen ) {
+      throw new IllegalStateException( shouldNotHappen );
+    }
   }
 
   @Override
