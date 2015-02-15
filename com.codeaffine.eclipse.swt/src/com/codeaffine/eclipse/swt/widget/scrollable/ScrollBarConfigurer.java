@@ -10,7 +10,7 @@ class ScrollBarConfigurer {
     this.scrollBar = scrollBar;
   }
 
-  void configure( LayoutContext context ) {
+  void configure( LayoutContext<?> context ) {
     scrollBar.setIncrement( 1 );
     scrollBar.setMaximum( context.getPreferredSize().x );
     scrollBar.setMinimum( context.getOffset() );

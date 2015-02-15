@@ -29,7 +29,8 @@ public class TreeVerticalSelectionListenerTest {
     Shell shell = createShell( displayHelper );
     Tree tree = createTreeWithExpandedTopBranch( shell );
     FlatScrollBar scrollBar = prepareScrollBar( shell, tree );
-    TreeVerticalSelectionListener listener = new TreeVerticalSelectionListener( tree );
+    LayoutContext<Tree> context = new LayoutContext<Tree>( shell, tree );
+    TreeVerticalSelectionListener listener = new TreeVerticalSelectionListener( context );
 
     listener.widgetSelected( createEvent( scrollBar, ITEM_INDEX * SELECTION_RASTER_SMOOTH_FACTOR ) );
 

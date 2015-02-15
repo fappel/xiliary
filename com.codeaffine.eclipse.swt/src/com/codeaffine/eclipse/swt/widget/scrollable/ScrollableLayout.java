@@ -4,39 +4,29 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
-import org.eclipse.swt.widgets.Scrollable;
 
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
-class ScrollableLayout<T extends Scrollable> extends Layout {
+class ScrollableLayout extends Layout {
 
   private final ScrollBarConfigurer horizontalBarConfigurer;
   private final ScrollableLayouter scrollableLayouter;
-  private final LayoutContextFactory contextFactory;
   private final OverlayLayouter overlayLayouter;
-  private final T scrollable;
+  private final LayoutContext<?> context;
 
-  ScrollableLayout( T scrollable,
-                    LayoutContextFactory contextFactory,
-                    FlatScrollBar horizontal,
-                    FlatScrollBar vertical,
-                    Label cornerOverlay )
-  {
-    this( scrollable,
-          contextFactory,
+  ScrollableLayout( LayoutContext<?> context, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay ) {
+    this( context,
           new OverlayLayouter( horizontal, vertical, cornerOverlay ),
-          new ScrollableLayouter( scrollable ),
+          new ScrollableLayouter( context.getScrollable() ),
           new ScrollBarConfigurer( horizontal ) );
   }
 
-  ScrollableLayout( T scrollable ,
-                    LayoutContextFactory contextFactory ,
-                    OverlayLayouter overlayLayouter ,
-                    ScrollableLayouter scrollableLayouter ,
-                    ScrollBarConfigurer horizontalBarConfigurer  )
+  ScrollableLayout( LayoutContext<?> context,
+                    OverlayLayouter overlayLayouter,
+                    ScrollableLayouter scrollableLayouter,
+                    ScrollBarConfigurer horizontalBarConfigurer )
   {
-    this.scrollable = scrollable;
-    this.contextFactory = contextFactory;
+    this.context = context;
     this.overlayLayouter = overlayLayouter;
     this.scrollableLayouter = scrollableLayouter;
     this.horizontalBarConfigurer = horizontalBarConfigurer;
@@ -44,7 +34,7 @@ class ScrollableLayout<T extends Scrollable> extends Layout {
 
   @Override
   protected void layout( Composite composite, boolean flushCache ) {
-    LayoutContext context = contextFactory.create();
+    LayoutContext<?> context = this.context.newContext();
     overlayLayouter.layout( context );
     scrollableLayouter.layout( context );
     if( context.isHorizontalBarVisible() ) {
@@ -54,10 +44,6 @@ class ScrollableLayout<T extends Scrollable> extends Layout {
 
   @Override
   protected Point computeSize( Composite composite, int wHint, int hHint, boolean flushCache ) {
-    return scrollable.computeSize( wHint, hHint, flushCache );
-  }
-
-  protected T getScrollable() {
-    return scrollable;
+    return context.getScrollable().computeSize( wHint, hHint, flushCache );
   }
 }

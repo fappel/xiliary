@@ -26,18 +26,23 @@ public class TreeAdapterTest {
   private Shell shell;
   private Tree tree;
 
+  private Object layoutData;
+
   @Before
   public void setUp() {
     adapterFactory = new ScrollableAdapterFactory();
     shell = createShell( displayHelper );
     tree = createTree( shell, 1, 2 );
+    layoutData = new Object();
+    tree.setLayoutData( layoutData );
     adapter = adapterFactory.create( tree, TreeAdapter.class );
   }
 
   @Test
   public void adapt() {
-    assertThat( adapter ).isSameAs( tree.getParent() );
+    assertThat( adapter.getChildren() ).contains( tree );
     assertThat( adapter.getLayout() ).isInstanceOf( ScrollableLayout.class );
+    assertThat( adapter.getLayoutData() ).isSameAs( layoutData );
     assertThat( adapter.getBounds() ).isEqualTo( shell.getClientArea() );
   }
 

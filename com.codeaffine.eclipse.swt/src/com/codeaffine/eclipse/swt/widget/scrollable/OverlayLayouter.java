@@ -21,13 +21,13 @@ class OverlayLayouter {
     this.vertical = vertical;
   }
 
-  void layout( LayoutContext context ) {
+  void layout( LayoutContext<?> context ) {
     layoutVertical( context );
     layoutHorizontal( context );
     layoutCornerOverlay( context );
   }
 
-  private void layoutVertical( LayoutContext context ) {
+  private void layoutVertical( LayoutContext<?> context ) {
     if( context.isVerticalBarVisible() ) {
       Rectangle visibleArea = context.getVisibleArea();
       int vHeight = context.isHorizontalBarVisible() ? visibleArea.height - MAX_EXPANSION: visibleArea.height;
@@ -39,7 +39,7 @@ class OverlayLayouter {
     }
   }
 
-  private void layoutHorizontal( LayoutContext context ) {
+  private void layoutHorizontal( LayoutContext<?> context ) {
     if( context.isHorizontalBarVisible() ) {
       Rectangle visibleArea = context.getVisibleArea();
       int hWidth = context.isVerticalBarVisible() ? visibleArea.width - MAX_EXPANSION : visibleArea.width;
@@ -51,14 +51,15 @@ class OverlayLayouter {
     }
   }
 
-  private void layoutCornerOverlay( LayoutContext context ) {
+  private void layoutCornerOverlay( LayoutContext<?> context ) {
     cornerOverlay.setBounds( calculateCornerOverlayBounds( horizontal, vertical, context ) );
   }
 
-  static Rectangle calculateCornerOverlayBounds( FlatScrollBar horizontal, FlatScrollBar vertical, LayoutContext context  ) {
+  static Rectangle calculateCornerOverlayBounds(
+    FlatScrollBar horizontal, FlatScrollBar vertical, LayoutContext<?> context )
+  {
     Point hSize = horizontal.getSize();
     Point vSize = vertical.getSize();
     return new Rectangle( hSize.x, vSize.y, vSize.x + context.getOffset(), hSize.y );
   }
-
 }

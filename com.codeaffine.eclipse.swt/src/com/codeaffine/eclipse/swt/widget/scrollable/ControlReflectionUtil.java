@@ -3,25 +3,36 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.ProtectionDomain;
 
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
 
-import com.google.gson.internal.UnsafeAllocator;
+import com.codeaffine.eclipse.swt.util.ResourceLoader;
+import com.codeaffine.eclipse.swt.util.Unsafe;
 
 class ControlReflectionUtil {
 
-  private final UnsafeAllocator unsafeAllocator;
+  private final Unsafe unsafe;
 
   interface Operator<T> {
     T execute() throws Exception;
   }
 
   ControlReflectionUtil() {
-    unsafeAllocator = UnsafeAllocator.create();
+    unsafe = new Unsafe();
   }
 
-  <T extends Control> T newInstance( final Class<T> type ) {
+  public Class<? extends Widget> defineWidgetClass( final String name ) {
+    return execute( new Operator<Class<? extends Widget>>() {
+      @Override
+      public Class<? extends Widget> execute() throws Exception {
+        return defineClass( name );
+      }
+    } );
+  }
+
+  <T extends Widget> T newInstance( final Class<T> type ) {
     return execute( new Operator<T>() {
       @Override
       public T execute() throws Exception {
@@ -30,7 +41,7 @@ class ControlReflectionUtil {
     } );
   }
 
-  void invoke( final Object receiver, final String methodName ) {
+  void invoke( final Widget receiver, final String methodName ) {
     execute( new Operator<Object>() {
       @Override
       public Object execute() throws Exception {
@@ -39,7 +50,7 @@ class ControlReflectionUtil {
     } );
   }
 
-  void setField( final Object receiver, final String fieldName, final Object value  ) {
+  void setField( final Widget receiver, final String fieldName, final Object value  ) {
     execute( new Operator<Object>() {
       @Override
       public Object execute() throws Exception {
@@ -48,37 +59,50 @@ class ControlReflectionUtil {
     } );
   }
 
-  private <T extends Control> T createNewIewInstance( Class<T> type ) throws Exception {
-    return unsafeAllocator.newInstance( type );
+  @SuppressWarnings("unchecked")
+  private Class<? extends Widget> defineClass( final String name ) {
+    String path = name.replaceAll( "\\.", "/" ) + ".class";
+    byte[] bytes = new ResourceLoader().load( path );
+    ClassLoader loader = getClass().getClassLoader();
+    ProtectionDomain domain = getClass().getProtectionDomain();
+    return ( Class<? extends Widget> )unsafe.defineClass( name, bytes, 0, bytes.length, loader, domain  );
   }
 
-  private static Object invokeMethod( Object receiver, String methodName ) throws Exception {
-    Method method = getMethod( methodName );
+  private <T extends Widget> T createNewIewInstance( Class<T> type ) throws Exception {
+    return unsafe.newInstance( type );
+  }
+
+  private static Object invokeMethod( Widget receiver, String methodName ) throws Exception {
+    Method method = getMethod( receiver, methodName );
     method.setAccessible( true );
     method.invoke( receiver );
     return null;
   }
 
-  private static Method getMethod( String methodName ) throws NoSuchMethodException {
+  private static Method getMethod( Widget receiver, String methodName ) throws NoSuchMethodException {
     try {
+      return receiver.getClass().getDeclaredMethod( methodName );
+    } catch( NoSuchMethodException noReceiverMethod ) {
       return Control.class.getDeclaredMethod( methodName );
-    } catch( NoSuchMethodException e ) {
-      return Widget.class.getDeclaredMethod( methodName );
     }
   }
 
   private static Object setFieldValue( Object receiver, String fieldName, Object value ) throws Exception {
-    Field field = getField( fieldName );
+    Field field = getField( receiver, fieldName );
     field.setAccessible( true );
     field.set( receiver, value );
     return null;
   }
 
-  private static Field getField( String fieldName ) throws NoSuchFieldException {
+  private static Field getField( Object receiver, String fieldName ) throws NoSuchFieldException {
     try {
-      return Control.class.getDeclaredField( fieldName );
-    } catch( NoSuchFieldException nsfe ) {
-      return Widget.class.getDeclaredField( fieldName );
+      return receiver.getClass().getDeclaredField( fieldName );
+    } catch( NoSuchFieldException noReceiverField ) {
+      try {
+        return Control.class.getDeclaredField( fieldName );
+      } catch( NoSuchFieldException noControlField ) {
+        return Widget.class.getDeclaredField( fieldName );
+      }
     }
   }
 

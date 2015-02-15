@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.testhelper.TestResources.PROTECTED_CLASS_NAME;
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
@@ -21,8 +22,6 @@ public class ControlReflectionUtilTest {
 
   private static final String UNDECLARED = "undeclared";
   private static final String DISPLAY = "display";
-  private static final String REDRAW = "redraw";
-
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -31,6 +30,27 @@ public class ControlReflectionUtilTest {
   @Before
   public void setUp() {
     reflectionUtil = new ControlReflectionUtil();
+  }
+
+  @Test
+  public void defineWidgetClass() {
+    Class<?> actual = reflectionUtil.defineWidgetClass( PROTECTED_CLASS_NAME );
+
+    assertThat( actual.getName() ).isSameAs( PROTECTED_CLASS_NAME );
+  }
+
+  @Test
+  public void defineWidgetClassThatDoesNotExist() {
+    Throwable actual = thrown( new Actor() {
+      @Override
+      public void act() throws Throwable {
+        reflectionUtil.defineWidgetClass( "path.to.Unknown" );
+      }
+    } );
+
+    assertThat( actual )
+      .hasMessageContaining( "path/to/Unknown.class" )
+      .isInstanceOf( IllegalArgumentException.class );
   }
 
   @Test
@@ -56,20 +76,22 @@ public class ControlReflectionUtilTest {
 
   @Test
   public void invokeOfControlMethod() {
-    Tree receiver = mock( Tree.class );
+    TreeAdapter receiver = reflectionUtil.newInstance( TreeAdapter.class );
+    reflectionUtil.setField( receiver, "display", displayHelper.getDisplay() );
+    reflectionUtil.setField( receiver, "parent", displayHelper.createShell() );
 
-    reflectionUtil.invoke( receiver, REDRAW );
+    reflectionUtil.invoke( receiver, "createWidget" );
 
-    verify( receiver ).redraw();
+    assertThat( receiver.isDisposed() ).isFalse();
   }
 
   @Test
-  public void invokeOfWidgetMethod() {
+  public void invokeOfReceiverMethod() {
     Tree receiver = mock( Tree.class );
 
-    reflectionUtil.invoke( receiver, "dispose" );
+    reflectionUtil.invoke( receiver, "showSelection" );
 
-    verify( receiver ).dispose();
+    verify( receiver ).showSelection();
   }
 
   @Test
@@ -94,7 +116,7 @@ public class ControlReflectionUtilTest {
     Throwable actual = thrown( new Actor() {
       @Override
       public void act() throws Throwable {
-        reflectionUtil.invoke( receiver, REDRAW );
+        reflectionUtil.invoke( receiver, "redraw" );
       }
     } );
 
@@ -123,6 +145,17 @@ public class ControlReflectionUtilTest {
     Composite actual = receiver.getParent();
 
     assertThat( actual ).isSameAs( expected );
+  }
+
+  @Test
+  public void setFieldOfReceiver() {
+    Tree receiver = TreeHelper.createTree( displayHelper.createShell(), 1, 1 );
+    boolean expected = !receiver.getLinesVisible();
+
+    reflectionUtil.setField( receiver, "linesVisible", expected );
+    boolean actual = receiver.getLinesVisible();
+
+    assertThat( actual ).isEqualTo( expected );
   }
 
   @Test

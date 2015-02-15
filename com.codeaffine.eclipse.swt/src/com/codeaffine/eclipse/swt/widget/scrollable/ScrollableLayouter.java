@@ -14,17 +14,17 @@ class ScrollableLayouter {
     this.scrollable = scrollable;
   }
 
-  void layout( LayoutContext context ) {
+  void layout( LayoutContext<?> context ) {
     scrollable.setLocation( computeLocation( context ) );
     scrollable.setSize( computeWidth( context ), computeHeight( context ) );
   }
 
-  private static Point computeLocation( LayoutContext context ) {
+  private static Point computeLocation( LayoutContext<?> context ) {
     Point origin = context.getLocation();
     return new Point( origin.x - context.getOffset(), origin.y - context.getOffset() );
   }
 
-  private static int computeWidth( LayoutContext context ) {
+  private static int computeWidth( LayoutContext<?> context ) {
     int result = max( context.getPreferredSize().x, context.getVisibleArea().width );
     if( context.isVerticalBarVisible() ) {
       result = computeWidthWithVerticalBarPadding( context );
@@ -32,14 +32,14 @@ class ScrollableLayouter {
     return result + context.getOffset() * 2;
   }
 
-  private static int computeWidthWithVerticalBarPadding( LayoutContext context ) {
+  private static int computeWidthWithVerticalBarPadding( LayoutContext<?> context ) {
     int preferredWidth = context.getPreferredSize().x;
     int visibleAreaWidth = context.getVisibleArea().width;
     int offset = context.getVerticalBarOffset();
     return max( preferredWidth + offset, visibleAreaWidth + offset );
   }
 
-  private static int computeHeight( LayoutContext context ) {
+  private static int computeHeight( LayoutContext<?> context ) {
     int result = context.getVisibleArea().height;
     if( context.isHorizontalBarVisible() ) {
       result = computeHeightWithHorizontalBarPadding( context );
@@ -47,7 +47,7 @@ class ScrollableLayouter {
     return result + context.getOffset() * 2;
   }
 
-  private static int computeHeightWithHorizontalBarPadding( LayoutContext context ) {
+  private static int computeHeightWithHorizontalBarPadding( LayoutContext<?> context ) {
     return context.getVisibleArea().height - BAR_BREADTH;
   }
 }

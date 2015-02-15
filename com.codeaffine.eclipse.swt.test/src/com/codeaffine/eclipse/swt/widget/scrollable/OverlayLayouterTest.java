@@ -49,7 +49,7 @@ public class OverlayLayouterTest {
 
   @Test
   public void layout() {
-    LayoutContext context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    LayoutContext<?> context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
 
     layouter.layout( context );
 
@@ -65,7 +65,7 @@ public class OverlayLayouterTest {
 
   @Test
   public void layoutWithoutHorizontalBar() {
-    LayoutContext context = stubContext( V_VISIBLE, H_INVISIBLE, exceedVisibleArea(), getVisibleArea() );
+    LayoutContext<?> context = stubContext( V_VISIBLE, H_INVISIBLE, exceedVisibleArea(), getVisibleArea() );
 
     layouter.layout( context );
 
@@ -81,7 +81,7 @@ public class OverlayLayouterTest {
 
   @Test
   public void layoutWithoutVerticalBar() {
-    LayoutContext context = stubContext( V_INVISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    LayoutContext<?> context = stubContext( V_INVISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
 
     layouter.layout( context );
 
@@ -97,7 +97,7 @@ public class OverlayLayouterTest {
 
   @Test
   public void layoutWithoutScrollBars() {
-    LayoutContext context = stubContext( V_INVISIBLE, H_INVISIBLE, fitVisibleArea(), getVisibleArea() );
+    LayoutContext<?> context = stubContext( V_INVISIBLE, H_INVISIBLE, fitVisibleArea(), getVisibleArea() );
 
     layouter.layout( context );
 
@@ -113,7 +113,7 @@ public class OverlayLayouterTest {
 
   @Test
   public void cornerOverlayBoundsCalculation() {
-    LayoutContext context = stubContextWithOffset( OFFSET );
+    LayoutContext<?> context = stubContextWithOffset( OFFSET );
     horizontal.setSize( 10, 20 );
     vertical.setSize( 30, 40 );
 
@@ -123,14 +123,14 @@ public class OverlayLayouterTest {
       .isEqualTo( new Rectangle( 10, 40, 30 + OFFSET, 20 ) );
   }
 
-  private LayoutContext stubContextWithOffset( int offset ) {
-    LayoutContext result = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+  private LayoutContext<?> stubContextWithOffset( int offset ) {
+    LayoutContext<?> result = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
     when( result.getOffset() ).thenReturn( offset );
     return result;
   }
 
   private Rectangle expectedCornerOverlayBounds() {
-    LayoutContext context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    LayoutContext<?> context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
     return calculateCornerOverlayBounds( horizontal, vertical , context);
   }
 

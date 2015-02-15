@@ -1,28 +1,25 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Scrollable;
 
 class TreeWidth {
 
   private final PreferredWidthComputer preferredWidthComputer;
-  private final LayoutContextFactory contextFactory;
-  private final Scrollable scrollable;
+  private final LayoutContext<?> context;
 
   private int width;
 
-  TreeWidth( Scrollable scrollable, LayoutContextFactory contextFactory ) {
-    this( new PreferredWidthComputer( contextFactory ), scrollable, contextFactory );
+  TreeWidth( LayoutContext<?> context ) {
+    this( new PreferredWidthComputer( context ), context );
   }
 
-  TreeWidth( PreferredWidthComputer widthComputer, Scrollable scrollable, LayoutContextFactory contextFactory ) {
-    this.preferredWidthComputer = widthComputer;
-    this.contextFactory = contextFactory;
-    this.scrollable = scrollable;
+  TreeWidth( PreferredWidthComputer preferredWidthComputer, LayoutContext<?> context ) {
+    this.preferredWidthComputer = preferredWidthComputer;
+    this.context = context;
   }
 
   void update() {
-    width = scrollable.getSize().x;
+    width = context.getScrollable().getSize().x;
   }
 
   boolean hasScrollEffectingChange() {
@@ -31,14 +28,14 @@ class TreeWidth {
   }
 
   private boolean effectsScrollBarSize( int preferredWidth ) {
-    return   exeedsVisibleRangeWidth( preferredWidth )
-          || declinesBackIntoVisibleRangeWidth( preferredWidth );
+    return    exeedsVisibleRangeWidth( preferredWidth )
+           || declinesBackIntoVisibleRangeWidth( preferredWidth );
   }
 
   private boolean exeedsVisibleRangeWidth( int preferredWidth ) {
-    Rectangle parentClientArea = scrollable.getParent().getClientArea();
-    int visibleAreaWidth = parentClientArea.width;
-    LayoutContext context = contextFactory.create();
+    Rectangle adapterClientArea = context.getAdapter().getClientArea();
+    int visibleAreaWidth = adapterClientArea.width;
+    LayoutContext<?> context = this.context.newContext();
     if( context.isVerticalBarVisible() ) {
       visibleAreaWidth += context.getVerticalBarOffset();
     }
@@ -58,7 +55,7 @@ class TreeWidth {
   }
 
   private boolean hasHorizontalScrollBarPadding() {
-    Rectangle parentClientArea = scrollable.getParent().getClientArea();
-    return scrollable.getSize().y < parentClientArea.height;
+    Rectangle adapterClientArea = context.getAdapter().getClientArea();
+    return context.getScrollable().getSize().y < adapterClientArea.height;
   }
 }

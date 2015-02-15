@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="com.codeaffine.eclipse.ui.swt.theme.feature"
+      label="Code Affine Theme"
+      version="0.1.1.qualifier"
+      provider-name="CODE AFFINE">
+
+   <description url="http://fappel.github.io/xiliary/">
+      %description
+   </description>
+
+   <copyright>
+      %copyright
+   </copyright>
+
+   <license url="%licenseURL">
+      %license
+   </license>
+
+   <url>
+      <update url="http://fappel.github.io/xiliary/"/>
+   </url>
+
+   <requires>
+   </requires>
+
+   <plugin
+         id="com.codeaffine.eclipse.ui.swt.theme"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.codeaffine.eclipse.ui.swt.theme.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

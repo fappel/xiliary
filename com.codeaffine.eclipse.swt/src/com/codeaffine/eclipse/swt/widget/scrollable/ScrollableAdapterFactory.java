@@ -7,13 +7,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Scrollable;
 
 public class ScrollableAdapterFactory {
 
-  private final static Collection<Class<?>> SUPPORTED_TYPES = supportedTypes();
+  static final String ADAPTED = ScrollableAdapterFactory.class.getName() + "#adapted";
+
+  private static final Collection<Class<?>> SUPPORTED_TYPES = supportedTypes();
 
   private final ControlReflectionUtil reflectionUtil;
 
@@ -25,14 +28,39 @@ public class ScrollableAdapterFactory {
     reflectionUtil = new ControlReflectionUtil();
   }
 
-  public <S extends Scrollable, A extends Scrollable & Adapter<S>> A create( S scrollable, Class<A> type ) {
+  public <S extends Scrollable, A extends Scrollable & Adapter<S>> A create( final S scrollable, Class<A> type ) {
     ensureThatTypeIsSupported( type );
 
+    Composite parent = scrollable.getParent();
     int ordinalNumber = captureDrawingOrderOrdinalNumber( scrollable );
-    A result = createAdapter( scrollable, type );
+    final A result = createAdapter( scrollable, type );
+    scrollable.setData( ADAPTED, Boolean.TRUE );
     applyDrawingOrderOrdinalNumber( result, ordinalNumber );
+    result.setLayoutData( scrollable.getLayoutData() );
     result.adapt( scrollable );
+    parent.layout();
+    result.setBackground( scrollable.getBackground() );
+//    result.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_GREEN ) );
+    reflectionUtil.setField( scrollable, "parent", parent );
+
+//    scrollable.addControlListener( new ControlAdapter() {
+//      @Override
+//      public void controlResized( ControlEvent e ) {
+//        System.out.println( "scrollable: " + scrollable.getBounds() );
+//      };
+//    } );
+//    result.addControlListener( new ControlAdapter() {
+//      @Override
+//      public void controlResized( ControlEvent e ) {
+//        System.out.println( "adapter: " + result.getBounds() );
+//      };
+//    } );
+
     return result;
+  }
+
+  public boolean isAdapted( Scrollable scrollable ) {
+    return Boolean.TRUE.equals( scrollable.getData( ADAPTED ) );
   }
 
   static <T extends Scrollable> LayoutFactory<T> createLayoutFactory(

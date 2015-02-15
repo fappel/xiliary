@@ -5,14 +5,14 @@ import org.eclipse.swt.widgets.ScrollBar;
 
 class Visibility {
 
-  private final LayoutContextFactory contextFactory;
+  private final LayoutContext<?> context;
   private final ScrollBar scrollBar;
 
   private boolean visibility;
 
-  Visibility( ScrollBar scrollBar, LayoutContextFactory contextFactory ) {
+  Visibility( ScrollBar scrollBar, LayoutContext<?> context ) {
     this.scrollBar = scrollBar;
-    this.contextFactory = contextFactory;
+    this.context = context;
   }
 
   boolean hasChanged() {
@@ -28,7 +28,7 @@ class Visibility {
   }
 
   private boolean isScrollBarVisible() {
-    LayoutContext context = contextFactory.create();
+    LayoutContext<?> context = this.context.newContext();
     boolean result = context.isHorizontalBarVisible();
     if( ( scrollBar.getStyle() & SWT.VERTICAL ) > 0 ) {
       result = context.isVerticalBarVisible();

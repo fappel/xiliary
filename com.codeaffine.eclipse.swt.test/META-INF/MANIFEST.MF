@@ -6,7 +6,8 @@ Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: CODE AFFINE
 Fragment-Host: com.codeaffine.eclipse.swt;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: com.codeaffine.osgi.testuite;version="[1.0.0,2.0.0)",
+Import-Package: com.codeaffine.eclipse.swt.util;version="0.1.0",
+ com.codeaffine.osgi.testuite;version="[1.0.0,2.0.0)",
  com.codeaffine.test.util.junit;version="[0.1.0,1.0.0)",
  com.codeaffine.test.util.lang;version="[0.1.0,1.0.0)",
  com.codeaffine.test.util.util.concurrent;version="[0.1.0,1.0.0)",

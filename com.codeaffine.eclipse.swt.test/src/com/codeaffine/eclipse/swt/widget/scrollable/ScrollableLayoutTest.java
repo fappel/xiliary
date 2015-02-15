@@ -17,7 +17,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutFactory.TreeLayoutContextFactory;
 
 public class ScrollableLayoutTest {
 
@@ -27,7 +26,7 @@ public class ScrollableLayoutTest {
   private ScrollBarConfigurer horizontalBarConfigurer;
   private ScrollableLayouter treeLayouter;
   private OverlayLayouter overlayLayouter;
-  private ScrollableLayout<Tree> layout;
+  private ScrollableLayout layout;
   private Tree tree;
 
   @Before
@@ -36,8 +35,8 @@ public class ScrollableLayoutTest {
     horizontalBarConfigurer = mock( ScrollBarConfigurer.class );
     treeLayouter = mock( ScrollableLayouter.class );
     tree = createTree( createShell( displayHelper ), 6, 4 );
-    TreeLayoutContextFactory contextFactory = new TreeLayoutContextFactory( tree );
-    layout = new ScrollableLayout<Tree>( tree, contextFactory, overlayLayouter, treeLayouter, horizontalBarConfigurer );
+    LayoutContext<Tree> context = new LayoutContext<Tree>( tree.getParent(), tree );
+    layout = new ScrollableLayout( context, overlayLayouter, treeLayouter, horizontalBarConfigurer );
   }
 
   @Test

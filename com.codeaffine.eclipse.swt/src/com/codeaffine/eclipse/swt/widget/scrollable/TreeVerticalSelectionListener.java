@@ -12,8 +12,8 @@ class TreeVerticalSelectionListener extends SelectionAdapter {
 
   private final TreeTopItemSelector treeTopItemSelector;
 
-  TreeVerticalSelectionListener( Tree tree ) {
-    this.treeTopItemSelector = new TreeTopItemSelector( ( tree ) );
+  TreeVerticalSelectionListener( LayoutContext<Tree> context ) {
+    this.treeTopItemSelector = new TreeTopItemSelector( ( context.getScrollable() ) );
   }
 
   @Override

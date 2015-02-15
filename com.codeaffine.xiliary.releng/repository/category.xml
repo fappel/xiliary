@@ -31,6 +31,9 @@
       <category name="com.codeaffine.xiliary.all"/>
       <category name="com.codeaffine.xiliary.workflow"/>
    </feature>
+   <feature url="features/com.codeaffine.eclipse.ui.swt.theme.feature_0.1.1.qualifier.jar" id="com.codeaffine.eclipse.ui.swt.theme.feature" version="0.1.1.qualifier">
+      <category name="com.codeaffine.xiliary.all"/>
+   </feature>
    <category-def name="com.codeaffine.xiliary.all" label="All Xiliary Features">
       <description>
          Auxiliary libraries for Eclipse, JUnit and Java development in general.

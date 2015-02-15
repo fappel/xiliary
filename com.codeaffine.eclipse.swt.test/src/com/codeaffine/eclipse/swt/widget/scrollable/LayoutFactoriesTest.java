@@ -56,7 +56,7 @@ public class LayoutFactoriesTest {
     shell = createShell( displayHelper, SWT.RESIZE );
     flatScrollBarControl = new Composite( shell, SWT.NONE );
     scrollable = scrollableFactory.create( flatScrollBarControl );
-    layout = layoutFactory.create( flatScrollBarControl, scrollable );
+    layout = layoutFactory.create( new LayoutContext<Scrollable>( flatScrollBarControl, scrollable ) );
     shell.open();
   }
 

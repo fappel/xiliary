@@ -28,6 +28,7 @@ public class LayoutContextTest {
   @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
+  private LayoutContext<Tree> layoutContext;
   private Shell shell;
   private Tree tree;
 
@@ -35,14 +36,41 @@ public class LayoutContextTest {
   public void setUp() {
     shell = createShell( displayHelper, SWT.RESIZE );
     tree = createTree( shell, 2, 4 );
+    layoutContext = new LayoutContext<Tree>( tree.getParent(), tree );
     shell.open();
   }
 
   @Test
   public void initial() {
-    LayoutContext context = new LayoutContext( tree, tree.getItemHeight() );
+    assertThat( layoutContext )
+      .hasAdapter( shell )
+      .hasScrollable( tree )
+      .verticalBarIsInvisible()
+      .horizontalBarIsInvisible()
+      .hasPreferredSize( computePreferredTreeSize() )
+      .hasVisibleArea( getVisibleArea() );
+  }
+
+  @Test
+  public void newContext() {
+    LayoutContext<Tree> context = layoutContext.newContext();
 
     assertThat( context )
+      .hasAdapter( shell )
+      .hasScrollable( tree )
+      .verticalBarIsInvisible()
+      .horizontalBarIsInvisible()
+      .hasPreferredSize( computePreferredTreeSize() )
+      .hasVisibleArea( getVisibleArea() );
+  }
+
+  @Test
+  public void newContextWithItemHeight() {
+    LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
+
+    assertThat( context )
+      .hasAdapter( shell )
+      .hasScrollable( tree )
       .verticalBarIsInvisible()
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
@@ -55,7 +83,7 @@ public class LayoutContextTest {
     expandTopBranch( tree );
     waitForGtkRendering();
 
-    LayoutContext context = new LayoutContext( tree, tree.getItemHeight() );
+    LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
 
     assertThat( context )
       .verticalBarIsInvisible()
@@ -68,7 +96,7 @@ public class LayoutContextTest {
     expandRootLevelItems( tree );
     waitForGtkRendering();
 
-    LayoutContext context = new LayoutContext( tree, tree.getItemHeight() );
+    LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
 
     assertThat( context )
       .verticalBarIsVisible()
@@ -81,7 +109,7 @@ public class LayoutContextTest {
     expandRootLevelItems( tree );
     expandTopBranch( tree );
 
-    LayoutContext context = new LayoutContext( tree, tree.getItemHeight() );
+    LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
 
     assertThat( context )
       .verticalBarIsVisible()
@@ -94,9 +122,9 @@ public class LayoutContextTest {
   public void verticalBarVisibilityOnThresholdHeightDependsOnHorizontalBarVisibility() {
     int thresholdHight = computeThresholdHeight();
     shell.setSize( 1000, thresholdHight );
-    LayoutContext first = new LayoutContext( tree, tree.getItemHeight() );
+    LayoutContext<Tree> first = layoutContext.newContext( tree.getItemHeight() );
     shell.setSize( 100, thresholdHight );
-    LayoutContext second = new LayoutContext( tree, tree.getItemHeight() );
+    LayoutContext<Tree> second = layoutContext.newContext( tree.getItemHeight() );
 
     assertThat( first )
       .verticalBarIsInvisible()
@@ -108,7 +136,7 @@ public class LayoutContextTest {
 
   @Test
   public void getLocation() {
-    LayoutContext context = new LayoutContext( tree, tree.getItemHeight() );
+    LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
 
     Point actual = context.getLocation();
 

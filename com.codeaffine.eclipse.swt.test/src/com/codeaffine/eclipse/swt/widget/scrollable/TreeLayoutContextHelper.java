@@ -33,10 +33,10 @@ class TreeLayoutContextHelper {
     }
   }
 
-  static LayoutContext stubContext(
+  static LayoutContext<?> stubContext(
     Vertical verticalBarVisible, Horizontal horizontalBarVisible, Point preferredSize, Rectangle visibleArea )
   {
-    LayoutContext result = mock( LayoutContext.class );
+    LayoutContext<?> result = mock( LayoutContext.class );
     when( result.isVerticalBarVisible() ).thenReturn( verticalBarVisible.value );
     when( result.isHorizontalBarVisible() ).thenReturn( horizontalBarVisible.value );
     when( result.getPreferredSize() ).thenReturn( preferredSize );

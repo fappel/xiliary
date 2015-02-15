@@ -3,14 +3,16 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import org.assertj.core.api.AbstractAssert;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Scrollable;
 
-public class TreeLayoutContextAssert extends AbstractAssert<TreeLayoutContextAssert, LayoutContext> {
+public class TreeLayoutContextAssert extends AbstractAssert<TreeLayoutContextAssert, LayoutContext<?>> {
 
-  public TreeLayoutContextAssert( LayoutContext actual ) {
+  public TreeLayoutContextAssert( LayoutContext<?> actual ) {
     super( actual, TreeLayoutContextAssert.class );
   }
 
-  public static TreeLayoutContextAssert assertThat( LayoutContext actual ) {
+  public static TreeLayoutContextAssert assertThat( LayoutContext<?> actual ) {
     return new TreeLayoutContextAssert( actual );
   }
 
@@ -67,6 +69,22 @@ public class TreeLayoutContextAssert extends AbstractAssert<TreeLayoutContextAss
     int actualVerticalBarOffset = actual.getVerticalBarOffset();
     if( actualVerticalBarOffset != expected ) {
       failWithMessage( "Expected vertical bar offset to be <%s> but was <%s>.", expected, actualVerticalBarOffset );
+    }
+    return this;
+  }
+
+  public TreeLayoutContextAssert hasAdapter( Composite expected ) {
+    isNotNull();
+    if( actual.getAdapter() != expected ) {
+      failWithMessage( "Expected adapter to be <%s> but was <%s>.", expected, actual.getAdapter() );
+    }
+    return this;
+  }
+
+  public TreeLayoutContextAssert hasScrollable( Scrollable expected ) {
+    isNotNull();
+    if( actual.getScrollable() != expected ) {
+      failWithMessage( "Expected scrollable to be <%s> but was <%s>.", expected, actual.getAdapter() );
     }
     return this;
   }

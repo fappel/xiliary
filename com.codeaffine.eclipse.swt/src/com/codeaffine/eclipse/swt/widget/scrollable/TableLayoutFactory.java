@@ -10,41 +10,32 @@ import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class TableLayoutFactory extends ScrollableLayoutFactory<Table> {
 
-  static class TableLayoutContextFactory implements LayoutContextFactory {
-
-    private final Table table;
-
-    TableLayoutContextFactory( Table table ) {
-      this.table = table;
-    }
-
-    @Override
-    public LayoutContext create() {
-      return new LayoutContext( table, table.getItemHeight() );
-    }
+  @Override
+  public Layout create(
+    LayoutContext<Table> context, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay )
+  {
+    return new ScrollableLayout( newContext( context ), horizontal, vertical, cornerOverlay );
   }
 
   @Override
-  public Layout create( Table table, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay ) {
-    return new ScrollableLayout<Table>( table, createContextFactory( table ), horizontal, vertical, cornerOverlay );
+  public SelectionListener createHorizontalSelectionListener( LayoutContext<Table> context ) {
+    return new HorizontalSelectionListener( context );
   }
 
   @Override
-  public SelectionListener createHorizontalSelectionListener( Table table ) {
-    return new HorizontalSelectionListener( table );
+  public SelectionListener createVerticalSelectionListener( LayoutContext<Table> context ) {
+    return new TableVerticalSelectionListener( context );
   }
 
   @Override
-  public SelectionListener createVerticalSelectionListener( Table table ) {
-    return new TableVerticalSelectionListener( table );
+  public DisposeListener createWatchDog(
+    LayoutContext<Table> context, FlatScrollBar horizontal, FlatScrollBar vertical )
+  {
+    TableVerticalScrollBarUpdater updater = new TableVerticalScrollBarUpdater( context.getScrollable(), vertical );
+    return new WatchDog( newContext( context ), updater );
   }
 
-  @Override
-  public DisposeListener createWatchDog( Table table, FlatScrollBar horizontal, FlatScrollBar vertical ) {
-    return new WatchDog( table, createContextFactory( table ), new TableVerticalScrollBarUpdater( table, vertical ) );
-  }
-
-  private static TableLayoutContextFactory createContextFactory( Table table ) {
-    return new TableLayoutContextFactory( table );
+  private static LayoutContext<Table> newContext( LayoutContext<Table> context ) {
+    return context.newContext( context.getScrollable().getItemHeight() );
   }
 }

@@ -13,7 +13,7 @@ public class NativeLayoutFactoryTest {
   public void getLayout() {
     NativeLayoutFactory<Scrollable> factory = new NativeLayoutFactory<Scrollable>();
 
-    Layout actual = factory.create( null, null );
+    Layout actual = factory.create( null );
 
     assertThat( actual ).isInstanceOf( LAYOUT_TYPE );
   }

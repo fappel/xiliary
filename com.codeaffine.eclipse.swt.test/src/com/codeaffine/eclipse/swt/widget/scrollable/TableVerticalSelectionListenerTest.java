@@ -26,7 +26,8 @@ public class TableVerticalSelectionListenerTest {
     Shell shell = createShell( displayHelper );
     Table table = createTable( shell, 20 );
     FlatScrollBar scrollBar = prepareScrollBar( shell, table );
-    TableVerticalSelectionListener listener = new TableVerticalSelectionListener( table );
+    LayoutContext<Table> context = new LayoutContext<Table>( shell, table );
+    TableVerticalSelectionListener listener = new TableVerticalSelectionListener( context );
 
     listener.widgetSelected( createEvent( scrollBar, ITEM_INDEX * SELECTION_RASTER_SMOOTH_FACTOR ) );
 

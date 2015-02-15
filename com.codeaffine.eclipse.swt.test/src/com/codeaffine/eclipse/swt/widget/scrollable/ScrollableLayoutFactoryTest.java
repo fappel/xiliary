@@ -4,7 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -28,9 +30,9 @@ public class ScrollableLayoutFactoryTest {
   @Before
   public void setUp() {
     shell = ShellHelper.createShell( displayHelper );
-    scrollable = new Text( shell, SWT.MULTI );
+    scrollable = new Text( shell, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL );
     factorySpy = new ScrollableLayoutFactorySpy();
-    layout = factorySpy.create( shell, scrollable );
+    layout = factorySpy.create( new LayoutContext<Scrollable>( shell, scrollable ) );
   }
 
   @Test
@@ -107,5 +109,25 @@ public class ScrollableLayoutFactoryTest {
     assertThat( factorySpy.getHorizontal().getThumbColor() ).isEqualTo( expected );
     assertThat( factorySpy.getVertical().getThumbColor() ).isEqualTo( expected );
     assertThat( factorySpy.getThumbColor() ).isEqualTo( expected );
+  }
+
+  @Test
+  public void getHorizontalBarAdapter() {
+    Point expected = new Point( 100, 200 );
+    factorySpy.getHorizontal().setSize( expected );
+
+    ScrollBar actual = factorySpy.getHorizontalBarAdapter();
+
+    assertThat( actual.getSize() ).isEqualTo( expected );
+  }
+
+  @Test
+  public void getVerticalBarAdapter() {
+    Point expected = new Point( 100, 200 );
+    factorySpy.getVertical().setSize( expected );
+
+    ScrollBar actual = factorySpy.getVerticalBarAdapter();
+
+    assertThat( actual.getSize() ).isEqualTo( expected );
   }
 }

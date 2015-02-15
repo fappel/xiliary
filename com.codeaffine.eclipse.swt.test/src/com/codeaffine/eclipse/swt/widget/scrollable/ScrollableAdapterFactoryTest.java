@@ -45,7 +45,8 @@ public class ScrollableAdapterFactoryTest {
     TreeAdapter actual = factory.create( tree, TreeAdapter.class );
 
     assertThat( actual.getParent() ).isSameAs( shell );
-    assertThat( tree.getParent() ).isSameAs( actual );
+    assertThat( tree.getParent() ).isSameAs( shell );
+    assertThat( actual.getChildren() ).contains( tree );
   }
 
   @Test
@@ -80,7 +81,7 @@ public class ScrollableAdapterFactoryTest {
     LayoutMapping<Scrollable> mapping = createLayoutMapping( expected, PlatformType.GTK );
 
     LayoutFactory<Scrollable> factory = ScrollableAdapterFactory.createLayoutFactory( platform, mapping );
-    Layout actual = factory.create( shell, createTree( shell, 1, 1 ) );
+    Layout actual = factory.create( createLayoutContext() );
 
     assertThat( actual ).isSameAs( expected );
   }
@@ -92,7 +93,7 @@ public class ScrollableAdapterFactoryTest {
     LayoutMapping<Scrollable> mapping = createLayoutMapping( new RowLayout(), PlatformType.GTK );
 
     LayoutFactory<Scrollable> factory = ScrollableAdapterFactory.createLayoutFactory( platform, mapping );
-    Layout actual = factory.create( shell, createTree( shell, 1, 1 ) );
+    Layout actual = factory.create( createLayoutContext() );
 
     assertThat( actual ).isInstanceOf( NativeLayoutFactory.LAYOUT_TYPE );
   }
@@ -109,5 +110,9 @@ public class ScrollableAdapterFactoryTest {
 
   private Label createChild() {
     return new Label( shell, SWT.NONE );
+  }
+
+  private LayoutContext<Scrollable> createLayoutContext() {
+    return new LayoutContext<Scrollable>( shell, createTree( shell, 1, 1 ) );
   }
 }

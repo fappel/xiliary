@@ -1,16 +1,15 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-
 class PreferredWidthComputer {
 
-  private final LayoutContextFactory contextFactory;
+  private final LayoutContext<?> context;
 
-  PreferredWidthComputer( LayoutContextFactory contextFactory ) {
-    this.contextFactory = contextFactory;
+  PreferredWidthComputer( LayoutContext<?> context ) {
+    this.context = context;
   }
 
   int compute() {
-    LayoutContext context = contextFactory.create();
+    LayoutContext<?> context = this.context.newContext();
     int result = context.getPreferredSize().x;
     if( context.isVerticalBarVisible() ) {
       result += context.getVerticalBarOffset();

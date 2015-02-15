@@ -2,8 +2,8 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
 
 class NativeLayoutFactory<T extends Scrollable> implements LayoutFactory<T> {
@@ -11,7 +11,7 @@ class NativeLayoutFactory<T extends Scrollable> implements LayoutFactory<T> {
   static final Class<FillLayout> LAYOUT_TYPE = FillLayout.class;
 
   @Override
-  public Layout create( Composite parent, T scrollable ) {
+  public Layout create( LayoutContext<T> context ) {
     try {
       return LAYOUT_TYPE.newInstance();
     } catch( Exception shouldNotHappen ) {
@@ -52,6 +52,16 @@ class NativeLayoutFactory<T extends Scrollable> implements LayoutFactory<T> {
 
   @Override
   public Color getThumbColor() {
+    return null;
+  }
+
+  @Override
+  public ScrollBar getVerticalBarAdapter() {
+    return null;
+  }
+
+  @Override
+  public ScrollBar getHorizontalBarAdapter() {
     return null;
   }
 }

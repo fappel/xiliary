@@ -3,22 +3,24 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Scrollable;
+import org.eclipse.swt.widgets.Display;
 
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class HorizontalSelectionListener extends SelectionAdapter {
 
-  private final Scrollable scrollable;
+  private final LayoutContext<?> context;
 
-  HorizontalSelectionListener( Scrollable scrollable ) {
-    this.scrollable = scrollable;
+  HorizontalSelectionListener( LayoutContext<?> context ) {
+    this.context = context;
   }
 
   @Override
   public void widgetSelected( SelectionEvent event ) {
-    Point location = scrollable.getLocation();
-    scrollable.setLocation( - getSelection( event ), location.y );
+    Point location = context.getScrollable().getLocation();
+    Point mappedLocation = Display.getCurrent().map( context.getScrollable(), context.getAdapter(), location );
+    Point result = new Point( - getSelection( event ), location.y - mappedLocation.y );
+    context.getScrollable().setLocation( result );
   }
 
   private static int getSelection( SelectionEvent event ) {

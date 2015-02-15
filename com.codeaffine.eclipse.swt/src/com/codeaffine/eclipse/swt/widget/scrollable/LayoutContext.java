@@ -5,10 +5,11 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scrollable;
 
 
-class LayoutContext {
+class LayoutContext<T extends Scrollable> {
 
   static final int OVERLAY_OFFSET = 40;
   static final int WIDTH_BUFFER = 2;
@@ -18,19 +19,45 @@ class LayoutContext {
   private final Rectangle visibleArea;
   private final int verticalBarOffset;
   private final Point preferredSize;
+  private final Composite adapter;
   private final Point location;
+  private final int itemHeight;
+  private final T scrollable;
   private final int offset;
 
-  LayoutContext( Scrollable scrollable, int itemHeight ) {
+  LayoutContext( Composite adapter, T scrollable ) {
+    this( adapter, scrollable, 1 );
+  }
+
+  private LayoutContext( Composite adapter, T scrollable, int itemHeight ) {
+    this.scrollable = scrollable;
+    this.adapter = adapter;
+    this.itemHeight = itemHeight;
     Point computed = scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
     preferredSize = new Point( computed.x + WIDTH_BUFFER, computed.y );
-    visibleArea = scrollable.getParent().getClientArea();
+    visibleArea = adapter.getClientArea();
     location = new Point( visibleArea.x, visibleArea.y );
     horizontalBarVisible = preferredSize.x > visibleArea.width;
     verticalBarOffset = computeVerticalBarOffset( scrollable );
     verticalBarVisible
       = computeVerticalBarVisible( horizontalBarVisible, preferredSize.y, visibleArea.height, itemHeight );
     offset = new OffsetComputer( scrollable ).compute();
+  }
+
+  LayoutContext<T> newContext( int itemHeight ) {
+    return new LayoutContext<T>( adapter, scrollable, itemHeight );
+  }
+
+  LayoutContext<T> newContext() {
+    return new LayoutContext<T>( adapter, scrollable, itemHeight );
+  }
+
+  Composite getAdapter() {
+    return adapter;
+  }
+
+  T getScrollable() {
+    return scrollable;
   }
 
   int getOffset() {

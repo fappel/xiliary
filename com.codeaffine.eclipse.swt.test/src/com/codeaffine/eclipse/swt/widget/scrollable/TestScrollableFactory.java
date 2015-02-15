@@ -11,7 +11,7 @@ class TestScrollableFactory implements ScrollableFactory<Scrollable> {
 
   @Override
   public Scrollable create( Composite parent ) {
-    scrollable = new Text( parent, SWT.MULTI );
+    scrollable = new Text( parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL );
     return scrollable;
   }
 

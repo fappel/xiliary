@@ -24,7 +24,9 @@ class ScrollableLayoutFactorySpy
   private FillLayout layout;
 
   @Override
-  public Layout create( Scrollable scrollable, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay ) {
+  public Layout create(
+    LayoutContext<Scrollable> context, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay )
+  {
     this.horizontal = horizontal;
     this.vertical = vertical;
     this.cornerOverlay = cornerOverlay;
@@ -33,17 +35,19 @@ class ScrollableLayoutFactorySpy
   }
 
   @Override
-  public SelectionListener createHorizontalSelectionListener( Scrollable scrollable ) {
+  public SelectionListener createHorizontalSelectionListener( LayoutContext<Scrollable> context ) {
     return this;
   }
 
   @Override
-  public SelectionListener createVerticalSelectionListener( Scrollable scrollable ) {
+  public SelectionListener createVerticalSelectionListener( LayoutContext<Scrollable> context ) {
     return this;
   }
 
   @Override
-  public DisposeListener createWatchDog( Scrollable scrollable, FlatScrollBar horizontal, FlatScrollBar vertical ) {
+  public DisposeListener createWatchDog(
+    LayoutContext<Scrollable> context, FlatScrollBar horizontal, FlatScrollBar vertical )
+  {
     return this;
   }
 

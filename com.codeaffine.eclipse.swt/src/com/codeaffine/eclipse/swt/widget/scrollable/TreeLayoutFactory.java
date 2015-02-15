@@ -10,41 +10,32 @@ import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class TreeLayoutFactory extends ScrollableLayoutFactory<Tree> {
 
-  static class TreeLayoutContextFactory implements LayoutContextFactory {
-
-    private final Tree tree;
-
-    TreeLayoutContextFactory( Tree tree ) {
-      this.tree = tree;
-    }
-
-    @Override
-    public LayoutContext create() {
-      return new LayoutContext( tree, tree.getItemHeight() );
-    }
+  @Override
+  public Layout create(
+    LayoutContext<Tree> context, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay )
+  {
+    return new ScrollableLayout( newContext( context ), horizontal, vertical, cornerOverlay );
   }
 
   @Override
-  public Layout create( Tree tree, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay ) {
-    return new ScrollableLayout<Tree>( tree, createContextFactory( tree ), horizontal, vertical, cornerOverlay );
+  public SelectionListener createHorizontalSelectionListener( LayoutContext<Tree> context ) {
+    return new HorizontalSelectionListener( context );
   }
 
   @Override
-  public SelectionListener createHorizontalSelectionListener( Tree tree ) {
-    return new HorizontalSelectionListener( tree );
+  public SelectionListener createVerticalSelectionListener( LayoutContext<Tree> context ) {
+    return new TreeVerticalSelectionListener( context );
   }
 
   @Override
-  public SelectionListener createVerticalSelectionListener( Tree tree ) {
-    return new TreeVerticalSelectionListener( tree );
+  public DisposeListener createWatchDog(
+    LayoutContext<Tree> context, FlatScrollBar horizontal, FlatScrollBar vertical )
+  {
+    TreeVerticalScrollBarUpdater updater = new TreeVerticalScrollBarUpdater( context.getScrollable(), vertical );
+    return new WatchDog( newContext( context ), updater );
   }
 
-  @Override
-  public DisposeListener createWatchDog( Tree tree, FlatScrollBar horizontal, FlatScrollBar vertical ) {
-    return new WatchDog( tree, createContextFactory( tree ), new TreeVerticalScrollBarUpdater( tree, vertical ) );
-  }
-
-  private static TreeLayoutContextFactory createContextFactory( Tree tree ) {
-    return new TreeLayoutContextFactory( tree );
+  private static LayoutContext<Tree> newContext( LayoutContext<Tree> context ) {
+    return context.newContext( context.getScrollable().getItemHeight() );
   }
 }

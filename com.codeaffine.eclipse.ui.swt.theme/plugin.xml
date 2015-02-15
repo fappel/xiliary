@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.e4.ui.css.swt.theme">
+      <theme
+            basestylesheeturi="css/classic.css"
+            id="com.codeaffine.eclipse.ui.swt.theme.classic"
+            label="Code Affine Classic">
+      </theme>
+   </extension>
+   <extension
+         point="org.eclipse.e4.ui.css.core.propertyHandler">
+      <handler
+            adapter="org.eclipse.e4.ui.css.swt.dom.WidgetElement"
+            composite="false"
+            handler="com.codeaffine.eclipse.us.swt.theme.ScrollableAdapter">
+         <property-name
+               name="flat-scroll-bar">
+         </property-name>
+      </handler>
+   </extension>
+
+</plugin>

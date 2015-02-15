@@ -3,7 +3,6 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Scrollable;
 
 import com.codeaffine.eclipse.swt.util.ActionScheduler;
 
@@ -20,13 +19,13 @@ class WatchDog implements Runnable, DisposeListener {
 
   private boolean disposed;
 
-  WatchDog( Scrollable scrollable, LayoutContextFactory contextFactory, VerticalScrollBarUpdater verticalBarUpdater  ) {
-    this( verticalBarUpdater,
-          new Visibility( scrollable.getHorizontalBar(), contextFactory ),
-          new Visibility( scrollable.getVerticalBar(), contextFactory ),
+  WatchDog( LayoutContext<?> context, VerticalScrollBarUpdater verticalUpdater ) {
+    this( verticalUpdater,
+          new Visibility( context.getScrollable().getHorizontalBar(), context ),
+          new Visibility( context.getScrollable().getVerticalBar(), context ),
           null,
-          new LayoutTrigger( scrollable.getParent() ),
-          new TreeWidth( scrollable, contextFactory ) );
+          new LayoutTrigger( context.getAdapter() ),
+          new TreeWidth( context ) );
   }
 
   WatchDog( VerticalScrollBarUpdater verticalBarUpdater,

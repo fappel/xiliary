@@ -1,12 +1,12 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
 
 interface LayoutFactory<T extends Scrollable> {
-  Layout create( Composite parent, T scrollable );
+  Layout create( LayoutContext<T> context );
   void setIncrementButtonLength( int length );
   int getIncrementButtonLength();
   void setIncrementColor( Color color );
@@ -15,4 +15,6 @@ interface LayoutFactory<T extends Scrollable> {
   Color getPageIncrementColor();
   void setThumbColor( Color color );
   Color getThumbColor();
+  ScrollBar getVerticalBarAdapter();
+  ScrollBar getHorizontalBarAdapter();
 }

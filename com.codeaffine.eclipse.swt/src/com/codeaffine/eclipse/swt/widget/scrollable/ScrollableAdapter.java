@@ -88,6 +88,6 @@ class ScrollableAdapter<T extends Scrollable> extends Composite implements Scrol
   }
 
   private Layout createLayout( ScrollableAdapter<T> adapter, T scrollable, LayoutFactory<T> layoutFactory ) {
-    return layoutFactory.create( adapter, scrollable );
+    return layoutFactory.create( new LayoutContext<T>( adapter, scrollable ));
   }
 }

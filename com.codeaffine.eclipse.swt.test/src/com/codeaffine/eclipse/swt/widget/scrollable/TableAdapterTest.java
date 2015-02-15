@@ -23,22 +23,27 @@ public class TableAdapterTest {
 
   private ScrollableAdapterFactory adapterFactory;
   private TableAdapter adapter;
+  private Object layoutData;
   private Shell shell;
   private Table table;
+
 
   @Before
   public void setUp() {
     adapterFactory = new ScrollableAdapterFactory();
     shell = createShell( displayHelper );
     table = createTable( shell, 10 );
+    layoutData = new Object();
+    table.setLayoutData( layoutData );
     adapter = adapterFactory.create( table, TableAdapter.class );
   }
 
   @Test
   public void adapt() {
-    assertThat( adapter ).isSameAs( table.getParent() );
+    assertThat( adapter.getChildren() ).contains( table );
     assertThat( adapter.getLayout() ).isInstanceOf( ScrollableLayout.class );
     assertThat( adapter.getBounds() ).isEqualTo( shell.getClientArea() );
+    assertThat( adapter.getLayoutData() ).isSameAs( layoutData );
   }
 
   @Test

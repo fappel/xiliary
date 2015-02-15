@@ -50,9 +50,12 @@
     
     <!-- Eclipse UI -->
     <module>../com.codeaffine.eclipse.ui.feature</module>
+    <module>../com.codeaffine.eclipse.ui.swt.theme.feature</module>
     
     <module>../com.codeaffine.eclipse.ui</module>
     <module>../com.codeaffine.eclipse.ui.test</module>
+    <module>../com.codeaffine.eclipse.ui.swt.theme</module>
+    <module>../com.codeaffine.eclipse.ui.swt.theme.test</module>
 
     <!-- OSGi -->
     <module>../com.codeaffine.osgi.test.util.feature</module>
