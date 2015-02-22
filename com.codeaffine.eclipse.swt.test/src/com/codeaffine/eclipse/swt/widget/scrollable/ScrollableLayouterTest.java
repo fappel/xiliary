@@ -34,7 +34,7 @@ public class ScrollableLayouterTest {
   public void setUp() {
     shell = createShell( displayHelper );
     tree = createTree( shell, 6, 4 );
-    layouter = new ScrollableLayouter( tree );
+    layouter = new ScrollableLayouter( new LayoutContext<Tree>( shell, tree ) );
     shell.open();
   }
 

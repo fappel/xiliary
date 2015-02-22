@@ -2,10 +2,12 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWTException;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
@@ -14,9 +16,12 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class TreeAdapterTest {
+
+  private static final int SELECTION = 50;
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
@@ -32,7 +37,7 @@ public class TreeAdapterTest {
   public void setUp() {
     adapterFactory = new ScrollableAdapterFactory();
     shell = createShell( displayHelper );
-    tree = createTree( shell, 1, 2 );
+    tree = createTree( shell, 4, 6 );
     layoutData = new Object();
     tree.setLayoutData( layoutData );
     adapter = adapterFactory.create( tree, TreeAdapter.class );
@@ -85,5 +90,90 @@ public class TreeAdapterTest {
     assertThat( actual )
       .hasMessageContaining( "Subclassing not allowed" )
       .isInstanceOf( SWTException.class );
+  }
+
+  @Test
+  public void changeTreeBounds() {
+    openShellWithoutLayout();
+    tree = createTree( shell, 1, 1 );
+    adapter = adapterFactory.create( tree, TreeAdapter.class );
+
+    tree.setBounds( expectedBounds() );
+    waitForReconciliation();
+
+    assertThat( adapter.getBounds() ).isEqualTo( expectedBounds() );
+    assertThat( tree.getBounds() ).isEqualTo( expectedBounds() );
+  }
+
+  @Test
+  public void changeTreeBoundsWithVisibleScrollBars() {
+    openShellWithoutLayout();
+    expandTopBranch( tree );
+
+    tree.setBounds( expectedBounds() );
+    waitForReconciliation();
+
+    assertThat( adapter.getBounds() ).isEqualTo( expectedBounds() );
+    assertThat( tree.getBounds() ).isNotEqualTo( expectedBounds() );
+  }
+
+  @Test
+  public void changeTreeBoundsByTreeEvent() {
+    openShellWithoutLayout();
+    Rectangle expected = adapter.getBounds();
+    Rectangle origin = tree.getBounds();
+
+    expandTopBranch( tree );
+    waitForReconciliation();
+
+    assertThat( adapter.getBounds() ).isEqualTo( expected );
+    assertThat( tree.getBounds() ).isNotEqualTo( origin );
+  }
+
+  @Test
+  public void changeTreeBoundsWithHorizontalScroll() {
+    openShellWithoutLayout();
+    expandTopBranch( tree );
+
+    tree.setBounds( expectedBounds() );
+    waitForReconciliation();
+    scrollHorizontal( adapter, SELECTION );
+
+    assertThat( adapter.getBounds() ).isEqualTo( expectedBounds() );
+    assertThat( tree.getBounds() ).isNotEqualTo( expectedBounds() );
+    assertThat( adapter.getHorizontalBar().getSelection() ).isEqualTo( SELECTION );
+  }
+
+  @Test
+  public void changeTreeVisibility() {
+    tree.setVisible( false );
+    waitForReconciliation();
+
+    assertThat( adapter.getVisible() ).isFalse();
+  }
+
+  private void scrollHorizontal( final TreeAdapter adapter, final int selection ) {
+    final int duration = 100;
+    displayHelper.getDisplay().timerExec( duration, new Runnable() {
+      @Override
+      public void run() {
+        adapter.getHorizontalBar().setSelection( selection );
+      }
+    } );
+    new ReadAndDispatch().spinLoop( shell, duration * 2 );
+  }
+
+  private void openShellWithoutLayout() {
+    shell.setLayout( null );
+    shell.open();
+  }
+
+  private void waitForReconciliation() {
+    new ReadAndDispatch().spinLoop( shell, WatchDog.DELAY * 3 );
+  }
+
+  private Rectangle expectedBounds() {
+    Rectangle clientArea = shell.getClientArea();
+    return new Rectangle( 5, 10, clientArea.width - 10, clientArea.height - 20 );
   }
 }

@@ -10,8 +10,8 @@ class ScrollableLayouter {
 
   private final Scrollable scrollable;
 
-  ScrollableLayouter( Scrollable scrollable ) {
-    this.scrollable = scrollable;
+  ScrollableLayouter( LayoutContext<?> context ) {
+    this.scrollable = context.getScrollable();
   }
 
   void layout( LayoutContext<?> context ) {

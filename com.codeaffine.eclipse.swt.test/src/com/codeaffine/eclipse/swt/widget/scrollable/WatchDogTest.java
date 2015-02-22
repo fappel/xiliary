@@ -1,7 +1,11 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.widget.scrollable.ReconciliationHelper.stubReconciliation;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -16,6 +20,7 @@ import com.codeaffine.eclipse.swt.util.ActionScheduler;
 public class WatchDogTest {
 
   private TreeVerticalScrollBarUpdater settingCopier;
+  private Reconciliation reconciliation;
   private Visibility hScrollVisibility;
   private Visibility vScrollVisibility;
   private ActionScheduler scheduler;
@@ -31,7 +36,10 @@ public class WatchDogTest {
     scheduler = mock( ActionScheduler.class );
     layoutTrigger = mock( LayoutTrigger.class );
     treeWidth = mock( TreeWidth.class );
-    watchDog = new WatchDog( settingCopier, hScrollVisibility, vScrollVisibility, scheduler, layoutTrigger, treeWidth );
+    reconciliation = stubReconciliation();
+    watchDog = new WatchDog(
+      settingCopier, hScrollVisibility, vScrollVisibility, scheduler, layoutTrigger, treeWidth, reconciliation
+    );
   }
 
   @Test
@@ -44,6 +52,7 @@ public class WatchDogTest {
     watchDog.run();
 
     InOrder order = docOrder();
+    order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
     order.verify( treeWidth ).hasScrollEffectingChange();
@@ -62,6 +71,7 @@ public class WatchDogTest {
     watchDog.run();
 
     InOrder order = docOrder();
+    order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( layoutTrigger ).pull();
     order.verify( treeWidth ).update();
@@ -79,6 +89,7 @@ public class WatchDogTest {
     watchDog.run();
 
     InOrder order = docOrder();
+    order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
     order.verify( layoutTrigger ).pull();
@@ -97,6 +108,7 @@ public class WatchDogTest {
     watchDog.run();
 
     InOrder order = docOrder();
+    order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
     order.verify( treeWidth ).hasScrollEffectingChange();
@@ -116,6 +128,7 @@ public class WatchDogTest {
     watchDog.run();
 
     InOrder order = docOrder();
+    order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
     order.verify( treeWidth ).hasScrollEffectingChange();
@@ -137,11 +150,34 @@ public class WatchDogTest {
     verifyNoMoreInteractionOnDocs();
   }
 
+  @Test
+  public void ensureReconciliationClamp() {
+    doNothing().when( reconciliation ).runWhileSuspended( any( Runnable.class ) );
+
+    watchDog.run();
+
+    InOrder order = docOrder();
+    order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
+    order.verify( scheduler ).schedule( WatchDog.DELAY );
+    verify( vScrollVisibility, never() ).hasChanged();
+    verify( hScrollVisibility, never() ).hasChanged();
+    verify( treeWidth, never() ).hasScrollEffectingChange();
+    verify( treeWidth, never() ).update();
+    verify( vScrollVisibility, never() ).update();
+    verify( hScrollVisibility, never() ).update();
+    verify( vScrollVisibility, never() ).isVisible();
+    verifyNoMoreInteractionOnDocs();
+  }
+
   private InOrder docOrder() {
-    return inOrder( settingCopier, hScrollVisibility, vScrollVisibility, scheduler, layoutTrigger, treeWidth );
+    return inOrder(
+      settingCopier, hScrollVisibility, vScrollVisibility, scheduler, layoutTrigger, treeWidth, reconciliation
+    );
   }
 
   private void verifyNoMoreInteractionOnDocs() {
-    verifyNoMoreInteractions( settingCopier, hScrollVisibility, vScrollVisibility, layoutTrigger, treeWidth );
+    verifyNoMoreInteractions(
+      settingCopier, hScrollVisibility, vScrollVisibility, layoutTrigger, treeWidth, reconciliation
+    );
   }
 }

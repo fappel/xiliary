@@ -11,6 +11,7 @@ class WatchDog implements Runnable, DisposeListener {
   static final int DELAY = 10;
 
   private final VerticalScrollBarUpdater verticalBarUpdater;
+  private final Reconciliation reconciliation;
   private final Visibility vScrollVisibility;
   private final Visibility hScrollVisibility;
   private final LayoutTrigger layoutTrigger;
@@ -19,13 +20,15 @@ class WatchDog implements Runnable, DisposeListener {
 
   private boolean disposed;
 
+
   WatchDog( LayoutContext<?> context, VerticalScrollBarUpdater verticalUpdater ) {
     this( verticalUpdater,
           new Visibility( context.getScrollable().getHorizontalBar(), context ),
           new Visibility( context.getScrollable().getVerticalBar(), context ),
           null,
           new LayoutTrigger( context.getAdapter() ),
-          new TreeWidth( context ) );
+          new TreeWidth( context ),
+          context.getReconciliation() );
   }
 
   WatchDog( VerticalScrollBarUpdater verticalBarUpdater,
@@ -33,12 +36,14 @@ class WatchDog implements Runnable, DisposeListener {
             Visibility vScrollVisibility,
             ActionScheduler actionScheduler,
             LayoutTrigger layoutTrigger,
-            TreeWidth treeWidth )
+            TreeWidth treeWidth,
+            Reconciliation reconciliation )
   {
     this.verticalBarUpdater = verticalBarUpdater;
     this.hScrollVisibility = hScrollVisibility;
     this.vScrollVisibility = vScrollVisibility;
     this.scheduler = ensureScheduler( actionScheduler );
+    this.reconciliation = reconciliation;
     this.layoutTrigger = layoutTrigger;
     this.treeWidth = treeWidth;
     scheduler.schedule( DELAY );
@@ -52,9 +57,18 @@ class WatchDog implements Runnable, DisposeListener {
   @Override
   public void run() {
     if( !disposed ) {
-      doRun();
+      runWithReconciliationSuspended();
       scheduler.schedule( DELAY );
     }
+  }
+
+  private void runWithReconciliationSuspended() {
+    reconciliation.runWhileSuspended( new Runnable() {
+      @Override
+      public void run() {
+        doRun();
+      }
+    } );
   }
 
   private void doRun() {

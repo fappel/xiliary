@@ -19,11 +19,19 @@ class HorizontalSelectionListener extends SelectionAdapter {
   public void widgetSelected( SelectionEvent event ) {
     Point location = context.getScrollable().getLocation();
     Point mappedLocation = Display.getCurrent().map( context.getScrollable(), context.getAdapter(), location );
-    Point result = new Point( - getSelection( event ), location.y - mappedLocation.y );
-    context.getScrollable().setLocation( result );
+    updateLocation( new Point( - getSelection( event ), location.y - mappedLocation.y ) );
   }
 
   private static int getSelection( SelectionEvent event ) {
     return ( ( FlatScrollBar )event.widget ).getSelection();
+  }
+
+  private void updateLocation( final Point result ) {
+    context.getReconciliation().runWhileSuspended( new Runnable() {
+      @Override
+      public void run() {
+        context.getScrollable().setLocation( result );
+      }
+    } );
   }
 }

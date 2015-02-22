@@ -1,5 +1,6 @@
 package org.eclipse.swt.widgets;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
@@ -19,5 +20,16 @@ public class ScrollBarAdapter extends ScrollBar {
   @Override
   public Point getSize() {
     return scrollBar.getSize();
+  }
+
+  @Override
+  public void setSelection( int selection ) {
+    scrollBar.setSelection( selection );
+    scrollBar.notifyListeners( SWT.None );
+  }
+
+  @Override
+  public int getSelection() {
+    return scrollBar.getSelection();
   }
 }

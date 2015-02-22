@@ -15,8 +15,7 @@ import org.eclipse.swt.widgets.Scrollable;
 public class ScrollableAdapterFactory {
 
   static final String ADAPTED = ScrollableAdapterFactory.class.getName() + "#adapted";
-
-  private static final Collection<Class<?>> SUPPORTED_TYPES = supportedTypes();
+  static final Collection<Class<?>> SUPPORTED_TYPES = supportedTypes();
 
   private final ControlReflectionUtil reflectionUtil;
 
@@ -40,22 +39,8 @@ public class ScrollableAdapterFactory {
     result.adapt( scrollable );
     parent.layout();
     result.setBackground( scrollable.getBackground() );
-//    result.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_GREEN ) );
+//result.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_GREEN ) );
     reflectionUtil.setField( scrollable, "parent", parent );
-
-//    scrollable.addControlListener( new ControlAdapter() {
-//      @Override
-//      public void controlResized( ControlEvent e ) {
-//        System.out.println( "scrollable: " + scrollable.getBounds() );
-//      };
-//    } );
-//    result.addControlListener( new ControlAdapter() {
-//      @Override
-//      public void controlResized( ControlEvent e ) {
-//        System.out.println( "adapter: " + result.getBounds() );
-//      };
-//    } );
-
     return result;
   }
 

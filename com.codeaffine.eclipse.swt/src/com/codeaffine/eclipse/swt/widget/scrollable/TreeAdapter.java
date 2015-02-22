@@ -21,6 +21,8 @@ import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.Ada
 public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener, ScrollbarStyle {
 
   private LayoutFactory<Tree> layoutFactory;
+  private Reconciliation reconciliation;
+  private LayoutContext<Tree> context;
   private Tree tree;
 
   TreeAdapter() {
@@ -33,7 +35,9 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
     this.layoutFactory = createLayoutFactory( new Platform(), createLayoutMapping() );
     this.tree = tree;
     tree.setParent( this );
-    super.setLayout( layoutFactory.create( new LayoutContext<Tree>( this, tree ) ) );
+    context = new LayoutContext<Tree>( this, tree );
+    reconciliation = context.getReconciliation();
+    super.setLayout( layoutFactory.create( context ) );
     tree.addDisposeListener( this );
   }
 
@@ -57,6 +61,41 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
   @Override
   public ScrollBar getHorizontalBar() {
     return layoutFactory.getHorizontalBarAdapter();
+  }
+
+  @Override
+  public void setSize( final int width, final int height ) {
+    reconciliation.runWithSuspendedBoundsReconciliation( new Runnable() {
+      @Override
+      public void run() {
+        TreeAdapter.super.setSize( width, height );
+      }
+    } );
+  }
+
+  @Override
+  public void setBounds( final int x, final int y, final int width, final int height ) {
+    reconciliation.runWithSuspendedBoundsReconciliation( new Runnable() {
+      @Override
+      public void run() {
+        TreeAdapter.super.setBounds( x, y, width, height );
+      }
+    } );
+  }
+
+  @Override
+  public void setLocation( final int x, final int y ) {
+    reconciliation.runWithSuspendedBoundsReconciliation( new Runnable() {
+      @Override
+      public void run() {
+        TreeAdapter.super.setLocation( x, y );
+      }
+    } );
+  }
+
+  @Override
+  public void setVisible( boolean visible ) {
+    super.setVisible( reconciliation.setVisible( visible ) );
   }
 
   ////////////////////////////////////////////////////

@@ -21,6 +21,8 @@ import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.Ada
 public class TableAdapter extends Table implements Adapter<Table>, DisposeListener, ScrollbarStyle {
 
   private LayoutFactory<Table> layoutFactory;
+  private Reconciliation reconciliation;
+  private LayoutContext<Table> context;
   private Table table;
 
   TableAdapter() {
@@ -33,7 +35,9 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
     this.layoutFactory = createLayoutFactory( new Platform(), createLayoutMapping() );
     this.table = table;
     table.setParent( this );
-    super.setLayout( layoutFactory.create( new LayoutContext<Table>( this, table ) ) );
+    context = new LayoutContext<Table>( this, table );
+    reconciliation = context.getReconciliation();
+    super.setLayout( layoutFactory.create( context ) );
     table.addDisposeListener( this );
   }
 
@@ -57,6 +61,41 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
   @Override
   public ScrollBar getHorizontalBar() {
     return layoutFactory.getHorizontalBarAdapter();
+  }
+
+  @Override
+  public void setSize( final int width, final int height ) {
+    reconciliation.runWithSuspendedBoundsReconciliation( new Runnable() {
+      @Override
+      public void run() {
+        TableAdapter.super.setSize( width, height );
+      }
+    } );
+  }
+
+  @Override
+  public void setBounds( final int x, final int y, final int width, final int height ) {
+    reconciliation.runWithSuspendedBoundsReconciliation( new Runnable() {
+      @Override
+      public void run() {
+        TableAdapter.super.setBounds( x, y, width, height );
+      }
+    } );
+  }
+
+  @Override
+  public void setLocation( final int x, final int y ) {
+    reconciliation.runWithSuspendedBoundsReconciliation( new Runnable() {
+      @Override
+      public void run() {
+        TableAdapter.super.setLocation( x, y );
+      }
+    } );
+  }
+
+  @Override
+  public void setVisible( boolean visible ) {
+    super.setVisible( reconciliation.setVisible( visible ) );
   }
 
   ////////////////////////////////////////////////////
@@ -105,10 +144,6 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
   //////////////////////////////////////////////////////
   // delegating adapter methods
 
-  @Override
-  public int getBackgroundMode() {
-    return super.getBackgroundMode();
-  }
 
   @Override
   public Object getData() {

@@ -14,6 +14,7 @@ class LayoutContext<T extends Scrollable> {
   static final int OVERLAY_OFFSET = 40;
   static final int WIDTH_BUFFER = 2;
 
+  private final Reconciliation reconciliation;
   private final boolean horizontalBarVisible;
   private final boolean verticalBarVisible;
   private final Rectangle visibleArea;
@@ -26,10 +27,11 @@ class LayoutContext<T extends Scrollable> {
   private final int offset;
 
   LayoutContext( Composite adapter, T scrollable ) {
-    this( adapter, scrollable, 1 );
+    this( adapter, scrollable, 1, null );
   }
 
-  private LayoutContext( Composite adapter, T scrollable, int itemHeight ) {
+  private LayoutContext( Composite adapter, T scrollable, int itemHeight, Reconciliation reconciliation ) {
+    this.reconciliation = reconciliation == null ? new Reconciliation( adapter, scrollable ) : reconciliation;
     this.scrollable = scrollable;
     this.adapter = adapter;
     this.itemHeight = itemHeight;
@@ -45,11 +47,15 @@ class LayoutContext<T extends Scrollable> {
   }
 
   LayoutContext<T> newContext( int itemHeight ) {
-    return new LayoutContext<T>( adapter, scrollable, itemHeight );
+    return new LayoutContext<T>( adapter, scrollable, itemHeight, reconciliation );
   }
 
   LayoutContext<T> newContext() {
-    return new LayoutContext<T>( adapter, scrollable, itemHeight );
+    return new LayoutContext<T>( adapter, scrollable, itemHeight, reconciliation );
+  }
+
+  Reconciliation getReconciliation() {
+    return reconciliation;
   }
 
   Composite getAdapter() {

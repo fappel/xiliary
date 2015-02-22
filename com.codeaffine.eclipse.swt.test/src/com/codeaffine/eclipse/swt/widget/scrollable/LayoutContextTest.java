@@ -143,6 +143,17 @@ public class LayoutContextTest {
     assertThat( actual ).isEqualTo( expectedLocation() );
   }
 
+  @Test
+  public void getReconciliation() {
+    LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
+
+    Reconciliation first = layoutContext.getReconciliation();
+    Reconciliation second = context.getReconciliation();
+
+    assertThat( first ).isNotNull();
+    assertThat( first ).isSameAs( second );
+  }
+
   private int computeThresholdHeight() {
     int trim = shell.getSize().x - shell.getClientArea().height;
     return tree.getItemHeight() * 2  + trim + 3;
