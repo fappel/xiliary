@@ -27,12 +27,12 @@ public class ScrollableAdapterFactory {
     reflectionUtil = new ControlReflectionUtil();
   }
 
-  public <S extends Scrollable, A extends Scrollable & Adapter<S>> A create( final S scrollable, Class<A> type ) {
+  public <S extends Scrollable, A extends Scrollable & Adapter<S>> A create( S scrollable, Class<A> type ) {
     ensureThatTypeIsSupported( type );
 
     Composite parent = scrollable.getParent();
     int ordinalNumber = captureDrawingOrderOrdinalNumber( scrollable );
-    final A result = createAdapter( scrollable, type );
+    A result = createAdapter( scrollable, type );
     scrollable.setData( ADAPTED, Boolean.TRUE );
     applyDrawingOrderOrdinalNumber( result, ordinalNumber );
     result.setLayoutData( scrollable.getLayoutData() );
