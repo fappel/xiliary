@@ -10,6 +10,8 @@ import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 
 public class ReadAndDispatchTest {
 
+  private static final int DURATION = 10;
+
   private final class ShellDisposer implements Runnable {
 
     private final Shell shell;
@@ -36,6 +38,18 @@ public class ReadAndDispatchTest {
     readAndDispatch.spinLoop( shell );
 
     assertThat( shell.isDisposed() ).isTrue();
+  }
+
+  @Test
+  public void spinLoopWithDuration() {
+    Shell shell = openShell();
+    ReadAndDispatch readAndDispatch = new ReadAndDispatch();
+    long start = System.currentTimeMillis();
+
+    readAndDispatch.spinLoop( shell, DURATION );
+    long actual = System.currentTimeMillis() - start;
+
+    assertThat( actual ).isGreaterThanOrEqualTo( DURATION );
   }
 
   private Shell openShell() {
