@@ -36,10 +36,19 @@ class TreeVerticalScrollBarUpdater implements VerticalScrollBarUpdater {
   }
 
   int calculateThumb() {
-    int height = tree.getClientArea().height;
+    int height = calculateHeight();
     int ratio = height / tree.getItemHeight();
     return SELECTION_RASTER_SMOOTH_FACTOR * ratio;
   }
+
+  int calculateHeight() {
+    int result = tree.getClientArea().height;
+    if( tree.getHeaderVisible() ) {
+      result -= tree.getHeaderHeight();
+    }
+    return result;
+  }
+
 
   private int calculateSelection( List<TreeItem> visibleItems ) {
     TreeItem topItem = tree.getTopItem();

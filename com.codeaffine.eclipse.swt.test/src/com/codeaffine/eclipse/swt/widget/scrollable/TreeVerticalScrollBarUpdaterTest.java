@@ -124,6 +124,18 @@ public class TreeVerticalScrollBarUpdaterTest {
   }
 
   @Test
+  public void calculateThumb() {
+    expandRootLevelItems( tree );
+    updater.update();
+
+    int before = updater.calculateThumb();
+    tree.setHeaderVisible( true );
+    int after = updater.calculateThumb();
+
+    assertThat( before ).isNotEqualTo( after );
+  }
+
+  @Test
   public void ensureCorrectRounding() {
     expandRootLevelItems( tree );
     int height = tree.getClientArea().height;
