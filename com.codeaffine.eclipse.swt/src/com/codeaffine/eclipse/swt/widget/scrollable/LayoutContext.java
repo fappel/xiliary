@@ -68,7 +68,7 @@ class LayoutContext<T extends Scrollable> {
     return offset;
   }
 
-  Point getLocation() {
+  Point getOriginOfScrollabeOrdinates() {
     return location;
   }
 
@@ -98,6 +98,10 @@ class LayoutContext<T extends Scrollable> {
 
   int getVerticalBarOffset() {
     return verticalBarOffset;
+  }
+
+  boolean isScrollableReplacedByAdapter() {
+    return scrollable.getParent() == adapter.getParent();
   }
 
   private static boolean computeVerticalBarVisible(

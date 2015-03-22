@@ -11,6 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
@@ -175,12 +176,12 @@ public class LayoutContextTest {
   }
 
   @Test
-  public void getLocation() {
+  public void getOriginOfScrollabeOrdinates() {
     LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
 
-    Point actual = context.getLocation();
+    Point actual = context.getOriginOfScrollabeOrdinates();
 
-    assertThat( actual ).isEqualTo( expectedLocation() );
+    assertThat( actual ).isEqualTo( expectedOriginOfScrollableOrdinates() );
   }
 
   @Test
@@ -201,6 +202,23 @@ public class LayoutContextTest {
     assertThat( actual ).isSameAs( new OffsetComputer( tree ).compute() );
   }
 
+  @Test
+  public void isScrollableReplacedByAdapter() {
+    boolean actual = layoutContext.isScrollableReplacedByAdapter();
+
+    assertThat( actual ).isFalse();
+  }
+
+  @Test
+  public void isScrollableAdaptedWithReplacementFake() {
+    Composite composite = new Composite( tree.getParent(), SWT.NONE );
+    LayoutContext<Tree> context = new LayoutContext<Tree>( composite, tree );
+
+    boolean actual = context.isScrollableReplacedByAdapter();
+
+    assertThat( actual ).isTrue();
+  }
+
   private int computeThresholdHeight() {
     int trim = shell.getSize().x - shell.getClientArea().height;
     return tree.getItemHeight() * 2  + trim + 3;
@@ -210,7 +228,7 @@ public class LayoutContextTest {
     return new PreferredSizeComputer( tree, shell ).getPreferredSize();
   }
 
-  private Point expectedLocation() {
+  private Point expectedOriginOfScrollableOrdinates() {
     return new Point( getVisibleArea().x, getVisibleArea().y );
   }
 

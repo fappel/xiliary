@@ -20,7 +20,7 @@ class HorizontalSelectionListener extends SelectionAdapter {
   }
 
   private int computeHeight() {
-    if( context.getScrollable().getParent() == context.getAdapter().getParent() ) {
+    if( context.isScrollableReplacedByAdapter() ) {
       return 0;
     }
     return context.getScrollable().getLocation().y;

@@ -22,8 +22,16 @@ class ScrollableLayouter {
   }
 
   private static Point computeLocation( LayoutContext<?> context ) {
-    Point origin = context.getLocation();
-    return new Point( origin.x - context.getOffset(), origin.y - context.getOffset() );
+    int selection = computeSelection( context );
+    Point origin = context.getOriginOfScrollabeOrdinates();
+    return new Point( origin.x - selection - context.getOffset(), origin.y - context.getOffset() );
+  }
+
+  private static int computeSelection( LayoutContext<?> context ) {
+    if( context.isScrollableReplacedByAdapter() ) {
+      return context.getAdapter().getHorizontalBar().getSelection();
+    }
+    return 0;
   }
 
   private static int computeWidth( LayoutContext<?> context ) {

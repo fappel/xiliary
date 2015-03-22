@@ -41,7 +41,7 @@ class TreeLayoutContextHelper {
     when( result.isHorizontalBarVisible() ).thenReturn( horizontalBarVisible.value );
     when( result.getPreferredSize() ).thenReturn( preferredSize );
     when( result.getVisibleArea() ).thenReturn( visibleArea );
-    when( result.getLocation() ).thenReturn( new Point( visibleArea.x, visibleArea.y ) );
+    when( result.getOriginOfScrollabeOrdinates() ).thenReturn( new Point( visibleArea.x, visibleArea.y ) );
     when( result.getVerticalBarOffset() ).thenReturn( STUB_VERTICAL_BAR_OFFSET );
     when( result.getOffset() ).thenReturn( OFFSET );
     return result;
