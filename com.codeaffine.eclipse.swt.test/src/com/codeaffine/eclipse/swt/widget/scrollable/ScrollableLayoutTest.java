@@ -29,9 +29,9 @@ public class ScrollableLayoutTest {
   private ScrollableLayouter treeLayouter;
   private OverlayLayouter overlayLayouter;
   private Reconciliation reconciliation;
+  private LayoutContext<Tree> context;
   private ScrollableLayout layout;
   private Tree tree;
-
 
   @Before
   public void setUp() {
@@ -39,7 +39,7 @@ public class ScrollableLayoutTest {
     horizontalBarConfigurer = mock( ScrollBarConfigurer.class );
     treeLayouter = mock( ScrollableLayouter.class );
     tree = createTree( createShell( displayHelper ), 6, 4 );
-    LayoutContext<Tree> context = new LayoutContext<Tree>( tree.getParent(), tree );
+    context = new LayoutContext<Tree>( tree.getParent(), tree );
     reconciliation = ReconciliationHelper.stubReconciliation();
     layout = new ScrollableLayout( context, overlayLayouter, treeLayouter, horizontalBarConfigurer, reconciliation );
   }
@@ -57,6 +57,7 @@ public class ScrollableLayoutTest {
   @Test
   public void layoutIfHorizontalBarIsVisible() {
     expandTopBranch( tree );
+    context.updatePreferredSize();
 
     layout.layout( null, true );
 
@@ -71,6 +72,7 @@ public class ScrollableLayoutTest {
   public void ensureReconciliationClamp() {
     doNothing().when( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     expandTopBranch( tree );
+    context.updatePreferredSize();
 
     layout.layout( null, true );
 

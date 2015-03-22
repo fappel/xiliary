@@ -33,6 +33,8 @@ public class PreferredWidthComputerTest {
 
   @Test
   public void compute() {
+    layoutContext.updatePreferredSize();
+
     int actual = computer.compute();
 
     assertThat( actual ).isEqualTo( preferredWidth() );
@@ -41,6 +43,7 @@ public class PreferredWidthComputerTest {
   @Test
   public void computeIfVerticalScrollBarVisible() {
     expandRootLevelItems( tree );
+    layoutContext.updatePreferredSize();
 
     int actual = computer.compute();
 

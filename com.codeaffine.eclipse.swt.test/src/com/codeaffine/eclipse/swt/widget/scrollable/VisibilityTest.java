@@ -37,6 +37,7 @@ public class VisibilityTest {
 
   private final int orientation;
 
+  private LayoutContext<Tree> context;
   private Visibility visibility;
   private Shell shell;
   private Tree tree;
@@ -49,8 +50,9 @@ public class VisibilityTest {
   public void setUp() {
     shell = createShell( displayHelper, SWT.RESIZE );
     tree = createTree( shell, 2, 4 );
+    context = new LayoutContext<Tree>( shell, tree );
     shell.open();
-    visibility = createVisibility();
+    visibility = createVisibility( tree, context );
   }
 
   @Test
@@ -76,6 +78,7 @@ public class VisibilityTest {
     shell.setSize( 200, 100 );
     expandRootLevelItems( tree );
     expandTopBranch( tree );
+    context.updatePreferredSize();
     visibility.update();
 
     boolean actual = visibility.isVisible();
@@ -95,6 +98,7 @@ public class VisibilityTest {
     shell.setSize( 200, 100 );
     expandRootLevelItems( tree );
     expandTopBranch( tree );
+    context.updatePreferredSize();
 
     boolean actual = visibility.hasChanged();
 
@@ -114,12 +118,10 @@ public class VisibilityTest {
     assertThat( actual ).isFalse();
   }
 
-  private Visibility createVisibility() {
-    LayoutContext<Tree> context = new LayoutContext<Tree>( shell, tree );
-    Visibility result = new Visibility( tree.getHorizontalBar(), context );
+  private Visibility createVisibility( Tree tree, LayoutContext<Tree> context ) {
     if( ( orientation & SWT.VERTICAL ) > 0  ) {
-      result = new Visibility( tree.getVerticalBar(), context );
+      return new Visibility( tree.getVerticalBar(), context );
     }
-    return result;
+    return new Visibility( tree.getHorizontalBar(), context );
   }
 }

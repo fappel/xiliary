@@ -17,6 +17,8 @@ class ScrollableLayouter {
   void layout( LayoutContext<?> context ) {
     scrollable.setLocation( computeLocation( context ) );
     scrollable.setSize( computeWidth( context ), computeHeight( context ) );
+    context.adjustPreferredWidthIfHorizontalBarIsVisible();
+    scrollable.setSize( computeWidth( context ), computeHeight( context ) );
   }
 
   private static Point computeLocation( LayoutContext<?> context ) {

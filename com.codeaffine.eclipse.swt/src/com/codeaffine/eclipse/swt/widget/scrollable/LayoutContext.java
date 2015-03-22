@@ -2,7 +2,6 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
@@ -12,14 +11,13 @@ import org.eclipse.swt.widgets.Scrollable;
 class LayoutContext<T extends Scrollable> {
 
   static final int OVERLAY_OFFSET = 40;
-  static final int WIDTH_BUFFER = 2;
 
+  private final PreferredSizeComputer preferredSizeComputer;
   private final Reconciliation reconciliation;
   private final boolean horizontalBarVisible;
   private final boolean verticalBarVisible;
   private final Rectangle visibleArea;
   private final int verticalBarOffset;
-  private final Point preferredSize;
   private final Composite adapter;
   private final Point location;
   private final int itemHeight;
@@ -31,14 +29,14 @@ class LayoutContext<T extends Scrollable> {
   }
 
   private LayoutContext( Composite adapter, T scrollable, int itemHeight, Reconciliation reconciliation ) {
+    preferredSizeComputer = new PreferredSizeComputer( scrollable, adapter );
     this.reconciliation = reconciliation == null ? new Reconciliation( adapter, scrollable ) : reconciliation;
     this.scrollable = scrollable;
     this.adapter = adapter;
     this.itemHeight = itemHeight;
-    Point computed = scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
-    preferredSize = new Point( computed.x + WIDTH_BUFFER, computed.y );
     visibleArea = adapter.getClientArea();
     location = new Point( visibleArea.x, visibleArea.y );
+    Point preferredSize = preferredSizeComputer.getPreferredSize();
     horizontalBarVisible = preferredSize.x > visibleArea.width;
     verticalBarOffset = computeVerticalBarOffset( scrollable );
     verticalBarVisible
@@ -75,7 +73,15 @@ class LayoutContext<T extends Scrollable> {
   }
 
   Point getPreferredSize() {
-    return preferredSize;
+    return preferredSizeComputer.getPreferredSize();
+  }
+
+  void updatePreferredSize() {
+    preferredSizeComputer.updatePreferredSize();
+  }
+
+  void adjustPreferredWidthIfHorizontalBarIsVisible() {
+    preferredSizeComputer.adjustPreferredWidthIfHorizontalBarIsVisible();
   }
 
   boolean isVerticalBarVisible() {

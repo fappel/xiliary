@@ -49,6 +49,7 @@ public class TreeWidthTest {
   @Test
   public void preferredWidthExceedsVisibleRangeWhenVerticalScrollBarIsVisible() {
     expandRootLevelItems( tree );
+    context.updatePreferredSize();
     equipPreferredComputerWith( getVisbleRangeWidth() + getVerticalBarOffset() );
 
     boolean actual = treeWidth.hasScrollEffectingChange();

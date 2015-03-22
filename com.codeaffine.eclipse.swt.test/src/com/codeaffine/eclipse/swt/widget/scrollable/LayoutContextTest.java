@@ -83,6 +83,7 @@ public class LayoutContextTest {
     expandTopBranch( tree );
     waitForGtkRendering();
 
+    layoutContext.updatePreferredSize();
     LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
 
     assertThat( context )
@@ -96,6 +97,7 @@ public class LayoutContextTest {
     expandRootLevelItems( tree );
     waitForGtkRendering();
 
+    layoutContext.updatePreferredSize();
     LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
 
     assertThat( context )
@@ -109,12 +111,50 @@ public class LayoutContextTest {
     expandRootLevelItems( tree );
     expandTopBranch( tree );
 
+    layoutContext.updatePreferredSize();
     LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
 
     assertThat( context )
       .verticalBarIsVisible()
       .hasVerticalBarOffset( expectedVerticalBarOffset() )
       .horizontalBarIsVisible();
+  }
+
+  @Test
+  public void preferredSizeIsBuffered() {
+    Point expected = layoutContext.getPreferredSize();
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
+
+    Point actual = layoutContext.getPreferredSize();
+
+    assertThat( actual ).isEqualTo( expected );
+  }
+
+  @Test
+  public void updatePreferredSize() {
+    Point initialSize = layoutContext.getPreferredSize();
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
+
+    layoutContext.updatePreferredSize();
+    Point actual = layoutContext.getPreferredSize();
+
+    assertThat( actual ).isNotEqualTo( initialSize );
+  }
+
+  @Test
+  public void adjustPreferredWidthIfHorizontalBarIsVisible() {
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
+
+    layoutContext.adjustPreferredWidthIfHorizontalBarIsVisible();
+    LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
+
+    assertThat( context )
+      .verticalBarIsInvisible()
+      .hasVerticalBarOffset( expectedVerticalBarOffset() )
+      .horizontalBarIsInvisible();
   }
 
   @Test
@@ -154,14 +194,20 @@ public class LayoutContextTest {
     assertThat( first ).isSameAs( second );
   }
 
+  @Test
+  public void getOffset() {
+    int actual = layoutContext.getOffset();
+
+    assertThat( actual ).isSameAs( new OffsetComputer( tree ).compute() );
+  }
+
   private int computeThresholdHeight() {
     int trim = shell.getSize().x - shell.getClientArea().height;
     return tree.getItemHeight() * 2  + trim + 3;
   }
 
   private Point computePreferredTreeSize() {
-    Point size = tree.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
-    return new Point( size.x + LayoutContext.WIDTH_BUFFER, size.y );
+    return new PreferredSizeComputer( tree, shell ).getPreferredSize();
   }
 
   private Point expectedLocation() {

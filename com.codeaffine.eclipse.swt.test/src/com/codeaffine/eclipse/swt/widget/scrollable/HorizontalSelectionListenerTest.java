@@ -36,22 +36,36 @@ public class HorizontalSelectionListenerTest {
   }
 
   @Test
-  public void selectionChangedIfAdapterIsParent() {
+  public void selectionChanged() {
     LayoutContext<Tree> context = new LayoutContext<Tree>( shell, tree );
     HorizontalSelectionListener listener = new HorizontalSelectionListener( context );
     Point adapterLocation = shell.getLocation();
     Point location = tree.getLocation();
 
     listener.widgetSelected( createEvent( shell, SELECTION ) );
-    context.getReconciliation().boundsReconciliation.run();
 
-    assertThat( tree.getLocation().x ).isEqualTo( location.x - SELECTION );
+    assertThat( tree.getLocation().x ).isEqualTo( -SELECTION );
     assertThat( tree.getLocation().y ).isEqualTo( location.y );
     assertThat( shell.getLocation() ).isEqualTo( adapterLocation );
   }
 
   @Test
-  public void selectionChangedIfAdapterIsNotParent() {
+  public void selectionChangedIfHeaderVisible() {
+    tree.setHeaderVisible( true );
+    LayoutContext<Tree> context = new LayoutContext<Tree>( shell, tree );
+    HorizontalSelectionListener listener = new HorizontalSelectionListener( context );
+    Point adapterLocation = shell.getLocation();
+    Point location = tree.getLocation();
+
+    listener.widgetSelected( createEvent( shell, SELECTION ) );
+
+    assertThat( tree.getLocation().x ).isEqualTo( -SELECTION );
+    assertThat( tree.getLocation().y ).isEqualTo( location.y );
+    assertThat( shell.getLocation() ).isEqualTo( adapterLocation );
+  }
+
+  @Test
+  public void selectionChangedWithReparentedAdapter() {
     Composite adapter = reparentScrollable( new Composite( shell, SWT.NONE ), tree );
     equipShellWithLayoutMargin();
     LayoutContext<Tree> context = new LayoutContext<Tree>( adapter, tree );
@@ -60,7 +74,23 @@ public class HorizontalSelectionListenerTest {
     Point location = tree.getLocation();
 
     listener.widgetSelected( createEvent( shell, SELECTION ) );
-    context.getReconciliation().boundsReconciliation.run();
+
+    assertThat( tree.getLocation().x ).isEqualTo( location.x - SELECTION );
+    assertThat( tree.getLocation().y ).isEqualTo( location.y );
+    assertThat( shell.getLocation() ).isEqualTo( adapterLocation );
+  }
+
+  @Test
+  public void selectionChangedWithHeaderVisibleWithReparentedAdapter() {
+    tree.setHeaderVisible( true );
+    Composite adapter = reparentScrollable( new Composite( shell, SWT.NONE ), tree );
+    equipShellWithLayoutMargin();
+    LayoutContext<Tree> context = new LayoutContext<Tree>( adapter, tree );
+    HorizontalSelectionListener listener = new HorizontalSelectionListener( context );
+    Point adapterLocation = shell.getLocation();
+    Point location = tree.getLocation();
+
+    listener.widgetSelected( createEvent( shell, SELECTION ) );
 
     assertThat( tree.getLocation().x ).isEqualTo( location.x - SELECTION );
     assertThat( tree.getLocation().y ).isEqualTo( location.y );

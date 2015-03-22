@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import org.eclipse.swt.widgets.Scrollable;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
@@ -20,6 +21,7 @@ import com.codeaffine.eclipse.swt.util.ActionScheduler;
 public class WatchDogTest {
 
   private TreeVerticalScrollBarUpdater settingCopier;
+  private LayoutContext<Scrollable> context;
   private Reconciliation reconciliation;
   private Visibility hScrollVisibility;
   private Visibility vScrollVisibility;
@@ -29,7 +31,9 @@ public class WatchDogTest {
   private WatchDog watchDog;
 
   @Before
+  @SuppressWarnings("unchecked")
   public void setUp() {
+    context = mock( LayoutContext.class );
     settingCopier = mock( TreeVerticalScrollBarUpdater.class );
     hScrollVisibility = mock( Visibility.class );
     vScrollVisibility = mock( Visibility.class );
@@ -38,7 +42,7 @@ public class WatchDogTest {
     treeWidth = mock( TreeWidth.class );
     reconciliation = stubReconciliation();
     watchDog = new WatchDog(
-      settingCopier, hScrollVisibility, vScrollVisibility, scheduler, layoutTrigger, treeWidth, reconciliation
+      context, settingCopier, hScrollVisibility, vScrollVisibility, scheduler, layoutTrigger, treeWidth, reconciliation
     );
   }
 
@@ -53,6 +57,7 @@ public class WatchDogTest {
 
     InOrder order = docOrder();
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
+    order.verify( context ).updatePreferredSize();
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
     order.verify( treeWidth ).hasScrollEffectingChange();
@@ -72,6 +77,7 @@ public class WatchDogTest {
 
     InOrder order = docOrder();
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
+    order.verify( context ).updatePreferredSize();
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( layoutTrigger ).pull();
     order.verify( treeWidth ).update();
@@ -90,6 +96,7 @@ public class WatchDogTest {
 
     InOrder order = docOrder();
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
+    order.verify( context ).updatePreferredSize();
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
     order.verify( layoutTrigger ).pull();
@@ -109,6 +116,7 @@ public class WatchDogTest {
 
     InOrder order = docOrder();
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
+    order.verify( context ).updatePreferredSize();
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
     order.verify( treeWidth ).hasScrollEffectingChange();
@@ -129,6 +137,7 @@ public class WatchDogTest {
 
     InOrder order = docOrder();
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
+    order.verify( context ).updatePreferredSize();
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
     order.verify( treeWidth ).hasScrollEffectingChange();
@@ -159,6 +168,7 @@ public class WatchDogTest {
     InOrder order = docOrder();
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( scheduler ).schedule( WatchDog.DELAY );
+    order.verify( context, never() ).updatePreferredSize();
     verify( vScrollVisibility, never() ).hasChanged();
     verify( hScrollVisibility, never() ).hasChanged();
     verify( treeWidth, never() ).hasScrollEffectingChange();
@@ -171,7 +181,7 @@ public class WatchDogTest {
 
   private InOrder docOrder() {
     return inOrder(
-      settingCopier, hScrollVisibility, vScrollVisibility, scheduler, layoutTrigger, treeWidth, reconciliation
+      context, settingCopier, hScrollVisibility, vScrollVisibility, scheduler, layoutTrigger, treeWidth, reconciliation
     );
   }
 
