@@ -47,6 +47,17 @@ public class ScrollableAdapterFactoryDemo {
   }
 
   @Test
+  public void treeWithBorderDemo() {
+    Tree tree = new TestTreeFactory( SWT.BORDER ).create( shell );
+    TreeAdapter adapter = factory.create( tree, TreeAdapter.class );
+    adapter.setThumbColor( Display.getCurrent().getSystemColor( SWT.COLOR_RED ) );
+    shell.open();
+    TreeHelper.expandRootLevelItems( tree );
+    TreeHelper.expandTopBranch( tree );
+    spinLoop();
+  }
+
+  @Test
   public void tableDemo() {
     Table table = new TestTableFactory().create( shell );
     TableAdapter adapter = factory.create( table, TableAdapter.class );

@@ -2,14 +2,16 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.BORDER_ADJUSTMENT;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.BORDER_WIDTH;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.STUB_VERTICAL_BAR_OFFSET;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.stubContext;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Horizontal.H_INVISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Horizontal.H_VISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Vertical.V_INVISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Vertical.V_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.STUB_VERTICAL_BAR_OFFSET;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.stubContext;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal.H_INVISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal.H_VISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Vertical.V_INVISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Vertical.V_VISIBLE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -26,8 +28,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal;
-import com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Vertical;
+import com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Horizontal;
+import com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Vertical;
 
 public class ScrollableLayouterTest {
 
@@ -55,7 +57,10 @@ public class ScrollableLayouterTest {
     layouter.layout( stubLayoutContext( V_INVISIBLE, H_INVISIBLE, fitVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
-      .isEqualTo( getVisibleArea() );
+      .isEqualTo( $( -BORDER_WIDTH,
+                     -BORDER_WIDTH,
+                     getVisibleArea().width + BORDER_ADJUSTMENT,
+                     getVisibleArea().height + BORDER_ADJUSTMENT ) );
   }
 
   @Test
@@ -63,7 +68,10 @@ public class ScrollableLayouterTest {
     layouter.layout( stubLayoutContext( V_INVISIBLE, H_INVISIBLE, exceedVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
-      .isEqualTo( $( 0, 0, exceedVisibleArea().x, getVisibleArea().height ) );
+      .isEqualTo( $( -BORDER_WIDTH,
+                     -BORDER_WIDTH,
+                     exceedVisibleArea().x,
+                     getVisibleArea().height + BORDER_ADJUSTMENT ) );
   }
 
   @Test
@@ -71,7 +79,10 @@ public class ScrollableLayouterTest {
     layouter.layout( stubLayoutContext( V_VISIBLE, H_INVISIBLE, fitVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
-      .isEqualTo( $( 0, 0, verticalHeightIfTreeFits(), getVisibleArea().height ) );
+      .isEqualTo( $( -BORDER_WIDTH,
+                     -BORDER_WIDTH,
+                     verticalHeightIfTreeFits() + BORDER_ADJUSTMENT,
+                     getVisibleArea().height + BORDER_ADJUSTMENT ) );
   }
 
   @Test
@@ -79,7 +90,10 @@ public class ScrollableLayouterTest {
     layouter.layout( stubLayoutContext( V_VISIBLE, H_INVISIBLE, exceedVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
-      .isEqualTo( $( 0, 0, verticalHeightIfTreeDoesNotFit(), getVisibleArea().height ) );
+      .isEqualTo( $( -BORDER_WIDTH,
+                     -BORDER_WIDTH,
+                     verticalHeightIfTreeDoesNotFit(),
+                     getVisibleArea().height + BORDER_ADJUSTMENT ) );
   }
 
   @Test
@@ -87,7 +101,10 @@ public class ScrollableLayouterTest {
     layouter.layout( stubLayoutContext( V_INVISIBLE, H_VISIBLE, fitVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
-      .isEqualTo( $( 0, 0, getVisibleArea().width, expectedVerticalHeightIfHorizontalIsVisible() ) );
+      .isEqualTo( $( -BORDER_WIDTH,
+                     -BORDER_WIDTH,
+                     getVisibleArea().width + BORDER_ADJUSTMENT,
+                     expectedVerticalHeightIfHorizontalIsVisible() + BORDER_ADJUSTMENT ) );
   }
 
   @Test
@@ -95,7 +112,10 @@ public class ScrollableLayouterTest {
     layouter.layout( stubLayoutContext( V_INVISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
-      .isEqualTo( $( 0, 0, exceedVisibleArea().y, expectedVerticalHeightIfHorizontalIsVisible() ) );
+      .isEqualTo( $( -BORDER_WIDTH,
+                     -BORDER_WIDTH,
+                     exceedVisibleArea().y,
+                     expectedVerticalHeightIfHorizontalIsVisible() + BORDER_ADJUSTMENT ) );
   }
 
   @Test
@@ -103,7 +123,10 @@ public class ScrollableLayouterTest {
     layouter.layout( stubLayoutContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
-      .isEqualTo( $( 0, 0, verticalHeightIfTreeDoesNotFit(), expectedVerticalHeightIfHorizontalIsVisible() ) );
+      .isEqualTo( $( -BORDER_WIDTH,
+                     -BORDER_WIDTH,
+                     verticalHeightIfTreeDoesNotFit(),
+                     expectedVerticalHeightIfHorizontalIsVisible() + BORDER_ADJUSTMENT) );
   }
 
   @Test
@@ -113,7 +136,10 @@ public class ScrollableLayouterTest {
     layouter.layout( stubLayoutContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
-      .isEqualTo( $( 0, 0, verticalHeightIfTreeDoesNotFit(), expectedVerticalHeightIfHorizontalIsVisible() ) );
+      .isEqualTo( $( -BORDER_WIDTH,
+                     -BORDER_WIDTH,
+                     verticalHeightIfTreeDoesNotFit(),
+                     expectedVerticalHeightIfHorizontalIsVisible() + BORDER_ADJUSTMENT ) );
   }
 
   @Test
@@ -126,7 +152,10 @@ public class ScrollableLayouterTest {
     layouter.layout( context );
 
     assertThat( scrollable.getBounds() )
-      .isEqualTo( $( -SELECTION, 0, verticalHeightIfTreeDoesNotFit(), expectedVerticalHeightIfHorizontalIsVisible() ) );
+      .isEqualTo( $( -BORDER_WIDTH -SELECTION,
+                     -BORDER_WIDTH,
+                     verticalHeightIfTreeDoesNotFit(),
+                     expectedVerticalHeightIfHorizontalIsVisible() + BORDER_ADJUSTMENT ) );
   }
 
   private LayoutContext<Scrollable> stubLayoutContext(
@@ -155,7 +184,7 @@ public class ScrollableLayouterTest {
   }
 
   private int verticalHeightIfTreeFits() {
-    return getVisibleArea().width + TreeLayoutContextHelper.STUB_VERTICAL_BAR_OFFSET;
+    return getVisibleArea().width + LayoutContextHelper.STUB_VERTICAL_BAR_OFFSET;
   }
 
   private int verticalHeightIfTreeDoesNotFit() {

@@ -21,13 +21,13 @@ class HorizontalSelectionListener extends SelectionAdapter {
 
   private int computeHeight() {
     if( context.isScrollableReplacedByAdapter() ) {
-      return 0;
+      return -context.getBorderWidth();
     }
-    return context.getScrollable().getLocation().y;
+    return context.getScrollable().getLocation().y - context.getBorderWidth();
   }
 
-  private static int getSelection( SelectionEvent event ) {
-    return ( ( FlatScrollBar )event.widget ).getSelection();
+  private int getSelection( SelectionEvent event ) {
+    return ( ( FlatScrollBar )event.widget ).getSelection() + context.getBorderWidth();
   }
 
   private void updateLocation( final Point result ) {

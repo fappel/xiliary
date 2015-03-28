@@ -8,7 +8,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
 
-
 class LayoutContext<T extends Scrollable> {
 
   static final int OVERLAY_OFFSET = 40;
@@ -20,7 +19,7 @@ class LayoutContext<T extends Scrollable> {
   private final Rectangle visibleArea;
   private final int verticalBarOffset;
   private final Composite adapter;
-  private final Point location;
+  private final Point originOfScrollableOrdinates;
   private final int itemHeight;
   private final T scrollable;
   private final int offset;
@@ -30,19 +29,19 @@ class LayoutContext<T extends Scrollable> {
   }
 
   private LayoutContext( Composite adapter, T scrollable, int itemHeight, Reconciliation reconciliation ) {
-    preferredSizeComputer = new PreferredSizeComputer( scrollable, adapter );
+    this.preferredSizeComputer = new PreferredSizeComputer( scrollable, adapter );
     this.reconciliation = reconciliation == null ? new Reconciliation( adapter, scrollable ) : reconciliation;
     this.scrollable = scrollable;
     this.adapter = adapter;
     this.itemHeight = itemHeight;
-    visibleArea = adapter.getClientArea();
-    location = new Point( visibleArea.x, visibleArea.y );
     Point preferredSize = preferredSizeComputer.getPreferredSize();
-    horizontalBarVisible = preferredSize.x > visibleArea.width;
-    verticalBarOffset = computeVerticalBarOffset( scrollable );
-    verticalBarVisible
-      = computeVerticalBarVisible( horizontalBarVisible, preferredSize.y, visibleArea.height, itemHeight );
-    offset = new OffsetComputer( scrollable ).compute();
+    this.horizontalBarVisible = preferredSize.x > adapter.getClientArea().width;
+    this.verticalBarOffset = computeVerticalBarOffset( scrollable );
+    this.verticalBarVisible
+      = computeVerticalBarVisible( horizontalBarVisible, preferredSize.y, adapter.getClientArea().height, itemHeight );
+    this.offset = new OffsetComputer( scrollable ).compute();
+    this.visibleArea = computeVisibleArea();
+    this.originOfScrollableOrdinates = new Point( visibleArea.x - getBorderWidth(), visibleArea.y - getBorderWidth() ) ;
   }
 
   LayoutContext<T> newContext( int itemHeight ) {
@@ -69,8 +68,8 @@ class LayoutContext<T extends Scrollable> {
     return offset;
   }
 
-  Point getOriginOfScrollabeOrdinates() {
-    return location;
+  Point getOriginOfScrollableOrdinates() {
+    return originOfScrollableOrdinates;
   }
 
   Point getPreferredSize() {
@@ -113,6 +112,10 @@ class LayoutContext<T extends Scrollable> {
     return scrollable.getParent() == adapter.getParent();
   }
 
+  int getBorderWidth() {
+    return scrollable.getBorderWidth();
+  }
+
   private static boolean computeVerticalBarVisible(
     boolean horizontalBarVisible, int preferredHeight, int visibleAreaHeight, int itemHeight  )
   {
@@ -135,5 +138,11 @@ class LayoutContext<T extends Scrollable> {
       result = OVERLAY_OFFSET;
     }
     return result;
+  }
+
+  private Rectangle computeVisibleArea() {
+    Rectangle area = adapter.getClientArea();
+    int borderAdjustment = getBorderWidth() * 2;
+    return new Rectangle( area.x, area.y, area.width + borderAdjustment, area.height + borderAdjustment );
   }
 }

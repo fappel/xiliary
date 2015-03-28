@@ -1,9 +1,10 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.OFFSET;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.stubContext;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal.H_VISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Vertical.V_INVISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.BORDER_WIDTH;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.OFFSET;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.stubContext;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Horizontal.H_VISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Vertical.V_INVISIBLE;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -28,7 +29,7 @@ public class ScrollBarConfigurerTest {
     verify( scrollBar ).setIncrement( 1 );
     verify( scrollBar ).setMaximum( PREFERRED_SIZE.x );
     verify( scrollBar ).setMinimum( OFFSET );
-    verify( scrollBar ).setPageIncrement( VISIBLE_AREA.width );
-    verify( scrollBar ).setThumb( VISIBLE_AREA.width );
+    verify( scrollBar ).setPageIncrement( VISIBLE_AREA.width + BORDER_WIDTH * 2 );
+    verify( scrollBar ).setThumb( VISIBLE_AREA.width + BORDER_WIDTH * 2 );
   }
 }

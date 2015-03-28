@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -39,7 +40,6 @@ public class ScrollableAdapterFactory {
     result.adapt( scrollable );
     parent.layout();
     result.setBackground( scrollable.getBackground() );
-//result.setBackground( Display.getCurrent().getSystemColor( SWT.COLOR_GREEN ) );
     reflectionUtil.setField( scrollable, "parent", parent );
     return result;
   }
@@ -75,9 +75,11 @@ public class ScrollableAdapterFactory {
   }
 
   private <S extends Scrollable, A extends Scrollable & Adapter<S>> A createAdapter( S scrollable, Class<A> type ) {
+    int style = SWT.BORDER & scrollable.getStyle();
     A result = reflectionUtil.newInstance( type );
     reflectionUtil.setField( result, "display", Display.getCurrent() );
     reflectionUtil.setField( result, "parent", scrollable.getParent() );
+    reflectionUtil.setField( result, "style", Integer.valueOf( style ) );
     reflectionUtil.invoke( result, "createWidget" );
     return result;
   }

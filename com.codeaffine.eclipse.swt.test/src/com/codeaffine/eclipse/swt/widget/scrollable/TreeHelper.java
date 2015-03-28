@@ -28,8 +28,12 @@ class TreeHelper {
     flushPendingEvents();
   }
 
-  static Tree createTree( Composite parent, int childCount , int levelCount  ) {
-    Tree result = new Tree( parent, SWT.NONE );
+  static Tree createTree( Composite parent, int childCount, int levelCount  ) {
+    return createTree( parent, childCount, levelCount, SWT.NONE );
+  }
+
+  static Tree createTree( Composite parent, int childCount, int levelCount, int style ) {
+    Tree result = new Tree( parent, style );
     createChildren( result, "tree-item_", childCount, levelCount );
     return result;
   }

@@ -31,7 +31,7 @@ public class HorizontalSelectionListenerTest {
   @Before
   public void setUp() {
     shell = createShell( displayHelper );
-    tree = createTree( shell, 6, 4 );
+    tree = createTree( shell, 6, 4, SWT.BORDER );
     shell.open();
   }
 
@@ -44,8 +44,8 @@ public class HorizontalSelectionListenerTest {
 
     listener.widgetSelected( createEvent( shell, SELECTION ) );
 
-    assertThat( tree.getLocation().x ).isEqualTo( -SELECTION );
-    assertThat( tree.getLocation().y ).isEqualTo( location.y );
+    assertThat( tree.getLocation().x ).isEqualTo( -SELECTION - tree.getBorderWidth() );
+    assertThat( tree.getLocation().y ).isEqualTo( location.y - tree.getBorderWidth() );
     assertThat( shell.getLocation() ).isEqualTo( adapterLocation );
   }
 
@@ -59,8 +59,8 @@ public class HorizontalSelectionListenerTest {
 
     listener.widgetSelected( createEvent( shell, SELECTION ) );
 
-    assertThat( tree.getLocation().x ).isEqualTo( -SELECTION );
-    assertThat( tree.getLocation().y ).isEqualTo( location.y );
+    assertThat( tree.getLocation().x ).isEqualTo( -SELECTION - tree.getBorderWidth() );
+    assertThat( tree.getLocation().y ).isEqualTo( location.y - tree.getBorderWidth() );
     assertThat( shell.getLocation() ).isEqualTo( adapterLocation );
   }
 
@@ -75,8 +75,8 @@ public class HorizontalSelectionListenerTest {
 
     listener.widgetSelected( createEvent( shell, SELECTION ) );
 
-    assertThat( tree.getLocation().x ).isEqualTo( location.x - SELECTION );
-    assertThat( tree.getLocation().y ).isEqualTo( location.y );
+    assertThat( tree.getLocation().x ).isEqualTo( location.x - SELECTION - tree.getBorderWidth() );
+    assertThat( tree.getLocation().y ).isEqualTo( location.y - tree.getBorderWidth() );
     assertThat( shell.getLocation() ).isEqualTo( adapterLocation );
   }
 
@@ -92,8 +92,8 @@ public class HorizontalSelectionListenerTest {
 
     listener.widgetSelected( createEvent( shell, SELECTION ) );
 
-    assertThat( tree.getLocation().x ).isEqualTo( location.x - SELECTION );
-    assertThat( tree.getLocation().y ).isEqualTo( location.y );
+    assertThat( tree.getLocation().x ).isEqualTo( location.x - SELECTION - tree.getBorderWidth() );
+    assertThat( tree.getLocation().y ).isEqualTo( location.y - tree.getBorderWidth() );
     assertThat( shell.getLocation() ).isEqualTo( adapterLocation );
   }
 

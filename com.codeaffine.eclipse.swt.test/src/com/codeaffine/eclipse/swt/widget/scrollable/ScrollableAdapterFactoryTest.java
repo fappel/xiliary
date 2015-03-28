@@ -60,6 +60,15 @@ public class ScrollableAdapterFactoryTest {
   }
 
   @Test
+  public void createForTreeWithBorder() {
+    Tree tree = new Tree( shell, SWT.BORDER );
+
+    TreeAdapter actual = factory.create( tree, TreeAdapter.class );
+
+    assertThat( actual.getStyle() & SWT.BORDER ).isEqualTo( SWT.BORDER );
+  }
+
+  @Test
   public void createWithUnsupportedType() {
     Throwable actual = thrown( new Actor() {
       @Override

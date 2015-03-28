@@ -25,8 +25,8 @@ class ScrollableLayouter {
 
   private Point computeLocation( LayoutContext<?> context ) {
     int selection = horizontalSelectionComputer.compute( context );
-    int x = context.getOriginOfScrollabeOrdinates().x - selection - context.getOffset();
-    int y = context.getOriginOfScrollabeOrdinates().y - context.getOffset();
+    int x = context.getOriginOfScrollableOrdinates().x - selection - context.getOffset();
+    int y = context.getOriginOfScrollableOrdinates().y - context.getOffset();
     return new Point( x, y );
   }
 

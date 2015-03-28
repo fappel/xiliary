@@ -1,13 +1,15 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShellWithoutLayout;
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.MAX_EXPANSION;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.BORDER_WIDTH;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.stubContext;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Horizontal.H_INVISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Horizontal.H_VISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Vertical.V_INVISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Vertical.V_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.OverlayLayouter.calculateCornerOverlayBounds;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.stubContext;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal.H_INVISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Horizontal.H_VISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Vertical.V_INVISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextHelper.Vertical.V_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -22,7 +24,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.ShellHelper;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 public class OverlayLayouterTest {
@@ -40,7 +41,7 @@ public class OverlayLayouterTest {
 
   @Before
   public void setUp() {
-    shell = ShellHelper.createShellWithoutLayout( displayHelper, SWT.RESIZE );
+    shell = createShellWithoutLayout( displayHelper, SWT.RESIZE );
     horizontal = new FlatScrollBar( shell, SWT.HORIZONTAL );
     vertical = new FlatScrollBar( shell, SWT.VERTICAL );
     cornerOverlay = new Label( shell, SWT.NONE );
@@ -120,7 +121,7 @@ public class OverlayLayouterTest {
     Rectangle actual = OverlayLayouter.calculateCornerOverlayBounds( horizontal, vertical, context );
 
     assertThat( actual )
-      .isEqualTo( new Rectangle( 10, 40, 30 + OFFSET, 20 ) );
+      .isEqualTo( new Rectangle( 10, 40, 30 + OFFSET + BORDER_WIDTH, 20 + BORDER_WIDTH ) );
   }
 
   private LayoutContext<?> stubContextWithOffset( int offset ) {

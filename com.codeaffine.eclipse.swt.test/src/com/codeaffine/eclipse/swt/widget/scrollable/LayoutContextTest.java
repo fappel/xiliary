@@ -2,10 +2,10 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContext.OVERLAY_OFFSET;
+import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextAssert.assertThat;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeLayoutContextAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
@@ -51,7 +52,11 @@ public class LayoutContextTest {
       .verticalBarIsInvisible()
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
-      .hasVisibleArea( getVisibleArea() );
+      .hasOffset( new OffsetComputer( tree ).compute() )
+      .hasVisibleArea( getVisibleArea( tree ) )
+      .hasHorizontalAdapterSelection( 0 )
+      .hasBorderWidth( tree.getBorderWidth() )
+      .isNotScrollableReplacement();
   }
 
   @Test
@@ -64,7 +69,11 @@ public class LayoutContextTest {
       .verticalBarIsInvisible()
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
-      .hasVisibleArea( getVisibleArea() );
+      .hasOffset( new OffsetComputer( tree ).compute() )
+      .hasVisibleArea( getVisibleArea( tree ) )
+      .hasHorizontalAdapterSelection( 0 )
+      .hasBorderWidth( tree.getBorderWidth() )
+      .isNotScrollableReplacement();
   }
 
   @Test
@@ -77,7 +86,11 @@ public class LayoutContextTest {
       .verticalBarIsInvisible()
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
-      .hasVisibleArea( getVisibleArea() );
+      .hasOffset( new OffsetComputer( tree ).compute() )
+      .hasVisibleArea( getVisibleArea( tree ) )
+      .hasHorizontalAdapterSelection( 0 )
+      .hasBorderWidth( tree.getBorderWidth() )
+      .isNotScrollableReplacement();
   }
 
   @Test
@@ -126,12 +139,11 @@ public class LayoutContextTest {
   @Test
   public void preferredSizeIsBuffered() {
     Point expected = layoutContext.getPreferredSize();
+
     expandRootLevelItems( tree );
     expandTopBranch( tree );
 
-    Point actual = layoutContext.getPreferredSize();
-
-    assertThat( actual ).isEqualTo( expected );
+    assertThat( layoutContext ).hasPreferredSize( expected );
   }
 
   @Test
@@ -141,9 +153,8 @@ public class LayoutContextTest {
     expandTopBranch( tree );
 
     layoutContext.updatePreferredSize();
-    Point actual = layoutContext.getPreferredSize();
 
-    assertThat( actual ).isNotEqualTo( initialSize );
+    assertThat( layoutContext ).hasNotPreferredSize( initialSize );
   }
 
   @Test
@@ -152,9 +163,9 @@ public class LayoutContextTest {
     expandTopBranch( tree );
 
     layoutContext.adjustPreferredWidthIfHorizontalBarIsVisible();
-    LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
+    LayoutContext<Tree> actual = layoutContext.newContext( tree.getItemHeight() );
 
-    assertThat( context )
+    assertThat( actual )
       .verticalBarIsInvisible()
       .hasVerticalBarOffset( expectedVerticalBarOffset() )
       .horizontalBarIsInvisible();
@@ -178,12 +189,10 @@ public class LayoutContextTest {
   }
 
   @Test
-  public void getOriginOfScrollabeOrdinates() {
-    LayoutContext<Tree> context = layoutContext.newContext( tree.getItemHeight() );
+  public void getOriginOfScrollableOrdinates() {
+    LayoutContext<Tree> actual = layoutContext.newContext( tree.getItemHeight() );
 
-    Point actual = context.getOriginOfScrollabeOrdinates();
-
-    assertThat( actual ).isEqualTo( expectedOriginOfScrollableOrdinates() );
+    assertThat( actual ).hasOriginOfScrollableOrdinates( expectedOriginOfScrollableOrdinates( tree ) );
   }
 
   @Test
@@ -198,45 +207,33 @@ public class LayoutContextTest {
   }
 
   @Test
-  public void getOffset() {
-    int actual = layoutContext.getOffset();
-
-    assertThat( actual ).isSameAs( new OffsetComputer( tree ).compute() );
-  }
-
-  @Test
-  public void isScrollableReplacedByAdapter() {
-    boolean actual = layoutContext.isScrollableReplacedByAdapter();
-
-    assertThat( actual ).isFalse();
-  }
-
-  @Test
   public void isScrollableAdaptedWithReplacementFake() {
     Composite composite = new Composite( tree.getParent(), SWT.NONE );
-    LayoutContext<Tree> context = new LayoutContext<Tree>( composite, tree );
 
-    boolean actual = context.isScrollableReplacedByAdapter();
+    LayoutContext<Tree> actual = new LayoutContext<Tree>( composite, tree );
 
-    assertThat( actual ).isTrue();
-  }
-
-  @Test
-  public void getHorizontalAdapterSelection() {
-    int actual = layoutContext.getHorizontalAdapterSelection();
-
-    assertThat( actual ).isEqualTo( 0 );
+    assertThat( actual ).isScrollableReplacement();
   }
 
   @Test
   public void getHorizontalAdapterWithReplacementFake() {
     Composite composite = new Composite( tree.getParent(), SWT.H_SCROLL | SWT.V_SCROLL );
     composite.getHorizontalBar().setSelection( SELECTION );
-    LayoutContext<Tree> context = new LayoutContext<Tree>( composite, tree );
 
-    int actual = context.getHorizontalAdapterSelection();
+    LayoutContext<Tree> actual = new LayoutContext<Tree>( composite, tree );
 
-    assertThat( actual ).isEqualTo( SELECTION );
+    assertThat( actual ).hasHorizontalAdapterSelection( SELECTION );
+  }
+
+  @Test
+  public void createContextOnScrollableWithBorder() {
+    Tree scrollable = new Tree( shell, SWT.BORDER );
+    LayoutContext<Tree> actual = new LayoutContext<Tree>( shell, scrollable );
+
+    assertThat( actual )
+      .hasOriginOfScrollableOrdinates( expectedOriginOfScrollableOrdinates( scrollable ) )
+      .hasBorderWidth( scrollable.getBorderWidth() )
+      .hasVisibleArea( getVisibleArea( scrollable ) );
   }
 
   private int computeThresholdHeight() {
@@ -248,12 +245,15 @@ public class LayoutContextTest {
     return new PreferredSizeComputer( tree, shell ).getPreferredSize();
   }
 
-  private Point expectedOriginOfScrollableOrdinates() {
-    return new Point( getVisibleArea().x, getVisibleArea().y );
+  private Point expectedOriginOfScrollableOrdinates( Scrollable scrollable ) {
+    int borderWidth = scrollable.getBorderWidth();
+    return new Point( getVisibleArea( scrollable ).x - borderWidth, getVisibleArea( scrollable ).y - borderWidth );
   }
 
-  private Rectangle getVisibleArea() {
-    return shell.getClientArea();
+  private Rectangle getVisibleArea( Scrollable scrollable ) {
+    Rectangle area = shell.getClientArea();
+    int borderAdjustment = scrollable.getBorderWidth() * 2;
+    return new Rectangle( area.x, area.y, area.width + borderAdjustment, area.height + borderAdjustment );
   }
 
   private int expectedVerticalBarOffset() {
