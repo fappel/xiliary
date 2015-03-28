@@ -19,13 +19,16 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class ScrollableAdapterFactoryTest {
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   static class UnsupportedTreeAdapter extends TreeAdapter {};
 
@@ -50,6 +53,16 @@ public class ScrollableAdapterFactoryTest {
   }
 
   @Test
+  public void createForTreeWithBorder() {
+    Tree tree = new Tree( shell, SWT.BORDER );
+
+    TreeAdapter actual = factory.create( tree, TreeAdapter.class );
+
+    assertThat( actual.getStyle() & SWT.BORDER ).isEqualTo( SWT.BORDER );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void createKeepsDrawingOrder() {
     createChild();
     Tree tree = createTree( shell, 1, 1 );
@@ -57,15 +70,6 @@ public class ScrollableAdapterFactoryTest {
 
     TreeAdapter actual = factory.create( tree, TreeAdapter.class );
     assertThat( actual  ).isSameAs( shell.getChildren()[ 1 ] );
-  }
-
-  @Test
-  public void createForTreeWithBorder() {
-    Tree tree = new Tree( shell, SWT.BORDER );
-
-    TreeAdapter actual = factory.create( tree, TreeAdapter.class );
-
-    assertThat( actual.getStyle() & SWT.BORDER ).isEqualTo( SWT.BORDER );
   }
 
   @Test

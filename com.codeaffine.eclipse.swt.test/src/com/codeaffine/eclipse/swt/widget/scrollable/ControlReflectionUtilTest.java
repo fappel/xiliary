@@ -1,11 +1,16 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.testhelper.TestResources.PROTECTED_CLASS_NAME;
+import static com.codeaffine.eclipse.swt.widget.scrollable.ControlReflectionUtil.$;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static java.lang.Integer.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+
+import java.lang.reflect.Field;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -80,7 +85,7 @@ public class ControlReflectionUtilTest {
     reflectionUtil.setField( receiver, "display", displayHelper.getDisplay() );
     reflectionUtil.setField( receiver, "parent", displayHelper.createShell() );
 
-    reflectionUtil.invoke( receiver, "createWidget" );
+    reflectionUtil.invoke( receiver, "createWidget", $( valueOf( 0 ), int.class ) );
 
     assertThat( receiver.isDisposed() ).isFalse();
   }
@@ -148,12 +153,12 @@ public class ControlReflectionUtilTest {
   }
 
   @Test
-  public void setFieldOfReceiver() {
-    Tree receiver = TreeHelper.createTree( displayHelper.createShell(), 1, 1 );
-    boolean expected = !receiver.getLinesVisible();
+  public void setFieldOfReceiver() throws Exception {
+    Tree receiver = createTree( displayHelper.createShell(), 1, 1 );
+    int expected = 10;
 
-    reflectionUtil.setField( receiver, "linesVisible", expected );
-    boolean actual = receiver.getLinesVisible();
+    reflectionUtil.setField( receiver, "columnCount", expected );
+    Object actual = readAndreset( receiver, 0 );
 
     assertThat( actual ).isEqualTo( expected );
   }
@@ -187,6 +192,14 @@ public class ControlReflectionUtilTest {
       .hasMessageContaining( DISPLAY )
       .hasMessageContaining( Object.class.getName() )
       .isInstanceOf( IllegalArgumentException.class );
+  }
+
+  private Object readAndreset( Tree receiver, int resetValue ) throws Exception {
+    Field field = Tree.class.getDeclaredField( "columnCount" );
+    field.setAccessible( true );
+    Object result = field.get( receiver );
+    reflectionUtil.setField( receiver, "columnCount", resetValue );
+    return result;
   }
 
   private static Tree stubTreeWithProblemOnRedraw( Throwable problem ) {

@@ -1,5 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.widget.scrollable.ControlReflectionUtil.$;
+import static java.lang.Integer.valueOf;
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
 
@@ -28,12 +30,12 @@ public class ScrollableAdapterFactory {
     reflectionUtil = new ControlReflectionUtil();
   }
 
-  public <S extends Scrollable, A extends Scrollable & Adapter<S>> A create( S scrollable, Class<A> type ) {
+  public <S extends Scrollable, A extends Scrollable & Adapter<S>> A create( final S scrollable, Class<A> type ) {
     ensureThatTypeIsSupported( type );
 
     Composite parent = scrollable.getParent();
     int ordinalNumber = captureDrawingOrderOrdinalNumber( scrollable );
-    A result = createAdapter( scrollable, type );
+    final A result = createAdapter( scrollable, type );
     scrollable.setData( ADAPTED, Boolean.TRUE );
     applyDrawingOrderOrdinalNumber( result, ordinalNumber );
     result.setLayoutData( scrollable.getLayoutData() );
@@ -80,7 +82,7 @@ public class ScrollableAdapterFactory {
     reflectionUtil.setField( result, "display", Display.getCurrent() );
     reflectionUtil.setField( result, "parent", scrollable.getParent() );
     reflectionUtil.setField( result, "style", Integer.valueOf( style ) );
-    reflectionUtil.invoke( result, "createWidget" );
+    reflectionUtil.invoke( result, "createWidget", $( valueOf( 0 ), int.class ) );
     return result;
   }
 

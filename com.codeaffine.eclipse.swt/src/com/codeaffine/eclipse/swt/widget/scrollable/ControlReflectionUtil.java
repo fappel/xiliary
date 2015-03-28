@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.ProtectionDomain;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Widget;
@@ -17,6 +19,17 @@ class ControlReflectionUtil {
 
   interface Operator<T> {
     T execute() throws Exception;
+  }
+
+  static class Parameter<T> {
+
+    private final Class<T> type;
+    private final T instance;
+
+    Parameter( T instance, Class<T> type ) {
+      this.instance = instance;
+      this.type = type;
+    }
   }
 
   ControlReflectionUtil() {
@@ -41,11 +54,11 @@ class ControlReflectionUtil {
     } );
   }
 
-  void invoke( final Widget receiver, final String methodName ) {
+  void invoke( final Widget receiver, final String methodName, final Parameter<?> ... parameters ) {
     execute( new Operator<Object>() {
       @Override
       public Object execute() throws Exception {
-        return invokeMethod( receiver, methodName );
+        return invokeMethod( receiver, methodName, parameters );
       }
     } );
   }
@@ -57,6 +70,10 @@ class ControlReflectionUtil {
         return setFieldValue( receiver, fieldName, value );
       }
     } );
+  }
+
+  static <T> Parameter<T> $( T instance, Class<T> type ) {
+    return new Parameter<T>( instance, type );
   }
 
   @SuppressWarnings("unchecked")
@@ -72,18 +89,41 @@ class ControlReflectionUtil {
     return unsafe.newInstance( type );
   }
 
-  private static Object invokeMethod( Widget receiver, String methodName ) throws Exception {
-    Method method = getMethod( receiver, methodName );
+  private static Object invokeMethod( Widget receiver, String methodName, Parameter<?> ... parameters )
+    throws Exception
+  {
+    Method method = getMethod( receiver, methodName, parameters );
     method.setAccessible( true );
-    method.invoke( receiver );
-    return null;
+    return invokeMethodInternal( receiver, method, parameters );
   }
 
-  private static Method getMethod( Widget receiver, String methodName ) throws NoSuchMethodException {
+  private static Object invokeMethodInternal( Widget receiver, Method method, Parameter<?>... parameters )
+    throws Exception
+  {
     try {
-      return receiver.getClass().getDeclaredMethod( methodName );
+      return method.invoke( receiver );
+    } catch( Exception exception ) {
+      return method.invoke( receiver, calculateParameterValues( parameters ) );
+    }
+  }
+
+  private static Method getMethod( Widget receiver, String methodName, Parameter<?> ... parameters )
+    throws NoSuchMethodException
+  {
+    try {
+      return getMethodInternal( receiver, methodName );
     } catch( NoSuchMethodException noReceiverMethod ) {
-      return Control.class.getDeclaredMethod( methodName );
+      return getMethodInternal( receiver, methodName, calculateParameterTypes( parameters ) );
+    }
+  }
+
+  private static Method getMethodInternal( Widget receiver, String methodName, Class<?> ... parameterTypes )
+    throws NoSuchMethodException
+  {
+    try {
+      return Control.class.getDeclaredMethod( methodName, parameterTypes );
+    } catch( NoSuchMethodException noReceiverMethod ) {
+      return receiver.getClass().getDeclaredMethod( methodName, parameterTypes );
     }
   }
 
@@ -119,5 +159,21 @@ class ControlReflectionUtil {
     } catch( Exception e ) {
       throw new RuntimeException( e );
     }
+  }
+
+  private static Class<?>[] calculateParameterTypes( Parameter<?>[] parameters ) {
+    List<Class<?>> result = new ArrayList<Class<?>>();
+    for( Parameter<?> parameter : parameters ) {
+      result.add( parameter.type );
+    }
+    return result.toArray( new Class[ result.size() ] );
+  }
+
+  private static Object[] calculateParameterValues( Parameter<?>[] parameters ) {
+    List<Object> result = new ArrayList<Object>();
+    for( Parameter<?> parameter : parameters ) {
+      result.add( parameter.instance );
+    }
+    return result.toArray( new Object[ result.size() ] );
   }
 }
