@@ -10,11 +10,13 @@ import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class TreeVerticalScrollBarUpdater implements VerticalScrollBarUpdater {
 
+  private final VerticalScrollbarConfigurationBuffer scrollbarConfiguration;
   private final TreeItemCollector treeItemCollector;
   private final FlatScrollBar scrollBar;
   private final Tree tree;
 
   TreeVerticalScrollBarUpdater( Tree tree, FlatScrollBar scrollbar ) {
+    this.scrollbarConfiguration = new VerticalScrollbarConfigurationBuffer( tree );
     this.treeItemCollector = new TreeItemCollector( tree );
     this.scrollBar = scrollbar;
     this.tree = tree;
@@ -22,6 +24,13 @@ class TreeVerticalScrollBarUpdater implements VerticalScrollBarUpdater {
 
   @Override
   public void update() {
+    if( scrollbarConfiguration.hasChanged() ) {
+      updateScrollbar();
+    }
+    scrollbarConfiguration.update();
+  }
+
+  private void updateScrollbar() {
     List<TreeItem> visibleItems = treeItemCollector.collectVisibleItems();
     scrollBar.setIncrement( SELECTION_RASTER_SMOOTH_FACTOR );
     scrollBar.setMaximum( calculateMaximum( visibleItems ) );
