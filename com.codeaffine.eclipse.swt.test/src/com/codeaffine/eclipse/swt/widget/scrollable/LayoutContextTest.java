@@ -26,6 +26,8 @@ import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class LayoutContextTest {
 
+  private static final int SELECTION = 5;
+
   @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -217,6 +219,24 @@ public class LayoutContextTest {
     boolean actual = context.isScrollableReplacedByAdapter();
 
     assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void getHorizontalAdapterSelection() {
+    int actual = layoutContext.getHorizontalAdapterSelection();
+
+    assertThat( actual ).isEqualTo( 0 );
+  }
+
+  @Test
+  public void getHorizontalAdapterWithReplacementFake() {
+    Composite composite = new Composite( tree.getParent(), SWT.H_SCROLL | SWT.V_SCROLL );
+    composite.getHorizontalBar().setSelection( SELECTION );
+    LayoutContext<Tree> context = new LayoutContext<Tree>( composite, tree );
+
+    int actual = context.getHorizontalAdapterSelection();
+
+    assertThat( actual ).isEqualTo( SELECTION );
   }
 
   private int computeThresholdHeight() {

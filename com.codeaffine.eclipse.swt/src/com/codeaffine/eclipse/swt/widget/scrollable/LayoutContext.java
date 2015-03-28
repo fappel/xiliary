@@ -5,6 +5,7 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
 
 
@@ -94,6 +95,14 @@ class LayoutContext<T extends Scrollable> {
 
   Rectangle getVisibleArea() {
     return visibleArea;
+  }
+
+  int getHorizontalAdapterSelection() {
+    ScrollBar horizontalBar = getAdapter().getHorizontalBar();
+    if( horizontalBar != null ) {
+      return horizontalBar.getSelection();
+    }
+    return 0;
   }
 
   int getVerticalBarOffset() {

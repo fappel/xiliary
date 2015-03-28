@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Scrollable;
 
 class TreeLayoutContextHelper {
 
@@ -33,10 +34,11 @@ class TreeLayoutContextHelper {
     }
   }
 
-  static LayoutContext<?> stubContext(
+  static LayoutContext<Scrollable> stubContext(
     Vertical verticalBarVisible, Horizontal horizontalBarVisible, Point preferredSize, Rectangle visibleArea )
   {
-    LayoutContext<?> result = mock( LayoutContext.class );
+    @SuppressWarnings("unchecked")
+    LayoutContext<Scrollable> result = mock( LayoutContext.class );
     when( result.isVerticalBarVisible() ).thenReturn( verticalBarVisible.value );
     when( result.isHorizontalBarVisible() ).thenReturn( horizontalBarVisible.value );
     when( result.getPreferredSize() ).thenReturn( preferredSize );

@@ -8,30 +8,26 @@ import org.eclipse.swt.widgets.Scrollable;
 
 class ScrollableLayouter {
 
+  private final HorizontalSelectionComputer horizontalSelectionComputer;
   private final Scrollable scrollable;
 
   ScrollableLayouter( LayoutContext<?> context ) {
     this.scrollable = context.getScrollable();
+    this.horizontalSelectionComputer = new HorizontalSelectionComputer();
   }
 
   void layout( LayoutContext<?> context ) {
-    scrollable.setLocation( computeLocation( context ) );
     scrollable.setSize( computeWidth( context ), computeHeight( context ) );
     context.adjustPreferredWidthIfHorizontalBarIsVisible();
     scrollable.setSize( computeWidth( context ), computeHeight( context ) );
+    scrollable.setLocation( computeLocation( context ) );
   }
 
-  private static Point computeLocation( LayoutContext<?> context ) {
-    int selection = computeSelection( context );
-    Point origin = context.getOriginOfScrollabeOrdinates();
-    return new Point( origin.x - selection - context.getOffset(), origin.y - context.getOffset() );
-  }
-
-  private static int computeSelection( LayoutContext<?> context ) {
-    if( context.isScrollableReplacedByAdapter() ) {
-      return context.getAdapter().getHorizontalBar().getSelection();
-    }
-    return 0;
+  private Point computeLocation( LayoutContext<?> context ) {
+    int selection = horizontalSelectionComputer.compute( context );
+    int x = context.getOriginOfScrollabeOrdinates().x - selection - context.getOffset();
+    int y = context.getOriginOfScrollabeOrdinates().y - context.getOffset();
+    return new Point( x, y );
   }
 
   private static int computeWidth( LayoutContext<?> context ) {
