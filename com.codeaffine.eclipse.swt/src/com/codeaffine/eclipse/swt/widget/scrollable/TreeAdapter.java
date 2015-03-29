@@ -1,6 +1,5 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-import static com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType.WIN32;
 import static com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.createLayoutFactory;
 
 import org.eclipse.swt.events.DisposeEvent;
@@ -30,16 +29,11 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
 
   @Override
   @SuppressWarnings("unchecked")
-  public void adapt( Tree tree ) {
-    Platform platform = new Platform();
-    this.layoutFactory = createLayoutFactory( platform, createLayoutMapping() );
+  public void adapt( Tree tree, PlatformSupport platformSupport ) {
+    this.layoutFactory = createLayoutFactory( new Platform(), createLayoutMapping( platformSupport ) );
     this.tree = tree;
-    if( platform.matchesOneOf( WIN32 ) ) {
-      tree.setParent( this );
-      context = new LayoutContext<Tree>( this, tree );
-      reconciliation = context.getReconciliation();
-      super.setLayout( layoutFactory.create( context ) );
-      tree.addDisposeListener( this );
+    if( platformSupport.isGranted() ) {
+      initialize();
     }
   }
 
@@ -298,7 +292,15 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
   ///////////////////////////////
   // private helper methods
 
-  private static LayoutMapping<Tree> createLayoutMapping() {
-    return new LayoutMapping<Tree>( new TreeLayoutFactory(), WIN32 );
+  private void initialize() {
+    tree.setParent( this );
+    context = new LayoutContext<Tree>( this, tree );
+    reconciliation = context.getReconciliation();
+    super.setLayout( layoutFactory.create( context ) );
+    tree.addDisposeListener( this );
+  }
+
+  private static LayoutMapping<Tree> createLayoutMapping( PlatformSupport platformSupport ) {
+    return new LayoutMapping<Tree>( new TreeLayoutFactory(), platformSupport.getSupportedTypes() );
   }
 }

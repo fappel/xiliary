@@ -22,33 +22,40 @@ public class ScrollableAdapterFactory {
   static final Collection<Class<?>> SUPPORTED_TYPES = supportedTypes();
 
   private final ControlReflectionUtil reflectionUtil;
+  private final PlatformSupport platformSupport;
 
   public interface Adapter<S extends Scrollable> {
-    void adapt( S scrollable );
+    void adapt( S scrollable, PlatformSupport platformSupport );
   }
 
   public ScrollableAdapterFactory() {
     reflectionUtil = new ControlReflectionUtil();
+    platformSupport = new PlatformSupport( WIN32 );
   }
 
-  public <S extends Scrollable, A extends Scrollable & Adapter<S>> A create( final S scrollable, Class<A> type ) {
+  public <S extends Scrollable, A extends Scrollable & Adapter<S>> A create( S scrollable, Class<A> type ) {
     ensureThatTypeIsSupported( type );
 
     Composite parent = scrollable.getParent();
     int ordinalNumber = captureDrawingOrderOrdinalNumber( scrollable );
-    final A result = createAdapter( scrollable, type );
-    if( new Platform().matchesOneOf( WIN32 ) ) {
-      scrollable.setData( ADAPTED, Boolean.TRUE );
+    A result = createAdapter( scrollable, type );
+    if( platformSupport.isGranted() ) {
+      markAdapted( scrollable );
       applyDrawingOrderOrdinalNumber( result, ordinalNumber );
       result.setLayoutData( scrollable.getLayoutData() );
     }
-    result.adapt( scrollable );
-    if( new Platform().matchesOneOf( WIN32 ) ) {
+    result.adapt( scrollable, platformSupport );
+    if( platformSupport.isGranted() ) {
       parent.layout();
       result.setBackground( scrollable.getBackground() );
       reflectionUtil.setField( scrollable, "parent", parent );
     }
     return result;
+  }
+
+
+  public <S extends Scrollable> void markAdapted( S scrollable ) {
+    scrollable.setData( ADAPTED, Boolean.TRUE );
   }
 
   public boolean isAdapted( Scrollable scrollable ) {
@@ -84,7 +91,7 @@ public class ScrollableAdapterFactory {
   private <S extends Scrollable, A extends Scrollable & Adapter<S>> A createAdapter( S scrollable, Class<A> type ) {
     int style = SWT.BORDER & scrollable.getStyle();
     A result = reflectionUtil.newInstance( type );
-    if( new Platform().matchesOneOf( WIN32 ) ) {
+    if( platformSupport.isGranted() ) {
       reflectionUtil.setField( result, "display", Display.getCurrent() );
       reflectionUtil.setField( result, "parent", scrollable.getParent() );
       reflectionUtil.setField( result, "style", Integer.valueOf( style ) );
