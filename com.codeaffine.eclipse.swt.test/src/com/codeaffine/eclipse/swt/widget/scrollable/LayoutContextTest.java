@@ -52,9 +52,9 @@ public class LayoutContextTest {
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
       .hasOffset( new OffsetComputer( tree ).compute() )
-      .hasVisibleArea( expectedVisibleArea() )
+      .hasVisibleArea( expectedVisibleArea( tree ) )
       .hasHorizontalAdapterSelection( 0 )
-      .hasBorderWidth( expectedBorderWidth() )
+      .hasBorderWidth( expectedBorderWidth( tree ) )
       .isNotScrollableReplacement();
   }
 
@@ -69,9 +69,9 @@ public class LayoutContextTest {
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
       .hasOffset( new OffsetComputer( tree ).compute() )
-      .hasVisibleArea( expectedVisibleArea() )
+      .hasVisibleArea( expectedVisibleArea( tree ) )
       .hasHorizontalAdapterSelection( 0 )
-      .hasBorderWidth( expectedBorderWidth() )
+      .hasBorderWidth( expectedBorderWidth( tree ) )
       .isNotScrollableReplacement();
   }
 
@@ -86,9 +86,9 @@ public class LayoutContextTest {
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
       .hasOffset( new OffsetComputer( tree ).compute() )
-      .hasVisibleArea( expectedVisibleArea() )
+      .hasVisibleArea( expectedVisibleArea( tree ) )
       .hasHorizontalAdapterSelection( 0 )
-      .hasBorderWidth( expectedBorderWidth() )
+      .hasBorderWidth( expectedBorderWidth( tree ) )
       .isNotScrollableReplacement();
   }
 
@@ -191,7 +191,7 @@ public class LayoutContextTest {
   public void getOriginOfScrollableOrdinates() {
     LayoutContext<Tree> actual = layoutContext.newContext( tree.getItemHeight() );
 
-    assertThat( actual ).hasOriginOfScrollableOrdinates( expectedOriginOfScrollableOrdinates() );
+    assertThat( actual ).hasOriginOfScrollableOrdinates( expectedOriginOfScrollableOrdinates( tree ) );
   }
 
   @Test
@@ -225,15 +225,14 @@ public class LayoutContextTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
   public void createContextOnScrollableWithBorder() {
     Tree scrollable = new Tree( shell, SWT.BORDER );
     LayoutContext<Tree> actual = new LayoutContext<Tree>( shell, scrollable );
 
     assertThat( actual )
-      .hasOriginOfScrollableOrdinates( expectedOriginOfScrollableOrdinates() )
+      .hasOriginOfScrollableOrdinates( expectedOriginOfScrollableOrdinates( scrollable ) )
       .hasBorderWidth( scrollable.getBorderWidth() )
-      .hasVisibleArea( expectedVisibleArea() );
+      .hasVisibleArea( expectedVisibleArea( scrollable ) );
   }
 
   private int computeThresholdHeight() {
@@ -245,14 +244,16 @@ public class LayoutContextTest {
     return new PreferredSizeComputer( tree, shell ).getPreferredSize();
   }
 
-  private Point expectedOriginOfScrollableOrdinates() {
-    int borderWidth = expectedBorderWidth();
-    return new Point( expectedVisibleArea().x - borderWidth, expectedVisibleArea().y - borderWidth );
+  private Point expectedOriginOfScrollableOrdinates( Tree scrollable ) {
+    int borderWidth = expectedBorderWidth( scrollable );
+    int x = expectedVisibleArea( scrollable ).x - borderWidth;
+    int y = expectedVisibleArea( scrollable ).y - borderWidth;
+    return new Point( x, y );
   }
 
-  private Rectangle expectedVisibleArea() {
+  private Rectangle expectedVisibleArea( Tree scrollable ) {
     Rectangle area = shell.getClientArea();
-    int borderAdjustment = expectedBorderWidth() * 2;
+    int borderAdjustment = expectedBorderWidth( scrollable ) * 2;
     return new Rectangle( area.x, area.y, area.width + borderAdjustment, area.height + borderAdjustment );
   }
 
@@ -264,9 +265,9 @@ public class LayoutContextTest {
     return result;
   }
 
-  private int expectedBorderWidth() {
-    if( ( tree.getStyle() & SWT.BORDER ) > 0 ) {
-      return tree.getBorderWidth();
+  private static int expectedBorderWidth( Tree scrollable ) {
+    if( ( scrollable.getStyle() & SWT.BORDER ) > 0 ) {
+      return scrollable.getBorderWidth();
     }
     return 0;
   }
