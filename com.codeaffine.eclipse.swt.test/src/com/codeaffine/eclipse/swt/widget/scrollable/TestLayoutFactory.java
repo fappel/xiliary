@@ -63,4 +63,13 @@ class TestLayoutFactory implements LayoutFactory<Scrollable> {
   public ScrollBar getHorizontalBarAdapter() {
     return null;
   }
+
+  @Override
+  public void setBackgroundColor( Color color ) {
+  }
+
+  @Override
+  public Color getBackgroundColor() {
+    return null;
+  }
 }

@@ -3,7 +3,10 @@
       id="com.codeaffine.eclipse.ui.swt.theme.feature"
       label="Code Affine Theme"
       version="0.1.1.qualifier"
-      provider-name="CODE AFFINE">
+      provider-name="CODE AFFINE"
+      os="win32"
+      ws="win32"
+      arch="x86,x86_64">
 
    <description url="http://fappel.github.io/xiliary/">
       %description
@@ -21,9 +24,6 @@
       <update url="http://fappel.github.io/xiliary/"/>
    </url>
 
-   <requires>
-   </requires>
-
    <plugin
          id="com.codeaffine.eclipse.ui.swt.theme"
          download-size="0"
@@ -33,6 +33,20 @@
 
    <plugin
          id="com.codeaffine.eclipse.ui.swt.theme.source"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.codeaffine.eclipse.swt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.e4.ui.css.swt.source"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -69,12 +69,23 @@ class ScrollableAdapter<T extends Scrollable> extends Composite implements Scrol
     return layoutFactory.getThumbColor();
   }
 
+  @Override
+  public void setBackgroundColor( Color color ) {
+    layoutFactory.setBackgroundColor( color );
+  }
+
+  @Override
+  public Color getBackgroundColor() {
+    return layoutFactory.getBackgroundColor();
+  }
+
   T getScrollable() {
     return scrollable;
   }
 
   private T createScrollable( ScrollableFactory<T> factory ) {
     T result = factory.create( this );
+    new ScrollableAdapterFactory().markAdapted( result );
     checkParent( factory, result );
     return result;
   }

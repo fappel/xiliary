@@ -15,6 +15,8 @@ interface LayoutFactory<T extends Scrollable> {
   Color getPageIncrementColor();
   void setThumbColor( Color color );
   Color getThumbColor();
+  void setBackgroundColor( Color color );
+  Color getBackgroundColor();
   ScrollBar getVerticalBarAdapter();
   ScrollBar getHorizontalBarAdapter();
 }

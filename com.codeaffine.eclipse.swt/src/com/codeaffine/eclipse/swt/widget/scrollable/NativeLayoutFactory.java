@@ -64,4 +64,13 @@ class NativeLayoutFactory<T extends Scrollable> implements LayoutFactory<T> {
   public ScrollBar getHorizontalBarAdapter() {
     return null;
   }
+
+  @Override
+  public void setBackgroundColor( Color color ) {
+  }
+
+  @Override
+  public Color getBackgroundColor() {
+    return null;
+  }
 }

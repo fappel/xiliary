@@ -112,6 +112,18 @@ public class ScrollableLayoutFactoryTest {
   }
 
   @Test
+  public void setBackgroundColor() {
+    Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLACK );
+
+    factorySpy.setBackgroundColor( expected );
+
+    assertThat( factorySpy.getHorizontal().getBackground() ).isEqualTo( expected );
+    assertThat( factorySpy.getVertical().getBackground() ).isEqualTo( expected );
+    assertThat( factorySpy.getHorizontal().getParent().getBackground() ).isEqualTo( expected );
+    assertThat( factorySpy.getBackgroundColor() ).isEqualTo( expected );
+  }
+
+  @Test
   public void getHorizontalBarAdapter() {
     Point expected = new Point( 100, 200 );
     factorySpy.getHorizontal().setSize( expected );

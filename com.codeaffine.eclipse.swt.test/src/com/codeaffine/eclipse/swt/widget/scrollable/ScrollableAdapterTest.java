@@ -47,6 +47,7 @@ public class ScrollableAdapterTest {
     Scrollable actual = adapter.getScrollable();
 
     assertThat( actual ).isSameAs( testScrollableFactory.getScrollable() );
+    assertThat( new ScrollableAdapterFactory().isAdapted( actual ) ).isTrue();
   }
 
   @Test

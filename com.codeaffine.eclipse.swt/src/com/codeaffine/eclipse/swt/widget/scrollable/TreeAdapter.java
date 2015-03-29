@@ -137,6 +137,16 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
     return layoutFactory.getThumbColor();
   }
 
+  @Override
+  public void setBackgroundColor( Color color ) {
+    layoutFactory.setBackgroundColor( color );
+  }
+
+  @Override
+  public Color getBackgroundColor() {
+    return layoutFactory.getBackgroundColor();
+  }
+
   //////////////////////////////////////////////////////
   // delegating adapter methods
 

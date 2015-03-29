@@ -114,6 +114,18 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
     return horizontalBar.getThumbColor();
   }
 
+  @Override
+  public void setBackgroundColor( Color backgroundColor ) {
+    horizontalBar.setBackground( backgroundColor );
+    verticalBar.setBackground( backgroundColor );
+    verticalBar.getParent().setBackground( backgroundColor );
+  }
+
+  @Override
+  public Color getBackgroundColor() {
+    return horizontalBar.getBackground();
+  }
+
   private FlatScrollBar createFlatScrollBar( LayoutContext<T> context, int direction  ) {
     FlatScrollBar result = new FlatScrollBar( context.getAdapter(), direction );
     result.setBackground( context.getScrollable().getBackground() );

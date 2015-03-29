@@ -4,9 +4,18 @@
    <extension
          point="org.eclipse.e4.ui.css.swt.theme">
       <theme
-            basestylesheeturi="css/classic.css"
-            id="com.codeaffine.eclipse.ui.swt.theme.classic"
-            label="Code Affine Classic">
+            basestylesheeturi="css/win7.css"
+            id="com.codeaffine.eclipse.ui.swt.theme.win7"
+            label="Code Affine Windows 7"
+            os="win32"
+            os_version="6.1">
+      </theme>
+      <theme
+            basestylesheeturi="css/dark.css"
+            id="com.codeaffine.eclipse.ui.swt.theme.dark"
+            label="Code Affine Dark"
+            os="win32"
+            os_version="6.1">
       </theme>
    </extension>
    <extension

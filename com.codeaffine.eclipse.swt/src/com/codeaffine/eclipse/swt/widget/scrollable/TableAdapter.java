@@ -137,6 +137,16 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
     return layoutFactory.getThumbColor();
   }
 
+  @Override
+  public void setBackgroundColor( Color color ) {
+    layoutFactory.setBackgroundColor( color );
+  }
+
+  @Override
+  public Color getBackgroundColor() {
+    return layoutFactory.getBackgroundColor();
+  }
+
   //////////////////////////////////////////////////////
   // delegating adapter methods
 
