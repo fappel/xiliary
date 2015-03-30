@@ -13,11 +13,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class LayoutReconciliationTest {
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private LayoutReconciliation reconciliation;
   private TreeAdapter adapter;
@@ -34,6 +37,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void run() {
     Rectangle expected = new Rectangle( 10, 20, 30, 40 );
     adapter.setBounds( expected );
@@ -45,6 +49,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void runWithStackLayout() {
     Rectangle expected = new Rectangle( 10, 20, 30, 40 );
     adapter.setBounds( expected );
