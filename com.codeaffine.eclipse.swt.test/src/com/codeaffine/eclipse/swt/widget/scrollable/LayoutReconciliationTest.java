@@ -24,13 +24,13 @@ public class LayoutReconciliationTest {
   private Tree scrollable;
   private Shell parent;
 
-
   @Before
   public void setUp() {
     parent = createShell( displayHelper );
     scrollable = createTree( parent, 1, 1 );
     adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
     reconciliation = new LayoutReconciliation( adapter, scrollable );
+    parent.open();
   }
 
   @Test

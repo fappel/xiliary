@@ -15,7 +15,7 @@ class LayoutReconciliation {
   }
 
   void run() {
-    if( adapter.getParent().getLayout() instanceof StackLayout ) {
+    if( adapter.getParent() != null && adapter.getParent().getLayout() instanceof StackLayout ) {
       reconcileStackLayout();
     }
   }
