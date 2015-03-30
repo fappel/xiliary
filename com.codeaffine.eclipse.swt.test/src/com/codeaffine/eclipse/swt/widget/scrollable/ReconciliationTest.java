@@ -19,6 +19,7 @@ public class ReconciliationTest {
   private VisibilityReconciliation visibliltyReconciliation;
   private LayoutDataReconciliation layoutDataReconciliation;
   private BoundsReconciliation boundsReconciliation;
+  private LayoutReconciliation layoutReconciliation;
   private Reconciliation reconciliation;
 
   @Before
@@ -26,7 +27,10 @@ public class ReconciliationTest {
     visibliltyReconciliation = mock( VisibilityReconciliation.class );
     boundsReconciliation = mock( BoundsReconciliation.class );
     layoutDataReconciliation = mock( LayoutDataReconciliation.class );
-    reconciliation = new Reconciliation( visibliltyReconciliation, boundsReconciliation, layoutDataReconciliation );
+    layoutReconciliation = mock( LayoutReconciliation.class );
+    reconciliation = new Reconciliation(
+      visibliltyReconciliation, boundsReconciliation, layoutDataReconciliation, layoutReconciliation
+    );
   }
 
   @Test
@@ -82,7 +86,11 @@ public class ReconciliationTest {
   }
 
   private InOrder order( Runnable runnable ) {
-    return inOrder( runnable, boundsReconciliation, visibliltyReconciliation, layoutDataReconciliation );
+    return inOrder( runnable,
+                    boundsReconciliation,
+                    visibliltyReconciliation,
+                    layoutDataReconciliation,
+                    layoutReconciliation );
   }
 
   private void verifyActionsBeforeRunnableExcecution( InOrder order ) {
@@ -94,6 +102,7 @@ public class ReconciliationTest {
     order.verify( boundsReconciliation ).resume();
     order.verify( boundsReconciliation ).run();
     order.verify( layoutDataReconciliation ).run();
+    order.verify( layoutReconciliation ).run();
   }
 
   private static Runnable stubRunnableWithProblem( RuntimeException expected ) {
