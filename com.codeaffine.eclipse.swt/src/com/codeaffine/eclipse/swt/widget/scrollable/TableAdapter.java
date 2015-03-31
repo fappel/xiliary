@@ -150,6 +150,10 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
   //////////////////////////////////////////////////////
   // delegating adapter methods
 
+  @Override
+  public Object getLayoutData() {
+    return table.getLayoutData();
+  }
 
   @Override
   public Object getData() {

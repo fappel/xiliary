@@ -9,6 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
@@ -161,6 +162,16 @@ public class TreeAdapterTest {
     waitForReconciliation();
 
     assertThat( adapter.getVisible() ).isFalse();
+  }
+
+  @Test
+  public void getLayoutData() {
+    RowData expected = new RowData();
+    tree.setLayoutData( expected );
+
+    Object actual = adapter.getLayoutData();
+
+    assertThat( actual ).isSameAs( expected );
   }
 
   private void scrollHorizontal( final TreeAdapter adapter, final int selection ) {

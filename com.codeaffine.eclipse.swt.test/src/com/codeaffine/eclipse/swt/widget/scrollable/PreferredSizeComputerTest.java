@@ -1,7 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.widget.scrollable.PreferredSizeComputer.WIDTH_BUFFER;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -115,11 +114,11 @@ public class PreferredSizeComputerTest {
   }
 
   private Point expectedSize() {
-    return new Point( computePreferredScrollableSize().x + WIDTH_BUFFER, computePreferredScrollableSize().y );
+    return new Point( computePreferredScrollableSize().x, computePreferredScrollableSize().y );
   }
 
   private Point expectedSizeWithPreferredWidthAdjustment() {
-    return new Point( ( computePreferredScrollableSize().x + WIDTH_BUFFER ) * 2, computePreferredScrollableSize().y );
+    return new Point( ( computePreferredScrollableSize().x ) * 2, computePreferredScrollableSize().y );
   }
 
   private Point computePreferredScrollableSize() {

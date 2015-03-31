@@ -13,7 +13,6 @@ class PreferredSizeComputer {
 
   static final String WIDTH_OFFSET_ON_VISIBLE_HORIZONTAL_BAR = LayoutContext.class.getName() + "#widthAdjustment:";
   static final String PREFERRED_SIZE = LayoutContext.class.getName() + "# preferredSize";
-  static final int WIDTH_BUFFER = 2;
 
   private final Scrollable scrollable;
   private final Composite adapter;
@@ -31,7 +30,7 @@ class PreferredSizeComputer {
   void updatePreferredSize() {
     Point computed = scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
     int parentWidth = adapter.getClientArea().width;
-    int width = max( parentWidth, computed.x + WIDTH_BUFFER );
+    int width = max( parentWidth, computed.x );
     scrollable.setData( PREFERRED_SIZE, new Point( width, computed.y ) );
   }
 

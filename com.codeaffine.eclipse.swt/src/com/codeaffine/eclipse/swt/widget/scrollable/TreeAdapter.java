@@ -151,8 +151,8 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
   // delegating adapter methods
 
   @Override
-  public int getBackgroundMode() {
-    return super.getBackgroundMode();
+  public Object getLayoutData() {
+    return tree.getLayoutData();
   }
 
   @Override

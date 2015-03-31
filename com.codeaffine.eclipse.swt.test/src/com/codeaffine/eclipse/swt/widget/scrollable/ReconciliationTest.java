@@ -17,7 +17,6 @@ import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 public class ReconciliationTest {
 
   private VisibilityReconciliation visibliltyReconciliation;
-  private LayoutDataReconciliation layoutDataReconciliation;
   private BoundsReconciliation boundsReconciliation;
   private LayoutReconciliation layoutReconciliation;
   private Reconciliation reconciliation;
@@ -26,11 +25,8 @@ public class ReconciliationTest {
   public void setUp() {
     visibliltyReconciliation = mock( VisibilityReconciliation.class );
     boundsReconciliation = mock( BoundsReconciliation.class );
-    layoutDataReconciliation = mock( LayoutDataReconciliation.class );
     layoutReconciliation = mock( LayoutReconciliation.class );
-    reconciliation = new Reconciliation(
-      visibliltyReconciliation, boundsReconciliation, layoutDataReconciliation, layoutReconciliation
-    );
+    reconciliation = new Reconciliation( visibliltyReconciliation, boundsReconciliation, layoutReconciliation );
   }
 
   @Test
@@ -89,7 +85,6 @@ public class ReconciliationTest {
     return inOrder( runnable,
                     boundsReconciliation,
                     visibliltyReconciliation,
-                    layoutDataReconciliation,
                     layoutReconciliation );
   }
 
@@ -101,7 +96,6 @@ public class ReconciliationTest {
     order.verify( visibliltyReconciliation ).run();
     order.verify( boundsReconciliation ).resume();
     order.verify( boundsReconciliation ).run();
-    order.verify( layoutDataReconciliation ).run();
     order.verify( layoutReconciliation ).run();
   }
 

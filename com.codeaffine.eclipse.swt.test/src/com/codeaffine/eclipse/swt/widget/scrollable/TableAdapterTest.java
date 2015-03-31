@@ -9,6 +9,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.junit.Before;
@@ -144,6 +145,16 @@ public class TableAdapterTest {
     waitForReconciliation();
 
     assertThat( adapter.getVisible() ).isFalse();
+  }
+
+  @Test
+  public void getLayoutData() {
+    RowData expected = new RowData();
+    table.setLayoutData( expected );
+
+    Object actual = adapter.getLayoutData();
+
+    assertThat( actual ).isSameAs( expected );
   }
 
   private void scrollHorizontal( final TableAdapter adapter, final int selection ) {

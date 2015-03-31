@@ -6,25 +6,21 @@ import org.eclipse.swt.widgets.Scrollable;
 class Reconciliation {
 
   final VisibilityReconciliation visibilityReconciliation;
-  final LayoutDataReconciliation layoutDataReconciliation;
   final BoundsReconciliation boundsReconciliation;
   final LayoutReconciliation layoutReconciliation;
 
   Reconciliation( Composite adapter, Scrollable scrollable ) {
     this( new VisibilityReconciliation( adapter, scrollable ),
           new BoundsReconciliation( adapter, scrollable ),
-          new LayoutDataReconciliation( adapter, scrollable ),
           new LayoutReconciliation( adapter, scrollable ) );
   }
 
   Reconciliation( VisibilityReconciliation visibilityReconciliation,
                   BoundsReconciliation boundsReconciliation,
-                  LayoutDataReconciliation layoutDataReconciliation,
                   LayoutReconciliation layoutReconciliation  )
   {
     this.visibilityReconciliation = visibilityReconciliation;
     this.boundsReconciliation = boundsReconciliation;
-    this.layoutDataReconciliation = layoutDataReconciliation;
     this.layoutReconciliation = layoutReconciliation;
   }
 
@@ -53,7 +49,6 @@ class Reconciliation {
     visibilityReconciliation.run();
     boundsReconciliation.resume();
     boundsReconciliation.run();
-    layoutDataReconciliation.run();
     layoutReconciliation.run();
   }
 }
