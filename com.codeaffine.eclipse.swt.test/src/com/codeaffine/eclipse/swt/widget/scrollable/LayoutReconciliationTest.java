@@ -1,13 +1,8 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,28 +17,19 @@ public class LayoutReconciliationTest {
   @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private LayoutReconciliation reconciliation;
-  private TreeAdapter adapter;
-  private Tree scrollable;
-  private Shell parent;
+  private LayoutReconciliationHelper testHelper;
 
   @Before
   public void setUp() {
-    parent = createShell( displayHelper );
-    scrollable = createTree( parent, 1, 1 );
-    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
-    reconciliation = new LayoutReconciliation( adapter, scrollable );
-    parent.open();
+    testHelper = new LayoutReconciliationHelper( displayHelper );
   }
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void run() {
-    Rectangle expected = new Rectangle( 10, 20, 30, 40 );
-    adapter.setBounds( expected );
+    Rectangle expected = testHelper.setUpWithFillLayout();
 
-    reconciliation.run();
-    Rectangle actual = adapter.getBounds();
+    Rectangle actual = testHelper.runReconciliation();
 
     assertThat( actual ).isEqualTo( expected );
   }
@@ -51,19 +37,50 @@ public class LayoutReconciliationTest {
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void runWithStackLayout() {
-    Rectangle expected = new Rectangle( 10, 20, 30, 40 );
-    adapter.setBounds( expected );
-    parent.setLayout( createStackLayout( scrollable ) );
+    Rectangle initialAdapterBounds = testHelper.setUpWithStackLayout();
 
-    reconciliation.run();
-    Rectangle actual = adapter.getBounds();
+    Rectangle actual = testHelper.runReconciliation();
 
-    assertThat( actual ).isNotEqualTo( expected );
+    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
   }
 
-  private static StackLayout createStackLayout( Tree topControl ) {
-    StackLayout result = new StackLayout();
-    result.topControl = topControl;
-    return result;
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void runWithViewFormLayoutOnContent() {
+    Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnContent();
+
+    Rectangle actual = testHelper.runReconciliation();
+
+    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void runWithViewFormLayoutOnTopCenter() {
+    Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnTopCenter();
+
+    Rectangle actual = testHelper.runReconciliation();
+
+    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void runWithViewFormLayoutOnTopLeft() {
+    Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnTopLeft();
+
+    Rectangle actual = testHelper.runReconciliation();
+
+    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void runWithViewFormLayoutOnTopRight() {
+    Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnTopRight();
+
+    Rectangle actual = testHelper.runReconciliation();
+
+    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
   }
 }
