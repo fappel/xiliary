@@ -6,7 +6,9 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopB
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowData;
@@ -172,6 +174,15 @@ public class TreeAdapterTest {
     Object actual = adapter.getLayoutData();
 
     assertThat( actual ).isSameAs( expected );
+  }
+
+  @Test
+  public void computeSize() {
+    Point expected = tree.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+
+    Point actual = adapter.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+
+    assertThat( actual ).isEqualTo( expected );
   }
 
   private void scrollHorizontal( final TreeAdapter adapter, final int selection ) {

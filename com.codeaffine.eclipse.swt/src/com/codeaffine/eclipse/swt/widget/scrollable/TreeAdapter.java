@@ -8,6 +8,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Layout;
@@ -149,6 +150,11 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
 
   //////////////////////////////////////////////////////
   // delegating adapter methods
+
+  @Override
+  public Point computeSize( int wHint, int hHint, boolean changed ) {
+    return tree.computeSize( wHint, hHint, changed );
+  }
 
   @Override
   public Object getLayoutData() {

@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowData;
@@ -156,6 +157,17 @@ public class TableAdapterTest {
 
     assertThat( actual ).isSameAs( expected );
   }
+
+
+  @Test
+  public void computeSize() {
+    Point expected = table.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+
+    Point actual = adapter.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+
+    assertThat( actual ).isEqualTo( expected );
+  }
+
 
   private void scrollHorizontal( final TableAdapter adapter, final int selection ) {
     final int duration = 100;
