@@ -162,6 +162,11 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
   }
 
   @Override
+  public void setLayoutData( Object layoutData ) {
+    tree.setLayoutData( layoutData );
+  }
+
+  @Override
   public Object getData() {
     return tree.getData();
   }

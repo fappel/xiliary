@@ -177,6 +177,16 @@ public class TreeAdapterTest {
   }
 
   @Test
+  public void setLayoutData() {
+    Object expected = new Object();
+
+    adapter.setLayoutData( expected );
+    Object actual = tree.getLayoutData();
+
+    assertThat( actual ).isSameAs( expected );
+  }
+
+  @Test
   public void computeSize() {
     Point expected = tree.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
 

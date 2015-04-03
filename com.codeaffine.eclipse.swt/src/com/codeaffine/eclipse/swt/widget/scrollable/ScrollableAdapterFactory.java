@@ -42,7 +42,6 @@ public class ScrollableAdapterFactory {
     if( platformSupport.isGranted() ) {
       markAdapted( scrollable );
       applyDrawingOrderOrdinalNumber( result, ordinalNumber );
-      result.setLayoutData( scrollable.getLayoutData() );
     }
     result.adapt( scrollable, platformSupport );
     if( platformSupport.isGranted() ) {

@@ -158,6 +158,15 @@ public class TableAdapterTest {
     assertThat( actual ).isSameAs( expected );
   }
 
+  @Test
+  public void setLayoutData() {
+    Object expected = new Object();
+
+    adapter.setLayoutData( expected );
+    Object actual = table.getLayoutData();
+
+    assertThat( actual ).isSameAs( expected );
+  }
 
   @Test
   public void computeSize() {
