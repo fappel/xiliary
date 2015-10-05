@@ -12,8 +12,8 @@
   <packaging>pom</packaging>
 
   <properties>
-    <tycho-version>0.20.0</tycho-version>
-    <tycho-extras-version>0.20.0</tycho-extras-version>
+    <tycho-version>0.23.0</tycho-version>
+    <tycho-extras-version>0.23.0</tycho-extras-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
@@ -87,7 +87,7 @@
 
   <build>
     <plugins>
-
+      
 			<plugin>
 			   <groupId>org.eclipse.tycho</groupId>
 			   <artifactId>target-platform-configuration</artifactId>
