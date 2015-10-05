@@ -15,13 +15,17 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Table;
 
+import com.codeaffine.eclipse.swt.util.Platform;
+import com.codeaffine.eclipse.swt.util.PlatformSupport;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.Adapter;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
 
 public class TableAdapter extends Table implements Adapter<Table>, DisposeListener, ScrollbarStyle {
 
   private LayoutFactory<Table> layoutFactory;
   private Reconciliation reconciliation;
-  private LayoutContext<Table> context;
+  private AdaptionContext<Table> context;
   private Table table;
 
   TableAdapter() {
@@ -314,7 +318,7 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
 
   private void initialize() {
     table.setParent( this );
-    context = new LayoutContext<Table>( this, table );
+    context = new AdaptionContext<Table>( this, table );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
     table.addDisposeListener( this );

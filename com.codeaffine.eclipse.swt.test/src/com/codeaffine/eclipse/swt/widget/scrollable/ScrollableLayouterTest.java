@@ -1,17 +1,18 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.BORDER_ADJUSTMENT;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.BORDER_WIDTH;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.STUB_VERTICAL_BAR_OFFSET;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.stubContext;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Horizontal.H_INVISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Horizontal.H_VISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Vertical.V_INVISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Vertical.V_VISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.BORDER_ADJUSTMENT;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.BORDER_WIDTH;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.STUB_VERTICAL_BAR_OFFSET;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.stubContext;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Horizontal.H_INVISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Horizontal.H_VISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical.V_INVISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical.V_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.BAR_BREADTH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -28,8 +29,9 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Horizontal;
-import com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Vertical;
+import com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Horizontal;
+import com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 
 public class ScrollableLayouterTest {
 
@@ -48,7 +50,7 @@ public class ScrollableLayouterTest {
     shell = createShell( displayHelper );
     adapter = createAdapter( shell );
     scrollable = createTree( adapter, 6, 4 );
-    layouter = new ScrollableLayouter( new LayoutContext<Tree>( adapter, scrollable ) );
+    layouter = new ScrollableLayouter( new AdaptionContext<Tree>( adapter, scrollable ) );
     shell.open();
   }
 
@@ -146,7 +148,7 @@ public class ScrollableLayouterTest {
   public void horizontalBarSelectionIfScrollableIsReplacedByAdapter() {
     expandTopBranch( scrollable );
     adapter.getHorizontalBar().setSelection( SELECTION );
-    LayoutContext<?> context = stubLayoutContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> context = stubLayoutContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
     stubChildByAdapterReplacement( context );
 
     layouter.layout( context );
@@ -158,17 +160,17 @@ public class ScrollableLayouterTest {
                      expectedVerticalHeightIfHorizontalIsVisible() + BORDER_ADJUSTMENT ) );
   }
 
-  private LayoutContext<Scrollable> stubLayoutContext(
+  private AdaptionContext<Scrollable> stubLayoutContext(
     Vertical verticalBarVisible, Horizontal horizontalBarVisible, Point preferredSize, Rectangle visibleArea )
   {
-    LayoutContext<Scrollable> result
+    AdaptionContext<Scrollable> result
       = stubContext( verticalBarVisible, horizontalBarVisible, preferredSize, visibleArea );
     when( result.getScrollable() ).thenReturn( scrollable );
     when( result.getAdapter() ).thenReturn( adapter );
     return result;
   }
 
-  private static void stubChildByAdapterReplacement( LayoutContext<?> context ) {
+  private static void stubChildByAdapterReplacement( AdaptionContext<?> context ) {
     when( context.isScrollableReplacedByAdapter() ).thenReturn( true );
     when( context.getHorizontalAdapterSelection() ).thenCallRealMethod();
   }
@@ -184,7 +186,7 @@ public class ScrollableLayouterTest {
   }
 
   private int verticalHeightIfTreeFits() {
-    return getVisibleArea().width + LayoutContextHelper.STUB_VERTICAL_BAR_OFFSET;
+    return getVisibleArea().width + AdaptionContextHelper.STUB_VERTICAL_BAR_OFFSET;
   }
 
   private int verticalHeightIfTreeDoesNotFit() {

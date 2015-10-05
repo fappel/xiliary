@@ -17,7 +17,7 @@ import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 public class MouseTrackerTest {
 
   private static final int MAX_EXPANSION = Direction.CLEARANCE;
-  private static final Rectangle BOUNDS = new Rectangle( 10, 20, 30, Direction.BAR_BREADTH );
+  private static final Rectangle BOUNDS = new Rectangle( 10, 20, 30, FlatScrollBar.BAR_BREADTH );
   private static final Rectangle BOUNDS_ON_MOUSE_OVER = new Rectangle( 10, 16, 30, 10 );
 
   @Rule

@@ -4,13 +4,14 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class HorizontalSelectionListener extends SelectionAdapter {
 
-  private final LayoutContext<?> context;
+  private final AdaptionContext<?> context;
 
-  HorizontalSelectionListener( LayoutContext<?> context ) {
+  HorizontalSelectionListener( AdaptionContext<?> context ) {
     this.context = context;
   }
 

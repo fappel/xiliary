@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Scrollable;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType;
+import com.codeaffine.eclipse.swt.util.Platform.PlatformType;
 
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class LayoutMappingTest {

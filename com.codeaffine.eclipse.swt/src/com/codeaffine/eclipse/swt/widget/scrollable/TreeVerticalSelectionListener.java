@@ -6,13 +6,14 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Tree;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class TreeVerticalSelectionListener extends SelectionAdapter {
 
   private final TreeTopItemSelector treeTopItemSelector;
 
-  TreeVerticalSelectionListener( LayoutContext<Tree> context ) {
+  TreeVerticalSelectionListener( AdaptionContext<Tree> context ) {
     this.treeTopItemSelector = new TreeTopItemSelector( ( context.getScrollable() ) );
   }
 

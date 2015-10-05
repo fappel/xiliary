@@ -2,18 +2,20 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import org.eclipse.swt.graphics.Rectangle;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+
 class TreeWidth {
 
   private final PreferredWidthComputer preferredWidthComputer;
-  private final LayoutContext<?> context;
+  private final AdaptionContext<?> context;
 
   private int width;
 
-  TreeWidth( LayoutContext<?> context ) {
+  TreeWidth( AdaptionContext<?> context ) {
     this( new PreferredWidthComputer( context ), context );
   }
 
-  TreeWidth( PreferredWidthComputer preferredWidthComputer, LayoutContext<?> context ) {
+  TreeWidth( PreferredWidthComputer preferredWidthComputer, AdaptionContext<?> context ) {
     this.preferredWidthComputer = preferredWidthComputer;
     this.context = context;
   }
@@ -35,7 +37,7 @@ class TreeWidth {
   private boolean exeedsVisibleRangeWidth( int preferredWidth ) {
     Rectangle adapterClientArea = context.getAdapter().getClientArea();
     int visibleAreaWidth = adapterClientArea.width;
-    LayoutContext<?> context = this.context.newContext();
+    AdaptionContext<?> context = this.context.newContext();
     if( context.isVerticalBarVisible() ) {
       visibleAreaWidth += context.getVerticalBarOffset();
     }

@@ -12,12 +12,13 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 
 public class PreferredWidthComputerTest {
 
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private LayoutContext<Tree> layoutContext;
+  private AdaptionContext<Tree> layoutContext;
   private PreferredWidthComputer computer;
   private Tree tree;
 
@@ -26,7 +27,7 @@ public class PreferredWidthComputerTest {
   public void setUp() {
     Shell shell = createShell( displayHelper );
     tree = createTree( shell, 6, 4 );
-    layoutContext = new LayoutContext<Tree>( shell, tree );
+    layoutContext = new AdaptionContext<Tree>( shell, tree );
     computer = new PreferredWidthComputer( layoutContext );
     shell.open();
   }
@@ -51,12 +52,12 @@ public class PreferredWidthComputerTest {
   }
 
   private int preferredWidth() {
-    LayoutContext<?> context = layoutContext.newContext( tree.getItemHeight() );
+    AdaptionContext<?> context = layoutContext.newContext( tree.getItemHeight() );
     return context.getPreferredSize().x + context.getOffset() * 2;
   }
 
   private int overlayAdjustment() {
-    LayoutContext<?> context = layoutContext.newContext( tree.getItemHeight() );
+    AdaptionContext<?> context = layoutContext.newContext( tree.getItemHeight() );
     return preferredWidth() + context.getVerticalBarOffset();
   }
 }

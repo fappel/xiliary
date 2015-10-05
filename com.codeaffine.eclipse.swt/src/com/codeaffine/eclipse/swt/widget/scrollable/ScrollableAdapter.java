@@ -10,6 +10,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Scrollable;
 
+import com.codeaffine.eclipse.swt.util.Platform;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+
 class ScrollableAdapter<T extends Scrollable> extends Composite implements ScrollbarStyle {
 
   private final LayoutFactory<T> layoutFactory;
@@ -99,6 +102,6 @@ class ScrollableAdapter<T extends Scrollable> extends Composite implements Scrol
   }
 
   private Layout createLayout( ScrollableAdapter<T> adapter, T scrollable, LayoutFactory<T> layoutFactory ) {
-    return layoutFactory.create( new LayoutContext<T>( adapter, scrollable ));
+    return layoutFactory.create( new AdaptionContext<T>( adapter, scrollable ));
   }
 }

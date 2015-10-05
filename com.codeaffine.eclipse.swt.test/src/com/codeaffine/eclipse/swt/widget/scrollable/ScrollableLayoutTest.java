@@ -19,6 +19,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
 
 public class ScrollableLayoutTest {
 
@@ -29,7 +31,7 @@ public class ScrollableLayoutTest {
   private ScrollableLayouter treeLayouter;
   private OverlayLayouter overlayLayouter;
   private Reconciliation reconciliation;
-  private LayoutContext<Tree> context;
+  private AdaptionContext<Tree> context;
   private ScrollableLayout layout;
   private Tree tree;
 
@@ -39,7 +41,7 @@ public class ScrollableLayoutTest {
     horizontalBarConfigurer = mock( ScrollBarConfigurer.class );
     treeLayouter = mock( ScrollableLayouter.class );
     tree = createTree( createShell( displayHelper ), 6, 4 );
-    context = new LayoutContext<Tree>( tree.getParent(), tree );
+    context = new AdaptionContext<Tree>( tree.getParent(), tree );
     reconciliation = ReconciliationHelper.stubReconciliation();
     layout = new ScrollableLayout( context, overlayLayouter, treeLayouter, horizontalBarConfigurer, reconciliation );
   }
@@ -49,8 +51,8 @@ public class ScrollableLayoutTest {
      layout.layout( null, true );
 
      verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
-     verify( overlayLayouter ).layout( any( LayoutContext.class ) );
-     verify( treeLayouter ).layout( any( LayoutContext.class ) );
+     verify( overlayLayouter ).layout( any( AdaptionContext.class ) );
+     verify( treeLayouter ).layout( any( AdaptionContext.class ) );
      verifyNoMoreInteractions( overlayLayouter, horizontalBarConfigurer, treeLayouter );
   }
 
@@ -62,9 +64,9 @@ public class ScrollableLayoutTest {
     layout.layout( null, true );
 
     verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
-    verify( overlayLayouter ).layout( any( LayoutContext.class ) );
-    verify( treeLayouter ).layout( any( LayoutContext.class ) );
-    verify( horizontalBarConfigurer ).configure( any( LayoutContext.class ) );
+    verify( overlayLayouter ).layout( any( AdaptionContext.class ) );
+    verify( treeLayouter ).layout( any( AdaptionContext.class ) );
+    verify( horizontalBarConfigurer ).configure( any( AdaptionContext.class ) );
     verifyNoMoreInteractions( overlayLayouter, horizontalBarConfigurer, treeLayouter );
   }
 
@@ -77,9 +79,9 @@ public class ScrollableLayoutTest {
     layout.layout( null, true );
 
     verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
-    verify( overlayLayouter, never() ).layout( any( LayoutContext.class ) );
-    verify( treeLayouter, never() ).layout( any( LayoutContext.class ) );
-    verify( horizontalBarConfigurer, never() ).configure( any( LayoutContext.class ) );
+    verify( overlayLayouter, never() ).layout( any( AdaptionContext.class ) );
+    verify( treeLayouter, never() ).layout( any( AdaptionContext.class ) );
+    verify( horizontalBarConfigurer, never() ).configure( any( AdaptionContext.class ) );
     verifyNoMoreInteractions( overlayLayouter, horizontalBarConfigurer, treeLayouter );
   }
 

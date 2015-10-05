@@ -6,12 +6,14 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+
 class NativeLayoutFactory<T extends Scrollable> implements LayoutFactory<T> {
 
   static final Class<FillLayout> LAYOUT_TYPE = FillLayout.class;
 
   @Override
-  public Layout create( LayoutContext<T> context ) {
+  public Layout create( AdaptionContext<T> context ) {
     try {
       return LAYOUT_TYPE.newInstance();
     } catch( Exception shouldNotHappen ) {

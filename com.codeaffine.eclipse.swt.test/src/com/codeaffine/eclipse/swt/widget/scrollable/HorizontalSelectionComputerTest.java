@@ -15,6 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 
 
 public class HorizontalSelectionComputerTest {
@@ -38,7 +39,7 @@ public class HorizontalSelectionComputerTest {
 
   @Test
   public void compute() {
-    LayoutContext<Scrollable> context = new LayoutContext<Scrollable>( adapter, scrollable );
+    AdaptionContext<Scrollable> context = new AdaptionContext<Scrollable>( adapter, scrollable );
 
     int actual = computer.compute( context );
 
@@ -49,7 +50,7 @@ public class HorizontalSelectionComputerTest {
   public void computeWithSelection() {
     expandTopBranch( scrollable );
     adapter.getHorizontalBar().setSelection( SELECTION );
-    LayoutContext<Scrollable> context = new LayoutContext<Scrollable>( adapter, scrollable );
+    AdaptionContext<Scrollable> context = new AdaptionContext<Scrollable>( adapter, scrollable );
 
     int actual = computer.compute( context );
 
@@ -59,7 +60,7 @@ public class HorizontalSelectionComputerTest {
   @Test
   public void computeWithAdapterReplacementFake() {
     Composite composite = new Composite( scrollable.getParent(), SWT.H_SCROLL | SWT.V_SCROLL );
-    LayoutContext<Scrollable> context = new LayoutContext<Scrollable>( composite, scrollable );
+    AdaptionContext<Scrollable> context = new AdaptionContext<Scrollable>( composite, scrollable );
 
     int actual = computer.compute( context );
 
@@ -71,7 +72,7 @@ public class HorizontalSelectionComputerTest {
     Composite composite = new Composite( scrollable.getParent(), SWT.H_SCROLL | SWT.V_SCROLL );
     composite.getHorizontalBar().setSelection( SELECTION );
     expandTopBranch( scrollable );
-    LayoutContext<Scrollable> context = new LayoutContext<Scrollable>( composite, scrollable );
+    AdaptionContext<Scrollable> context = new AdaptionContext<Scrollable>( composite, scrollable );
 
     int actual = computer.compute( context );
 
@@ -83,7 +84,7 @@ public class HorizontalSelectionComputerTest {
     Composite composite = new Composite( scrollable.getParent(), SWT.H_SCROLL | SWT.V_SCROLL );
     composite.getHorizontalBar().setSelection( SELECTION );
     scrollable.setSize( 0, 0 );
-    LayoutContext<Scrollable> context = new LayoutContext<Scrollable>( composite, scrollable );
+    AdaptionContext<Scrollable> context = new AdaptionContext<Scrollable>( composite, scrollable );
 
     int actual = computer.compute( context );
 

@@ -1,8 +1,11 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createPackedSingleColumnTableDialog;
+import static java.lang.Math.min;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
@@ -17,6 +20,8 @@ import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 
 public class ScrollableAdapterFactoryDemo {
+
+  private static final int TABLE_ITEM_COUNT = 20;
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
@@ -64,6 +69,30 @@ public class ScrollableAdapterFactoryDemo {
     adapter.setThumbColor( Display.getCurrent().getSystemColor( SWT.COLOR_RED ) );
     shell.open();
     spinLoop();
+  }
+
+  @Test
+  public void tableDemoWithColumnWidthAdjustment() {
+    Table table = createPackedSingleColumnTableDialog( shell, TABLE_ITEM_COUNT );
+    TableAdapter adapter = factory.create( table, TableAdapter.class );
+    adapter.setThumbColor( Display.getCurrent().getSystemColor( SWT.COLOR_RED ) );
+    Rectangle tableBounds = adjustTableHeight( table, TABLE_ITEM_COUNT + 2 );
+    shell.setBounds( computeShellTrim( tableBounds ) );
+    table.getColumns()[ 0 ].setWidth( table.getClientArea().width );
+    shell.setLocation( 300, 300 );
+    shell.open();
+    spinLoop();
+  }
+
+  private static Rectangle adjustTableHeight( Table table, int maxItems ) {
+    Rectangle result = table.getBounds();
+    result.height = min( result.height, table.getItemHeight() * maxItems );
+    table.setBounds( result );
+    return result;
+  }
+
+  private Rectangle computeShellTrim( Rectangle tableBounds ) {
+    return shell.computeTrim( tableBounds.x, tableBounds.y, tableBounds.width, tableBounds.height );
   }
 
   private void spinLoop() {

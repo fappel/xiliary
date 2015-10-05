@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class ScrollBarConfigurer {
@@ -10,7 +11,7 @@ class ScrollBarConfigurer {
     this.scrollBar = scrollBar;
   }
 
-  void configure( LayoutContext<?> context ) {
+  void configure( AdaptionContext<?> context ) {
     scrollBar.setIncrement( 1 );
     scrollBar.setMaximum( context.getPreferredSize().x );
     scrollBar.setMinimum( context.getOffset() );

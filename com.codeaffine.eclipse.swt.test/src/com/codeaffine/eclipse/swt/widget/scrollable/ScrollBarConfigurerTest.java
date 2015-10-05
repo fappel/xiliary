@@ -1,10 +1,10 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.BORDER_WIDTH;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.OFFSET;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.stubContext;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Horizontal.H_VISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Vertical.V_INVISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.BORDER_WIDTH;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.OFFSET;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.stubContext;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Horizontal.H_VISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical.V_INVISIBLE;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 

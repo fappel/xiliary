@@ -16,7 +16,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType;
+import com.codeaffine.eclipse.swt.util.Platform;
+import com.codeaffine.eclipse.swt.util.Platform.PlatformType;
 
 public class FlatScrollBarTreeTest {
 

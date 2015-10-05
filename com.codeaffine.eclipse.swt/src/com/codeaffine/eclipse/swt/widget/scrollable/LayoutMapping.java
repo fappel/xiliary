@@ -2,7 +2,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import org.eclipse.swt.widgets.Scrollable;
 
-import com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType;
+import com.codeaffine.eclipse.swt.util.Platform.PlatformType;
 
 class LayoutMapping<T extends Scrollable> {
 

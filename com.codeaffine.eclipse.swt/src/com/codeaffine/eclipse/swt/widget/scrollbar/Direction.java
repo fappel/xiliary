@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.BAR_BREADTH;
 import static java.lang.Math.max;
 
 import org.eclipse.swt.SWT;
@@ -25,7 +26,7 @@ enum Direction {
 
     private Rectangle[] calculateComponentBounds( ComponentDistribution distribution, FlatScrollBar scrollBar ) {
       int width = getControlBounds( scrollBar ).width;
-      int height = getControlBounds( scrollBar ).height - BAR_BREADTH + 1;
+      int height = getControlBounds( scrollBar ).height - FlatScrollBar.BAR_BREADTH + 1;
       int balance = getRoundingBalance( distribution, scrollBar );
       return new Rectangle[] {
         calcButtons( distribution, width, $( 0, CLEARANCE, distribution.buttonLen, height ) ),
@@ -48,13 +49,13 @@ enum Direction {
     @Override
     protected void setDefaultSize( Control control ) {
       Point size = control.getSize();
-      control.setSize( size.x, BAR_BREADTH );
+      control.setSize( size.x, FlatScrollBar.BAR_BREADTH );
     }
 
     @Override
     protected Point computeSize( Composite composite, int wHint, int hHint, boolean changed ) {
       int x = wHint == SWT.DEFAULT ? composite.getParent().getClientArea().width : wHint;
-      return new Point( x, BAR_BREADTH );
+      return new Point( x, FlatScrollBar.BAR_BREADTH );
     }
 
     @Override
@@ -78,7 +79,7 @@ enum Direction {
     }
 
     private Rectangle[] calculateComponentBounds( ComponentDistribution distribution, FlatScrollBar scrollBar ) {
-      int width = getControlBounds( scrollBar ).width - BAR_BREADTH + 1;
+      int width = getControlBounds( scrollBar ).width - FlatScrollBar.BAR_BREADTH + 1;
       int height = getControlBounds( scrollBar ).height;
       int balance = getRoundingBalance( distribution, scrollBar );
       return new Rectangle[] {
@@ -102,13 +103,13 @@ enum Direction {
     @Override
     protected void setDefaultSize( Control control ) {
       Point size = control.getSize();
-      control.setSize( BAR_BREADTH, size.y );
+      control.setSize( FlatScrollBar.BAR_BREADTH, size.y );
     }
 
     @Override
     protected Point computeSize( Composite composite, int wHint, int hHint, boolean changed ) {
       int y = hHint == SWT.DEFAULT ? composite.getParent().getClientArea().height : hHint;
-      return new Point( BAR_BREADTH, y );
+      return new Point( FlatScrollBar.BAR_BREADTH, y );
     }
 
     @Override
@@ -120,7 +121,6 @@ enum Direction {
   };
 
   static final Rectangle EMPTY_RECTANGLE = $( 0, 0, 0, 0 );
-  static final int BAR_BREADTH = 6;
   static final int CLEARANCE = BAR_BREADTH - 2;
 
   private final int value;
@@ -171,7 +171,7 @@ enum Direction {
   }
 
   private static int expand( int toExpand, int maxExpansion ) {
-    return max( 0, BAR_BREADTH + maxExpansion - max( BAR_BREADTH, toExpand ) );
+    return max( 0, FlatScrollBar.BAR_BREADTH + maxExpansion - max( FlatScrollBar.BAR_BREADTH, toExpand ) );
   }
 
   private static Rectangle calcDrag( ComponentDistribution distribution, Rectangle bounds ) {

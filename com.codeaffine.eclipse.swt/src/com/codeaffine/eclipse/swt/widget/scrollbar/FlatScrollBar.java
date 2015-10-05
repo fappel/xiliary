@@ -17,6 +17,8 @@ import org.eclipse.swt.widgets.Listener;
 
 public class FlatScrollBar extends Composite {
 
+  public static final int BAR_BREADTH = 6;
+
   static final int DEFAULT_MINIMUM = 0;
   static final int DEFAULT_MAXIMUM = 100;
   static final int DEFAULT_INCREMENT = 1;

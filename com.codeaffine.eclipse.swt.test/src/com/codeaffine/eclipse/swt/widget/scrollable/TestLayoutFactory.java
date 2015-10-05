@@ -5,6 +5,8 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+
 class TestLayoutFactory implements LayoutFactory<Scrollable> {
 
   private final Layout expected;
@@ -14,7 +16,7 @@ class TestLayoutFactory implements LayoutFactory<Scrollable> {
   }
 
   @Override
-  public Layout create( LayoutContext<Scrollable> context ) {
+  public Layout create( AdaptionContext<Scrollable> context ) {
     return expected;
   }
 

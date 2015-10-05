@@ -461,7 +461,7 @@ public class FlatScrollBarTest {
   public void initialSizeSettings() {
     Point size = scrollBar.getSize();
 
-    assertThat( size.y ).isEqualTo( Direction.BAR_BREADTH );
+    assertThat( size.y ).isEqualTo( FlatScrollBar.BAR_BREADTH );
   }
 
   @Test

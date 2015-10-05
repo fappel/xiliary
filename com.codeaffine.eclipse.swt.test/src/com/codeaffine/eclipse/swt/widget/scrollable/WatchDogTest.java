@@ -16,12 +16,14 @@ import org.junit.Test;
 import org.mockito.InOrder;
 
 import com.codeaffine.eclipse.swt.util.ActionScheduler;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
 
 
 public class WatchDogTest {
 
   private TreeVerticalScrollBarUpdater settingCopier;
-  private LayoutContext<Scrollable> context;
+  private AdaptionContext<Scrollable> context;
   private Reconciliation reconciliation;
   private Visibility hScrollVisibility;
   private Visibility vScrollVisibility;
@@ -33,7 +35,7 @@ public class WatchDogTest {
   @Before
   @SuppressWarnings("unchecked")
   public void setUp() {
-    context = mock( LayoutContext.class );
+    context = mock( AdaptionContext.class );
     settingCopier = mock( TreeVerticalScrollBarUpdater.class );
     hScrollVisibility = mock( Visibility.class );
     vScrollVisibility = mock( Visibility.class );

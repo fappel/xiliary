@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Widget;
 
 public class SWTEventHelper {
 
-  private final Event event;
+  final Event event;
 
   private SWTEventHelper( int eventType ) {
     event = new Event();

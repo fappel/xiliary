@@ -1,15 +1,15 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShellWithoutLayout;
-import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.MAX_EXPANSION;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.BORDER_WIDTH;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.stubContext;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Horizontal.H_INVISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Horizontal.H_VISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Vertical.V_INVISIBLE;
-import static com.codeaffine.eclipse.swt.widget.scrollable.LayoutContextHelper.Vertical.V_VISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.BORDER_WIDTH;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.stubContext;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Horizontal.H_INVISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Horizontal.H_VISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical.V_INVISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical.V_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.OverlayLayouter.calculateCornerOverlayBounds;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -24,6 +24,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 public class OverlayLayouterTest {
@@ -50,7 +51,7 @@ public class OverlayLayouterTest {
 
   @Test
   public void layout() {
-    LayoutContext<?> context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
 
     layouter.layout( context );
 
@@ -66,7 +67,7 @@ public class OverlayLayouterTest {
 
   @Test
   public void layoutWithoutHorizontalBar() {
-    LayoutContext<?> context = stubContext( V_VISIBLE, H_INVISIBLE, exceedVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> context = stubContext( V_VISIBLE, H_INVISIBLE, exceedVisibleArea(), getVisibleArea() );
 
     layouter.layout( context );
 
@@ -82,7 +83,7 @@ public class OverlayLayouterTest {
 
   @Test
   public void layoutWithoutVerticalBar() {
-    LayoutContext<?> context = stubContext( V_INVISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> context = stubContext( V_INVISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
 
     layouter.layout( context );
 
@@ -98,7 +99,7 @@ public class OverlayLayouterTest {
 
   @Test
   public void layoutWithoutScrollBars() {
-    LayoutContext<?> context = stubContext( V_INVISIBLE, H_INVISIBLE, fitVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> context = stubContext( V_INVISIBLE, H_INVISIBLE, fitVisibleArea(), getVisibleArea() );
 
     layouter.layout( context );
 
@@ -114,7 +115,7 @@ public class OverlayLayouterTest {
 
   @Test
   public void cornerOverlayBoundsCalculation() {
-    LayoutContext<?> context = stubContextWithOffset( OFFSET );
+    AdaptionContext<?> context = stubContextWithOffset( OFFSET );
     horizontal.setSize( 10, 20 );
     vertical.setSize( 30, 40 );
 
@@ -124,14 +125,14 @@ public class OverlayLayouterTest {
       .isEqualTo( new Rectangle( 10, 40, 30 + OFFSET + BORDER_WIDTH, 20 + BORDER_WIDTH ) );
   }
 
-  private LayoutContext<?> stubContextWithOffset( int offset ) {
-    LayoutContext<?> result = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+  private AdaptionContext<?> stubContextWithOffset( int offset ) {
+    AdaptionContext<?> result = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
     when( result.getOffset() ).thenReturn( offset );
     return result;
   }
 
   private Rectangle expectedCornerOverlayBounds() {
-    LayoutContext<?> context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
     return calculateCornerOverlayBounds( horizontal, vertical , context);
   }
 

@@ -15,6 +15,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 public class TreeVerticalSelectionListenerTest {
@@ -29,7 +30,7 @@ public class TreeVerticalSelectionListenerTest {
     Shell shell = createShell( displayHelper );
     Tree tree = createTreeWithExpandedTopBranch( shell );
     FlatScrollBar scrollBar = prepareScrollBar( shell, tree );
-    LayoutContext<Tree> context = new LayoutContext<Tree>( shell, tree );
+    AdaptionContext<Tree> context = new AdaptionContext<Tree>( shell, tree );
     TreeVerticalSelectionListener listener = new TreeVerticalSelectionListener( context );
 
     listener.widgetSelected( createEvent( scrollBar, ITEM_INDEX * SELECTION_RASTER_SMOOTH_FACTOR ) );

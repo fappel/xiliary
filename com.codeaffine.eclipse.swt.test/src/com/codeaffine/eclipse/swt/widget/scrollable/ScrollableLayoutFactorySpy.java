@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Scrollable;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class ScrollableLayoutFactorySpy
@@ -25,7 +26,7 @@ class ScrollableLayoutFactorySpy
 
   @Override
   public Layout create(
-    LayoutContext<Scrollable> context, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay )
+    AdaptionContext<Scrollable> context, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay )
   {
     this.horizontal = horizontal;
     this.vertical = vertical;
@@ -35,18 +36,18 @@ class ScrollableLayoutFactorySpy
   }
 
   @Override
-  public SelectionListener createHorizontalSelectionListener( LayoutContext<Scrollable> context ) {
+  public SelectionListener createHorizontalSelectionListener( AdaptionContext<Scrollable> context ) {
     return this;
   }
 
   @Override
-  public SelectionListener createVerticalSelectionListener( LayoutContext<Scrollable> context ) {
+  public SelectionListener createVerticalSelectionListener( AdaptionContext<Scrollable> context ) {
     return this;
   }
 
   @Override
   public DisposeListener createWatchDog(
-    LayoutContext<Scrollable> context, FlatScrollBar horizontal, FlatScrollBar vertical )
+    AdaptionContext<Scrollable> context, FlatScrollBar horizontal, FlatScrollBar vertical )
   {
     return this;
   }

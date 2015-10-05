@@ -5,8 +5,10 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+
 interface LayoutFactory<T extends Scrollable> {
-  Layout create( LayoutContext<T> context );
+  Layout create( AdaptionContext<T> context );
   void setIncrementButtonLength( int length );
   int getIncrementButtonLength();
   void setIncrementColor( Color color );

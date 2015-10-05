@@ -8,9 +8,9 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
-class TreeHelper {
+public class TreeHelper {
 
-  static void expandTopBranch( Tree tree ) {
+  public static void expandTopBranch( Tree tree ) {
     TreeItem item = tree.getItem( 0 );
     item.setExpanded( true );
     while( item.getItemCount() > 0 ) {
@@ -20,7 +20,7 @@ class TreeHelper {
     flushPendingEvents();
   }
 
-  static void expandRootLevelItems( Tree tree ) {
+  public static void expandRootLevelItems( Tree tree ) {
     TreeItem[] items = tree.getItems();
     for( TreeItem treeItem : items ) {
       treeItem.setExpanded( true );
@@ -28,11 +28,11 @@ class TreeHelper {
     flushPendingEvents();
   }
 
-  static Tree createTree( Composite parent, int childCount, int levelCount  ) {
+  public static Tree createTree( Composite parent, int childCount, int levelCount  ) {
     return createTree( parent, childCount, levelCount, SWT.NONE );
   }
 
-  static Tree createTree( Composite parent, int childCount, int levelCount, int style ) {
+  public static Tree createTree( Composite parent, int childCount, int levelCount, int style ) {
     Tree result = new Tree( parent, style );
     createChildren( result, "tree-item_", childCount, levelCount );
     return result;

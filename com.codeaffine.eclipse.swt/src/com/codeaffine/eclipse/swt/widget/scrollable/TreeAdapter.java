@@ -15,13 +15,17 @@ import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Tree;
 
+import com.codeaffine.eclipse.swt.util.Platform;
+import com.codeaffine.eclipse.swt.util.PlatformSupport;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.Adapter;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
 
 public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener, ScrollbarStyle {
 
   private LayoutFactory<Tree> layoutFactory;
   private Reconciliation reconciliation;
-  private LayoutContext<Tree> context;
+  private AdaptionContext<Tree> context;
   private Tree tree;
 
   TreeAdapter() {
@@ -315,7 +319,7 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
 
   private void initialize() {
     tree.setParent( this );
-    context = new LayoutContext<Tree>( this, tree );
+    context = new AdaptionContext<Tree>( this, tree );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
     tree.addDisposeListener( this );

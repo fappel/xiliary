@@ -20,7 +20,9 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
-import com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType;
+import com.codeaffine.eclipse.swt.util.Platform;
+import com.codeaffine.eclipse.swt.util.Platform.PlatformType;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
@@ -127,7 +129,7 @@ public class ScrollableAdapterFactoryTest {
     return new Label( shell, SWT.NONE );
   }
 
-  private LayoutContext<Scrollable> createLayoutContext() {
-    return new LayoutContext<Scrollable>( shell, createTree( shell, 1, 1 ) );
+  private AdaptionContext<Scrollable> createLayoutContext() {
+    return new AdaptionContext<Scrollable>( shell, createTree( shell, 1, 1 ) );
   }
 }

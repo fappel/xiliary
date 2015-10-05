@@ -1,7 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.CLEARANCE;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.HORIZONTAL;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.Direction.VERTICAL;
@@ -123,13 +122,13 @@ public class DirectionTest {
 
   @Test
   public void setDefaultSizeHorizontal() {
-    Point initialSize = new Point( 5, BAR_BREADTH + 2 );
+    Point initialSize = new Point( 5, FlatScrollBar.BAR_BREADTH + 2 );
     Control control = createControl( initialSize );
 
     HORIZONTAL.setDefaultSize( control );
 
     assertThat( control.getSize() )
-      .isEqualTo( new Point( initialSize.x, BAR_BREADTH ) );
+      .isEqualTo( new Point( initialSize.x, FlatScrollBar.BAR_BREADTH ) );
   }
 
   @Test
@@ -138,7 +137,7 @@ public class DirectionTest {
 
     Point actual = HORIZONTAL.computeSize( null, wHint, SWT.DEFAULT, true );
 
-    assertThat( actual ).isEqualTo( new Point( wHint, BAR_BREADTH ) );
+    assertThat( actual ).isEqualTo( new Point( wHint, FlatScrollBar.BAR_BREADTH ) );
   }
 
   @Test
@@ -148,7 +147,7 @@ public class DirectionTest {
 
     Point actual = HORIZONTAL.computeSize( composite, SWT.DEFAULT, SWT.DEFAULT, true );
 
-    assertThat( actual ).isEqualTo( new Point( clientArea.width, BAR_BREADTH ) );
+    assertThat( actual ).isEqualTo( new Point( clientArea.width, FlatScrollBar.BAR_BREADTH ) );
   }
 
   @Test
@@ -264,13 +263,13 @@ public class DirectionTest {
 
   @Test
   public void setDefaultSizeVertical() {
-    Point initialSize = new Point( BAR_BREADTH + 2, 5 );
+    Point initialSize = new Point( FlatScrollBar.BAR_BREADTH + 2, 5 );
     Control control = createControl( initialSize );
 
     VERTICAL.setDefaultSize( control );
 
     assertThat( control.getSize() )
-      .isEqualTo( new Point( BAR_BREADTH, initialSize.y ) );
+      .isEqualTo( new Point( FlatScrollBar.BAR_BREADTH, initialSize.y ) );
   }
 
   @Test
@@ -279,7 +278,7 @@ public class DirectionTest {
 
     Point actual = VERTICAL.computeSize( null, SWT.DEFAULT, hHint, true );
 
-    assertThat( actual ).isEqualTo( new Point( BAR_BREADTH, hHint ) );
+    assertThat( actual ).isEqualTo( new Point( FlatScrollBar.BAR_BREADTH, hHint ) );
   }
 
   @Test
@@ -289,7 +288,7 @@ public class DirectionTest {
 
     Point actual = Direction.VERTICAL.computeSize( composite, SWT.DEFAULT, SWT.DEFAULT, true );
 
-    assertThat( actual ).isEqualTo( new Point( BAR_BREADTH, clientArea.height ) );
+    assertThat( actual ).isEqualTo( new Point( FlatScrollBar.BAR_BREADTH, clientArea.height ) );
   }
 
   @Test

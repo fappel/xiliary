@@ -1,7 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-import static com.codeaffine.eclipse.swt.widget.scrollable.ControlReflectionUtil.$;
-import static com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType.WIN32;
+import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.$;
+import static com.codeaffine.eclipse.swt.util.Platform.PlatformType.WIN32;
 import static java.lang.Integer.valueOf;
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
@@ -15,6 +15,10 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Scrollable;
+
+import com.codeaffine.eclipse.swt.util.ControlReflectionUtil;
+import com.codeaffine.eclipse.swt.util.Platform;
+import com.codeaffine.eclipse.swt.util.PlatformSupport;
 
 public class ScrollableAdapterFactory {
 

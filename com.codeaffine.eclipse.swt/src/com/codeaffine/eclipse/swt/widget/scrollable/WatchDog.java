@@ -5,6 +5,8 @@ import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Display;
 
 import com.codeaffine.eclipse.swt.util.ActionScheduler;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
 
 class WatchDog implements Runnable, DisposeListener {
 
@@ -16,12 +18,12 @@ class WatchDog implements Runnable, DisposeListener {
   private final Visibility hScrollVisibility;
   private final LayoutTrigger layoutTrigger;
   private final ActionScheduler scheduler;
-  private final LayoutContext<?> context;
+  private final AdaptionContext<?> context;
   private final TreeWidth treeWidth;
 
   private boolean disposed;
 
-  WatchDog( LayoutContext<?> context, VerticalScrollBarUpdater verticalUpdater ) {
+  WatchDog( AdaptionContext<?> context, VerticalScrollBarUpdater verticalUpdater ) {
     this( context,
           verticalUpdater,
           new Visibility( context.getScrollable().getHorizontalBar(), context ),
@@ -32,7 +34,7 @@ class WatchDog implements Runnable, DisposeListener {
           context.getReconciliation() );
   }
 
-  WatchDog( LayoutContext<?> context,
+  WatchDog( AdaptionContext<?> context,
             VerticalScrollBarUpdater verticalBarUpdater,
             Visibility hScrollVisibility,
             Visibility vScrollVisibility,

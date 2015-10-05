@@ -1,7 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
-import static com.codeaffine.eclipse.swt.widget.scrollable.PlatformTypeHelper.getUnusedTypes;
+import static com.codeaffine.eclipse.swt.util.PlatformTypeHelper.getUnusedTypes;
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,7 +20,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType;
+import com.codeaffine.eclipse.swt.util.Platform;
+import com.codeaffine.eclipse.swt.util.Platform.PlatformType;
 import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 @SuppressWarnings("unchecked")

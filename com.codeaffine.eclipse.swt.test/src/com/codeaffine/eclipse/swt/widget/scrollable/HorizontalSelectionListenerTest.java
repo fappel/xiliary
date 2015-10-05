@@ -17,6 +17,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.util.ControlReflectionUtil;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 
 public class HorizontalSelectionListenerTest {
 
@@ -37,7 +39,7 @@ public class HorizontalSelectionListenerTest {
 
   @Test
   public void selectionChanged() {
-    LayoutContext<Tree> context = new LayoutContext<Tree>( shell, tree );
+    AdaptionContext<Tree> context = new AdaptionContext<Tree>( shell, tree );
     HorizontalSelectionListener listener = new HorizontalSelectionListener( context );
     Point adapterLocation = shell.getLocation();
     Point location = tree.getLocation();
@@ -52,7 +54,7 @@ public class HorizontalSelectionListenerTest {
   @Test
   public void selectionChangedIfHeaderVisible() {
     tree.setHeaderVisible( true );
-    LayoutContext<Tree> context = new LayoutContext<Tree>( shell, tree );
+    AdaptionContext<Tree> context = new AdaptionContext<Tree>( shell, tree );
     HorizontalSelectionListener listener = new HorizontalSelectionListener( context );
     Point adapterLocation = shell.getLocation();
     Point location = tree.getLocation();
@@ -68,7 +70,7 @@ public class HorizontalSelectionListenerTest {
   public void selectionChangedWithReparentedAdapter() {
     Composite adapter = reparentScrollable( new Composite( shell, SWT.NONE ), tree );
     equipShellWithLayoutMargin();
-    LayoutContext<Tree> context = new LayoutContext<Tree>( adapter, tree );
+    AdaptionContext<Tree> context = new AdaptionContext<Tree>( adapter, tree );
     HorizontalSelectionListener listener = new HorizontalSelectionListener( context );
     Point adapterLocation = shell.getLocation();
     Point location = tree.getLocation();
@@ -85,7 +87,7 @@ public class HorizontalSelectionListenerTest {
     tree.setHeaderVisible( true );
     Composite adapter = reparentScrollable( new Composite( shell, SWT.NONE ), tree );
     equipShellWithLayoutMargin();
-    LayoutContext<Tree> context = new LayoutContext<Tree>( adapter, tree );
+    AdaptionContext<Tree> context = new AdaptionContext<Tree>( adapter, tree );
     HorizontalSelectionListener listener = new HorizontalSelectionListener( context );
     Point adapterLocation = shell.getLocation();
     Point location = tree.getLocation();

@@ -5,6 +5,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class ScrollableLayout extends Layout {
@@ -13,9 +15,9 @@ class ScrollableLayout extends Layout {
   private final ScrollableLayouter scrollableLayouter;
   private final OverlayLayouter overlayLayouter;
   private final Reconciliation reconciliation;
-  private final LayoutContext<?> context;
+  private final AdaptionContext<?> context;
 
-  ScrollableLayout( LayoutContext<?> context, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay ) {
+  ScrollableLayout( AdaptionContext<?> context, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay ) {
     this( context,
           new OverlayLayouter( horizontal, vertical, cornerOverlay ),
           new ScrollableLayouter( context ),
@@ -23,7 +25,7 @@ class ScrollableLayout extends Layout {
           context.getReconciliation() );
   }
 
-  ScrollableLayout( LayoutContext<?> context,
+  ScrollableLayout( AdaptionContext<?> context,
                     OverlayLayouter overlayLayouter,
                     ScrollableLayouter scrollableLayouter,
                     ScrollBarConfigurer horizontalBarConfigurer,
@@ -52,7 +54,7 @@ class ScrollableLayout extends Layout {
   }
 
   private void layout() {
-    LayoutContext<?> context = this.context.newContext();
+    AdaptionContext<?> context = this.context.newContext();
     overlayLayouter.layout( context );
     scrollableLayouter.layout( context );
     if( context.isHorizontalBarVisible() ) {

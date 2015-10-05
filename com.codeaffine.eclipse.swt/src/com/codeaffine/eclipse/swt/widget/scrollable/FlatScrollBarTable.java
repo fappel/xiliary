@@ -1,10 +1,12 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-import static com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType.GTK;
-import static com.codeaffine.eclipse.swt.widget.scrollable.Platform.PlatformType.WIN32;
+import static com.codeaffine.eclipse.swt.util.Platform.PlatformType.GTK;
+import static com.codeaffine.eclipse.swt.util.Platform.PlatformType.WIN32;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
+
+import com.codeaffine.eclipse.swt.util.Platform;
 
 public class FlatScrollBarTable extends ScrollableAdapter<Table> {
 

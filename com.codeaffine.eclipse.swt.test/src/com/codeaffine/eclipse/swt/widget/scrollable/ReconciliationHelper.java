@@ -7,6 +7,8 @@ import static org.mockito.Mockito.mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
+
 class ReconciliationHelper {
 
   static Reconciliation stubReconciliation() {

@@ -13,6 +13,8 @@ import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Widget;
 
+import com.codeaffine.eclipse.swt.util.ControlReflectionUtil;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFactory<T> {
@@ -30,13 +32,13 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
     reflectionUtil = new ControlReflectionUtil();
   }
 
-  public abstract Layout create( LayoutContext<T> context, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay );
-  public abstract DisposeListener createWatchDog( LayoutContext<T> context, FlatScrollBar horizontal, FlatScrollBar vertical );
-  public abstract SelectionListener createHorizontalSelectionListener( LayoutContext<T> context );
-  public abstract SelectionListener createVerticalSelectionListener( LayoutContext<T> context );
+  public abstract Layout create( AdaptionContext<T> context, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay );
+  public abstract DisposeListener createWatchDog( AdaptionContext<T> context, FlatScrollBar horizontal, FlatScrollBar vertical );
+  public abstract SelectionListener createHorizontalSelectionListener( AdaptionContext<T> context );
+  public abstract SelectionListener createVerticalSelectionListener( AdaptionContext<T> context );
 
   @Override
-  public Layout create( LayoutContext<T> context ) {
+  public Layout create( AdaptionContext<T> context ) {
     context.getAdapter().setBackgroundMode( SWT.INHERIT_DEFAULT );
     context.getAdapter().setBackground( context.getScrollable().getBackground() );
     horizontalBar = createFlatScrollBar( context, SWT.HORIZONTAL );
@@ -126,7 +128,7 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
     return horizontalBar.getBackground();
   }
 
-  private FlatScrollBar createFlatScrollBar( LayoutContext<T> context, int direction  ) {
+  private FlatScrollBar createFlatScrollBar( AdaptionContext<T> context, int direction  ) {
     FlatScrollBar result = new FlatScrollBar( context.getAdapter(), direction );
     result.setBackground( context.getScrollable().getBackground() );
     return result;

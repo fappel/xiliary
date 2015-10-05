@@ -20,6 +20,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 
 @RunWith( Parameterized.class )
 public class VisibilityTest {
@@ -37,7 +38,7 @@ public class VisibilityTest {
 
   private final int orientation;
 
-  private LayoutContext<Tree> context;
+  private AdaptionContext<Tree> context;
   private Visibility visibility;
   private Shell shell;
   private Tree tree;
@@ -50,7 +51,7 @@ public class VisibilityTest {
   public void setUp() {
     shell = createShell( displayHelper, SWT.RESIZE );
     tree = createTree( shell, 2, 4 );
-    context = new LayoutContext<Tree>( shell, tree );
+    context = new AdaptionContext<Tree>( shell, tree );
     shell.open();
     visibility = createVisibility( tree, context );
   }
@@ -118,7 +119,7 @@ public class VisibilityTest {
     assertThat( actual ).isFalse();
   }
 
-  private Visibility createVisibility( Tree tree, LayoutContext<Tree> context ) {
+  private Visibility createVisibility( Tree tree, AdaptionContext<Tree> context ) {
     if( ( orientation & SWT.VERTICAL ) > 0  ) {
       return new Visibility( tree.getVerticalBar(), context );
     }
