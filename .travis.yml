@@ -12,4 +12,3 @@ before_script:
 after_success: 
   - chmod a+x .travis-deploy.sh
   - ./.travis-deploy.sh
-sudo: false
