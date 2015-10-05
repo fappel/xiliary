@@ -65,6 +65,7 @@ public class ScrollableAdapterFactory {
     return Boolean.TRUE.equals( scrollable.getData( ADAPTED ) );
   }
 
+  @SuppressWarnings("unchecked")
   static <T extends Scrollable> LayoutFactory<T> createLayoutFactory(
     Platform platform, LayoutMapping<T> ... mappings )
   {

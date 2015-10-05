@@ -13,11 +13,11 @@ public class FlatScrollBarTree extends ScrollableAdapter<Tree> {
 
   static final int MAX_EXPANSION = BAR_BREADTH + 2;
 
-  @SuppressWarnings("unchecked")
   public FlatScrollBarTree( Composite parent, ScrollableFactory<Tree> factory  ) {
     this( parent, new Platform(), factory, createLayoutMapping() );
   }
 
+  @SafeVarargs
   FlatScrollBarTree(
     Composite parent, Platform platform, ScrollableFactory<Tree> factory, LayoutMapping<Tree> ...mappings )
   {

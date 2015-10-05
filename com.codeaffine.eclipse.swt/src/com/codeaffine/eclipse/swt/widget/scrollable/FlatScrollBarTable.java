@@ -10,11 +10,11 @@ import com.codeaffine.eclipse.swt.util.Platform;
 
 public class FlatScrollBarTable extends ScrollableAdapter<Table> {
 
-  @SuppressWarnings("unchecked")
   public FlatScrollBarTable( Composite parent, ScrollableFactory<Table> factory  ) {
     this( parent, new Platform(), factory, createLayoutMapping() );
   }
 
+  @SafeVarargs
   FlatScrollBarTable(
     Composite parent, Platform platform, ScrollableFactory<Table> factory, LayoutMapping<Table> ... mappings  )
   {

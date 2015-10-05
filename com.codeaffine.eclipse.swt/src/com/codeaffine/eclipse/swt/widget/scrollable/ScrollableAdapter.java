@@ -18,6 +18,7 @@ class ScrollableAdapter<T extends Scrollable> extends Composite implements Scrol
   private final LayoutFactory<T> layoutFactory;
   private final T scrollable;
 
+  @SuppressWarnings("unchecked")
   ScrollableAdapter(
     Composite parent, Platform platform, ScrollableFactory<T> factory, LayoutMapping<T> ... mappings )
   {

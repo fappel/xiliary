@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.codeaffine.workflow.test.util.test;singleton:=true
 Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: CODE AFFINE
 Fragment-Host: com.codeaffine.workflow.test.util;bundle-version="0.1.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.codeaffine.osgi.testuite;version="[1.0.0,2.0.0)",
  com.codeaffine.test.util.lang;version="[0.1.0,1.0.0)",
  org.assertj.core.api;version="[1.6.0,2.0.0)",

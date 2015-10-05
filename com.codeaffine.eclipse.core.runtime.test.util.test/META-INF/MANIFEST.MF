@@ -5,7 +5,7 @@ Bundle-SymbolicName: com.codeaffine.eclipse.core.runtime.test.util.test;singleto
 Bundle-Version: 0.1.0.qualifier
 Bundle-Vendor: CODE AFFINE
 Fragment-Host: com.codeaffine.eclipse.core.runtime.test.util;bundle-version="0.1.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.codeaffine.test.util.lang;version="[0.1.0,1.0.0)",
  org.mockito;version="[1.9.0,2.0.0)",
  org.mockito.invocation;version="[1.9.0,2.0.0)",
