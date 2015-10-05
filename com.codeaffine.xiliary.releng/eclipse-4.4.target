@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="com.codeaffine.xiliary on Eclipse 4.4" sequenceNumber="76">
+<?pde version="3.8"?><target name="com.codeaffine.xiliary on Eclipse 4.4" sequenceNumber="78">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.sdk.ide" version="4.4.1.M20140925-0400"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.4"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="com.codeaffine.osgi.testsuite.feature.feature.group" version="1.1.0.20141207-1610"/>
+<unit id="com.codeaffine.osgi.testsuite.feature.feature.group" version="1.2.0.20150801-1742"/>
 <repository location="http://rherrmann.github.io/osgi-testsuite/repository"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
@@ -15,7 +15,7 @@
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="com.codeaffine.test.libraries.feature.feature.group" version="1.0.0.201502171553"/>
+<unit id="com.codeaffine.test.libraries.feature.feature.group" version="1.0.0.201508012258"/>
 <repository location="http://fappel.github.io/test-libraries/"/>
 </location>
 </locations>
