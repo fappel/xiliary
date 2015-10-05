@@ -140,7 +140,7 @@
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho-version}</version>
         <configuration>
-          <argLine>-Xmx512m -XX:MaxPermSize=128M</argLine>
+          <argLine>-Xmx512m</argLine>
           <useUIHarness>true</useUIHarness>
           <appArgLine>-nl en -consolelog -registryMultiLanguage</appArgLine>
           <includes>
