@@ -158,16 +158,17 @@ public class AdaptersPDETest {
 
   private static IAdaptable stubAdaptable( Object expected, Class<?> adapterType  ) {
     IAdaptable result = mock( IAdaptable.class );
-    when( result.getAdapter( adapterType ) ).thenReturn( expected );
+    when( ( Object )result.getAdapter( adapterType ) ).thenReturn( expected );
     return result;
   }
 
   private static <T> T stubAdaptable( Object expected, Class<T> type, Class<?> adapterType ) {
     T result = mock( type, withSettings().extraInterfaces( IAdaptable.class ) );
-    when( ( ( IAdaptable )result ).getAdapter( adapterType ) ).thenReturn( expected );
+    when( ( Object )( ( IAdaptable )result ).getAdapter( adapterType ) ).thenReturn( expected );
     return result;
   }
 
+  @SuppressWarnings("unchecked")
   private static IAdapterFactory stubAdapterFactory( Collection<Object> expected ) {
     IAdapterFactory result = mock( IAdapterFactory.class );
     when( result.getAdapter( anyObject(), any( Class.class ) ) ).thenReturn( expected );

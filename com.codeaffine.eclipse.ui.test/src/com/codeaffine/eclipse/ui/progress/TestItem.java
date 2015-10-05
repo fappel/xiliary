@@ -41,7 +41,11 @@ class TestItem implements IAdaptable {
   }
 
   @Override
-  public Object getAdapter( @SuppressWarnings("rawtypes") Class adapter ) {
+  @SuppressWarnings({
+    "unchecked",
+    "rawtypes"
+  })
+  public Object getAdapter( Class adapter ) {
     Object result = null;
     if( !ignoreAdapter && adapter == IDeferredWorkbenchAdapter.class ) {
       result = testItemAdapter;

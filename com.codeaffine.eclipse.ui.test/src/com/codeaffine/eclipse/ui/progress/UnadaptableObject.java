@@ -4,7 +4,11 @@ import org.eclipse.core.runtime.PlatformObject;
 
 class UnadaptableObject extends PlatformObject {
   @Override
-  public Object getAdapter( @SuppressWarnings("rawtypes") Class adapter ) {
+  @SuppressWarnings({
+    "unchecked",
+    "rawtypes"
+  })
+  public Object getAdapter( Class adapter ) {
     return null;
   }
 }
