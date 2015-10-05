@@ -1,7 +1,6 @@
     language: java
 jdk:
   - openjdk6
-sudo: false
 branches:
   only:
     - master
@@ -13,3 +12,4 @@ before_script:
 after_success: 
   - chmod a+x .travis-deploy.sh
   - ./.travis-deploy.sh
+sudo: false
