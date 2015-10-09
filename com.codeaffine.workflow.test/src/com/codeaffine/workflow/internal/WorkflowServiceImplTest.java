@@ -1,6 +1,6 @@
 package com.codeaffine.workflow.internal;
 
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static com.codeaffine.workflow.WorkflowContext.VARIABLE_SERVICE;
 import static com.codeaffine.workflow.internal.TaskListAssert.assertThat;
 import static com.codeaffine.workflow.internal.WorkflowServiceImpl.ERROR_DEFINITON_NOT_FOUND;
@@ -15,7 +15,6 @@ import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 import com.codeaffine.workflow.Workflow;
 import com.codeaffine.workflow.WorkflowService;
 import com.codeaffine.workflow.definition.WorkflowDefinition;
@@ -70,12 +69,7 @@ public class WorkflowServiceImplTest {
 
   @Test
   public void createWithNonExistingId() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        service.create( ID );
-      }
-    } );
+    Throwable actual = thrownBy( () -> service.create( ID ) );
 
     assertThat( actual )
       .hasMessage( format( ERROR_DEFINITON_NOT_FOUND, ID ) )

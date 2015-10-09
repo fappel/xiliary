@@ -1,6 +1,6 @@
 package com.codeaffine.workflow.internal;
 
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static com.codeaffine.workflow.WorkflowContext.VARIABLE_CONTEXT;
 import static com.codeaffine.workflow.WorkflowContexts.lookup;
 import static com.codeaffine.workflow.internal.NodeLoaderImpl.ERROR_CHECKED_EXCEPTION;
@@ -13,7 +13,6 @@ import java.rmi.AccessException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 import com.codeaffine.workflow.WorkflowContext;
 
 public class NodeLoaderImplTest {
@@ -78,12 +77,7 @@ public class NodeLoaderImplTest {
 
   @Test
   public void loadWithMissingDefaultConstructor() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() {
-        loader.load( TypeWithoutDefaultConstructor.class, context );
-      }
-    } );
+    Throwable actual = thrownBy( () ->  loader.load( TypeWithoutDefaultConstructor.class, context ) );
 
     assertThat( actual )
       .isInstanceOf( IllegalArgumentException.class )
@@ -92,12 +86,7 @@ public class NodeLoaderImplTest {
 
   @Test
   public void loadWithConstructorThatThrowsRuntimeException() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() {
-        loader.load( TypeThrowingIllegalStateOnCreation.class, context );
-      }
-    } );
+    Throwable actual = thrownBy( () -> loader.load( TypeThrowingIllegalStateOnCreation.class, context ) );
 
     assertThat( actual )
       .isInstanceOf( IllegalStateException.class )
@@ -106,12 +95,7 @@ public class NodeLoaderImplTest {
 
   @Test
   public void loadWithConstructorThatThrowsCheckedException() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() {
-        loader.load( TypeThrowingAccessExceptionOnCreation.class, context );
-      }
-    } );
+    Throwable actual = thrownBy( () -> loader.load( TypeThrowingAccessExceptionOnCreation.class, context ) );
 
     assertThat( actual )
       .isInstanceOf( IllegalArgumentException.class )
@@ -120,12 +104,7 @@ public class NodeLoaderImplTest {
 
   @Test
   public void lookupOutsideOfNodeLoadingCycle() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() {
-        NodeLoaderImpl.lookup( VARIABLE_CONTEXT );
-      }
-    } );
+    Throwable actual = thrownBy( () ->  NodeLoaderImpl.lookup( VARIABLE_CONTEXT ) );
 
     assertThat( actual )
       .isInstanceOf( IllegalStateException.class )

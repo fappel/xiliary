@@ -2,7 +2,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -25,7 +25,6 @@ import com.codeaffine.eclipse.swt.util.Platform.PlatformType;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class ScrollableAdapterFactoryTest {
 
@@ -78,12 +77,7 @@ public class ScrollableAdapterFactoryTest {
 
   @Test
   public void createWithUnsupportedType() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        factory.create( createTree( shell, 1, 1 ), UnsupportedTreeAdapter.class );
-      }
-    } );
+    Throwable actual = thrownBy( () -> factory.create( createTree( shell, 1, 1 ), UnsupportedTreeAdapter.class ) );
 
     assertThat( actual )
       .hasMessageContaining( UnsupportedTreeAdapter.class.getName() )

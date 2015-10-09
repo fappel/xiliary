@@ -64,7 +64,6 @@ public class FlatScrollBarTableTest {
     assertThat( actual ).isExactlyInstanceOf( FillLayout.class );
   }
 
-  @SuppressWarnings("unchecked")
   private FlatScrollBarTable createTableAdapter() {
     return new FlatScrollBarTable( shell, platform, testTableFactory, FlatScrollBarTable.createLayoutMapping() );
   }

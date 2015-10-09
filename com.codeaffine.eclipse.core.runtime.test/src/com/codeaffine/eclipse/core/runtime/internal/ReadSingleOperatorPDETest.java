@@ -6,7 +6,7 @@ import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
 import static com.codeaffine.eclipse.core.runtime.internal.ContributionFinder.ERROR_TOO_MANY_CONTRIBUTIONS;
 import static com.codeaffine.eclipse.core.runtime.internal.ContributionFinder.ERROR_ZERO_CONTRIBUTIONS;
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.core.runtime.Platform;
@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.core.runtime.Extension;
 import com.codeaffine.eclipse.core.runtime.FindException;
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class ReadSingleOperatorPDETest {
 
@@ -37,12 +36,7 @@ public class ReadSingleOperatorPDETest {
 
   @Test
   public void createWithDefaultPredicate() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        operator.create();
-      }
-    } );
+    Throwable actual = thrownBy( () -> operator.create() );
 
     assertThat( actual )
       .isInstanceOf( FindException.class )
@@ -51,26 +45,16 @@ public class ReadSingleOperatorPDETest {
 
   @Test
   public void setPredicateWithTooManyContributions() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        operator.setPredicate( alwaysTrue() );
-      }
-    } );
+    Throwable actual = thrownBy( () ->  operator.setPredicate( alwaysTrue() ) );
 
     assertThat( actual )
-    .isInstanceOf( FindException.class )
-    .hasMessage( ERROR_TOO_MANY_CONTRIBUTIONS );
+      .isInstanceOf( FindException.class )
+      .hasMessage( ERROR_TOO_MANY_CONTRIBUTIONS );
   }
 
   @Test
   public void setPredicateWithZeroContributions() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        operator.setPredicate( alwaysFalse() );
-      }
-    } );
+    Throwable actual = thrownBy( () -> operator.setPredicate( alwaysFalse() ) );
 
     assertThat( actual )
       .isInstanceOf( FindException.class )

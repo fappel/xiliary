@@ -3,7 +3,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -23,7 +23,7 @@ import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
+import com.codeaffine.test.util.lang.ThrowableCaptor;
 
 public class TreeAdapterTest {
 
@@ -60,12 +60,7 @@ public class TreeAdapterTest {
 
   @Test
   public void setLayout() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        adapter.setLayout( new FillLayout() );
-      }
-    } );
+    Throwable actual = thrownBy( () -> adapter.setLayout( new FillLayout() ) );
 
     assertThat( actual ).isInstanceOf( UnsupportedOperationException.class );
   }
@@ -89,12 +84,7 @@ public class TreeAdapterTest {
 
   @Test
   public void constructor() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        new TreeAdapter();
-      }
-    } );
+    Throwable actual = ThrowableCaptor.thrownBy( () -> new TreeAdapter() );
 
     assertThat( actual )
       .hasMessageContaining( "Subclassing not allowed" )

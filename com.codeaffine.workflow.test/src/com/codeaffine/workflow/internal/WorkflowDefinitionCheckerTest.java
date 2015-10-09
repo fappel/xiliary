@@ -1,6 +1,6 @@
 package com.codeaffine.workflow.internal;
 
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static com.codeaffine.workflow.internal.WorkflowDefinitionChecker.MISSING_DEFINITION_ID;
 import static com.codeaffine.workflow.internal.WorkflowDefinitionChecker.MISSING_START_NODE_DECLARATION;
 import static com.codeaffine.workflow.internal.WorkflowDefinitionChecker.MISSING_START_NODE_DEFINITION;
@@ -13,7 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 import com.codeaffine.workflow.test.util.WorkflowDefinitionHelper.TestActivity;
 
 public class WorkflowDefinitionCheckerTest {
@@ -85,11 +84,6 @@ public class WorkflowDefinitionCheckerTest {
   }
 
   private Throwable captureThrownExceptionOnDefinitionCheck() {
-    return thrown( new Actor() {
-      @Override
-      public void act() {
-        definitionChecker.checkDefinition( definition );
-      }
-    } );
+    return thrownBy( () -> definitionChecker.checkDefinition( definition ) );
   }
 }

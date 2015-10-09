@@ -1,6 +1,6 @@
 package com.codeaffine.eclipse.ui.progress;
 
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
@@ -19,8 +19,6 @@ import org.eclipse.core.runtime.Platform;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class AdaptersPDETest {
 
@@ -102,12 +100,7 @@ public class AdaptersPDETest {
     Collection<Object> expected = new ArrayList<Object>();
     registerAdapterFactory( stubAdapterFactory( expected ), Boolean.class );
 
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        adapters.getAdapter( Boolean.TRUE, ADAPTER_TYPE_2 );
-      }
-    } );
+    Throwable actual = thrownBy( () -> adapters.getAdapter( Boolean.TRUE, ADAPTER_TYPE_2 ) );
 
     assertThat( actual ).isInstanceOf( ClassCastException.class );
   }
@@ -141,12 +134,7 @@ public class AdaptersPDETest {
     Collection<Object> expected = new ArrayList<Object>();
     final IAdaptable adaptable = stubAdaptable( expected, ADAPTER_TYPE_2 );
 
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        adapters.getAdapter( adaptable, ADAPTER_TYPE_2 );
-      }
-    } );
+    Throwable actual = thrownBy( () -> adapters.getAdapter( adaptable, ADAPTER_TYPE_2 ) );
 
     assertThat( actual ).isInstanceOf( ClassCastException.class );
   }

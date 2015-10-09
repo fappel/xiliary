@@ -4,7 +4,7 @@ import static com.codeaffine.eclipse.swt.testhelper.TestResources.CLASS_NAME;
 import static com.codeaffine.eclipse.swt.testhelper.TestResources.LOCATION;
 import static com.codeaffine.eclipse.swt.testhelper.TestResources.PROTECTED_CLASS_NAME;
 import static com.codeaffine.eclipse.swt.testhelper.TestResources.PROTECTED_LOCATION;
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.security.ProtectionDomain;
@@ -12,8 +12,6 @@ import java.security.ProtectionDomain;
 import org.eclipse.swt.widgets.Widget;
 import org.junit.Before;
 import org.junit.Test;
-
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class UnsafeTest {
 
@@ -57,14 +55,10 @@ public class UnsafeTest {
 
   @Test
   public void defineClassThatDoesNotExist() {
-    final byte[] bytes = resourceLoader.load( LOCATION );
-    Throwable actual = thrown( new Actor() {
+    byte[] bytes = resourceLoader.load( LOCATION );
 
-      @Override
-      public void act() throws Throwable {
-        unsafe.defineClass( "unknown", bytes, 0, bytes.length, getLoader(), getDomain() );
-      }
-    } );
+    Throwable actual = thrownBy(
+      () ->  unsafe.defineClass( "unknown", bytes, 0, bytes.length, getLoader(), getDomain() ) );
 
     assertThat( actual ).hasRootCauseInstanceOf( NoClassDefFoundError.class );
   }

@@ -64,7 +64,6 @@ public class FlatScrollBarTreeTest {
     assertThat( actual ).isExactlyInstanceOf( FillLayout.class );
   }
 
-  @SuppressWarnings("unchecked")
   private FlatScrollBarTree createTreeAdapter() {
     return new FlatScrollBarTree( shell, platform, testTreeFactory, FlatScrollBarTree.createLayoutMapping() );
   }

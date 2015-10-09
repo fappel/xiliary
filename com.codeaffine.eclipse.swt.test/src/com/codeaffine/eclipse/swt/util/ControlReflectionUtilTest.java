@@ -3,7 +3,7 @@ package com.codeaffine.eclipse.swt.util;
 import static com.codeaffine.eclipse.swt.testhelper.TestResources.PROTECTED_CLASS_NAME;
 import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.$;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static java.lang.Integer.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
@@ -22,7 +22,6 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class ControlReflectionUtilTest {
 
@@ -47,12 +46,7 @@ public class ControlReflectionUtilTest {
 
   @Test
   public void defineWidgetClassThatDoesNotExist() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        reflectionUtil.defineWidgetClass( "path.to.Unknown" );
-      }
-    } );
+    Throwable actual = thrownBy( () -> reflectionUtil.defineWidgetClass( "path.to.Unknown" ) );
 
     assertThat( actual )
       .hasMessageContaining( "path/to/Unknown.class" )
@@ -68,12 +62,7 @@ public class ControlReflectionUtilTest {
 
   @Test
   public void newInstanceWithUninstantiableType() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        reflectionUtil.newInstance( Control.class );
-      }
-    } );
+    Throwable actual = thrownBy( () -> reflectionUtil.newInstance( Control.class ) );
 
     assertThat( actual )
       .hasMessageContaining( Control.class.getName() )
@@ -102,12 +91,7 @@ public class ControlReflectionUtilTest {
 
   @Test
   public void invokeOfUndeclaredMethod() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        reflectionUtil.invoke( mock( Tree.class ), UNDECLARED );
-      }
-    } );
+    Throwable actual = thrownBy( () -> reflectionUtil.invoke( mock( Tree.class ), UNDECLARED ) );
 
     assertThat( actual )
       .hasMessageContaining( UNDECLARED )
@@ -119,12 +103,7 @@ public class ControlReflectionUtilTest {
     RuntimeException expected = new RuntimeException( "thrownOnPurpose" );
     final Tree receiver = stubTreeWithProblemOnRedraw( expected );
 
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        reflectionUtil.invoke( receiver, "redraw" );
-      }
-    } );
+    Throwable actual = thrownBy( () -> reflectionUtil.invoke( receiver, "redraw" ) );
 
     assertThat( actual )
       .isSameAs( expected );
@@ -166,13 +145,9 @@ public class ControlReflectionUtilTest {
 
   @Test
   public void setFieldWithUndeclaredName() {
-    Throwable actual = thrown( new Actor() {
+    Tree tree = mock( Tree.class );
 
-      @Override
-      public void act() throws Throwable {
-        reflectionUtil.setField( mock( Tree.class ), UNDECLARED, displayHelper.getDisplay() );
-      }
-    } );
+    Throwable actual = thrownBy( () -> reflectionUtil.setField( tree, UNDECLARED, displayHelper.getDisplay() ) );
 
     assertThat( actual )
       .hasMessageContaining( UNDECLARED )
@@ -181,13 +156,7 @@ public class ControlReflectionUtilTest {
 
   @Test
   public void setFieldWithWrongType() {
-    Throwable actual = thrown( new Actor() {
-
-      @Override
-      public void act() throws Throwable {
-        reflectionUtil.setField( mock( Tree.class ), DISPLAY, new Object() );
-      }
-    } );
+    Throwable actual = thrownBy( () -> reflectionUtil.setField( mock( Tree.class ), DISPLAY, new Object() ) );
 
     assertThat( actual )
       .hasMessageContaining( DISPLAY )

@@ -1,6 +1,6 @@
 package com.codeaffine.test.util.util.concurrent;
 
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static java.lang.Thread.currentThread;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
@@ -8,8 +8,6 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 import org.junit.runners.model.Statement;
-
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class RunInThreadStatementTest {
 
@@ -30,12 +28,7 @@ public class RunInThreadStatementTest {
     AssertionError expected = new AssertionError();
     final RunInThreadStatement statement = createWithBaseThatThrows( expected );
 
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        statement.evaluate();
-      }
-    } );
+    Throwable actual = thrownBy( () -> statement.evaluate() );
 
     assertThat( actual ).isSameAs( expected );
   }
@@ -43,14 +36,9 @@ public class RunInThreadStatementTest {
   @Test
   public void evaluateOnException() throws Throwable {
     Exception expected = new Exception();
-    final RunInThreadStatement statement = createWithBaseThatThrows( expected );
+    RunInThreadStatement statement = createWithBaseThatThrows( expected );
 
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        statement.evaluate();
-      }
-    } );
+    Throwable actual = thrownBy( () -> statement.evaluate() );
 
     assertThat( actual ).isSameAs( expected );
   }

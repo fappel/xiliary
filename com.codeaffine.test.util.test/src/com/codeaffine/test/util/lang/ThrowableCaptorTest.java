@@ -6,26 +6,25 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 
-import com.codeaffine.test.util.lang.ThrowableCaptor;
 import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class ThrowableCaptorTest {
 
   @Test
-  public void thrown() throws Throwable {
+  public void thrownBy() throws Throwable {
     Throwable expected = new Throwable();
     Actor actor = createActorThatThrows( expected );
 
-    Throwable actual = ThrowableCaptor.thrown( actor );
+    Throwable actual = ThrowableCaptor.thrownBy( actor );
 
     assertThat( actual ).isSameAs( expected );
   }
 
   @Test
-  public void thrownIfNoThrowableOccurs() {
+  public void thrownByIfNoThrowableOccurs() {
     Actor actor = mock( Actor.class );
 
-    Throwable actual = ThrowableCaptor.thrown( actor );
+    Throwable actual = ThrowableCaptor.thrownBy( actor );
 
     assertThat( actual ).isNull();
   }

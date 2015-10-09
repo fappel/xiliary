@@ -1,7 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -15,8 +14,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper;
-import com.codeaffine.eclipse.swt.widget.scrollable.context.BoundsReconciliation;
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
+import com.codeaffine.test.util.lang.ThrowableCaptor;
 
 public class BoundsReconciliationTest {
 
@@ -118,14 +116,10 @@ public class BoundsReconciliationTest {
   @Test
   public void runSuspendedWithProblem() {
     Rectangle expected = new Rectangle( 100, 200, 300, 400 );
-    final RuntimeException toBeThrown = new RuntimeException();
+    RuntimeException toBeThrown = new RuntimeException();
 
-    Throwable problem = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        reconciliation.runSuspended( stubRunnableWithProblem( toBeThrown ) );
-      }
-    } );
+    Throwable problem = ThrowableCaptor.thrownBy(
+      () -> reconciliation.runSuspended( stubRunnableWithProblem( toBeThrown ) ) );
     scrollable.setBounds( expected );
     reconciliation.run();
 

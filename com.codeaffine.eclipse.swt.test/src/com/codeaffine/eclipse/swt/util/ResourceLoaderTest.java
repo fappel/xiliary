@@ -1,15 +1,13 @@
 package com.codeaffine.eclipse.swt.util;
 
 import static com.codeaffine.eclipse.swt.testhelper.TestResources.LOCATION;
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
-
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class ResourceLoaderTest {
 
@@ -35,12 +33,7 @@ public class ResourceLoaderTest {
 
   @Test
   public void loadUnkownResource() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        new ResourceLoader().load( UNKNOWN_PATH );
-      }
-    } );
+    Throwable actual = thrownBy( () ->  new ResourceLoader().load( UNKNOWN_PATH ) );
 
     assertThat( actual )
       .isInstanceOf( IllegalArgumentException.class )
@@ -48,11 +41,8 @@ public class ResourceLoaderTest {
   }
 
   private static int calculateExpectedSize( String location ) throws IOException {
-    InputStream input = ResourceLoaderTest.class.getClassLoader().getResourceAsStream( location );
-    try {
+    try( InputStream input = ResourceLoaderTest.class.getClassLoader().getResourceAsStream( location ); ) {
       return input.available();
-    } finally {
-      input.close();
     }
   }
 }

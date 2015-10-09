@@ -10,7 +10,7 @@ import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.PATT
 import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.PATTERN_WRONG_CHILD_SIZE;
 import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.PATTERN_WRONG_CHILD_SIZE_WITH_ATTRIB;
 import static com.codeaffine.eclipse.core.runtime.test.util.TestExtension.EXTENSION_POINT_ID;
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
@@ -19,7 +19,6 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.core.runtime.Extension;
 import com.codeaffine.eclipse.core.runtime.RegistryAdapter;
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class ExtensionAssertPDETest {
 
@@ -58,12 +57,7 @@ public class ExtensionAssertPDETest {
 
   @Test
   public void hasAttributeValueThatDoesNotMatch() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        extensionAssert.hasAttributeValue( ATTRIBUTE_NAME, DOES_NOT_MATCH );
-      }
-    } );
+    Throwable actual = thrownBy( () -> extensionAssert.hasAttributeValue( ATTRIBUTE_NAME, DOES_NOT_MATCH ) );
 
     assertThat( actual )
       .hasMessage( format( PATTERN_WRONG_ATTRIBUTE, ATTRIBUTE_NAME, DOES_NOT_MATCH, ATTRIBUTE_VALUE ) )
@@ -72,12 +66,7 @@ public class ExtensionAssertPDETest {
 
   @Test
   public void hasAttributeValueWithUnknownName() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        extensionAssert.hasAttributeValue( UNKNOWN, DOES_NOT_MATCH );
-      }
-    } );
+    Throwable actual = thrownBy( () -> extensionAssert.hasAttributeValue( UNKNOWN, DOES_NOT_MATCH ) );
 
     assertThat( actual )
       .hasMessage( format( PATTERN_WRONG_ATTRIBUTE, UNKNOWN, DOES_NOT_MATCH, null ) )
@@ -93,12 +82,7 @@ public class ExtensionAssertPDETest {
 
   @Test
   public void hasNonEmptyAttributeValueForWithEmptyValue() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        extensionAssert.hasNonEmptyAttributeValueFor( EMPTY );
-      }
-    } );
+    Throwable actual = thrownBy( () -> extensionAssert.hasNonEmptyAttributeValueFor( EMPTY ) );
 
     assertThat( actual )
       .hasMessage( format( PATTERN_EMPTY_ATTRIBUTE, EMPTY ) )
@@ -107,12 +91,7 @@ public class ExtensionAssertPDETest {
 
   @Test
   public void hasNonEmptyAttributeValueForWithNullValue() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        extensionAssert.hasNonEmptyAttributeValueFor( UNKNOWN );
-      }
-    } );
+    Throwable actual = thrownBy( () -> extensionAssert.hasNonEmptyAttributeValueFor( UNKNOWN ) );
 
     assertThat( actual )
       .hasMessage( format( PATTERN_NULL_ATTRIBUTE,  UNKNOWN ) )
@@ -128,12 +107,7 @@ public class ExtensionAssertPDETest {
 
   @Test
   public void hasNoAttributeValueForWithValue() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        extensionAssert.hasNoAttributeValueFor( ATTRIBUTE_NAME );
-      }
-    } );
+    Throwable actual = thrownBy( () -> extensionAssert.hasNoAttributeValueFor( ATTRIBUTE_NAME ) );
 
     assertThat( actual )
       .hasMessage( format( PATTERN_NOT_NULL_ATTRIBUTE, ATTRIBUTE_NAME, ATTRIBUTE_VALUE ) )
@@ -149,12 +123,7 @@ public class ExtensionAssertPDETest {
 
   @Test
   public void isInstantiableWithUnknownType() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        extensionAssert.isInstantiable( UNKNOWN, TestExtension.class );
-      }
-    } );
+    Throwable actual = thrownBy( () -> extensionAssert.isInstantiable( UNKNOWN, TestExtension.class ) );
 
     assertThat( actual )
       .hasMessage( format( PATTERN_ERR_CREATE, TestExtension.class.getName(), null, UNKNOWN ) )
@@ -163,12 +132,7 @@ public class ExtensionAssertPDETest {
 
   @Test
   public void isInstantiableWithWrongType() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        extensionAssert.isInstantiable( TYPE, Runnable.class );
-      }
-    } );
+    Throwable actual = thrownBy( () -> extensionAssert.isInstantiable( TYPE, Runnable.class ) );
 
     assertThat( actual )
       .hasMessage( format( PATTERN_ERR_CREATE, Runnable.class.getName(), TestExtension.class.getName(), TYPE ) )
@@ -186,12 +150,7 @@ public class ExtensionAssertPDETest {
   @Test
   @Ignore( "https://github.com/fappel/xiliary/issues/3" )
   public void hasChildrenWithNonEmptyValueWithWrongChildAmount() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        extensionAssert.hasChildrenWithNonEmptyValue( CHILD, 2 );
-      }
-    } );
+    Throwable actual = thrownBy( () ->  extensionAssert.hasChildrenWithNonEmptyValue( CHILD, 2 ) );
 
     assertThat( actual )
       .hasMessage( format( PATTERN_WRONG_CHILD_SIZE, 2, CONTRIBUTION, CHILD, 1 ) )
@@ -207,12 +166,7 @@ public class ExtensionAssertPDETest {
 
   @Test
   public void hasChildWithAttributeValueThatDoesNotMatch() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        extensionAssert.hasChildWithAttributeValue( ATTRIBUTE_NAME, DOES_NOT_MATCH );
-      }
-    } );
+    Throwable actual = thrownBy( () -> extensionAssert.hasChildWithAttributeValue( ATTRIBUTE_NAME, DOES_NOT_MATCH ) );
 
     assertThat( actual )
       .hasMessage( format( PATTERN_WRONG_CHILD_SIZE_WITH_ATTRIB, ATTRIBUTE_NAME, DOES_NOT_MATCH, 0 ) )
@@ -221,12 +175,7 @@ public class ExtensionAssertPDETest {
 
   @Test
   public void hasChildWithAttributeValueWithTooManyMatches() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        extensionAssert.hasChildWithAttributeValue( "category", "A" );
-      }
-    } );
+    Throwable actual = thrownBy( () -> extensionAssert.hasChildWithAttributeValue( "category", "A" ) );
 
     assertThat( actual )
       .hasMessage( format( PATTERN_WRONG_CHILD_SIZE_WITH_ATTRIB, "category", "A", 2 ) )

@@ -6,7 +6,6 @@ import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.TestExtension.EXTENSION_POINT;
 import static com.codeaffine.eclipse.core.runtime.internal.ContributionFinder.ERROR_TOO_MANY_CONTRIBUTIONS;
 import static com.codeaffine.eclipse.core.runtime.internal.ContributionFinder.ERROR_ZERO_CONTRIBUTIONS;
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -16,7 +15,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.core.runtime.FindException;
 import com.codeaffine.eclipse.core.runtime.Predicate;
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
+import com.codeaffine.test.util.lang.ThrowableCaptor;
 
 public class ContributionFinderPDETest {
 
@@ -38,12 +37,7 @@ public class ContributionFinderPDETest {
 
   @Test
   public void thatMatchesWithTooManyMatches() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        finder.find( EXTENSION_POINT, alwaysTrue() );
-      }
-    } );
+    Throwable actual = ThrowableCaptor.thrownBy( () -> finder.find( EXTENSION_POINT, alwaysTrue() ) );
 
     assertThat( actual )
       .isInstanceOf( FindException.class )
@@ -52,12 +46,7 @@ public class ContributionFinderPDETest {
 
   @Test
   public void thatMatchesWithNoMatches() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        finder.find( EXTENSION_POINT, alwaysFalse() );
-      }
-    } );
+    Throwable actual = ThrowableCaptor.thrownBy( () -> finder.find( EXTENSION_POINT, alwaysFalse() ) );
 
     assertThat( actual )
       .isInstanceOf( FindException.class )

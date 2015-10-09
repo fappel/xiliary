@@ -1,6 +1,6 @@
 package com.codeaffine.workflow.internal;
 
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static com.codeaffine.workflow.internal.DecisionVerificator.ERROR_UNREACHABLE_NODE;
 import static com.codeaffine.workflow.internal.FlowProcessor.ERROR_ILLEGAL_MOVE;
 import static com.codeaffine.workflow.internal.FlowProcessor.ERROR_UNAVAILABLE_OPERATION;
@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 import com.codeaffine.workflow.NodeDefinition;
 import com.codeaffine.workflow.persistence.FlowProcessorMemento;
 import com.codeaffine.workflow.test.util.FlowEventLog;
@@ -77,12 +76,7 @@ public class FlowProcessorTest {
     definition.addActivity( OPERATION_ID, TestActivity.class, null );
     definition.setStart( DECISION_ID );
 
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        flowProcessor.move();
-      }
-    } );
+    Throwable actual = thrownBy( () -> flowProcessor.move() );
 
     assertThat( actual )
       .hasMessage( format( ERROR_UNREACHABLE_NODE, OPERATION_ID, DECISION_ID ) )
@@ -113,12 +107,7 @@ public class FlowProcessorTest {
     definition.setStart( OPERATION_ID );
     flowProcessor.move();
 
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() {
-        flowProcessor.move();
-      }
-    } );
+    Throwable actual = thrownBy( () -> flowProcessor.move() );
 
     assertThat( actual )
       .isInstanceOf( IllegalStateException.class )
@@ -168,12 +157,7 @@ public class FlowProcessorTest {
 
   @Test
   public void acquireOnUnavailableOperation() {
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() {
-        flowProcessor.acquire();
-      }
-    } );
+    Throwable actual = thrownBy( () -> flowProcessor.acquire() );
 
     assertThat( actual )
       .isInstanceOf( IllegalStateException.class )

@@ -1,6 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrown;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.inOrder;
@@ -11,9 +11,6 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
-
-import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
-import com.codeaffine.test.util.lang.ThrowableCaptor.Actor;
 
 public class ReconciliationTest {
 
@@ -65,14 +62,9 @@ public class ReconciliationTest {
   @Test
   public void runWhileSuspendedWithProblemOnRunnableExecution() {
     RuntimeException expected = new RuntimeException();
-    final Runnable runnable = stubRunnableWithProblem( expected );
+    Runnable runnable = stubRunnableWithProblem( expected );
 
-    Throwable actual = thrown( new Actor() {
-      @Override
-      public void act() throws Throwable {
-        reconciliation.runWhileSuspended( runnable );
-      }
-    } );
+    Throwable actual = thrownBy( () ->  reconciliation.runWhileSuspended( runnable ) );
 
     InOrder order = order( runnable );
     verifyActionsBeforeRunnableExcecution( order );
@@ -83,10 +75,7 @@ public class ReconciliationTest {
   }
 
   private InOrder order( Runnable runnable ) {
-    return inOrder( runnable,
-                    boundsReconciliation,
-                    visibliltyReconciliation,
-                    layoutReconciliation );
+    return inOrder( runnable, boundsReconciliation, visibliltyReconciliation, layoutReconciliation );
   }
 
   private void verifyActionsBeforeRunnableExcecution( InOrder order ) {
