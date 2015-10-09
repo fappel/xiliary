@@ -1,6 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.util.ReadAndDispatch.ERROR_BOX_HANDLER;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createPackedSingleColumnTableDialog;
 import static java.lang.Math.min;
 
@@ -8,7 +9,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Tree;
@@ -96,14 +96,6 @@ public class ScrollableAdapterFactoryDemo {
   }
 
   private void spinLoop() {
-    try {
-      new ReadAndDispatch().spinLoop( shell );
-    } catch (RuntimeException e) {
-      MessageBox messageBox = new MessageBox( shell, SWT.ICON_ERROR );
-      messageBox.setText( "Error" );
-      messageBox.setMessage( "The following problem occured:\n\n" + e.getMessage() + "\n\nSee log for more info." );
-      messageBox.open();
-      e.printStackTrace();
-    }
+    new ReadAndDispatch( ERROR_BOX_HANDLER ).spinLoop( shell );
   }
 }

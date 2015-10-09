@@ -1,6 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.layout.FormDatas.attach;
+import static com.codeaffine.eclipse.swt.util.ReadAndDispatch.ERROR_BOX_HANDLER;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ControlAdapter;
@@ -48,7 +49,7 @@ public class FlatScrollBarDemo {
     Composite parent = new Composite( shell, SWT.NONE );
     new FlatScrollBarDemo().createWithSlider( parent );
     shell.setBounds( 250, 200, 200, 300 );
-    new ReadAndDispatch().spinLoop( shell );
+    new ReadAndDispatch( ERROR_BOX_HANDLER ).spinLoop( shell );
   }
 
   void create( final Composite parent ) {

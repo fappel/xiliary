@@ -1,10 +1,10 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.util.ReadAndDispatch.ERROR_BOX_HANDLER;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Rule;
@@ -38,14 +38,6 @@ public class FlatScrollBarTreeDemo {
   public void demo() {
     TreeHelper.expandRootLevelItems( testTreeFactory.getTree() );
     TreeHelper.expandTopBranch( testTreeFactory.getTree() );
-    try {
-      new ReadAndDispatch().spinLoop( shell );
-    } catch (RuntimeException e) {
-      MessageBox messageBox = new MessageBox( shell, SWT.ICON_ERROR );
-      messageBox.setText( "Error" );
-      messageBox.setMessage( "The following problem occured:\n\n" + e.getMessage() + "\n\nSee log for more info." );
-      messageBox.open();
-      e.printStackTrace();
-    }
+    new ReadAndDispatch( ERROR_BOX_HANDLER ).spinLoop( shell );
   }
 }
