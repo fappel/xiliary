@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.swt.test.util;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.Shell;
 
 public class ShellHelper {
@@ -23,5 +24,9 @@ public class ShellHelper {
     Shell result = displayHelper.createShell( style );
     result.setBounds( DEFAULT_BOUNDS );
     return result;
+  }
+
+  public static Rectangle computeTrim( Decorations decorations, Rectangle bounds ) {
+    return decorations.computeTrim( bounds.x, bounds.y, bounds.width, bounds.height );
   }
 }

@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.test.util.ShellHelper.computeTrim;
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.util.ReadAndDispatch.ERROR_BOX_HANDLER;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createPackedSingleColumnTableDialog;
@@ -79,7 +80,7 @@ public class ScrollableAdapterFactoryDemo {
     TableAdapter adapter = factory.create( table, TableAdapter.class );
     adapter.setThumbColor( Display.getCurrent().getSystemColor( SWT.COLOR_RED ) );
     Rectangle tableBounds = adjustTableHeight( table, TABLE_ITEM_COUNT + 2 );
-    shell.setBounds( computeShellTrim( tableBounds ) );
+    shell.setBounds( computeTrim( shell, tableBounds ) );
     table.getColumns()[ 0 ].setWidth( table.getClientArea().width );
     shell.setLocation( 300, 300 );
     shell.open();
@@ -91,10 +92,6 @@ public class ScrollableAdapterFactoryDemo {
     result.height = min( result.height, table.getItemHeight() * maxItems );
     table.setBounds( result );
     return result;
-  }
-
-  private Rectangle computeShellTrim( Rectangle tableBounds ) {
-    return shell.computeTrim( tableBounds.x, tableBounds.y, tableBounds.width, tableBounds.height );
   }
 
   private void spinLoop() {
