@@ -26,7 +26,21 @@ public class ShellHelper {
     return result;
   }
 
+  public static Shell createDemoShell( DisplayHelper displayHelper ) {
+    Shell result = createShell( displayHelper, SWT.SHELL_TRIM );
+    result.setBackground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_WHITE ) );
+    result.setLayout( createDemoShellLayout() );
+    return result;
+  }
+
   public static Rectangle computeTrim( Decorations decorations, Rectangle bounds ) {
     return decorations.computeTrim( bounds.x, bounds.y, bounds.width, bounds.height );
+  }
+
+  private static FillLayout createDemoShellLayout() {
+    FillLayout result = new FillLayout();
+    result.marginHeight = 10;
+    result.marginWidth = 10;
+    return result;
   }
 }
