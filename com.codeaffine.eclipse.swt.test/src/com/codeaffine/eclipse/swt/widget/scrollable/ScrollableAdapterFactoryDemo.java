@@ -3,6 +3,8 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.util.ReadAndDispatch.ERROR_BOX_HANDLER;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createPackedSingleColumnTableDialog;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
 import static java.lang.Math.min;
 
 import org.eclipse.swt.SWT;
@@ -46,8 +48,8 @@ public class ScrollableAdapterFactoryDemo {
     TreeAdapter adapter = factory.create( tree, TreeAdapter.class );
     adapter.setThumbColor( Display.getCurrent().getSystemColor( SWT.COLOR_RED ) );
     shell.open();
-    TreeHelper.expandRootLevelItems( tree );
-    TreeHelper.expandTopBranch( tree );
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
     spinLoop();
   }
 
@@ -57,8 +59,8 @@ public class ScrollableAdapterFactoryDemo {
     TreeAdapter adapter = factory.create( tree, TreeAdapter.class );
     adapter.setThumbColor( Display.getCurrent().getSystemColor( SWT.COLOR_RED ) );
     shell.open();
-    TreeHelper.expandRootLevelItems( tree );
-    TreeHelper.expandTopBranch( tree );
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
     spinLoop();
   }
 
