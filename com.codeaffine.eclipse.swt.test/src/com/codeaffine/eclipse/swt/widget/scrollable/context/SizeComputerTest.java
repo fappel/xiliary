@@ -9,6 +9,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
@@ -115,11 +116,13 @@ public class SizeComputerTest {
   }
 
   private Point expectedSize() {
-    return new Point( computePreferredScrollableSize().x, computePreferredScrollableSize().y );
+    ScrollBar horizontalBar = scrollable.getHorizontalBar();
+    return new Point( horizontalBar.getMaximum(), computePreferredScrollableSize().y );
   }
 
   private Point expectedSizeWithPreferredWidthAdjustment() {
-    return new Point( ( computePreferredScrollableSize().x ) * 2, computePreferredScrollableSize().y );
+    ScrollBar horizontalBar = scrollable.getHorizontalBar();
+    return new Point( horizontalBar.getMaximum() * 2, computePreferredScrollableSize().y );
   }
 
   private Point computePreferredScrollableSize() {

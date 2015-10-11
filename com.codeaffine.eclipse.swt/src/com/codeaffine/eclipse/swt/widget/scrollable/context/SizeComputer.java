@@ -33,7 +33,8 @@ class SizeComputer {
       scrollable.setData( PREFERRED_SIZE, scrollable.getSize() );
     } else {
       int parentWidth = adapter.getClientArea().width;
-      int width = max( parentWidth, computed.x );
+      ScrollBar horizontalBar = scrollable.getHorizontalBar();
+      int width = max( parentWidth, horizontalBar.getMaximum() );
       scrollable.setData( PREFERRED_SIZE, new Point( width, computed.y ) );
     }
   }
@@ -41,8 +42,8 @@ class SizeComputer {
   void adjustPreferredWidthIfHorizontalBarIsVisible() {
     ScrollBar horizontalBar = scrollable.getHorizontalBar();
     if( horizontalBar.isVisible() && adapter.getParent() == scrollable.getParent() ) {
-      int adjustment = getPreferredSizeInternal().x;
-      scrollable.setData( getWidthOffsetKey(), valueOf( adjustment ) );
+      updatePreferredSize();
+      scrollable.setData( getWidthOffsetKey(), valueOf( getPreferredSizeInternal().x ) );
     }
   }
 

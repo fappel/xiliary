@@ -160,6 +160,7 @@ public class AdaptionContextTest {
 
   @Test
   public void adjustPreferredWidthIfHorizontalBarIsVisible() {
+    shell.setSize( 500, 400 );
     expandRootLevelItems( tree );
     expandTopBranch( tree );
     adaptionContext.updatePreferredSize();
@@ -181,7 +182,7 @@ public class AdaptionContextTest {
     int thresholdHight = computeThresholdHeight();
     shell.setSize( 1000, thresholdHight );
     AdaptionContext<Tree> first = adaptionContext.newContext( tree.getItemHeight() );
-    shell.setSize( 100, thresholdHight );
+    shell.setSize( 90, thresholdHight );
     AdaptionContext<Tree> second = adaptionContext.newContext( tree.getItemHeight() );
 
     assertThat( first )
