@@ -68,12 +68,7 @@ class WatchDog implements Runnable, DisposeListener {
   }
 
   private void runWithReconciliationSuspended() {
-    reconciliation.runWhileSuspended( new Runnable() {
-      @Override
-      public void run() {
-        doRun();
-      }
-    } );
+    reconciliation.runWhileSuspended( () -> doRun() );
   }
 
   private void doRun() {
