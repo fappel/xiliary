@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 
 import com.codeaffine.eclipse.swt.util.Platform;
 import com.codeaffine.eclipse.swt.util.PlatformSupport;
@@ -105,6 +106,26 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
   @Override
   public void setVisible( boolean visible ) {
     super.setVisible( reconciliation.setVisible( visible ) );
+  }
+
+  @Override
+  public TreeColumn getColumn( int index ) {
+    return tree.getColumn( index );
+  }
+
+  @Override
+  public int[] getColumnOrder() {
+    return tree.getColumnOrder();
+  }
+
+  @Override
+  public int getColumnCount() {
+    return tree.getColumnCount();
+  }
+
+  @Override
+  public TreeColumn[] getColumns() {
+    return tree.getColumns();
   }
 
   ////////////////////////////////////////////////////

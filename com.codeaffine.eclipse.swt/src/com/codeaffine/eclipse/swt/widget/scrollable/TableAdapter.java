@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 
 import com.codeaffine.eclipse.swt.util.Platform;
 import com.codeaffine.eclipse.swt.util.PlatformSupport;
@@ -105,6 +106,26 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
   @Override
   public void setVisible( boolean visible ) {
     super.setVisible( reconciliation.setVisible( visible ) );
+  }
+
+  @Override
+  public TableColumn getColumn( int index ) {
+    return table.getColumn( index );
+  }
+
+  @Override
+  public int getColumnCount() {
+    return table.getColumnCount();
+  }
+
+  @Override
+  public int[] getColumnOrder() {
+    return table.getColumnOrder();
+  }
+
+  @Override
+  public TableColumn[] getColumns() {
+    return table.getColumns();
   }
 
   ////////////////////////////////////////////////////

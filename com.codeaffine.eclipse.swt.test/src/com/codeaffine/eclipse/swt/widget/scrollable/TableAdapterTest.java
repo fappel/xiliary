@@ -1,6 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.HEADER_TITLES;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createTable;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -167,6 +168,13 @@ public class TableAdapterTest {
     assertThat( actual ).isEqualTo( expected );
   }
 
+  @Test
+  public void tableColumnDelegation() {
+    assertThat( adapter.getColumn( 0 ) ).isNotNull();
+    assertThat( adapter.getColumnCount() ).isEqualTo( HEADER_TITLES.length );
+    assertThat( adapter.getColumnOrder() ).isEqualTo( table.getColumnOrder() );
+    assertThat( adapter.getColumns() ).hasSize( HEADER_TITLES.length );
+  }
 
   private void scrollHorizontal( final TableAdapter adapter, final int selection ) {
     final int duration = 100;

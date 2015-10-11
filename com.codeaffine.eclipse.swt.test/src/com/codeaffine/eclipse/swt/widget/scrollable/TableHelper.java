@@ -10,7 +10,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 class TableHelper {
 
-  private static final String[] HEADER_TITLES = {" ", "Name", "Description" };
+  static final String[] HEADER_TITLES = {" ", "Name", "Description" };
 
   static Table createPackedSingleColumnTable( Composite parent, int itemCount ) {
     Table result = new Table( parent, SWT.SINGLE | SWT.FULL_SELECTION );

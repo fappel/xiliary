@@ -14,6 +14,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -184,6 +185,16 @@ public class TreeAdapterTest {
     Point actual = adapter.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
 
     assertThat( actual ).isEqualTo( expected );
+  }
+
+  @Test
+  public void treeColumnDelegation() {
+    TreeColumn expected = new TreeColumn( tree, SWT.NONE );
+
+    assertThat( adapter.getColumn( 0 ) ).isSameAs( expected );
+    assertThat( adapter.getColumnCount() ).isEqualTo( 1 );
+    assertThat( adapter.getColumnOrder() ).isEqualTo( tree.getColumnOrder() );
+    assertThat( adapter.getColumns() ).hasSize( 1 );
   }
 
   private void scrollHorizontal( final TreeAdapter adapter, final int selection ) {
