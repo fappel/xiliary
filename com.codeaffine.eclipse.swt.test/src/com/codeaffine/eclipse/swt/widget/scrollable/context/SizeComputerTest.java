@@ -96,13 +96,27 @@ public class SizeComputerTest {
 
   @Test
   public void updatePreferredSize() {
-    Point expected = computer.getPreferredSize();
+    Point preferredSize = computer.getPreferredSize();
     expandTopBranch( scrollable );
 
     computer.updatePreferredSize();
     Point actual = computer.getPreferredSize();
 
-    assertThat( actual ).isNotEqualTo( expected );
+    assertThat( actual ).isNotEqualTo( preferredSize );
+  }
+
+  @Test
+  public void updatePreferredSizeBuffering() {
+    expandTopBranch( scrollable );
+    shell.setSize( 400, 200 );
+
+    computer.updatePreferredSize();
+    Point buffered = computer.getPreferredSize();
+    shell.setSize( 200, 200 );
+    computer.updatePreferredSize();
+    Point actual = computer.getPreferredSize();
+
+    assertThat( actual ).isEqualTo( buffered );
   }
 
   private static Composite createAdapter( Composite parent ) {

@@ -13,6 +13,7 @@ class SizeComputer {
 
   static final String WIDTH_OFFSET_ON_VISIBLE_HORIZONTAL_BAR = AdaptionContext.class.getName() + "#widthAdjustment:";
   static final String PREFERRED_SIZE = AdaptionContext.class.getName() + "# preferredSize";
+  static final Point EMPTY_BUFFER_SIZE = new Point( 0, 0 );
 
   private final Scrollable scrollable;
   private final Composite adapter;
@@ -34,7 +35,7 @@ class SizeComputer {
     } else {
       int parentWidth = adapter.getClientArea().width;
       ScrollBar horizontalBar = scrollable.getHorizontalBar();
-      int width = max( parentWidth, horizontalBar.getMaximum() );
+      int width = max( getBufferedPreferredSize().x, max( parentWidth, horizontalBar.getMaximum() ) );
       scrollable.setData( PREFERRED_SIZE, new Point( width, computed.y ) );
     }
   }
@@ -48,22 +49,20 @@ class SizeComputer {
   }
 
   private Point getPreferredSizeInternal() {
-    if( getBufferedPreferredSize() == null ) {
+    if( getBufferedPreferredSize().equals( EMPTY_BUFFER_SIZE ) ) {
       updatePreferredSize();
     }
     return getBufferedPreferredSize();
   }
 
   private Point getBufferedPreferredSize() {
-    return ( Point )scrollable.getData( PREFERRED_SIZE );
+    Point result = ( Point )scrollable.getData( PREFERRED_SIZE );
+    return result == null ? EMPTY_BUFFER_SIZE: result;
   }
 
   private int getPreferredWidthAdjustmentForVisibleHorizontalBar() {
-    Integer adjustment = ( Integer )scrollable.getData( getWidthOffsetKey() );
-    if( adjustment != null ) {
-      return adjustment.intValue();
-    }
-    return 0;
+    Integer result = ( Integer )scrollable.getData( getWidthOffsetKey() );
+    return result != null ? result.intValue() : 0;
   }
 
   private String getWidthOffsetKey() {
