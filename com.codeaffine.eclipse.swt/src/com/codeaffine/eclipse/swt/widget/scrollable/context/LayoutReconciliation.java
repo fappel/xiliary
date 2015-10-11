@@ -25,6 +25,7 @@ class LayoutReconciliation {
       }
     }
   }
+
   private void reconcileStackLayout() {
     StackLayout stackLayout = ( StackLayout )adapter.getParent().getLayout();
     if( stackLayout.topControl == scrollable ) {
