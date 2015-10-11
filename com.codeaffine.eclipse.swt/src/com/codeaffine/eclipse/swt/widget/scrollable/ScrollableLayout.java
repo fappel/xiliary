@@ -40,12 +40,7 @@ class ScrollableLayout extends Layout {
 
   @Override
   protected void layout( Composite composite, boolean flushCache ) {
-    reconciliation.runWhileSuspended( new Runnable() {
-      @Override
-      public void run() {
-        layout();
-      }
-    } );
+    reconciliation.runWhileSuspended( () -> layout() );
   }
 
   @Override
