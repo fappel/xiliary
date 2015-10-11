@@ -9,12 +9,17 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRoot
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
 import static java.lang.Math.min;
 
+import java.util.Random;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.ui.part.PageBook;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,7 +48,7 @@ public class ScrollableAdapterFactoryDemo {
     shell.open();
     expandRootLevelItems( tree );
     expandTopBranch( tree );
-    new ReadAndDispatch( ERROR_BOX_HANDLER ).spinLoop( shell );
+    spinLoop();
   }
 
   @Test
@@ -53,14 +58,29 @@ public class ScrollableAdapterFactoryDemo {
     shell.open();
     expandRootLevelItems( tree );
     expandTopBranch( tree );
-    new ReadAndDispatch( ERROR_BOX_HANDLER ).spinLoop( shell );
+    spinLoop();
+  }
+
+  @Test
+  public void treeInPageBookDemo() {
+    PageBook pageBook = new PageBook( shell, SWT.NONE );
+    pageBook.setBackground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLUE ) );
+    Label label = new Label( pageBook, SWT.NONE );
+    label.setText( "Frontpage" );
+    Tree tree = new TestTreeFactory().create( pageBook );
+    adapt( tree, TreeAdapter.class );
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
+    scheduleRandomPageSelection( pageBook, label, tree );
+    shell.open();
+    spinLoop();
   }
 
   @Test
   public void tableDemo() {
     adapt( new TestTableFactory().create( shell ), TableAdapter.class );
     shell.open();
-    new ReadAndDispatch( ERROR_BOX_HANDLER ).spinLoop( shell );
+    spinLoop();
   }
 
   @Test
@@ -71,7 +91,21 @@ public class ScrollableAdapterFactoryDemo {
     table.getColumns()[ 0 ].setWidth( table.getClientArea().width );
     shell.setLocation( 300, 300 );
     shell.open();
+    spinLoop();
+  }
+
+  private void spinLoop() {
     new ReadAndDispatch( ERROR_BOX_HANDLER ).spinLoop( shell );
+  }
+
+  private void scheduleRandomPageSelection( PageBook pageBook, Control page1, Control page2 ) {
+    displayHelper.getDisplay().timerExec( 2000, () -> {
+      pageBook.showPage( page1 );
+      if( new Random().nextBoolean() ) {
+        pageBook.showPage( page2 );
+      }
+      scheduleRandomPageSelection( pageBook, page1, page2 );
+    } );
   }
 
   private static Table equipWithSingleColumnTable( Shell shell ) {

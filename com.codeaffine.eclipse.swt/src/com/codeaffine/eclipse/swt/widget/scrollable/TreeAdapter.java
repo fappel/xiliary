@@ -33,6 +33,11 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
   }
 
   @Override
+  public Tree getScrollable() {
+    return tree;
+  }
+
+  @Override
   @SuppressWarnings("unchecked")
   public void adapt( Tree tree, PlatformSupport platformSupport ) {
     this.layoutFactory = createLayoutFactory( new Platform(), createLayoutMapping( platformSupport ) );
@@ -41,6 +46,9 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
       initialize();
     }
   }
+
+  ///////////////////////////////
+  // Tree overrides
 
   @Override
   public void widgetDisposed( DisposeEvent e ) {

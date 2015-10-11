@@ -1,16 +1,23 @@
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
+import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.$;
+
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scrollable;
+
+import com.codeaffine.eclipse.swt.util.ControlReflectionUtil;
 
 class LayoutReconciliation {
 
+  private final ControlReflectionUtil controlReflectionUtil;
   private final Scrollable scrollable;
   private final Composite adapter;
 
   LayoutReconciliation( Composite adapter, Scrollable scrollable ) {
+    this.controlReflectionUtil = new ControlReflectionUtil();
     this.adapter = adapter;
     this.scrollable = scrollable;
   }
@@ -22,6 +29,9 @@ class LayoutReconciliation {
       }
       if( adapter.getParent() instanceof ViewForm ) {
         reconcileViewFormLayout();
+      }
+      if( adapter.getParent().getClass().getName().equals( "org.eclipse.ui.part.PageBook" ) ) {
+        reconcilePageBookLayout();
       }
     }
   }
@@ -51,6 +61,14 @@ class LayoutReconciliation {
     if( viewForm.getTopRight() == scrollable ) {
       viewForm.setTopRight( adapter );
       viewForm.layout();
+    }
+  }
+
+  private void reconcilePageBookLayout() {
+    Composite parent = adapter.getParent();
+    if( controlReflectionUtil.getField( parent, "currentPage", Control.class ) == scrollable ) {
+      controlReflectionUtil.invoke( parent, "showPage", $( adapter, Control.class ) );
+      adapter.getParent().layout();
     }
   }
 }

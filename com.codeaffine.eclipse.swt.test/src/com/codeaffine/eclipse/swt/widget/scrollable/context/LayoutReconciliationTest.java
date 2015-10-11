@@ -46,6 +46,16 @@ public class LayoutReconciliationTest {
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
+  public void runWithStackLayoutWithNonAdapterTopControl() {
+    Rectangle initialAdapterBounds = testHelper.setUpWithStackLayoutWithNonAdapterTopControl();
+
+    Rectangle actual = testHelper.runReconciliation();
+
+    assertThat( actual ).isEqualTo( initialAdapterBounds );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void runWithViewFormLayoutOnContent() {
     Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnContent();
 
@@ -82,5 +92,27 @@ public class LayoutReconciliationTest {
     Rectangle actual = testHelper.runReconciliation();
 
     assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void runWithPageBook() {
+    Rectangle initialAdapterBounds = testHelper.setUpWithPageBook();
+
+    Rectangle actual = testHelper.runReconciliation();
+
+    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+    assertThat( testHelper.getAdapter().isVisible() ).isTrue();
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void runWithPageBookWithNonAdapterPage() {
+    Rectangle initialAdapterBounds = testHelper.setUpWithPageBookWithNonAdapterPage();
+
+    Rectangle actual = testHelper.runReconciliation();
+
+    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+    assertThat( testHelper.getAdapter().isVisible() ).isFalse();
   }
 }

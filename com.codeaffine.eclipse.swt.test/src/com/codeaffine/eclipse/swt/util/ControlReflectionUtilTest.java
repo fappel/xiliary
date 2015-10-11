@@ -26,7 +26,10 @@ import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
 public class ControlReflectionUtilTest {
 
   private static final String UNDECLARED = "undeclared";
-  private static final String DISPLAY = "display";
+  private static final String FIELD_NAME_DISPLAY = "display";
+  private static final String FIELD_NAME_PARENT = "parent";
+  private static final String FIELD_NAME_COLUMN_COUNT = "columnCount";
+
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -72,8 +75,8 @@ public class ControlReflectionUtilTest {
   @Test
   public void invokeOfControlMethod() {
     TreeAdapter receiver = reflectionUtil.newInstance( TreeAdapter.class );
-    reflectionUtil.setField( receiver, "display", displayHelper.getDisplay() );
-    reflectionUtil.setField( receiver, "parent", displayHelper.createShell() );
+    reflectionUtil.setField( receiver, FIELD_NAME_DISPLAY, displayHelper.getDisplay() );
+    reflectionUtil.setField( receiver, FIELD_NAME_PARENT, displayHelper.createShell() );
 
     reflectionUtil.invoke( receiver, "createWidget", $( valueOf( 0 ), int.class ) );
 
@@ -114,7 +117,7 @@ public class ControlReflectionUtilTest {
     Display expected = displayHelper.getDisplay();
     Tree receiver = reflectionUtil.newInstance( Tree.class );
 
-    reflectionUtil.setField( receiver, DISPLAY, expected );
+    reflectionUtil.setField( receiver, FIELD_NAME_DISPLAY, expected );
     Display actual = receiver.getDisplay();
 
     assertThat( actual ).isSameAs( expected );
@@ -124,9 +127,9 @@ public class ControlReflectionUtilTest {
   public void setFieldOfControl() {
     Composite expected = displayHelper.createShell();
     Tree receiver = reflectionUtil.newInstance( Tree.class );
-    reflectionUtil.setField( receiver, DISPLAY, displayHelper.getDisplay() );
+    reflectionUtil.setField( receiver, FIELD_NAME_DISPLAY, displayHelper.getDisplay() );
 
-    reflectionUtil.setField( receiver, "parent", expected );
+    reflectionUtil.setField( receiver, FIELD_NAME_PARENT, expected );
     Composite actual = receiver.getParent();
 
     assertThat( actual ).isSameAs( expected );
@@ -137,7 +140,7 @@ public class ControlReflectionUtilTest {
     Tree receiver = createTree( displayHelper.createShell(), 1, 1 );
     int expected = 10;
 
-    reflectionUtil.setField( receiver, "columnCount", expected );
+    reflectionUtil.setField( receiver, FIELD_NAME_COLUMN_COUNT, expected );
     Object actual = readAndreset( receiver, 0 );
 
     assertThat( actual ).isEqualTo( expected );
@@ -156,19 +159,77 @@ public class ControlReflectionUtilTest {
 
   @Test
   public void setFieldWithWrongType() {
-    Throwable actual = thrownBy( () -> reflectionUtil.setField( mock( Tree.class ), DISPLAY, new Object() ) );
+    Throwable actual = thrownBy( () -> reflectionUtil.setField( mock( Tree.class ), FIELD_NAME_DISPLAY, new Object() ) );
 
     assertThat( actual )
-      .hasMessageContaining( DISPLAY )
+      .hasMessageContaining( FIELD_NAME_DISPLAY )
       .hasMessageContaining( Object.class.getName() )
       .isInstanceOf( IllegalArgumentException.class );
   }
 
+  @Test
+  public void getFieldOfWidget() {
+    Display expected = displayHelper.getDisplay();
+    Tree receiver = reflectionUtil.newInstance( Tree.class );
+    reflectionUtil.setField( receiver, FIELD_NAME_DISPLAY, expected );
+
+    Display actual = reflectionUtil.getField( receiver, FIELD_NAME_DISPLAY, Display.class );
+
+    assertThat( actual ).isSameAs( expected );
+  }
+
+  @Test
+  public void getFieldOfControl() {
+    Composite expected = displayHelper.createShell();
+    Tree receiver = reflectionUtil.newInstance( Tree.class );
+    reflectionUtil.setField( receiver, FIELD_NAME_DISPLAY, displayHelper.getDisplay() );
+    reflectionUtil.setField( receiver, FIELD_NAME_PARENT, expected );
+
+    Composite actual = reflectionUtil.getField( receiver, FIELD_NAME_PARENT, Composite.class );
+
+    assertThat( actual ).isSameAs( expected );
+  }
+
+  @Test
+  public void getFieldOfReceiver() {
+    int expected = 10;
+    Tree receiver = createTree( displayHelper.createShell(), 1, 1 );
+    reflectionUtil.setField( receiver, FIELD_NAME_COLUMN_COUNT, expected );
+
+    int actual = reflectionUtil.getField( receiver, FIELD_NAME_COLUMN_COUNT, Integer.class );
+
+    assertThat( actual ).isEqualTo( expected );
+  }
+
+  @Test
+  public void getFieldWithUndeclaredName() {
+    Tree tree = mock( Tree.class );
+
+    Throwable actual = thrownBy( () -> reflectionUtil.getField( tree, UNDECLARED, Display.class ) );
+
+    assertThat( actual )
+      .hasMessageContaining( UNDECLARED )
+      .hasCauseInstanceOf( NoSuchFieldException.class );
+  }
+
+  @Test
+  public void getFieldWithWrongType() {
+    Tree receiver = reflectionUtil.newInstance( Tree.class );
+    reflectionUtil.setField( receiver, FIELD_NAME_DISPLAY, displayHelper.getDisplay() );
+
+    Throwable actual = thrownBy( () -> reflectionUtil.getField( receiver, FIELD_NAME_DISPLAY, Runnable.class ) );
+
+    assertThat( actual )
+      .hasMessageContaining( Display.class.getName() )
+      .hasMessageContaining( Runnable.class.getName() )
+      .isInstanceOf( ClassCastException.class );
+  }
+
   private Object readAndreset( Tree receiver, int resetValue ) throws Exception {
-    Field field = Tree.class.getDeclaredField( "columnCount" );
+    Field field = Tree.class.getDeclaredField( FIELD_NAME_COLUMN_COUNT );
     field.setAccessible( true );
     Object result = field.get( receiver );
-    reflectionUtil.setField( receiver, "columnCount", resetValue );
+    reflectionUtil.setField( receiver, FIELD_NAME_COLUMN_COUNT, resetValue );
     return result;
   }
 

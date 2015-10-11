@@ -30,6 +30,7 @@ public class ScrollableAdapterFactory {
 
   public interface Adapter<S extends Scrollable> {
     void adapt( S scrollable, PlatformSupport platformSupport );
+    S getScrollable();
   }
 
   public ScrollableAdapterFactory() {

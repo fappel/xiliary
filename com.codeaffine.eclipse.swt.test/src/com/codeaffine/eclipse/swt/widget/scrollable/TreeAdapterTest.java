@@ -56,6 +56,7 @@ public class TreeAdapterTest {
     assertThat( adapter.getLayout() ).isInstanceOf( ScrollableLayout.class );
     assertThat( adapter.getLayoutData() ).isSameAs( layoutData );
     assertThat( adapter.getBounds() ).isEqualTo( shell.getClientArea() );
+    assertThat( adapter.getScrollable() ).isSameAs( tree );
   }
 
   @Test

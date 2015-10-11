@@ -1,10 +1,12 @@
 package com.codeaffine.eclipse.swt.util;
 
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.ProtectionDomain;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.swt.widgets.Control;
@@ -33,40 +35,24 @@ public class ControlReflectionUtil {
     unsafe = new Unsafe();
   }
 
-  public Class<? extends Widget> defineWidgetClass( final String name ) {
-    return execute( new Operator<Class<? extends Widget>>() {
-      @Override
-      public Class<? extends Widget> execute() throws Exception {
-        return defineClass( name );
-      }
-    } );
+  public Class<? extends Widget> defineWidgetClass( String name ) {
+    return execute( () -> defineClass( name ) );
   }
 
-  public <T extends Widget> T newInstance( final Class<T> type ) {
-    return execute( new Operator<T>() {
-      @Override
-      public T execute() throws Exception {
-        return createNewIewInstance( type );
-      }
-    } );
+  public <T extends Widget> T newInstance( Class<T> type ) {
+    return execute( () -> createNewIewInstance( type ) );
   }
 
-  public void invoke( final Widget receiver, final String methodName, final Parameter<?> ... parameters ) {
-    execute( new Operator<Object>() {
-      @Override
-      public Object execute() throws Exception {
-        return invokeMethod( receiver, methodName, parameters );
-      }
-    } );
+  public void invoke( Widget receiver, String methodName, Parameter<?> ... parameters ) {
+    execute( () -> invokeMethod( receiver, methodName, parameters ) );
   }
 
-  public void setField( final Widget receiver, final String fieldName, final Object value  ) {
-    execute( new Operator<Object>() {
-      @Override
-      public Object execute() throws Exception {
-        return setFieldValue( receiver, fieldName, value );
-      }
-    } );
+  public void setField( Widget receiver, String fieldName, Object value  ) {
+    execute( () -> setFieldValue( receiver, fieldName, value ) );
+  }
+
+  public <T> T getField( Widget receiver, String fieldName, Class<T> type ) {
+    return execute( () -> getFieldValue( receiver, fieldName, type ) );
   }
 
   public static <T> Parameter<T> $( T instance, Class<T> type ) {
@@ -131,6 +117,12 @@ public class ControlReflectionUtil {
     return null;
   }
 
+  private static <T> T getFieldValue( Widget receiver, String fieldName, Class<T> type ) throws Exception {
+    Field field = getField( receiver, fieldName );
+    field.setAccessible( true );
+    return type.cast( field.get( receiver ) );
+  }
+
   private static Field getField( Object receiver, String fieldName ) throws NoSuchFieldException {
     try {
       return receiver.getClass().getDeclaredField( fieldName );
@@ -159,18 +151,11 @@ public class ControlReflectionUtil {
   }
 
   private static Class<?>[] calculateParameterTypes( Parameter<?>[] parameters ) {
-    List<Class<?>> result = new ArrayList<Class<?>>();
-    for( Parameter<?> parameter : parameters ) {
-      result.add( parameter.type );
-    }
-    return result.toArray( new Class[ result.size() ] );
+    List<Class<?>> classes = asList( parameters ).stream().map( parameter -> parameter.type ).collect( toList() );
+    return classes.toArray( new Class[ classes.size() ] );
   }
 
   private static Object[] calculateParameterValues( Parameter<?>[] parameters ) {
-    List<Object> result = new ArrayList<Object>();
-    for( Parameter<?> parameter : parameters ) {
-      result.add( parameter.instance );
-    }
-    return result.toArray( new Object[ result.size() ] );
+    return asList( parameters ).stream().map( parameter -> parameter.instance ).collect( toList() ).toArray();
   }
 }

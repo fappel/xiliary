@@ -33,6 +33,11 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
   }
 
   @Override
+  public Table getScrollable() {
+    return table;
+  }
+
+  @Override
   @SuppressWarnings("unchecked")
   public void adapt( Table table, PlatformSupport platformSupport ) {
     this.layoutFactory = createLayoutFactory( new Platform(), createLayoutMapping( platformSupport ) );
@@ -41,6 +46,9 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
       initialize();
     }
   }
+
+  ///////////////////////////////
+  // Table overrides
 
   @Override
   public void widgetDisposed( DisposeEvent e ) {

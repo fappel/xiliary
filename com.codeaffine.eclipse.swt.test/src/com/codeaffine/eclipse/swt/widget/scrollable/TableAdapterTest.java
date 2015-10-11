@@ -53,6 +53,7 @@ public class TableAdapterTest {
     assertThat( adapter.getLayout() ).isInstanceOf( ScrollableLayout.class );
     assertThat( adapter.getBounds() ).isEqualTo( shell.getClientArea() );
     assertThat( adapter.getLayoutData() ).isSameAs( layoutData );
+    assertThat( adapter.getScrollable() ).isSameAs( table );
   }
 
   @Test
