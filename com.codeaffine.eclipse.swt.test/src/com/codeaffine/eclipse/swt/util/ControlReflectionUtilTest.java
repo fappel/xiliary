@@ -193,7 +193,7 @@ public class ControlReflectionUtilTest {
   @Test
   public void getFieldOfReceiver() {
     int expected = 10;
-    Tree receiver = createTree( displayHelper.createShell(), 1, 1 );
+    Tree receiver = reflectionUtil.newInstance( Tree.class );
     reflectionUtil.setField( receiver, FIELD_NAME_COLUMN_COUNT, expected );
 
     int actual = reflectionUtil.getField( receiver, FIELD_NAME_COLUMN_COUNT, Integer.class );
