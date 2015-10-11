@@ -125,7 +125,7 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
 
   @Override
   public TreeColumn[] getColumns() {
-    return tree.getColumns();
+    return tree == null ? new TreeColumn[ 0 ] : tree.getColumns();
   }
 
   ////////////////////////////////////////////////////

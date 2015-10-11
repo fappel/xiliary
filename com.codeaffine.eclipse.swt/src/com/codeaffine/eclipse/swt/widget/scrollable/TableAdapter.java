@@ -125,7 +125,7 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
 
   @Override
   public TableColumn[] getColumns() {
-    return table.getColumns();
+    return table == null ? new TableColumn[ 0 ] : table.getColumns();
   }
 
   ////////////////////////////////////////////////////
