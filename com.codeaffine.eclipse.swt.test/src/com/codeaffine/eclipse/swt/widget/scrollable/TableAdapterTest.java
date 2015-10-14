@@ -182,6 +182,7 @@ public class TableAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTableItemHeight() {
     int expectedHeight = configureTableItemHeightAdjuster();
     shell.open();

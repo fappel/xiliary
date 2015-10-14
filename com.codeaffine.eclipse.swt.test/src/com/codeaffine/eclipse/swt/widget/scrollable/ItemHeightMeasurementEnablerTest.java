@@ -16,10 +16,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class ItemHeightMeasurementEnablerTest {
 
+  @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ScrollableAdapterFactory adapterFactory;
@@ -34,6 +38,7 @@ public class ItemHeightMeasurementEnablerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void registerOnTableAdapterCreation() {
     adapterFactory.create( table, TableAdapter.class );
 
@@ -44,6 +49,7 @@ public class ItemHeightMeasurementEnablerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTableItemHeight() {
     adapterFactory.create( table, TableAdapter.class );
     int expectedHeight = configureTableItemHeightAdjuster();

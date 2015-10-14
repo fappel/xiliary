@@ -198,6 +198,7 @@ public class TreeAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTreeItemHeight() {
     expandTopBranch( tree );
     int expectedHeight = configureTableItemHeightAdjuster();
