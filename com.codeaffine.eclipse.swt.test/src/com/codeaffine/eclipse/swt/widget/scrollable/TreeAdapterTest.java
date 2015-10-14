@@ -24,7 +24,6 @@ import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
-import com.codeaffine.test.util.lang.ThrowableCaptor;
 
 public class TreeAdapterTest {
 
@@ -86,7 +85,7 @@ public class TreeAdapterTest {
 
   @Test
   public void constructor() {
-    Throwable actual = ThrowableCaptor.thrownBy( () -> new TreeAdapter() );
+    Throwable actual = thrownBy( () -> new TreeAdapter() );
 
     assertThat( actual )
       .hasMessageContaining( "Subclassing not allowed" )
@@ -99,6 +98,7 @@ public class TreeAdapterTest {
     openShellWithoutLayout();
     tree = createTree( shell, 1, 1 );
     adapter = adapterFactory.create( tree, TreeAdapter.class );
+    waitForReconciliation();
 
     tree.setBounds( expectedBounds() );
     waitForReconciliation();
@@ -197,14 +197,25 @@ public class TreeAdapterTest {
     assertThat( adapter.getColumns() ).hasSize( 1 );
   }
 
+  @Test
+  public void changeTreeItemHeight() {
+    expandTopBranch( tree );
+    int expectedHeight = configureTableItemHeightAdjuster();
+    shell.open();
+    waitForReconciliation();
+
+    assertThat( tree.getItemHeight() ).isEqualTo( expectedHeight );
+  }
+
+  private int configureTableItemHeightAdjuster() {
+    int result = 24;
+    tree.addListener( SWT.MeasureItem, evt -> evt.height = result );
+    return result;
+  }
+
   private void scrollHorizontal( final TreeAdapter adapter, final int selection ) {
     final int duration = 100;
-    displayHelper.getDisplay().timerExec( duration, new Runnable() {
-      @Override
-      public void run() {
-        adapter.getHorizontalBar().setSelection( selection );
-      }
-    } );
+    displayHelper.getDisplay().timerExec( duration, () -> adapter.getHorizontalBar().setSelection( selection ) );
     new ReadAndDispatch().spinLoop( shell, duration * 2 );
   }
 

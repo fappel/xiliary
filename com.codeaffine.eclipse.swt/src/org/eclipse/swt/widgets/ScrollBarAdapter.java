@@ -32,4 +32,13 @@ public class ScrollBarAdapter extends ScrollBar {
   public int getSelection() {
     return scrollBar.getSelection();
   }
+
+  @Override
+  public void addListener( int eventType, Listener listener ) {
+    if( eventType == SWT.Selection ) {
+      scrollBar.addListener( eventType, listener );
+    } else {
+      super.addListener( eventType, listener );
+    }
+  }
 }

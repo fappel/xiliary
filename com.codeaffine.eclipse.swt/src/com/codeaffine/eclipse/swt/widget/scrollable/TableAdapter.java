@@ -75,32 +75,17 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
 
   @Override
   public void setSize( final int width, final int height ) {
-    reconciliation.runWithSuspendedBoundsReconciliation( new Runnable() {
-      @Override
-      public void run() {
-        TableAdapter.super.setSize( width, height );
-      }
-    } );
+    reconciliation.runWithSuspendedBoundsReconciliation( () -> TableAdapter.super.setSize( width, height ) );
   }
 
   @Override
   public void setBounds( final int x, final int y, final int width, final int height ) {
-    reconciliation.runWithSuspendedBoundsReconciliation( new Runnable() {
-      @Override
-      public void run() {
-        TableAdapter.super.setBounds( x, y, width, height );
-      }
-    } );
+    reconciliation.runWithSuspendedBoundsReconciliation( () ->  TableAdapter.super.setBounds( x, y, width, height ) );
   }
 
   @Override
   public void setLocation( final int x, final int y ) {
-    reconciliation.runWithSuspendedBoundsReconciliation( new Runnable() {
-      @Override
-      public void run() {
-        TableAdapter.super.setLocation( x, y );
-      }
-    } );
+    reconciliation.runWithSuspendedBoundsReconciliation( () -> TableAdapter.super.setLocation( x, y ) );
   }
 
   @Override
@@ -347,6 +332,7 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
 
   private void initialize() {
     table.setParent( this );
+    new ItemHeightMeasurementEnabler( table, this );
     context = new AdaptionContext<Table>( this, table );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );

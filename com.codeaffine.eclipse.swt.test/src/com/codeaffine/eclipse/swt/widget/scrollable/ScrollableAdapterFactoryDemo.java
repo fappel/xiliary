@@ -5,6 +5,7 @@ import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createDemoShell;
 import static com.codeaffine.eclipse.swt.util.ReadAndDispatch.ERROR_BOX_HANDLER;
 import static com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactoryHelper.adapt;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createPackedSingleColumnTable;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createVirtualTableWithOwnerDrawnItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
 import static java.lang.Math.min;
@@ -52,7 +53,7 @@ public class ScrollableAdapterFactoryDemo {
   }
 
   @Test
-  public void treeWithBorderDemo() {
+  public void treeDemoWithBorder() {
     Tree tree = new TestTreeFactory( SWT.BORDER ).create( shell );
     adapt( tree, TreeAdapter.class );
     shell.open();
@@ -62,7 +63,7 @@ public class ScrollableAdapterFactoryDemo {
   }
 
   @Test
-  public void treeInPageBookDemo() {
+  public void treeDemoWithPageBook() {
     PageBook pageBook = new PageBook( shell, SWT.NONE );
     pageBook.setBackground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLUE ) );
     Label label = new Label( pageBook, SWT.NONE );
@@ -90,6 +91,16 @@ public class ScrollableAdapterFactoryDemo {
     shell.setBounds( computeTrim( shell, adjustTableHeight( table, TABLE_ITEM_COUNT + 2 ) ) );
     table.getColumns()[ 0 ].setWidth( table.getClientArea().width );
     shell.setLocation( 300, 300 );
+    shell.open();
+    spinLoop();
+  }
+
+  @Test
+  public void virtualTableDemoWithOwnerDrawnItems() {
+    ItemList itemList = new ItemList();
+    Table table = createVirtualTableWithOwnerDrawnItems( shell, itemList );
+    adapt( table, TableAdapter.class );
+    table.setItemCount( itemList.getItems().length );
     shell.open();
     spinLoop();
   }

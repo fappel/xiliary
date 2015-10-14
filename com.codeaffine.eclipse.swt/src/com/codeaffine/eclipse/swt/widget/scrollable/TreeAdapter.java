@@ -75,32 +75,17 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
 
   @Override
   public void setSize( final int width, final int height ) {
-    reconciliation.runWithSuspendedBoundsReconciliation( new Runnable() {
-      @Override
-      public void run() {
-        TreeAdapter.super.setSize( width, height );
-      }
-    } );
+    reconciliation.runWithSuspendedBoundsReconciliation( () -> TreeAdapter.super.setSize( width, height ) );
   }
 
   @Override
   public void setBounds( final int x, final int y, final int width, final int height ) {
-    reconciliation.runWithSuspendedBoundsReconciliation( new Runnable() {
-      @Override
-      public void run() {
-        TreeAdapter.super.setBounds( x, y, width, height );
-      }
-    } );
+    reconciliation.runWithSuspendedBoundsReconciliation( () -> TreeAdapter.super.setBounds( x, y, width, height ) );
   }
 
   @Override
   public void setLocation( final int x, final int y ) {
-    reconciliation.runWithSuspendedBoundsReconciliation( new Runnable() {
-      @Override
-      public void run() {
-        TreeAdapter.super.setLocation( x, y );
-      }
-    } );
+    reconciliation.runWithSuspendedBoundsReconciliation( () -> TreeAdapter.super.setLocation( x, y ) );
   }
 
   @Override
@@ -348,6 +333,7 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
 
   private void initialize() {
     tree.setParent( this );
+    new ItemHeightMeasurementEnabler( tree, this );
     context = new AdaptionContext<Tree>( this, tree );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );

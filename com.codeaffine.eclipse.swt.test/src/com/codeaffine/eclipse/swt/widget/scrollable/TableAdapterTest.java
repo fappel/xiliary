@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.HEADER_TITLES;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createTable;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -74,7 +75,7 @@ public class TableAdapterTest {
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
-  public void disposalOfTree() {
+  public void disposalOfTable() {
     table.dispose();
 
     assertThat( adapter.isDisposed() ).isTrue();
@@ -83,7 +84,7 @@ public class TableAdapterTest {
 
   @Test
   public void constructor() {
-    Throwable actual = ThrowableCaptor.thrownBy( () -> new TreeAdapter() );
+    Throwable actual = thrownBy( () -> new TreeAdapter() );
 
     assertThat( actual )
       .hasMessageContaining( "Subclassing not allowed" )
@@ -96,6 +97,7 @@ public class TableAdapterTest {
     openShellWithoutLayout();
     table = new Table( shell, SWT.NONE );
     adapter = adapterFactory.create( table, TableAdapter.class );
+    waitForReconciliation();
 
     table.setBounds( expectedBounds() );
     waitForReconciliation();
@@ -108,6 +110,7 @@ public class TableAdapterTest {
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTableBoundsWithVisibleScrollBars() {
     openShellWithoutLayout();
+    waitForReconciliation();
 
     table.setBounds( expectedBounds() );
     waitForReconciliation();
@@ -133,6 +136,8 @@ public class TableAdapterTest {
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeTableVisibility() {
+    waitForReconciliation();
+
     table.setVisible( false );
     waitForReconciliation();
 
@@ -176,14 +181,24 @@ public class TableAdapterTest {
     assertThat( adapter.getColumns() ).hasSize( HEADER_TITLES.length );
   }
 
-  private void scrollHorizontal( final TableAdapter adapter, final int selection ) {
-    final int duration = 100;
-    displayHelper.getDisplay().timerExec( duration, new Runnable() {
-      @Override
-      public void run() {
-        adapter.getHorizontalBar().setSelection( selection );
-      }
-    } );
+  @Test
+  public void changeTableItemHeight() {
+    int expectedHeight = configureTableItemHeightAdjuster();
+    shell.open();
+    waitForReconciliation();
+
+    assertThat( table.getItemHeight() ).isEqualTo( expectedHeight );
+  }
+
+  private int configureTableItemHeightAdjuster() {
+    int result = 24;
+    table.addListener( SWT.MeasureItem, evt -> evt.height = result );
+    return result;
+  }
+
+  private void scrollHorizontal( TableAdapter adapter, int selection ) {
+    int duration = 100;
+    displayHelper.getDisplay().timerExec( duration, () -> adapter.getHorizontalBar().setSelection( selection ) );
     new ReadAndDispatch().spinLoop( shell, duration * 2 );
   }
 

@@ -7,10 +7,12 @@ import org.eclipse.swt.widgets.Scrollable;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.Adapter;
 
 class ScrollableAdapterFactoryHelper {
-  
-  public static <S extends Scrollable, A extends Scrollable & Adapter<S>> void adapt( S table, Class<A> type ) {
+
+  public static <S extends Scrollable, A extends Scrollable & Adapter<S>> A adapt( S table, Class<A> type ) {
     ScrollableAdapterFactory factory = new ScrollableAdapterFactory();
-    ScrollbarStyle adapter = ( ScrollbarStyle )factory.create( table, type );
-    adapter.setThumbColor( Display.getCurrent().getSystemColor( SWT.COLOR_RED ) );
+    A result = factory.create( table, type );
+    ScrollbarStyle style = ( ScrollbarStyle )result;
+    style.setThumbColor( Display.getCurrent().getSystemColor( SWT.COLOR_RED ) );
+    return result;
   }
 }

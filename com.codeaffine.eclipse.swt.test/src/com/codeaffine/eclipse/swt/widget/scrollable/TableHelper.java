@@ -4,6 +4,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -11,6 +12,25 @@ import org.eclipse.swt.widgets.TableItem;
 class TableHelper {
 
   static final String[] HEADER_TITLES = {" ", "Name", "Description" };
+
+  static Table createVirtualTableWithOwnerDrawnItems( Composite parent, ItemList itemList ) {
+    Table result = new Table( parent, SWT.BORDER | SWT.VIRTUAL );
+    result.addListener( SWT.MeasureItem, evt -> { evt.height = 24; } );
+    result.addListener( SWT.EraseItem, evt -> {} );
+    result.addListener( SWT.PaintItem, evt -> {} );
+    result.addListener( SWT.SetData, event -> fetchPage( itemList, result, event ) );
+    itemList.fetchPage();
+    return result;
+  }
+
+  private static void fetchPage( ItemList itemList, Table table, Event event ) {
+    TableItem item = ( TableItem )event.item;
+    item.setText( itemList.getItems()[ event.index ] );
+    if( event.index > table.getItemCount() - 3 ) {
+      itemList.fetchPage();
+      table.setItemCount( itemList.getItems().length );
+    }
+  }
 
   static Table createPackedSingleColumnTable( Composite parent, int itemCount ) {
     Table result = new Table( parent, SWT.SINGLE | SWT.FULL_SELECTION );
@@ -32,6 +52,7 @@ class TableHelper {
 
   static Table createTable( Composite parent, int itemCount ) {
     Table result = new Table( parent, SWT.NONE );
+    result.setLinesVisible( true );
     createHeaders( result );
     createItems( result, "table-item_", itemCount );
     return result;
@@ -39,7 +60,6 @@ class TableHelper {
 
   private static void createHeaders( Table parent ) {
     parent.setHeaderVisible( true );
-    parent.setLinesVisible( true );
     for( int i = 0; i < HEADER_TITLES.length; i++ ) {
       TableColumn column = new TableColumn( parent, SWT.NONE );
       column.setText( HEADER_TITLES[ i ] );
