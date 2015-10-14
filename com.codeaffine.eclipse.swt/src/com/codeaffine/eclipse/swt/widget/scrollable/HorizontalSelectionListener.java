@@ -32,11 +32,6 @@ class HorizontalSelectionListener extends SelectionAdapter {
   }
 
   private void updateLocation( final Point result ) {
-    context.getReconciliation().runWhileSuspended( new Runnable() {
-      @Override
-      public void run() {
-        context.getScrollable().setLocation( result );
-      }
-    } );
+    context.getReconciliation().runWhileSuspended( () -> context.getScrollable().setLocation( result ) );
   }
 }
