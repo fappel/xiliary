@@ -41,4 +41,9 @@ public class ScrollBarAdapter extends ScrollBar {
       super.addListener( eventType, listener );
     }
   }
+
+  @Override
+  public boolean isVisible() {
+    return scrollBar.isVisible();
+  }
 }

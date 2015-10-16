@@ -21,7 +21,8 @@ class WatchDog implements Runnable, DisposeListener {
   private final AdaptionContext<?> context;
   private final TreeWidth treeWidth;
 
-  private boolean disposed;
+  boolean layoutInitialized;
+  boolean disposed;
 
   WatchDog( AdaptionContext<?> context, VerticalScrollBarUpdater verticalUpdater ) {
     this( context,
@@ -73,7 +74,7 @@ class WatchDog implements Runnable, DisposeListener {
 
   private void doRun() {
     context.updatePreferredSize();
-    if( vScrollVisibility.hasChanged() || hScrollVisibility.hasChanged() || treeWidth.hasScrollEffectingChange() ) {
+    if( mustLayout() ) {
       layoutTrigger.pull();
     }
     treeWidth.update();
@@ -82,6 +83,15 @@ class WatchDog implements Runnable, DisposeListener {
     if( vScrollVisibility.isVisible() ) {
       verticalBarUpdater.update();
     }
+  }
+
+  private boolean mustLayout() {
+    boolean result =    !layoutInitialized
+                     || vScrollVisibility.hasChanged()
+                     || hScrollVisibility.hasChanged()
+                     || treeWidth.hasScrollEffectingChange();
+    layoutInitialized = true;
+    return result;
   }
 
   private ActionScheduler ensureScheduler( ActionScheduler actionScheduler ) {

@@ -5,6 +5,7 @@ import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createDemoShell;
 import static com.codeaffine.eclipse.swt.util.ReadAndDispatch.ERROR_BOX_HANDLER;
 import static com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactoryHelper.adapt;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createPackedSingleColumnTable;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createTableInSingleCellGridLayout;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createVirtualTableWithOwnerDrawnItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
@@ -91,6 +92,15 @@ public class ScrollableAdapterFactoryDemo {
     shell.setBounds( computeTrim( shell, adjustTableHeight( table, TABLE_ITEM_COUNT + 2 ) ) );
     table.getColumns()[ 0 ].setWidth( table.getClientArea().width );
     shell.setLocation( 300, 300 );
+    shell.open();
+    spinLoop();
+  }
+
+  @Test
+  public void tableDemoWithPackedShell() {
+    shell.open();
+    createTableInSingleCellGridLayout( shell, table -> adapt( table, TableAdapter.class ) );
+    shell.pack();
     shell.open();
     spinLoop();
   }

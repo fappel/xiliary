@@ -46,6 +46,7 @@ public class WatchDogTest {
     watchDog = new WatchDog(
       context, settingCopier, hScrollVisibility, vScrollVisibility, scheduler, layoutTrigger, treeWidth, reconciliation
     );
+    watchDog.layoutInitialized = true;
   }
 
   @Test
@@ -63,6 +64,24 @@ public class WatchDogTest {
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
     order.verify( treeWidth ).hasScrollEffectingChange();
+    order.verify( treeWidth ).update();
+    order.verify( vScrollVisibility ).update();
+    order.verify( hScrollVisibility ).update();
+    order.verify( vScrollVisibility ).isVisible();
+    order.verify( scheduler ).schedule( WatchDog.DELAY );
+    verifyNoMoreInteractionOnDocs();
+  }
+
+  @Test
+  public void runWithLayoutInitialization() {
+    watchDog.layoutInitialized = false;
+
+    watchDog.run();
+
+    InOrder order = docOrder();
+    order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
+    order.verify( context ).updatePreferredSize();
+    order.verify( layoutTrigger ).pull();
     order.verify( treeWidth ).update();
     order.verify( vScrollVisibility ).update();
     order.verify( hScrollVisibility ).update();

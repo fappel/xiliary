@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.HEADER_TITLES;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createTable;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createTableInSingleCellGridLayout;
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -191,6 +192,23 @@ public class TableAdapterTest {
     assertThat( table.getItemHeight() ).isEqualTo( expectedHeight );
   }
 
+  @Test
+  public void packPopupShell() {
+    shell.open();
+    Shell popup = new Shell( shell, SWT.ON_TOP );
+    popup.setLocation( shell.getLocation() );
+    createTableInSingleCellGridLayout( popup,
+      table -> ScrollableAdapterFactoryHelper.adapt( table, TableAdapter.class )
+    );
+    popup.pack();
+    popup.setVisible( true );
+
+    waitForReconciliation();
+
+    TableAdapter actual = ( TableAdapter )popup.getChildren()[ 0 ];
+    assertThat( actual.getVerticalBar().isVisible() ).isFalse();
+  }
+
   private int configureTableItemHeightAdjuster() {
     int result = 24;
     table.addListener( SWT.MeasureItem, evt -> evt.height = result );
@@ -209,7 +227,7 @@ public class TableAdapterTest {
   }
 
   private void waitForReconciliation() {
-    new ReadAndDispatch().spinLoop( shell, WatchDog.DELAY * 3 );
+    new ReadAndDispatch().spinLoop( shell, WatchDog.DELAY * 6 );
   }
 
   private Rectangle expectedBounds() {
