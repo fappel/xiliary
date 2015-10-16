@@ -8,9 +8,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -38,6 +40,26 @@ public class ItemHeightMeasurementEnablerTest {
   }
 
   @Test
+  public void initialStateWithTable() {
+    ItemHeightMeasurementEnabler actual = new ItemHeightMeasurementEnabler( table, shell );
+
+    assertThat( actual.height ).isEqualTo( table.getItemHeight() );
+    assertThat( actual.intermediateHeightBuffer ).isZero();
+    assertThat( actual.onMeasurement ).isFalse();
+  }
+
+  @Test
+  public void initialStateWithTree() {
+    Tree tree = new Tree( shell, SWT.NONE );
+
+    ItemHeightMeasurementEnabler actual = new ItemHeightMeasurementEnabler( tree, shell );
+
+    assertThat( actual.height ).isEqualTo( tree.getItemHeight() );
+    assertThat( actual.intermediateHeightBuffer ).isZero();
+    assertThat( actual.onMeasurement ).isFalse();
+  }
+
+  @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void registerOnTableAdapterCreation() {
     adapterFactory.create( table, TableAdapter.class );
@@ -58,6 +80,11 @@ public class ItemHeightMeasurementEnablerTest {
     new ReadAndDispatch().spinLoop( shell, 100 );
 
     assertThat( table.getItemHeight() ).isEqualTo( expectedHeight );
+  }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void constructorWithUnsupportedScrollableType() {
+    new ItemHeightMeasurementEnabler( new Composite( shell, SWT.NONE ), shell );
   }
 
   private int configureTableItemHeightAdjuster() {
