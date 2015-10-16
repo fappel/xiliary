@@ -21,7 +21,7 @@ class Visibility {
     return visibility != isScrollBarVisible();
   }
 
-   void update() {
+  void update() {
     visibility = isScrollBarVisible();
   }
 
