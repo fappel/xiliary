@@ -49,6 +49,7 @@ public class ItemHeightMeasurementEnablerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void initialStateWithTree() {
     Tree tree = new Tree( shell, SWT.NONE );
 
