@@ -193,6 +193,7 @@ public class TableAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void packPopupShell() {
     shell.open();
     Shell popup = new Shell( shell, SWT.ON_TOP );
