@@ -74,18 +74,18 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
   }
 
   @Override
-  public void setSize( final int width, final int height ) {
-    reconciliation.runWithSuspendedBoundsReconciliation( () -> TableAdapter.super.setSize( width, height ) );
+  public void setSize( int width, int height ) {
+    reconciliation.runWithSuspendedBoundsReconciliation( () -> super.setSize( width, height ) );
   }
 
   @Override
-  public void setBounds( final int x, final int y, final int width, final int height ) {
-    reconciliation.runWithSuspendedBoundsReconciliation( () ->  TableAdapter.super.setBounds( x, y, width, height ) );
+  public void setBounds( int x, int y, int width, int height ) {
+    reconciliation.runWithSuspendedBoundsReconciliation( () ->  super.setBounds( x, y, width, height ) );
   }
 
   @Override
-  public void setLocation( final int x, final int y ) {
-    reconciliation.runWithSuspendedBoundsReconciliation( () -> TableAdapter.super.setLocation( x, y ) );
+  public void setLocation( int x, int y ) {
+    reconciliation.runWithSuspendedBoundsReconciliation( () -> super.setLocation( x, y ) );
   }
 
   @Override
