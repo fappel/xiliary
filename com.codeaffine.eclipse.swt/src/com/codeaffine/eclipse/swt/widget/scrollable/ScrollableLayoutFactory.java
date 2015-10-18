@@ -52,6 +52,7 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
 
   private static Label createCornerOverlay( Composite parent ) {
     Label result = new Label( parent, SWT.NONE );
+    result.setBackground( parent.getBackground() );
     result.moveAbove( null );
     return result;
   }

@@ -8,6 +8,7 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Horizontal.H_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical.V_INVISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical.V_VISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.OverlayLayouter.CORNER_COVERAGE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.OverlayLayouter.calculateCornerOverlayBounds;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.assertThat;
@@ -121,8 +122,9 @@ public class OverlayLayouterTest {
 
     Rectangle actual = OverlayLayouter.calculateCornerOverlayBounds( horizontal, vertical, context );
 
-    assertThat( actual )
-      .isEqualTo( new Rectangle( 10, 40, 30 + OFFSET + BORDER_WIDTH, 20 + BORDER_WIDTH ) );
+    int width = 30 + OFFSET + BORDER_WIDTH + CORNER_COVERAGE;
+    int height = 20 + BORDER_WIDTH + CORNER_COVERAGE;
+    assertThat( actual ).isEqualTo( new Rectangle( 10, 40, width, height) );
   }
 
   private AdaptionContext<?> stubContextWithOffset( int offset ) {

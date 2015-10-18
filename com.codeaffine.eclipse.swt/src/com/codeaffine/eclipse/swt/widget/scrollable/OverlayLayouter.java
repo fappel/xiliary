@@ -12,6 +12,8 @@ import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class OverlayLayouter {
 
+  static final int CORNER_COVERAGE = 2;
+
   private final FlatScrollBar horizontal;
   private final FlatScrollBar vertical;
   private final Label cornerOverlay;
@@ -74,7 +76,9 @@ class OverlayLayouter {
     Point hSize = horizontal.getSize();
     Point vSize = vertical.getSize();
     int borderWidth = context.getBorderWidth();
-    return new Rectangle( hSize.x, vSize.y, vSize.x + context.getOffset() + borderWidth, hSize.y + borderWidth );
+    int width = vSize.x + context.getOffset() + borderWidth + CORNER_COVERAGE;
+    int height = hSize.y + borderWidth + CORNER_COVERAGE;
+    return new Rectangle( hSize.x, vSize.y, width, height );
   }
 
   private static int borderOffset( AdaptionContext<?> context ) {
