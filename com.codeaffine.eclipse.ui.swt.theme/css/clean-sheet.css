@@ -135,11 +135,15 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
 
 .MToolBar.Draggable {
-  handle-image:  url(./dragHandle.png);
+  handle-image: url(./dragHandle.png);
+}
+
+.MToolControl.TrimStack {
+  handle-image: url(./dragHandle.png);
 }
 
 .MToolControl.Draggable {
-  handle-image:  url(./dragHandle.png);
+  handle-image: url(./dragHandle.png);
 }
 
 .DragFeedback {
