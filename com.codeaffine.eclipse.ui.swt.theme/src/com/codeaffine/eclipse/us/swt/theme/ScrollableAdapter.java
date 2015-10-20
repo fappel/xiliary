@@ -31,6 +31,8 @@ public class ScrollableAdapter implements ICSSPropertyHandler {
     colors = new HashMap<String, ScrollbarColorDefinition>();
     colors.put( "win7", new ScrollbarColorDefinition( new RGB( 210, 225, 240 ), new RGB( 248, 248, 248 ) ) );
     colors.put( "dark", new ScrollbarColorDefinition( new RGB( 248, 248, 248 ), new RGB( 73, 74, 77 ) ) );
+    colors.put( "clean-sheet-scroll-bar",
+                new ScrollbarColorDefinition( new RGB( 205, 205, 205 ), new RGB( 248, 248, 248 ) ) );
   }
 
   @Override

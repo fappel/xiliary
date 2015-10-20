@@ -17,6 +17,13 @@
             os="win32"
             os_version="6.1">
       </theme>
+      <theme
+            basestylesheeturi="css/clean-sheet.css"
+            id="com.codeaffine.eclipse.ui.swt.theme.clean-sheet"
+            label="Clean Sheet"
+            os="win32"
+            os_version="10">
+      </theme>
    </extension>
    <extension
          point="org.eclipse.e4.ui.css.core.propertyHandler">
