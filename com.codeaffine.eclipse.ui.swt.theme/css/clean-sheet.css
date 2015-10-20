@@ -65,19 +65,19 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
-  color: #eaeaea;
+  color: #e5e5e5;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_OUTER_KEYLINE_COLOR');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR {
-  color: #eaeaea;
+  color: #e5e5e5;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_INNER_KEYLINE_COLOR');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
-  color: #eaeaea;
+  color: #e5e5e5;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_OUTLINE_COLOR');
 }
