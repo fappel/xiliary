@@ -6,9 +6,8 @@ import java.util.List;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 
-import com.codeaffine.eclipse.core.runtime.Predicate;
 import com.codeaffine.eclipse.core.runtime.FindException;
-import com.codeaffine.eclipse.core.runtime.internal.ContributionElementLoop.ConfigurationElementHandler;
+import com.codeaffine.eclipse.core.runtime.Predicate;
 
 class ContributionFinder {
 
@@ -29,16 +28,9 @@ class ContributionFinder {
     return contributions.get( 0 );
   }
 
-  private List<IConfigurationElement> findContributions(
-    String extensionPointId , Predicate predicate )
-  {
-    final List<IConfigurationElement> result = new ArrayList<IConfigurationElement>();
-    loop.forEach( extensionPointId, predicate, new ConfigurationElementHandler() {
-      @Override
-      public void handle( IConfigurationElement element ) {
-        result.add( element );
-      }
-    } );
+  private List<IConfigurationElement> findContributions( String extensionPointId , Predicate predicate ) {
+    List<IConfigurationElement> result = new ArrayList<IConfigurationElement>();
+    loop.forEach( extensionPointId, predicate, element -> result.add( element ) );
     return result;
   }
 

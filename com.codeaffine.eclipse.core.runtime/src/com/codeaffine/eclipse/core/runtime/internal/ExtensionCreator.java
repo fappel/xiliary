@@ -36,12 +36,11 @@ class ExtensionCreator<T> {
   }
 
   private Object createExecutableExtension( IConfigurationElement element ) {
-    Object result = null;
     try {
-      result = element.createExecutableExtension( typeAttribute );
+      return element.createExecutableExtension( typeAttribute );
     } catch( CoreException coreException ) {
       exceptionHandler.handle( coreException );
+      return null;
     }
-    return result;
   }
 }

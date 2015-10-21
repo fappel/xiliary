@@ -9,46 +9,43 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.function.Consumer;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.codeaffine.eclipse.core.runtime.internal.ContributionElementLoop.ConfigurationElementHandler;
-
 public class ContributionElementLoopPDETest {
 
+  private Consumer<IConfigurationElement> handler;
   private ContributionElementLoop loop;
 
   @Before
+  @SuppressWarnings("unchecked")
   public void setUp() {
     loop = new ContributionElementLoop( Platform.getExtensionRegistry() );
+    handler = mock( Consumer.class );
   }
 
   @Test
   public void forEach() {
-    ConfigurationElementHandler handler = mock( ConfigurationElementHandler.class );
-
     loop.forEach( EXTENSION_POINT, alwaysTrue(), handler );
 
-    verify( handler, times( 2 ) ).handle( any( IConfigurationElement.class ) );
+    verify( handler, times( 2 ) ).accept( any( IConfigurationElement.class ) );
   }
 
   @Test
   public void forEachWithFilter() {
-    ConfigurationElementHandler handler = mock( ConfigurationElementHandler.class );
-
     loop.forEach( EXTENSION_POINT, alwaysFalse(), handler );
 
-    verify( handler, never() ).handle( any( IConfigurationElement.class ) );
+    verify( handler, never() ).accept( any( IConfigurationElement.class ) );
   }
 
   @Test
   public void forEachWithUnknownExtensionPoint() {
-    ConfigurationElementHandler handler = mock( ConfigurationElementHandler.class );
-
     loop.forEach( "unknown", alwaysTrue(), handler );
 
-    verify( handler, never() ).handle( any( IConfigurationElement.class ) );
+    verify( handler, never() ).accept( any( IConfigurationElement.class ) );
   }
 }
