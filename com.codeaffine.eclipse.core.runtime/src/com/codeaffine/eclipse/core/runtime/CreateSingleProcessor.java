@@ -12,9 +12,7 @@ public class CreateSingleProcessor<T> extends ReadSingleProcessor<T> implements 
   }
 
   @Override
-  public CreateSingleProcessor<T> withConfiguration(
-    ExecutableExtensionConfigurator<T> configurator )
-  {
+  public CreateSingleProcessor<T> withConfiguration( ExecutableExtensionConfigurator<T> configurator ) {
     verifyNotNull( configurator, "configurator" );
 
     getOperator().setConfigurator( configurator );
@@ -22,9 +20,7 @@ public class CreateSingleProcessor<T> extends ReadSingleProcessor<T> implements 
   }
 
   @Override
-  public CreateSingleProcessor<T> withExceptionHandler(
-    ExtensionExceptionHandler exceptionHandler )
-  {
+  public CreateSingleProcessor<T> withExceptionHandler( ExtensionExceptionHandler exceptionHandler ) {
     verifyNotNull( exceptionHandler, "exceptionHandler" );
 
     getOperator().setExceptionHandler( exceptionHandler );
