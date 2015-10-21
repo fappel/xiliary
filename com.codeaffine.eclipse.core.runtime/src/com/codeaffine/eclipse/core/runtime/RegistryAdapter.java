@@ -16,7 +16,7 @@ public class RegistryAdapter {
   interface ExecutableExtensionConfiguration<T> {
     ExecutableExtensionConfiguration<T> withConfiguration( ExecutableExtensionConfigurator<T> configurator );
     ExecutableExtensionConfiguration<T> withExceptionHandler( ExtensionExceptionHandler exceptionHandler );
-    ExecutableExtensionConfiguration<T> withTypeAttribute( String typeAttribute);
+    ExecutableExtensionConfiguration<T> withTypeAttribute( String typeAttribute );
   }
 
   public RegistryAdapter() {
@@ -43,9 +43,7 @@ public class RegistryAdapter {
     return new ReadMultiProcessor<Extension>( factory.newReadExtensionsOperator( extensionPointId ) );
   }
 
-  public <T> CreateSingleProcessor<T> createExecutableExtension(
-    String extensionPointId, Class<T> extensionType )
-  {
+  public <T> CreateSingleProcessor<T> createExecutableExtension( String extensionPointId, Class<T> extensionType ) {
     verifyNotNull( extensionPointId, "extensionPointId" );
     verifyNotNull( extensionType, "extensionType" );
 
@@ -54,9 +52,7 @@ public class RegistryAdapter {
     );
   }
 
-  public <T> CreateMultiProcessor<T> createExecutableExtensions(
-    String extensionPointId, Class<T> extensionType )
-  {
+  public <T> CreateMultiProcessor<T> createExecutableExtensions( String extensionPointId, Class<T> extensionType ) {
     verifyNotNull( extensionPointId, "extensionPointId" );
     verifyNotNull( extensionType, "extensionType" );
 
