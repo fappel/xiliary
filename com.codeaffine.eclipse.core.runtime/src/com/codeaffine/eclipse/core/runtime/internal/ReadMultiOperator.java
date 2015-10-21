@@ -4,11 +4,11 @@ import static com.codeaffine.eclipse.core.runtime.Predicates.alwaysTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 import org.eclipse.core.runtime.IExtensionRegistry;
 
 import com.codeaffine.eclipse.core.runtime.Extension;
-import com.codeaffine.eclipse.core.runtime.Predicate;
 import com.codeaffine.eclipse.core.runtime.internal.Operator.ReadExtensionsOperator;
 
 class ReadMultiOperator implements ReadExtensionsOperator<Extension> {
@@ -16,7 +16,7 @@ class ReadMultiOperator implements ReadExtensionsOperator<Extension> {
   private final ContributionElementLoop loop;
   private final String extensionPointId;
 
-  private Predicate predicate;
+  private Predicate<Extension> predicate;
 
   ReadMultiOperator( IExtensionRegistry registry, String extensionPointId  ) {
     this.extensionPointId = extensionPointId;
@@ -25,7 +25,7 @@ class ReadMultiOperator implements ReadExtensionsOperator<Extension> {
   }
 
   @Override
-  public void setPredicate( Predicate predicate ) {
+  public void setPredicate( Predicate<Extension> predicate ) {
     this.predicate = predicate;
   }
 

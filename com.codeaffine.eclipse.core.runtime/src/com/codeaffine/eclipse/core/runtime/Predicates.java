@@ -3,176 +3,122 @@ package com.codeaffine.eclipse.core.runtime;
 import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.verifyNoNullElement;
 import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.verifyNotNull;
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
+
+import java.util.function.Predicate;
 
 public class Predicates {
 
-  private final static Predicate ALWAYS_TRUE = new Predicate() {
-    @Override
-    public boolean apply( Extension input ) {
-      return true;
-    }
-  };
+  private final static Predicate<Extension> ALWAYS_TRUE = extension -> true;
+  private final static Predicate<Extension> ALWAYS_FALSE = extension -> false;
+  private final static Predicate<Extension> IS_NULL = extension -> extension == null;
+  private final static Predicate<Extension> NOT_NULL = not( isNull() );
 
-  private final static Predicate ALWAYS_FALSE = new Predicate() {
-    @Override
-    public boolean apply( Extension input ) {
-      return false;
-    }
-  };
-
-  private final static Predicate IS_NULL = new Predicate() {
-    @Override
-    public boolean apply( Extension input ) {
-      return input == null;
-    }
-  };
-
-  private final static Predicate NOT_NULL = not( isNull() );
-
-  public static Predicate alwaysTrue() {
+  public static Predicate<Extension> alwaysTrue() {
     return ALWAYS_TRUE;
   }
 
-  public static Predicate alwaysFalse() {
+  public static Predicate<Extension> alwaysFalse() {
     return ALWAYS_FALSE;
   }
 
-  public static Predicate isNull() {
+  public static Predicate<Extension> isNull() {
     return IS_NULL;
   }
 
-  public static Predicate notNull() {
+  public static Predicate<Extension> notNull() {
     return NOT_NULL;
   }
 
-  public static Predicate not( final Predicate predicate ) {
+  public static Predicate<Extension> not( Predicate<Extension> predicate ) {
     verifyNotNull( predicate, "predicate" );
 
-    return new Predicate() {
-      @Override
-      public boolean apply( Extension input ) {
-        return !predicate.apply( input );
-      }
-    };
+    return predicate.negate();
   }
 
-  public static Predicate and( final Iterable<? extends Predicate> predicates ) {
+  public static Predicate<Extension> and( Iterable<? extends Predicate<Extension>> predicates ) {
     verifyNotNull( predicates, "predicates" );
     verifyNoNullElement( predicates, "predicates" );
 
-    return new Predicate() {
-      @Override
-      public boolean apply( Extension input ) {
-        return calculateAnd( predicates, input );
-      }
-    };
+    return extension -> calculateAnd( predicates, extension );
   }
 
-  public static Predicate and( Predicate ... predicates ) {
+  @SafeVarargs
+  public static Predicate<Extension> and( Predicate<Extension> ... predicates ) {
     verifyNotNull( predicates, "predicates" );
 
     return and( asList( predicates ) );
   }
 
-  public static Predicate and( Predicate first, Predicate second ) {
+  @SuppressWarnings("unchecked")
+  public static Predicate<Extension> and( Predicate<Extension> first, Predicate<Extension> second ) {
     return and( new Predicate[] { first, second } );
   }
 
-  public static Predicate or( final Iterable<? extends Predicate> predicates ) {
+  public static Predicate<Extension> or( Iterable<? extends Predicate<Extension>> predicates ) {
     verifyNotNull( predicates, "predicates" );
     verifyNoNullElement( predicates, "predicates" );
 
-    return new Predicate() {
-      @Override
-      public boolean apply( Extension input ) {
-        return calculateOr( predicates, input );
-      }
-    };
+    return extension ->  calculateOr( predicates, extension );
   }
 
-  public static Predicate or( Predicate ... predicates ) {
+  @SafeVarargs
+  public static Predicate<Extension> or( Predicate<Extension> ... predicates ) {
     verifyNotNull( predicates, "predicates" );
 
     return or( asList( predicates ) );
   }
 
-  public static Predicate or( Predicate first, Predicate second ) {
+  @SuppressWarnings("unchecked")
+  public static Predicate<Extension> or( Predicate<Extension> first, Predicate<Extension> second ) {
     return or( new Predicate[] { first, second } );
   }
 
-  public static Predicate attribute( final String name, final String value ) {
+  public static Predicate<Extension> attribute( String name, String value ) {
     verifyNotNull( name, "name" );
     verifyNotNull( value, "value" );
 
-    return new Predicate() {
-      @Override
-      public boolean apply( Extension input ) {
-        return value.equals( input.getAttribute( name ) );
-      }
-    };
+    return extension -> value.equals( extension.getAttribute( name ) );
   }
 
-  public static Predicate attributeMatcher( final String name, final String regex ) {
+  public static Predicate<Extension> attributeMatcher( String name, String regex ) {
     verifyNotNull( name, "name" );
     verifyNotNull( regex, "regex" );
 
-    return new Predicate() {
-      @Override
-      public boolean apply( Extension input ) {
-        return input.getAttribute( name ) != null && input.getAttribute( name ).matches( regex );
-      }
-    };
+    return extension -> extension.getAttribute( name ) != null && extension.getAttribute( name ).matches( regex );
   }
 
-  public static Predicate attributeIsNull( final String name ) {
+  public static Predicate<Extension> attributeIsNull( String name ) {
     verifyNotNull( name, "name" );
 
-    return new Predicate() {
-      @Override
-      public boolean apply( Extension input ) {
-        return input.getAttribute( name ) == null;
-      }
-    };
+    return extension -> extension.getAttribute( name ) == null;
   }
 
-  public static Predicate name( final String value ) {
+  public static Predicate<Extension> name( String value ) {
     verifyNotNull( value, "regex" );
 
-    return new Predicate() {
-      @Override
-      public boolean apply( Extension input ) {
-        return value.equals( input.getName() );
-      }
-    };
+    return extension -> value.equals( extension.getName() );
   }
 
-  public static Predicate nameMatcher( final String regex ) {
+  public static Predicate<Extension> nameMatcher( String regex ) {
     verifyNotNull( regex, "regex" );
 
-    return new Predicate() {
-      @Override
-      public boolean apply( Extension input ) {
-        return input.getName().matches( regex );
-      }
-    };
+    return extension -> extension.getName().matches( regex );
   }
 
-  private static boolean calculateAnd( Iterable<? extends Predicate> predicates, Extension input ) {
-    for( Predicate predicate : predicates ) {
-      if( !predicate.apply( input ) ) {
-        return false;
-      }
-    }
-    return true;
+  private static boolean calculateAnd( Iterable<? extends Predicate<Extension>> predicates, Extension extension ) {
+    return stream( predicates.spliterator(), false )
+          .filter( predicate -> !predicate.test( extension ) )
+          .collect( toList() )
+          .isEmpty();
   }
 
-  private static boolean calculateOr( Iterable<? extends Predicate> predicates, Extension input ) {
-    for( Predicate predicate : predicates ) {
-      if( predicate.apply( input ) ) {
-        return true;
-      }
-    }
-    return false;
+  private static boolean calculateOr( Iterable<? extends Predicate<Extension>> predicates, Extension extension ) {
+    return !stream( predicates.spliterator(), false )
+          .filter( predicate -> predicate.test( extension ) )
+          .collect( toList() )
+          .isEmpty();
   }
 
   private Predicates() {}

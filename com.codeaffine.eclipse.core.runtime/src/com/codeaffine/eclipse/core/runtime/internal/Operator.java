@@ -1,10 +1,11 @@
 package com.codeaffine.eclipse.core.runtime.internal;
 
 import java.util.Collection;
+import java.util.function.Predicate;
 
 import com.codeaffine.eclipse.core.runtime.ExecutableExtensionConfigurator;
+import com.codeaffine.eclipse.core.runtime.Extension;
 import com.codeaffine.eclipse.core.runtime.ExtensionExceptionHandler;
-import com.codeaffine.eclipse.core.runtime.Predicate;
 
 public interface Operator<T> {
 
@@ -28,5 +29,5 @@ public interface Operator<T> {
   public interface CreateExecutableExtensionsOperator<T>
     extends ReadExtensionsOperator<T>, ExecutableExtensionConfiguration<T> {}
 
-  void setPredicate( Predicate predicate );
+  void setPredicate( Predicate<Extension> predicate );
 }

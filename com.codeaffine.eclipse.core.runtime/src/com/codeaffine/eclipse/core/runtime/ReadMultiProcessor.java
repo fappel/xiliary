@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.core.runtime;
 import static com.codeaffine.eclipse.core.runtime.ArgumentVerification.verifyNotNull;
 
 import java.util.Collection;
+import java.util.function.Predicate;
 
 import com.codeaffine.eclipse.core.runtime.internal.Operator.ReadExtensionsOperator;
 
@@ -14,7 +15,7 @@ public class ReadMultiProcessor<T> {
     this.operator = operator;
   }
 
-  public ReadMultiProcessor<T> thatMatches( Predicate predicate ) {
+  public ReadMultiProcessor<T> thatMatches( Predicate<Extension> predicate ) {
     verifyNotNull( predicate, "predicate" );
 
     operator.setPredicate( predicate );

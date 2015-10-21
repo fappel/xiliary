@@ -6,7 +6,10 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.Stream;
 
 import org.junit.Test;
 
@@ -18,81 +21,81 @@ public class PredicatesTest<E> {
 
   @Test
   public void alwaysTrue() {
-    Predicate predicate = Predicates.alwaysTrue();
+    Predicate<Extension> predicate = Predicates.alwaysTrue();
 
-    boolean actual = predicate.apply( mock( Extension.class ) );
+    boolean actual = predicate.test( mock( Extension.class ) );
 
     assertThat( actual ).isTrue();
   }
 
   @Test
   public void alwaysTrueWithNullAsInput() {
-    Predicate predicate = Predicates.alwaysTrue();
+    Predicate<Extension> predicate = Predicates.alwaysTrue();
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isTrue();
   }
 
   @Test
   public void alwaysFalse() {
-    Predicate predicate = Predicates.alwaysFalse();
+    Predicate<Extension> predicate = Predicates.alwaysFalse();
 
-    boolean actual = predicate.apply( mock( Extension.class ) );
+    boolean actual = predicate.test( mock( Extension.class ) );
 
     assertThat( actual ).isFalse();
   }
 
   @Test
   public void alwaysFalseWithNullAsInput() {
-    Predicate predicate = Predicates.alwaysFalse();
+    Predicate<Extension> predicate = Predicates.alwaysFalse();
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isFalse();
   }
 
   @Test
   public void isNull() {
-    Predicate predicate = Predicates.isNull();
+    Predicate<Extension> predicate = Predicates.isNull();
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isTrue();
   }
 
   @Test
   public void isNullWithInput() {
-    Predicate predicate = Predicates.isNull();
+    Predicate<Extension> predicate = Predicates.isNull();
 
-    boolean actual = predicate.apply( mock( Extension.class ) );
+    boolean actual = predicate.test( mock( Extension.class ) );
 
     assertThat( actual ).isFalse();
   }
 
   @Test
   public void notNull() {
-    Predicate predicate = Predicates.notNull();
+    Predicate<Extension> predicate = Predicates.notNull();
 
-    boolean actual = predicate.apply( mock( Extension.class ) );
+    boolean actual = predicate.test( mock( Extension.class ) );
 
     assertThat( actual ).isTrue();
   }
 
   @Test
   public void notNullWithNullAsInput() {
-    Predicate predicate = Predicates.notNull();
+    Predicate<Extension> predicate = Predicates.notNull();
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isFalse();
   }
 
   @Test
   public void not() {
-    Predicate predicate = Predicates.not( Predicates.alwaysTrue() );
+    Predicate<Extension> predicate = Predicates.not( Predicates.alwaysTrue() );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isFalse();
   }
@@ -104,54 +107,56 @@ public class PredicatesTest<E> {
 
   @Test
   public void and() {
-    Predicate predicate = Predicates.and( Predicates.alwaysTrue(), Predicates.alwaysTrue() );
+    Predicate<Extension> predicate = Predicates.and( Predicates.alwaysTrue(), Predicates.alwaysTrue() );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isTrue();
   }
 
   @Test
   public void andWithFalsePredicate() {
-    Predicate predicate = Predicates.and( Predicates.alwaysTrue(), Predicates.alwaysFalse() );
+    Predicate<Extension> predicate = Predicates.and( Predicates.alwaysTrue(), Predicates.alwaysFalse() );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isFalse();
   }
 
   @Test
   public void andOnIterable() {
-    Predicate predicate = Predicates.and( asList( Predicates.alwaysTrue(), Predicates.alwaysTrue() ) );
+    Predicate<Extension> predicate = Predicates.and( asList( Predicates.alwaysTrue(), Predicates.alwaysTrue() ) );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isTrue();
   }
 
   @Test
   public void andOnIterableWithFalsePredicate() {
-    Predicate predicate = Predicates.and( asList( Predicates.alwaysTrue(), Predicates.alwaysFalse() ) );
+    Predicate<Extension> predicate = Predicates.and( asList( Predicates.alwaysTrue(), Predicates.alwaysFalse() ) );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isFalse();
   }
 
   @Test
   public void andOnVarargs() {
-    Predicate predicate = Predicates.and( Predicates.alwaysTrue(), Predicates.alwaysTrue(), Predicates.alwaysTrue() );
+    Predicate<Extension> predicate
+      = Predicates.and( Predicates.alwaysTrue(), Predicates.alwaysTrue(), Predicates.alwaysTrue() );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isTrue();
   }
 
   @Test
   public void andOnVarargsWithFalsePredicate() {
-    Predicate predicate = Predicates.and( Predicates.alwaysTrue(), Predicates.alwaysTrue(), Predicates.alwaysFalse() );
+    Predicate<Extension> predicate
+      = Predicates.and( Predicates.alwaysTrue(), Predicates.alwaysTrue(), Predicates.alwaysFalse() );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isFalse();
   }
@@ -169,77 +174,81 @@ public class PredicatesTest<E> {
 
   @Test( expected = IllegalArgumentException.class )
   public void andOnIterableWithNullArgument() {
-    Predicates.and( ( Iterable<? extends Predicate>)null );
+    Predicates.and( ( Iterable<? extends Predicate<Extension>>)null );
   }
 
   @Test( expected = IllegalArgumentException.class )
   public void andOnIterableWithNullAsIterableElement() {
-    ArrayList<Predicate> predicates = new ArrayList<Predicate>();
+    List<Predicate<Extension>> predicates = new ArrayList<>();
     predicates.add( null );
 
     Predicates.and( predicates );
   }
 
   @Test( expected = IllegalArgumentException.class )
+  @SuppressWarnings("unchecked")
   public void andOnVarargsWithNullArgument() {
     Predicates.and( ( Predicate[] )null );
   }
 
   @Test( expected = IllegalArgumentException.class )
+  @SuppressWarnings("unchecked")
   public void andOnVarargsWithNullAsArrayElement() {
     Predicates.and( new Predicate[] { null } );
   }
 
   @Test
   public void or() {
-    Predicate predicate = Predicates.or( Predicates.alwaysTrue(), Predicates.alwaysFalse() );
+    Predicate<Extension> predicate = Predicates.or( Predicates.alwaysTrue(), Predicates.alwaysFalse() );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isTrue();
   }
 
   @Test
   public void orWithFalsePredicatesOnly() {
-    Predicate predicate = Predicates.or( Predicates.alwaysFalse(), Predicates.alwaysFalse() );
+    Predicate<Extension> predicate = Predicates.or( Predicates.alwaysFalse(), Predicates.alwaysFalse() );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isFalse();
   }
 
   @Test
   public void orOnIterable() {
-    Predicate predicate = Predicates.or( asList( Predicates.alwaysTrue(), Predicates.alwaysFalse() ) );
+    Predicate<Extension> predicate = Predicates.or( asList( Predicates.alwaysTrue(), Predicates.alwaysFalse() ) );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isTrue();
   }
 
   @Test
   public void orOnIterableWithFalsePredicatesOnly() {
-    Predicate predicate = Predicates.or( asList( Predicates.alwaysFalse(), Predicates.alwaysFalse() ) );
+    Predicate<Extension> predicate = Predicates.or( asList( Predicates.alwaysFalse(), Predicates.alwaysFalse() ) );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isFalse();
   }
 
   @Test
   public void orOnVarargs() {
-    Predicate predicate = Predicates.or( Predicates.alwaysTrue(), Predicates.alwaysFalse(), Predicates.alwaysFalse() );
+    Predicate<Extension> predicate
+      = Predicates.or( Predicates.alwaysTrue(), Predicates.alwaysFalse(), Predicates.alwaysFalse() );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isTrue();
   }
 
   @Test
   public void orOnVarargsWithFalsePredicatesOnly() {
-    Predicate predicate = Predicates.or( Predicates.alwaysFalse(), Predicates.alwaysFalse(), Predicates.alwaysFalse() );
+    Predicate<Extension> predicate
+      = Predicates.or( Predicates.alwaysFalse(), Predicates.alwaysFalse(), Predicates.alwaysFalse() );
 
-    boolean actual = predicate.apply( null );
+    boolean actual = predicate.test( null );
 
     assertThat( actual ).isFalse();
   }
@@ -257,23 +266,25 @@ public class PredicatesTest<E> {
 
   @Test( expected = IllegalArgumentException.class )
   public void orOnIterableWithNullArgument() {
-    Predicates.or( ( Iterable<? extends Predicate>)null );
+    Predicates.or( ( Iterable<? extends Predicate<Extension>>)null );
   }
 
   @Test( expected = IllegalArgumentException.class )
   public void orOnIterableWithNullAsIterableElement() {
-    ArrayList<Predicate> predicates = new ArrayList<Predicate>();
+    List<Predicate<Extension>> predicates = new ArrayList<>();
     predicates.add( null );
 
     Predicates.or( predicates );
   }
 
   @Test( expected = IllegalArgumentException.class )
+  @SuppressWarnings("unchecked")
   public void orOnVarargsWithNullArgument() {
     Predicates.or( ( Predicate[] )null );
   }
 
   @Test( expected = IllegalArgumentException.class )
+  @SuppressWarnings("unchecked")
   public void orOnVarargsWithNullAsArrayElement() {
     Predicates.or( new Predicate[] { null } );
   }
@@ -281,9 +292,9 @@ public class PredicatesTest<E> {
   @Test
   public void attribute() {
     Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
-    Predicate predicate = Predicates.attribute( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
+    Predicate<Extension> predicate = Predicates.attribute( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
 
-    boolean actual = predicate.apply( extension );
+    boolean actual = predicate.test( extension );
 
     assertThat( actual ).isTrue();
   }
@@ -291,9 +302,9 @@ public class PredicatesTest<E> {
   @Test
   public void attributeWithNonMatchingValue() {
     Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
-    Predicate predicate = Predicates.attribute( ATTRIBUTE_NAME, "doesNotMatch" );
+    Predicate<Extension> predicate = Predicates.attribute( ATTRIBUTE_NAME, "doesNotMatch" );
 
-    boolean actual = predicate.apply( extension );
+    boolean actual = predicate.test( extension );
 
     assertThat( actual ).isFalse();
   }
@@ -301,9 +312,9 @@ public class PredicatesTest<E> {
   @Test
   public void attributeWithNonMatchingNullValue() {
     Extension extension = createExtension( ATTRIBUTE_NAME, null );
-    Predicate predicate = Predicates.attribute( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
+    Predicate<Extension> predicate = Predicates.attribute( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
 
-    boolean actual = predicate.apply( extension );
+    boolean actual = predicate.test( extension );
 
     assertThat( actual ).isFalse();
   }
@@ -321,9 +332,9 @@ public class PredicatesTest<E> {
   @Test
   public void attributeIsNull() {
     Extension extension = createExtension( ATTRIBUTE_NAME, null );
-    Predicate predicate = Predicates.attributeIsNull( ATTRIBUTE_NAME );
+    Predicate<Extension> predicate = Predicates.attributeIsNull( ATTRIBUTE_NAME );
 
-    boolean actual = predicate.apply( extension );
+    boolean actual = predicate.test( extension );
 
     assertThat( actual ).isTrue();
   }
@@ -331,9 +342,9 @@ public class PredicatesTest<E> {
   @Test
   public void attributeIsNullWithNonNullAttributeValue() {
     Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
-    Predicate predicate = Predicates.attributeIsNull( ATTRIBUTE_NAME );
+    Predicate<Extension> predicate = Predicates.attributeIsNull( ATTRIBUTE_NAME );
 
-    boolean actual = predicate.apply( extension );
+    boolean actual = predicate.test( extension );
 
     assertThat( actual ).isFalse();
   }
@@ -346,9 +357,9 @@ public class PredicatesTest<E> {
   @Test
   public void attributeMatcher() {
     Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
-    Predicate predicate = Predicates.attributeMatcher( ATTRIBUTE_NAME, ".*" );
+    Predicate<Extension> predicate = Predicates.attributeMatcher( ATTRIBUTE_NAME, ".*" );
 
-    boolean actual = predicate.apply( extension );
+    boolean actual = predicate.test( extension );
 
     assertThat( actual ).isTrue();
   }
@@ -356,9 +367,9 @@ public class PredicatesTest<E> {
   @Test
   public void attributeMatcherWithNonMatchingExpression() {
     Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
-    Predicate predicate = Predicates.attributeMatcher( ATTRIBUTE_NAME, "does.not.match" );
+    Predicate<Extension> predicate = Predicates.attributeMatcher( ATTRIBUTE_NAME, "does.not.match" );
 
-    boolean actual = predicate.apply( extension );
+    boolean actual = predicate.test( extension );
 
     assertThat( actual ).isFalse();
   }
@@ -366,9 +377,9 @@ public class PredicatesTest<E> {
   @Test( expected = PatternSyntaxException.class )
   public void attributeMatcherWithIllegalSyntax() {
     Extension extension = createExtension( ATTRIBUTE_NAME, ATTRIBUTE_VALUE );
-    Predicate predicate = Predicates.attributeMatcher( ATTRIBUTE_NAME, "[" );
+    Predicate<Extension> predicate = Predicates.attributeMatcher( ATTRIBUTE_NAME, "[" );
 
-    predicate.apply( extension );
+    predicate.test( extension );
   }
 
   @Test( expected = IllegalArgumentException.class )
@@ -384,9 +395,9 @@ public class PredicatesTest<E> {
   @Test
   public void name() {
     Extension extension = createExtension( NAME );
-    Predicate predicate = Predicates.name( NAME );
+    Predicate<Extension> predicate = Predicates.name( NAME );
 
-    boolean actual = predicate.apply( extension );
+    boolean actual = predicate.test( extension );
 
     assertThat( actual ).isTrue();
   }
@@ -394,9 +405,9 @@ public class PredicatesTest<E> {
   @Test
   public void nameWithNonMatchingValue() {
     Extension extension = createExtension( NAME );
-    Predicate predicate = Predicates.name( "doesNotMatch" );
+    Predicate<Extension> predicate = Predicates.name( "doesNotMatch" );
 
-    boolean actual = predicate.apply( extension );
+    boolean actual = predicate.test( extension );
 
     assertThat( actual ).isFalse();
   }
@@ -409,9 +420,9 @@ public class PredicatesTest<E> {
   @Test
   public void nameMatcher() {
     Extension extension = createExtension( NAME );
-    Predicate predicate = Predicates.nameMatcher( ".*" );
+    Predicate<Extension> predicate = Predicates.nameMatcher( ".*" );
 
-    boolean actual = predicate.apply( extension );
+    boolean actual = predicate.test( extension );
 
     assertThat( actual ).isTrue();
   }
@@ -419,9 +430,9 @@ public class PredicatesTest<E> {
   @Test
   public void nameWithNonMatchingExpression() {
     Extension extension = createExtension( NAME );
-    Predicate predicate = Predicates.nameMatcher( "does.not.match" );
+    Predicate<Extension> predicate = Predicates.nameMatcher( "does.not.match" );
 
-    boolean actual = predicate.apply( extension );
+    boolean actual = predicate.test( extension );
 
     assertThat( actual ).isFalse();
   }
@@ -434,9 +445,9 @@ public class PredicatesTest<E> {
   @Test( expected = PatternSyntaxException.class )
   public void nameMatcherWithIllegalSyntax() {
     Extension extension = createExtension( NAME );
-    Predicate predicate = Predicates.nameMatcher( "[" );
+    Predicate<Extension> predicate = Predicates.nameMatcher( "[" );
 
-    predicate.apply( extension );
+    predicate.test( extension );
   }
 
   private static Extension createExtension( String attributeName, String attributeValue ) {
@@ -451,11 +462,10 @@ public class PredicatesTest<E> {
     return result;
   }
 
-  private static Collection<Predicate> asList( Predicate ... predicates ) {
-    ArrayList<Predicate> result = new ArrayList<Predicate>();
-    for (Predicate predicate : predicates) {
-      result.add( predicate );
-    }
+  @SafeVarargs
+  private static Collection<Predicate<Extension>> asList( Predicate<Extension> ... predicates ) {
+    List<Predicate<Extension>> result = new ArrayList<>();
+    Stream.of( predicates ).forEach( predicate -> result.add( predicate ) );
     return result;
   }
 }

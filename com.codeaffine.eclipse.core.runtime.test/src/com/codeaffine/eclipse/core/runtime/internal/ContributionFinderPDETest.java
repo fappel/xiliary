@@ -8,13 +8,15 @@ import static com.codeaffine.eclipse.core.runtime.internal.ContributionFinder.ER
 import static com.codeaffine.eclipse.core.runtime.internal.ContributionFinder.ERROR_ZERO_CONTRIBUTIONS;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.function.Predicate;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.codeaffine.eclipse.core.runtime.Extension;
 import com.codeaffine.eclipse.core.runtime.FindException;
-import com.codeaffine.eclipse.core.runtime.Predicate;
 import com.codeaffine.test.util.lang.ThrowableCaptor;
 
 public class ContributionFinderPDETest {
@@ -28,7 +30,7 @@ public class ContributionFinderPDETest {
 
   @Test
   public void find() {
-    Predicate predicate = attribute( "id", "1" );
+    Predicate<Extension> predicate = attribute( "id", "1" );
 
     IConfigurationElement actual = finder.find( EXTENSION_POINT, predicate );
 

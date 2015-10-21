@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.core.runtime;
 import static java.lang.String.format;
 
 import java.util.Iterator;
+import java.util.function.Predicate;
 
 class ArgumentVerification {
 
@@ -16,8 +17,8 @@ class ArgumentVerification {
     return argument;
   }
 
-  static void verifyNoNullElement( Iterable<? extends Predicate> iterable, String argumentName ) {
-    Iterator<? extends Predicate> iterator = iterable.iterator();
+  static void verifyNoNullElement( Iterable<? extends Predicate<?>> iterable, String argumentName ) {
+    Iterator<? extends Predicate<?>> iterator = iterable.iterator();
     while( iterator.hasNext() ) {
       if( iterator.next() == null ) {
         throw new IllegalArgumentException( format( NO_NULL_ELEMENT_PATTERN, argumentName ) );

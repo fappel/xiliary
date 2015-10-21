@@ -4,14 +4,16 @@ import static com.codeaffine.eclipse.core.runtime.ExtensionExceptionHandler.DEFA
 import static com.codeaffine.eclipse.core.runtime.Predicates.alwaysTrue;
 import static com.codeaffine.eclipse.core.runtime.RegistryAdapter.DEFAULT_TYPE_ATTRIBUTE;
 
+import java.util.function.Predicate;
+
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 
 import com.codeaffine.eclipse.core.runtime.ExecutableExtensionConfigurator;
 import com.codeaffine.eclipse.core.runtime.ExecutableExtensionConfigurator.DefaultConfigurator;
+import com.codeaffine.eclipse.core.runtime.Extension;
 import com.codeaffine.eclipse.core.runtime.ExtensionExceptionHandler;
 import com.codeaffine.eclipse.core.runtime.FindException;
-import com.codeaffine.eclipse.core.runtime.Predicate;
 import com.codeaffine.eclipse.core.runtime.internal.Operator.CreateExecutableExtensionOperator;
 
 class CreateSingleOperator<T> implements CreateExecutableExtensionOperator<T> {
@@ -23,7 +25,7 @@ class CreateSingleOperator<T> implements CreateExecutableExtensionOperator<T> {
 
   private ExtensionExceptionHandler exceptionHandler;
   private ExecutableExtensionConfigurator<T> configurator;
-  private Predicate predicate;
+  private Predicate<Extension> predicate;
   private String typeAttribute;
 
   CreateSingleOperator( IExtensionRegistry registry, String extensionPointId , Class<T> extensionType ) {
@@ -43,7 +45,7 @@ class CreateSingleOperator<T> implements CreateExecutableExtensionOperator<T> {
   }
 
   @Override
-  public void setPredicate( Predicate predicate ) throws FindException {
+  public void setPredicate( Predicate<Extension> predicate ) throws FindException {
     finder.find( extensionPointId, predicate );
     this.predicate = predicate;
   }

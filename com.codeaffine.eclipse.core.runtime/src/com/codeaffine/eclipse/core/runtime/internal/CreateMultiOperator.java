@@ -6,14 +6,15 @@ import static com.codeaffine.eclipse.core.runtime.RegistryAdapter.DEFAULT_TYPE_A
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 
 import com.codeaffine.eclipse.core.runtime.ExecutableExtensionConfigurator;
 import com.codeaffine.eclipse.core.runtime.ExecutableExtensionConfigurator.DefaultConfigurator;
+import com.codeaffine.eclipse.core.runtime.Extension;
 import com.codeaffine.eclipse.core.runtime.ExtensionExceptionHandler;
-import com.codeaffine.eclipse.core.runtime.Predicate;
 import com.codeaffine.eclipse.core.runtime.internal.Operator.CreateExecutableExtensionsOperator;
 
 class CreateMultiOperator<T> implements CreateExecutableExtensionsOperator<T> {
@@ -25,7 +26,7 @@ class CreateMultiOperator<T> implements CreateExecutableExtensionsOperator<T> {
 
   private ExtensionExceptionHandler exceptionHandler;
   private ExecutableExtensionConfigurator<T> configurator;
-  private Predicate predicate;
+  private Predicate<Extension> predicate;
   private String typeAttribute;
 
   CreateMultiOperator( IExtensionRegistry registry, String extensionPointId , Class<T> extensionType ) {
@@ -45,7 +46,7 @@ class CreateMultiOperator<T> implements CreateExecutableExtensionsOperator<T> {
   }
 
   @Override
-  public void setPredicate( Predicate predicate ) {
+  public void setPredicate( Predicate<Extension> predicate ) {
     this.predicate = predicate;
   }
 

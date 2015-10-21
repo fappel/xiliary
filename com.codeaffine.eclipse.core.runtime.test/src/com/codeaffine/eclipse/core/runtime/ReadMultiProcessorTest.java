@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
+import java.util.function.Predicate;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +26,7 @@ public class ReadMultiProcessorTest {
 
   @Test
   public void thatMatches() {
-    Predicate expected = mock( Predicate.class );
+    Predicate<Extension> expected = mock( Predicate.class );
 
     ReadMultiProcessor<Runnable> actual = processor.thatMatches( expected );
 

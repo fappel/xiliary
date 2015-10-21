@@ -10,6 +10,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Predicate;
 
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class ArgumentVerificationTest {
 
   @Test
   public void verifyNoNullElementWithNullElement() {
-    Collection<Predicate> iterable = new ArrayList<Predicate>();
+    Collection<Predicate<Extension>> iterable = new ArrayList<>();
     iterable.add( null );
 
     Throwable expected = thrownBy( () -> verifyNoNullElement( iterable, ARGUMENT_NAME ) );
@@ -47,11 +48,11 @@ public class ArgumentVerificationTest {
 
   @Test
   public void verifyNoNullElementWithoutElement() {
-    Collection<Predicate> iterable = new ArrayList<Predicate>();
+    Collection<Predicate<Extension>> iterable = new ArrayList<>();
     iterable.add( Predicates.alwaysFalse() );
 
-    Throwable expected = thrownBy( () -> verifyNoNullElement( iterable, ARGUMENT_NAME ) );
+    Throwable actual = thrownBy( () -> verifyNoNullElement( iterable, ARGUMENT_NAME ) );
 
-    assertThat( expected ).isNull();
+    assertThat( actual ).isNull();
   }
 }

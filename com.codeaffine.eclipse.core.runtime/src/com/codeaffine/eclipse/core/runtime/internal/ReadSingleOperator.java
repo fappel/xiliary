@@ -2,10 +2,11 @@ package com.codeaffine.eclipse.core.runtime.internal;
 
 import static com.codeaffine.eclipse.core.runtime.Predicates.alwaysTrue;
 
+import java.util.function.Predicate;
+
 import org.eclipse.core.runtime.IExtensionRegistry;
 
 import com.codeaffine.eclipse.core.runtime.Extension;
-import com.codeaffine.eclipse.core.runtime.Predicate;
 import com.codeaffine.eclipse.core.runtime.internal.Operator.ReadExtensionOperator;
 
 class ReadSingleOperator implements ReadExtensionOperator<Extension> {
@@ -13,7 +14,7 @@ class ReadSingleOperator implements ReadExtensionOperator<Extension> {
   private final ContributionFinder finder;
   private final String extensionPointId;
 
-  private Predicate predicate;
+  private Predicate<Extension> predicate;
 
   ReadSingleOperator( IExtensionRegistry registry, String extensionPointId  ) {
     this.extensionPointId = extensionPointId;
@@ -22,7 +23,7 @@ class ReadSingleOperator implements ReadExtensionOperator<Extension> {
   }
 
   @Override
-  public void setPredicate( Predicate predicate ) {
+  public void setPredicate( Predicate<Extension> predicate ) {
     finder.find( extensionPointId, predicate );
     this.predicate = predicate;
   }
