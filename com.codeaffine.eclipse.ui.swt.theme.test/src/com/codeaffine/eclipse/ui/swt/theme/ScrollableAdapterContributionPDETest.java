@@ -72,6 +72,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void propertyHandlerContribution() {
     Extension actual = new RegistryAdapter()
       .readExtension( "org.eclipse.e4.ui.css.core.propertyHandler" )
@@ -96,6 +97,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyFlatScrollbar( TypePair<?, ?> typePair ) throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
@@ -106,6 +108,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyCSSPropertyFlatScrollbarOnNonControlElement() throws Exception {
     Control control = new Label( shell, SWT.NONE );
 
@@ -115,6 +118,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyCSSPropertyFlatScrollbarOnScrollableAdapter() throws Exception {
     ScrollableAdapter<?> control = new FlatScrollBarTree( shell, composite -> new Tree( composite, SWT.NONE ) );
 
@@ -126,6 +130,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyFlatScrollbarOnNonAdaptableType( TypePair<?, ?> typePair ) throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
@@ -136,6 +141,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyOfColorSchemeAfterFlatScrollbar( TypePair<?, ?> typePair ) throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
@@ -152,6 +158,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyFlatScrollbarAfterColorScheme( TypePair<?, ?> typePair ) throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
@@ -168,6 +175,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyFlatScrollbarWithFalseAsCssValue( TypePair<?, ?> typePair ) throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
@@ -178,6 +186,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyFlatScrollbarWithWrongCssValueType( TypePair<?, ?> typePair ) throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
@@ -188,6 +197,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyOfThumbWithAlternateTopLevelWindowSelectorOnTopLevelShellAfterFlatScrollbar(
     TypePair<?, ?> typePair )
@@ -206,6 +216,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyFlatScrollbarThumbWithAlternateTopLevelWindowSelectorOnTopLevelShell(
     TypePair<?, ?> typePair )
@@ -224,6 +235,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyOfThumbWithAlternateTopLevelWindowSelectorOnTopLevelShellAndReverseSettingAfterFlatBar(
     TypePair<?, ?> typePair )
@@ -242,6 +254,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyFlatScrollbarThumbWithAlternateTopLevelWindowSelectorOnTopLevelShellAndReverseSetting(
     TypePair<?, ?> typePair )
@@ -280,6 +293,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyOfThumbWithAlternateTopLevelWindowSelectorOnChildShellWithReverseSettingAfterFlatBar(
     TypePair<?, ?> typePair )
@@ -299,6 +313,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyFlatScrollbarThumbWithAlternateTopLevelWindowSelectorOnChildShellWith(
     TypePair<?, ?> typePair )
@@ -318,6 +333,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   @Parameters( method = "scrollableTypeData" )
   public void applyCSSPropertyFlatScrollbarThumbWithAlternateTopLevelWindowSelectorOnChildShellWithReverseSetting(
     TypePair<?, ?> typePair )
