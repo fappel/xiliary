@@ -352,11 +352,16 @@ IEclipsePreferences#org-eclipse-ui-workbench {
     'RESOLVED_COLOR=108,210,17'
 }
 
-
 Tree {
-  flat-scroll-bar: dark;
+  flat-scroll-bar: true;
+  flat-scroll-bar-thumb: #f8f8f8;
+  flat-scroll-bar-page-increment: #494a4d;
+  flat-scroll-bar-background-top-level: #262626;
 }
 
 Table {
-  flat-scroll-bar: dark;
+  flat-scroll-bar: true;
+  flat-scroll-bar-thumb: #f8f8f8;
+  flat-scroll-bar-page-increment: #494a4d;
+  flat-scroll-bar-background-top-level: #262626;
 }

@@ -53,9 +53,17 @@ CTabFolder Canvas {
 }
 
 Tree {
-  flat-scroll-bar: win7;
+  flat-scroll-bar: true;
+  flat-scroll-bar-thumb: #cdcdcd;
+  flat-scroll-bar-page-increment: #f8f8f8;
+  flat-scroll-bar-thumb-top-level: #d2e1f9;
+  flat-scroll-bar-page-increment-top-level: #f8f8f8;
 }
 
 Table {
-  flat-scroll-bar: win7;
+  flat-scroll-bar: true;
+  flat-scroll-bar-thumb: #cdcdcd;
+  flat-scroll-bar-page-increment: #f8f8f8;
+  flat-scroll-bar-thumb-top-level: #d2e1f9;
+  flat-scroll-bar-page-increment-top-level: #f8f8f8;
 }

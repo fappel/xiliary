@@ -6,14 +6,14 @@
       <theme
             basestylesheeturi="css/win7.css"
             id="com.codeaffine.eclipse.ui.swt.theme.win7"
-            label="Code Affine Windows 7"
+            label="Windows [Flat-Scrollbar]"
             os="win32"
             os_version="6.1">
       </theme>
       <theme
             basestylesheeturi="css/dark.css"
             id="com.codeaffine.eclipse.ui.swt.theme.dark"
-            label="Code Affine Dark"
+            label="Dark [Flat-Scrollbar]"
             os="win32"
             os_version="6.1">
       </theme>
@@ -30,9 +30,27 @@
       <handler
             adapter="org.eclipse.e4.ui.css.swt.dom.WidgetElement"
             composite="false"
-            handler="com.codeaffine.eclipse.us.swt.theme.ScrollableAdapter">
+            handler="com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution">
          <property-name
                name="flat-scroll-bar">
+         </property-name>
+         <property-name
+               name="flat-scroll-bar-background">
+         </property-name>
+         <property-name
+               name="flat-scroll-bar-thumb">
+         </property-name>
+         <property-name
+               name="flat-scroll-bar-page-increment">
+         </property-name>
+         <property-name
+               name="flat-scroll-bar-background-top-level">
+         </property-name>
+         <property-name
+               name="flat-scroll-bar-thumb-top-level">
+         </property-name>
+         <property-name
+               name="flat-scroll-bar-page-increment-top-level">
          </property-name>
       </handler>
    </extension>

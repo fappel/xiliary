@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Scrollable;
 import com.codeaffine.eclipse.swt.util.Platform;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 
-class ScrollableAdapter<T extends Scrollable> extends Composite implements ScrollbarStyle {
+public class ScrollableAdapter<T extends Scrollable> extends Composite implements ScrollbarStyle {
 
   private final LayoutFactory<T> layoutFactory;
   private final T scrollable;
@@ -83,7 +83,7 @@ class ScrollableAdapter<T extends Scrollable> extends Composite implements Scrol
     return layoutFactory.getBackgroundColor();
   }
 
-  T getScrollable() {
+  public T getScrollable() {
     return scrollable;
   }
 

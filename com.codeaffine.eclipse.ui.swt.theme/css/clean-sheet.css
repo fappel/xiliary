@@ -210,9 +210,13 @@ CTabItem:selected {
 }
 
 Tree {
-  flat-scroll-bar: clean-sheet-scroll-bar;
+  flat-scroll-bar: true;
+  flat-scroll-bar-thumb: #cdcdcd;
+  flat-scroll-bar-page-increment: #f8f8f8;
 }
 
 Table {
-  flat-scroll-bar: clean-sheet-scroll-bar;
+  flat-scroll-bar: true;
+  flat-scroll-bar-thumb: #cdcdcd;
+  flat-scroll-bar-page-increment: #f8f8f8;
 }

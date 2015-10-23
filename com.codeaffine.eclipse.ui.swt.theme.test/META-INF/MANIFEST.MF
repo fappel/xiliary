@@ -8,6 +8,7 @@ Fragment-Host: com.codeaffine.eclipse.ui.swt.theme;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.codeaffine.osgi.testuite;version="[1.0.0,2.0.0)",
  com.codeaffine.test.util.lang;version="[0.1.0,1.0.0)",
+ junitparams;version="[1.0.3,2.0.0)",
  org.assertj.core.api;version="[1.6.0,2.0.0)",
  org.assertj.core.api.filter;version="[1.6.0,2.0.0)",
  org.assertj.core.condition;version="[1.6.0,2.0.0)",
@@ -21,3 +22,6 @@ Import-Package: com.codeaffine.osgi.testuite;version="[1.0.0,2.0.0)",
  org.mockito.invocation;version="[1.9.0,2.0.0)",
  org.mockito.runners;version="[1.9.0,2.0.0)",
  org.mockito.stubbing;version="[1.9.0,2.0.0)"
+Require-Bundle: com.codeaffine.eclipse.core.runtime;bundle-version="[0.1.0,1.0.0)",
+ com.codeaffine.eclipse.core.runtime.test.util;bundle-version="[0.1.0,1.0.0)",
+ com.codeaffine.eclipse.swt.test.util;bundle-version="[0.1.0,1.0.0)"
