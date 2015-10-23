@@ -38,10 +38,13 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 import com.codeaffine.eclipse.core.runtime.Extension;
 import com.codeaffine.eclipse.core.runtime.RegistryAdapter;
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
 import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
@@ -56,8 +59,8 @@ public class ScrollableAdapterContributionPDETest {
   private static final CSSPrimitiveValue TRUE = stubCccBooleanValue( true );
   private static final CSSPrimitiveValue FALSE = stubCccBooleanValue( false );
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ScrollableAdapterContribution contribution;
   private Shell shell;
@@ -258,6 +261,7 @@ public class ScrollableAdapterContributionPDETest {
 
   @Test
   @Parameters( method = "scrollableTypeData" )
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyCSSPropertyOfThumbWithAlternateTopLevelWindowSelectorOnChildShellAfterFlatScrollbar(
     TypePair<?, ?> typePair )
     throws Exception
