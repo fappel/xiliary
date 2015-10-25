@@ -11,7 +11,8 @@
  
  IEclipsePreferences#org-eclipse-ui-editors {
   preferences:
-    'AbstractTextEditor.Color.Background=255,255,255'
+    'AbstractTextEditor.Color.Background.SystemDefault=false'
+    'AbstractTextEditor.Color.Background=250,250,250'
     'AbstractTextEditor.Color.FindScope=188,173,255'
     'AbstractTextEditor.Color.Foreground=0,0,0'
     'AbstractTextEditor.Color.SelectionBackground=239,239,255'
@@ -163,27 +164,27 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START {
-  color: #ffffff;
+  color: #fafafa;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
-  color: #ffffff;
+  color: #fafafa;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_START {
-  color: #ffffff;
+  color: #fafafa;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_END {
-  color: #ffffff;
+  color: #fafafa;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_START {
-  color: #ffffff;
+  color: #fafafa;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END {
-  color: #ffffff;
+  color: #fafafa;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
@@ -198,7 +199,7 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
 
 .MTrimmedWindow { 
-  background-color: #fafafa;
+  background-color: #f9f9f9;
 }
 
 .MTrimBar {
@@ -210,7 +211,7 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
  
 #PerspectiveSwitcher {
-  eclipse-perspective-keyline-color: #eaeaea #ffffff;
+  eclipse-perspective-keyline-color: #eaeaea #fafafa;
 /*   background-color: #f0f0f0; */
 }
 
@@ -234,6 +235,10 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
   background-color: #A0A0A0;
 }
 
+.MPart {
+  background-color: #fafafa;
+}
+
 .MPart.busy {
   font-style: italic;
 }
@@ -244,6 +249,37 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 
 .MPartStack, .MPart {
   font-family: '#org-eclipse-ui-workbench-TAB_TEXT_FONT';
+}
+
+.MPartStack.active .MPart Composite,
+.MPartStack.active .MPart LayoutComposite,
+.MPartStack.active .MPart Label,
+.MPartStack.active .MPart Hyperlink,
+.MPartStack.active .MPart ImageHyperlink,
+.MPartStack.active .MPart ScrolledForm,
+.MPartStack.active .MPart Form,
+.MPartStack.active .MPart Section,
+.MPartStack.active .MPart FormText,
+.MPartStack.active .MPart Link,
+.MPartStack.active .MPart Sash,
+.MPartStack.active .MPart Button,
+.MPartStack.active .MPart Group,
+.MPartStack.active .MPart SashForm,
+.MPartStack.active .MPart FilteredTree,
+.MPartStack.active .MPart RegistryFilteredTree,
+.MPartStack.active .MPart PageSiteComposite,
+.MPartStack.active .MPart DependenciesComposite,
+.MPartStack.active .MPart Text[style~='SWT.READ_ONLY'],
+.MPartStack.active .MPart FigureCanvas,
+.MPartStack.active .MPart ListEditorComposite,
+.MPartStack.active .MPart ScrolledComposite,
+.MPartStack.active .MPart ScrolledComposite ToolBar,
+.MPartStack.active .Mpart ScrolledComposite ProgressInfoItem,
+.MPartStack.active .MPart Form ScrolledPageBook,
+.MPartStack.active .MPart Form > LayoutComposite > LayoutComposite > ToolBar,
+.MPartStack.active .MPart DependenciesComposite > SashForm > Section > * 
+.MPartStack.active .MPart LayoutComposite > * > LayoutComposite > Section > LayoutComposite > * {
+  background-color: #fafafa;
 }
 
 .MPartStack {
@@ -278,11 +314,11 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
 
 .MPartStack > Composite {
-  background-color: #ffffff;
+  background-color: #fafafa;
 }
 
 CTabFolder Canvas {
-  background-color: #ffffff;
+  background-color: #fafafa;
 }
 
 CTabItem:selected {
@@ -290,12 +326,14 @@ CTabItem:selected {
 }
 
 Tree {
+  background-color: #fafafa;
   flat-scroll-bar: true;
   flat-scroll-bar-thumb: #cdcdcd;
   flat-scroll-bar-page-increment: #f8f8f8;
 }
 
 Table {
+  background-color: #fafafa;
   flat-scroll-bar: true;
   flat-scroll-bar-thumb: #cdcdcd;
   flat-scroll-bar-page-increment: #f8f8f8;
