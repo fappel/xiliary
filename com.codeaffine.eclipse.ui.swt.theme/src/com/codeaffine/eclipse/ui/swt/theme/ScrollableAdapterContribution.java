@@ -111,7 +111,7 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
       Scrollable scrollableExtension = typePair.scrollableType.cast( scrollable );
       ScrollbarStyle result = ( ScrollbarStyle )factory.create( scrollableExtension, typePair.adapterType );
       scrollable.setData( SCROLLABLE_STYLE, result );
-      applyBackgroundColorOnTopLevelWindowWorkaround( scrollable );;
+      applyBackgroundColorOnTopLevelWindowWorkaround( scrollable );
     }
   }
 
