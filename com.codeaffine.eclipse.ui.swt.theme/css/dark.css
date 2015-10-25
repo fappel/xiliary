@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2010, 2014 Andrea Guarinoni and others.
+ * Copyright (c) 2010, 2015 Andrea Guarinoni and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -7,6 +7,10 @@
  *
  * Contributors:
  *     Andrea Guarinoni <andrea.guarinoni.dev@outlook.com> - initial API and implementation
+ *     Lars Vogel <Lars.Vogel@vogella.com> - initial API and implementation
+ *     Stefan Winkler <stefan@winklerweb.net> - Bug 431845
+ *     Fabio Zadrozny <fabiofz@gmail.com> - Bug 434201, 434309
+ *     Frank Appel <fappel@codeaffine.com> - adaption of flat scrollbar adapters
  *******************************************************************************/
 
 /*******************************************************************************
@@ -14,11 +18,169 @@
  * 1.) Bug 430052 - Imported rules cannot be overridden
  *******************************************************************************/
 
+/* ############################## Eclipse UI properties ############################## */
 
 /* @import url("platform:/plugin/org.eclipse.ui.themes/css/e4-dark.css"); Bug 430052 */
 @import url("platform:/plugin/org.eclipse.ui.themes/css/dark/e4-dark_basestyle.css");
 @import url("platform:/plugin/org.eclipse.ui.themes/css/dark/e4-dark_globalstyle.css"); /* Remove this to have ONLY the main IDE shell dark */
 @import url("platform:/plugin/org.eclipse.ui.themes/css/dark/e4-dark_partstyle.css");
+
+IEclipsePreferences#org-eclipse-ui-editors {
+  preferences:
+    'AbstractTextEditor.Color.Background.SystemDefault=false'
+    'AbstractTextEditor.Color.SelectionForeground.SystemDefault=false'
+    'AbstractTextEditor.Color.SelectionBackground.SystemDefault=false'
+    'AbstractTextEditor.Color.Background=41,41,41'
+    'AbstractTextEditor.Color.Foreground.SystemDefault=false'
+    'AbstractTextEditor.Color.SelectionBackground=7,54,66'
+    'AbstractTextEditor.Color.SelectionForeground=147,161,161'
+    'AbstractTextEditor.Color.Foreground=131,148,150'
+    'AbstractTextEditor.Color.FindScope=30,120,155'
+    'asOccurencesIndicationColor=72,72,72'
+    'breakpointIndicationColor=51,119,193'
+    'currentIPColor=54,54,54'
+    'currentLineColor=0,43,54'
+    'deletionIndicationColor=224,226,228'
+    'filteredSearchResultIndicationColor=7,54,66'
+    'hyperlinkColor=102,175,249'
+    'hyperlinkColor.SystemDefault=false'
+    'infoIndicationColor=86,194,170'
+    'lineNumberColor=101,123,131'
+    'linked.slave.color=66,156,255'
+    'matchingTagIndicationColor=72,72,72'
+    'occurrenceIndicationColor=7,54,66'
+    'overrideIndicatorColor=78,120,117'
+    'printMarginColor=101,123,131'
+    'searchResultHighlighting=false'
+    'searchResultIndication=true'
+    'searchResultIndicationColor=94,94,94'
+    'searchResultTextStyle=BOX'
+    'secondaryIPColor=54,54,54'
+    'spellingIndicationColor=253,170,211'
+    'writeOccurrenceIndicationColor=7,54,66'
+}
+
+IEclipsePreferences#org-eclipse-ui-workbench {
+  preferences:
+    'ACTIVE_HYPERLINK_COLOR=138,201,242'
+    'CONFLICTING_COLOR=240,15,66'
+    'CONTENT_ASSIST_BACKGROUND_COLOR=52,57,61'
+    'CONTENT_ASSIST_FOREGROUND_COLOR=238,238,238'
+    'ERROR_COLOR=247,68,117'
+    'HYPERLINK_COLOR=111,197,238'
+    'INCOMING_COLOR=31,179,235'
+    'OUTGOING_COLOR=238,238,238'
+    'RESOLVED_COLOR=108,210,17'
+}
+
+/* Values are adapter from the Obsidian theme - by Morinar.
+   see: http://eclipsecolorthemes.org/?view=theme&id=21 */
+IEclipsePreferences#org-eclipse-jdt-ui {
+  preferences:
+    'java_bracket=232,226,183'
+    'java_comment_task_tag=255,139,255'
+    'java_default=224,226,228'
+    'java_doc_default=125,140,147'
+    'java_doc_keyword=160,130,189'
+    'java_doc_link=103,140,177'
+    'java_doc_tag=224,226,228'
+    'java_keyword=147,199,99'
+    'java_keyword_return=147,199,99'
+    'java_multi_line_comment=125,140,147'
+    'java_operator=232,226,183'
+    'java_single_line_comment=125,140,147'
+    'java_string=236,118,0'
+    'pf_coloring_argument=147,199,99'
+    'pf_coloring_assignment=224,226,228'
+    'pf_coloring_comment=125,140,147'
+    'pf_coloring_key=224,226,228'
+    'pf_coloring_value=236,118,0'
+    'semanticHighlighting.abstractMethodInvocation.color=224,226,228'
+    'semanticHighlighting.abstractMethodInvocation.enabled=true'
+    'semanticHighlighting.annotation.color=160,130,189'
+    'semanticHighlighting.annotation.enabled=true'
+    'semanticHighlighting.class.color=103,140,177'
+    'semanticHighlighting.class.enabled=true'
+    'semanticHighlighting.deprecatedMember.color=224,226,228'
+    'semanticHighlighting.deprecatedMember.enabled=true'
+    'semanticHighlighting.enum.color=224,226,228'
+    'semanticHighlighting.enum.enabled=true'
+    'semanticHighlighting.field.color=103,140,177'
+    'semanticHighlighting.field.enabled=true'
+    'semanticHighlighting.inheritedMethodInvocation.color=224,226,228'
+    'semanticHighlighting.inheritedMethodInvocation.enabled=true'
+    'semanticHighlighting.interface.color=103,140,177'
+    'semanticHighlighting.interface.enabled=true'
+    'semanticHighlighting.localVariable.color=224,226,228'
+    'semanticHighlighting.localVariable.enabled=true'
+    'semanticHighlighting.localVariableDeclaration.color=224,226,228'
+    'semanticHighlighting.localVariableDeclaration.enabled=true'
+    'semanticHighlighting.method.color=103,140,177'
+    'semanticHighlighting.method.enabled=true'
+    'semanticHighlighting.methodDeclarationName.color=103,140,177'
+    'semanticHighlighting.methodDeclarationName.enabled=true'
+    'semanticHighlighting.number.color=255,205,34'
+    'semanticHighlighting.number.enabled=true'
+    'semanticHighlighting.parameterVariable.color=224,226,228'
+    'semanticHighlighting.parameterVariable.enabled=true'
+    'semanticHighlighting.staticField.color=103,140,177'
+    'semanticHighlighting.staticField.enabled=true'
+    'semanticHighlighting.staticFinalField.color=224,226,228'
+    'semanticHighlighting.staticFinalField.enabled=true'
+    'semanticHighlighting.staticMethodInvocation.color=224,226,228'
+    'semanticHighlighting.staticMethodInvocation.enabled=true'
+    'semanticHighlighting.typeArgument.color=224,226,228'
+    'semanticHighlighting.typeArgument.enabled=true'
+    'semanticHighlighting.typeParameter.color=224,226,228'
+    'semanticHighlighting.typeParameter.enabled=true'
+    'sourceHoverBackgroundColor=255,255,255'
+}
+
+Tree {
+  /**
+   * See Bug 434201: Dark theme: tree must respect the foreground color for items arrows
+   */
+  swt-tree-arrows-color:#cccccc;
+  swt-tree-arrows-mode: triangle;  /* triangle or square */
+
+  /* See Bug 434309: Customize the tree/table selection to work properly
+   * with the dark theme.
+   *
+   * Note that the selection foreground is a bit lighter than the regular
+   * foreground because our background is also a bit lighter in this case.
+   */
+  swt-selection-foreground-color: #fcfcf9;
+  swt-selection-background-color: #494949;
+  swt-hot-background-color: #2F2F2F;
+  swt-selection-border-color: #7F7D68;
+  swt-hot-border-color: #545454;
+  
+  flat-scroll-bar: true;
+  flat-scroll-bar-thumb: #808080;
+  flat-scroll-bar-page-increment: #494a4d;
+  flat-scroll-bar-background-top-level: #262626;
+}
+
+
+Table {
+  /* See Bug 434309: Customize the tree/table selection to work properly
+   * with the dark theme.
+   *
+   * Note that the selection foreground is a bit lighter than the regular
+   * foreground because our background is also a bit lighter in this case.
+   */
+  swt-selection-foreground-color: #fcfcf9;
+
+  swt-selection-background-color: #494949;
+  swt-hot-background-color: #2F2F2F;
+  swt-selection-border-color: #7F7D68;
+  swt-hot-border-color: #545454;
+  
+  flat-scroll-bar: true;
+  flat-scroll-bar-thumb: #808080;
+  flat-scroll-bar-page-increment: #494a4d;
+  flat-scroll-bar-background-top-level: #262626;
+}
 
 
 .MTrimmedWindow.topLevel {
@@ -294,74 +456,4 @@ StatusLine, ImageBasedFrame{
 .MPartStack.active .MPart Form FormHeading ImageHyperlink {
     background-color: #415062;
     color: #9ac9d8;
-}
-
-
-/* ############################## Eclipse UI properties ############################## */
-
-
-IEclipsePreferences#org-eclipse-ui-editors {
-  preferences:
-    'AbstractTextEditor.Color.SelectionForeground.SystemDefault=false'
-    'AbstractTextEditor.Color.SelectionBackground.SystemDefault=false'
-    'AbstractTextEditor.Color.Background.SystemDefault=false'
-    'AbstractTextEditor.Color.Foreground.SystemDefault=false'
-    'AbstractTextEditor.Color.Background=32,32,32'
-    'AbstractTextEditor.Color.FindScope=30,120,155'
-    'AbstractTextEditor.Color.Foreground=217,232,247'
-    'AbstractTextEditor.Color.SelectionBackground=62,81,93'
-    'AbstractTextEditor.Color.SelectionForeground=68,206,239'
-    'asOccurencesIndicationColor=72,72,72'
-    'breakpointIndicationColor=51,119,193'
-    'currentIPColor=54,54,54'
-    'currentLineColor=54,54,54'
-    'deletionIndicationColor=134,60,67'
-    'errorIndicationColor=179,26,64'
-    'errorIndicationHighlighting=true'
-    'filteredSearchResultIndicationColor=110,110,110'
-    'hyperlinkColor=102,175,249'
-    'hyperlinkColor.SystemDefault=false'
-    'infoIndicationColor=86,194,170'
-    'lineNumberColor=98,98,98'
-    'linked.slave.color=66,156,255'
-    'matchingTagIndicationColor=72,72,72'
-    'occurrenceIndicationColor=72,72,72'
-    'overrideIndicatorColor=78,120,117'
-    'printMarginColor=98,98,98'
-    'searchResultHighlighting=false'
-    'searchResultIndication=true'
-    'searchResultIndicationColor=94,94,94'
-    'searchResultTextStyle=BOX'
-    'secondaryIPColor=54,54,54'
-    'spellingIndicationColor=253,170,211'
-    'warningIndicationColor=156,114,3'
-    'warningIndicationHighlighting=true'
-    'writeOccurrenceIndicationColor=51,90,114'
-}
-
-IEclipsePreferences#org-eclipse-ui-workbench {
-  preferences:
-    'ACTIVE_HYPERLINK_COLOR=138,201,242'
-    'CONFLICTING_COLOR=240,15,66'
-    'CONTENT_ASSIST_BACKGROUND_COLOR=52,57,61'
-    'CONTENT_ASSIST_FOREGROUND_COLOR=238,238,238'
-    'ERROR_COLOR=247,68,117'
-    'HYPERLINK_COLOR=111,197,238'
-    'INCOMING_COLOR=31,179,235'
-    'OUTGOING_COLOR=238,238,238'
-    'RESOLVED_COLOR=108,210,17'
-}
-
-Tree {
-  flat-scroll-bar: true;
-  flat-scroll-bar-thumb: #f8f8f8;
-  flat-scroll-bar-page-increment: #494a4d;
-  flat-scroll-bar-background-top-level: #262626;
-}
-
-Table {
-  flat-scroll-bar: true;
-  flat-scroll-bar-thumb: #f8f8f8;
-  flat-scroll-bar-page-increment: #494a4d;
-  flat-scroll-bar-background-top-level: #262626;
 }
