@@ -17,7 +17,7 @@
     'AbstractTextEditor.Color.Foreground=0,0,0'
     'AbstractTextEditor.Color.SelectionBackground=239,239,255'
     'AbstractTextEditor.Color.SelectionForeground=0,0,102'
-    'currentLineColor=240,240,240'
+    'currentLineColor=238,238,241'
     'deletionIndicationColor=170,204,255'
     'filteredSearchResultIndicationColor=239,239,239'
     'javaScriptOccurrenceIndicationColor=239,239,239'
@@ -104,13 +104,13 @@ ThemesExtension { color-definition:
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
-  color: #f7f7f7;
+  color: #f7f7f8;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_START')
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
-  color: #f7f7f7;
+  color: #f7f7f8;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_END');
 }
@@ -134,13 +134,13 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
-  color: #f1f1f1;
+  color: #f2f2f4;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_START');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
-  color: #f1f1f1;
+  color: #f2f2f4;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_END');
 }
@@ -207,12 +207,11 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
  
 .MTrimBar#org-eclipse-ui-main-toolbar {
-	background-color: #ffffff #e5e5e5 100%;
+	background-color: #ffffff #e7e7ea 100%;
 }
  
 #PerspectiveSwitcher {
-  eclipse-perspective-keyline-color: #eaeaea #ffffff;
-/*   background-color: #f0f0f0; */
+  eclipse-perspective-keyline-color: #e7e7ea #ffffff;
 }
 
 .MToolBar.Draggable {
