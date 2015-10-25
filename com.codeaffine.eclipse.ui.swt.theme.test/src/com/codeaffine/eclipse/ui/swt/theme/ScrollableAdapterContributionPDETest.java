@@ -333,6 +333,32 @@ public class ScrollableAdapterContributionPDETest {
     assertThat( ( ( ScrollbarStyle )child.getChildren()[ 0 ] ).getThumbColor() ).isEqualTo( expectedColor( THUMB ) );
   }
 
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void applyBackgroundColorOnTopLevelWindowWorkaround() throws Exception {
+    Color expectedBackground = displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLUE );
+    shell.setBackground( expectedBackground );
+    Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
+
+    contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR, TRUE, null, null );
+
+    assertThat( shell.getChildren()[ 0 ].getBackground() ).isEqualTo( expectedBackground );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void applyBackgroundColorOnNonTopLevelWindowWorkaround() throws Exception {
+    Color expectedBackground = displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLUE );
+    shell.setBackground( expectedBackground );
+    Shell childShell = new Shell( shell );
+    Scrollable scrollable = createScrollable( childShell, typePair.scrollableType );
+
+    contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR, TRUE, null, null );
+
+    assertThat( childShell.getChildren()[ 0 ].getBackground() ).isNotEqualTo( expectedBackground );
+  }
+
+
   private static ScrollableAdapterContribution readContribution() {
     return new RegistryAdapter()
       .createExecutableExtension( "org.eclipse.e4.ui.css.core.propertyHandler", ScrollableAdapterContribution.class )
