@@ -26,7 +26,7 @@ class TableHelper {
     shell.setLocation( shell.getLocation() );
     Table result = new Table( shell, SWT.H_SCROLL | SWT.V_SCROLL );
     consumer.accept( result );
-    equipTableWithTwoItems( result);
+    equipTableWithTwoItems( result );
     return result;
   }
 
