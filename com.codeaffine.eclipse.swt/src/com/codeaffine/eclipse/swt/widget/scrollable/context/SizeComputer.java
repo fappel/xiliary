@@ -32,7 +32,7 @@ class SizeComputer {
     Point computed = scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
     if( computed.x - scrollable.getVerticalBar().getSize().x == scrollable.getSize().x ) {
       scrollable.setData( PREFERRED_SIZE, scrollable.getSize() );
-    } else if( scrollable.getListeners( SWT.MeasureItem ).length > 0 ) {
+    } else if( isVirtualAndOwnerDrawn() ) {
       int parentWidth = adapter.getClientArea().width;
       int width = max( getBufferedPreferredSize().x, parentWidth );
       scrollable.setData( PREFERRED_SIZE, new Point( width, computed.y ) );
@@ -50,6 +50,11 @@ class SizeComputer {
       updatePreferredSize();
       scrollable.setData( getWidthOffsetKey(), valueOf( getPreferredSizeInternal().x ) );
     }
+  }
+
+  boolean isVirtualAndOwnerDrawn() {
+    return    scrollable.getListeners( SWT.MeasureItem ).length > 0
+           && ( scrollable.getStyle() & SWT.VIRTUAL ) != 0;
   }
 
   private Point getPreferredSizeInternal() {

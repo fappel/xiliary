@@ -156,6 +156,20 @@ public class AdaptionContextTest {
     adaptionContext.updatePreferredSize();
 
     assertThat( adaptionContext ).hasNotPreferredSize( initialSize );
+    assertThat( tree.getHorizontalBar().isVisible() ).isTrue();
+  }
+
+  @Test
+  public void updatePreferredSizeIfIsOwnerDrawnAndVirtual() {
+    tree.dispose();
+    reinitWithOwnerDrawnAndVirtualScrollable();
+    Point initialSize = adaptionContext.getPreferredSize();
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
+
+    adaptionContext.updatePreferredSize();
+
+    assertThat( adaptionContext ).hasNotPreferredSize( initialSize );
     assertThat( tree.getHorizontalBar().isVisible() ).isFalse();
   }
 
@@ -289,6 +303,12 @@ public class AdaptionContextTest {
 
   private static void reparentScrollable( Composite parent, Scrollable scrollable ) {
     new ControlReflectionUtil().setField( scrollable, "parent", parent );
+  }
+
+  private void reinitWithOwnerDrawnAndVirtualScrollable() {
+    tree = createTree( shell, 2, 4, SWT.VIRTUAL );
+    tree.addListener( SWT.MeasureItem, evt -> {} );
+    adaptionContext = new AdaptionContext<Tree>( tree.getParent(), tree );
   }
 
   public static void waitForGtkRendering() {

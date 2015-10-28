@@ -57,7 +57,19 @@ public class SizeComputerTest {
 
   @Test
   public void getPreferredSizeIfWidthIsLargerThanAdapterAreaWidthButHasOwnerDrawnItems() {
-    scrollable.addListener( SWT.MeasureItem, evt -> {} );
+    expandTopBranch( scrollable );
+    shell.setSize( 200, 200 );
+
+    Point actual = computer.getPreferredSize();
+
+    assertThat( actual ).isEqualTo( expectedSize() );
+  }
+
+  @Test
+  public void getPreferredSizeIfWidthIsLargerThanAdapterAreaWidthButHasOwnerDrawnItemsAndIsVirtual() {
+    createOwnderDrawnVirtualScrollable();
+    computer = new SizeComputer( scrollable, adapter );
+    shell.layout();
     expandTopBranch( scrollable );
     shell.setSize( 200, 200 );
 
@@ -76,7 +88,6 @@ public class SizeComputerTest {
     Point actual = computer.getPreferredSize();
 
     assertThat( actual ).isEqualTo( expected );
-
   }
 
   @Test
@@ -96,7 +107,6 @@ public class SizeComputerTest {
 
     assertThat( actual ).isEqualTo( expectedSizeWithClientAreaWidth() );
   }
-
   @Test
   public void adjustPreferredWidthIfHorizontalBarIsVisible() {
     expandTopBranch( scrollable );
@@ -175,6 +185,12 @@ public class SizeComputerTest {
 
   private Point computePreferredScrollableSize() {
     return scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+  }
+
+  private void createOwnderDrawnVirtualScrollable() {
+    scrollable.dispose();
+    scrollable = createTree( adapter, 6, 4, SWT.VIRTUAL );
+    scrollable.addListener( SWT.MeasureItem, evt -> {} );
   }
 
   private static void reparentScrollable( Composite parent, Scrollable scrollable ) {
