@@ -42,8 +42,8 @@ public class ScrollableLayouterTest {
 
   private ScrollableLayouter layouter;
   private Composite adapter;
-  private Shell shell;
   private Tree scrollable;
+  private Shell shell;
 
   @Before
   public void setUp() {

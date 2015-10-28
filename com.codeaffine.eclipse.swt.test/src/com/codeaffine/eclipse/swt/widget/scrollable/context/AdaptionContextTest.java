@@ -156,6 +156,7 @@ public class AdaptionContextTest {
     adaptionContext.updatePreferredSize();
 
     assertThat( adaptionContext ).hasNotPreferredSize( initialSize );
+    assertThat( tree.getHorizontalBar().isVisible() ).isFalse();
   }
 
   @Test

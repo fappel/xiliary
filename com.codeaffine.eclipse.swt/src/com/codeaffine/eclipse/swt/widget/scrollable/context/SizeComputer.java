@@ -32,6 +32,10 @@ class SizeComputer {
     Point computed = scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
     if( computed.x - scrollable.getVerticalBar().getSize().x == scrollable.getSize().x ) {
       scrollable.setData( PREFERRED_SIZE, scrollable.getSize() );
+    } else if( scrollable.getListeners( SWT.MeasureItem ).length > 0 ) {
+      int parentWidth = adapter.getClientArea().width;
+      int width = max( getBufferedPreferredSize().x, parentWidth );
+      scrollable.setData( PREFERRED_SIZE, new Point( width, computed.y ) );
     } else {
       int parentWidth = adapter.getClientArea().width;
       ScrollBar horizontalBar = scrollable.getHorizontalBar();

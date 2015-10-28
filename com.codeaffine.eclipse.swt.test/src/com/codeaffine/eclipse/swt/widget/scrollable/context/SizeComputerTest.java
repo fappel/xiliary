@@ -40,19 +40,43 @@ public class SizeComputerTest {
   }
 
   @Test
-  public void getPreferredSizeIfSmallerThanAdapterArea() {
+  public void getPreferredSizeIfWidthIsSmallerThanAdapterAreaWidth() {
     Point actual = computer.getPreferredSize();
 
     assertThat( actual ).isEqualTo( expectedSizeWithClientAreaWidth() );
   }
 
   @Test
-  public void getPreferredSizeIfLargerThanAdapterArea() {
+  public void getPreferredSizeIfWidthIsLargerThanAdapterAreaWidth() {
     expandTopBranch( scrollable );
 
     Point actual = computer.getPreferredSize();
 
     assertThat( actual ).isEqualTo( expectedSize() );
+  }
+
+  @Test
+  public void getPreferredSizeIfWidthIsLargerThanAdapterAreaWidthButHasOwnerDrawnItems() {
+    scrollable.addListener( SWT.MeasureItem, evt -> {} );
+    expandTopBranch( scrollable );
+    shell.setSize( 200, 200 );
+
+    Point actual = computer.getPreferredSize();
+
+    assertThat( actual ).isEqualTo( expectedSizeOnOwnerDrawnScrollable() );
+  }
+
+  @Test
+  public void getPreferredSizeOnIfWidthIsEqualsToScrollableContentWidth() {
+    expandTopBranch( scrollable );
+    shell.setSize( 200, 200 );
+    Point expected = expectedSizeIfWidthIsEqualsToScrollableContentWidth();
+    scrollable.setSize( expected );
+
+    Point actual = computer.getPreferredSize();
+
+    assertThat( actual ).isEqualTo( expected );
+
   }
 
   @Test
@@ -137,6 +161,16 @@ public class SizeComputerTest {
   private Point expectedSizeWithPreferredWidthAdjustment() {
     ScrollBar horizontalBar = scrollable.getHorizontalBar();
     return new Point( horizontalBar.getMaximum() * 2, computePreferredScrollableSize().y );
+  }
+
+  private Point expectedSizeOnOwnerDrawnScrollable() {
+    int height = scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ).y;
+    return new Point( adapter.getClientArea().width, height );
+  }
+
+  private Point expectedSizeIfWidthIsEqualsToScrollableContentWidth() {
+    Point size = scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+    return new Point( size.x - scrollable.getVerticalBar().getSize().x, size.y );
   }
 
   private Point computePreferredScrollableSize() {
