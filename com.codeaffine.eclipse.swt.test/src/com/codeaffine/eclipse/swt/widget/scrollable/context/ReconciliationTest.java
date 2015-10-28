@@ -7,16 +7,21 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.withSettings;
 
+import org.eclipse.swt.widgets.Composite;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InOrder;
+
+import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
 
 public class ReconciliationTest {
 
   private VisibilityReconciliation visibliltyReconciliation;
   private BoundsReconciliation boundsReconciliation;
   private LayoutReconciliation layoutReconciliation;
+  private ColorReconciliation colorReconciliation;
   private Reconciliation reconciliation;
 
   @Before
@@ -24,7 +29,9 @@ public class ReconciliationTest {
     visibliltyReconciliation = mock( VisibilityReconciliation.class );
     boundsReconciliation = mock( BoundsReconciliation.class );
     layoutReconciliation = mock( LayoutReconciliation.class );
-    reconciliation = new Reconciliation( visibliltyReconciliation, boundsReconciliation, layoutReconciliation );
+    colorReconciliation = mock( ColorReconciliation.class );
+    reconciliation
+      = new Reconciliation( visibliltyReconciliation, boundsReconciliation, layoutReconciliation, colorReconciliation );
   }
 
   @Test
@@ -74,8 +81,27 @@ public class ReconciliationTest {
     assertThat( actual ).isSameAs( expected );
   }
 
+  @Test
+  public void castToScrollbarStyleIfPossible() {
+    Composite expected = mock( Composite.class, withSettings().extraInterfaces( ScrollbarStyle.class ) );
+
+    ScrollbarStyle actual = Reconciliation.castToScrollbarStyleIfPossible( expected );
+
+    assertThat( actual ).isSameAs( expected );
+  }
+
+  @Test
+  public void castToScrollbarStyleIfNotPossible() {
+    Composite composite = mock( Composite.class );
+
+    ScrollbarStyle actual = Reconciliation.castToScrollbarStyleIfPossible( composite );
+
+    assertThat( actual ).isNull();
+  }
+
   private InOrder order( Runnable runnable ) {
-    return inOrder( runnable, boundsReconciliation, visibliltyReconciliation, layoutReconciliation );
+    return
+      inOrder( runnable, boundsReconciliation, visibliltyReconciliation, layoutReconciliation, colorReconciliation );
   }
 
   private void verifyActionsBeforeRunnableExcecution( InOrder order ) {
@@ -87,6 +113,7 @@ public class ReconciliationTest {
     order.verify( boundsReconciliation ).resume();
     order.verify( boundsReconciliation ).run();
     order.verify( layoutReconciliation ).run();
+    order.verify( colorReconciliation ).run();
   }
 
   private static Runnable stubRunnableWithProblem( RuntimeException expected ) {

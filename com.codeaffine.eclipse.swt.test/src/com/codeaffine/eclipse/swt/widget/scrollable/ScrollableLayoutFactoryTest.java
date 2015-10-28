@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -15,7 +16,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.ShellHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 
 public class ScrollableLayoutFactoryTest {
@@ -30,7 +30,7 @@ public class ScrollableLayoutFactoryTest {
 
   @Before
   public void setUp() {
-    shell = ShellHelper.createShell( displayHelper );
+    shell = createShell( displayHelper );
     scrollable = new Text( shell, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL );
     factorySpy = new ScrollableLayoutFactorySpy();
     layout = factorySpy.create( new AdaptionContext<Scrollable>( shell, scrollable ) );
@@ -122,6 +122,7 @@ public class ScrollableLayoutFactoryTest {
     assertThat( factorySpy.getVertical().getBackground() ).isEqualTo( expected );
     assertThat( factorySpy.getHorizontal().getParent().getBackground() ).isEqualTo( expected );
     assertThat( factorySpy.getBackgroundColor() ).isEqualTo( expected );
+    assertThat( factorySpy.getCornerOverlay().getBackground() ).isEqualTo( expected );
   }
 
   @Test

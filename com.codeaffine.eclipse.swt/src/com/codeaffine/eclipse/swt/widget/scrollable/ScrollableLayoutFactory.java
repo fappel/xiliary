@@ -27,12 +27,13 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
   private ScrollBar horizontalAdapter;
   private FlatScrollBar verticalBar;
   private ScrollBar verticalAdapter;
+  private Label cornerOverlay;
 
   ScrollableLayoutFactory() {
     reflectionUtil = new ControlReflectionUtil();
   }
 
-  public abstract Layout create( AdaptionContext<T> context, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay );
+  public abstract Layout create( AdaptionContext<T> context, FlatScrollBar horizontal, FlatScrollBar vertical );
   public abstract DisposeListener createWatchDog( AdaptionContext<T> context, FlatScrollBar horizontal, FlatScrollBar vertical );
   public abstract SelectionListener createHorizontalSelectionListener( AdaptionContext<T> context );
   public abstract SelectionListener createVerticalSelectionListener( AdaptionContext<T> context );
@@ -46,8 +47,8 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
     horizontalBar.addSelectionListener( createHorizontalSelectionListener( context ) );
     verticalBar.addSelectionListener( createVerticalSelectionListener( context ) );
     context.getAdapter().addDisposeListener( createWatchDog( context, horizontalBar, verticalBar ) );
-    Label cornerOverlay = createCornerOverlay( context.getAdapter() );
-    return create( context, horizontalBar, verticalBar, cornerOverlay );
+    cornerOverlay = createCornerOverlay( context.getAdapter() );
+    return create( context, horizontalBar, verticalBar );
   }
 
   private static Label createCornerOverlay( Composite parent ) {
@@ -121,12 +122,17 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
   public void setBackgroundColor( Color backgroundColor ) {
     horizontalBar.setBackground( backgroundColor );
     verticalBar.setBackground( backgroundColor );
+    cornerOverlay.setBackground( backgroundColor );
     verticalBar.getParent().setBackground( backgroundColor );
   }
 
   @Override
   public Color getBackgroundColor() {
     return horizontalBar.getBackground();
+  }
+
+  Label getCornerOverlay(){
+    return cornerOverlay;
   }
 
   private FlatScrollBar createFlatScrollBar( AdaptionContext<T> context, int direction  ) {
