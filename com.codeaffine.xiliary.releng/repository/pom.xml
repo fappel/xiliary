@@ -65,7 +65,7 @@
               <appArgLine>-application org.eclipse.wtp.releng.tools.addRepoProperties</appArgLine>
               <argLine>
                 -DartifactRepoDirectory=${project.build.directory}/repository
-                -Dp2StatsURI=http://www.codeaffine.com/p2-stats
+                -Dp2StatsURI=http://www.codeaffine.com/xiliary-p2-stats
                 -DstatsTrackedArtifacts=com.codeaffine.xiliary
                 -DstatsArtifactsSuffix=-${project.version}
               </argLine>
