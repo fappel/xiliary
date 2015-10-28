@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createTable;
 import static java.util.Arrays.asList;
@@ -62,13 +63,37 @@ public class ItemHeightMeasurementEnablerTest {
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
-  public void registerOnTableAdapterCreation() {
+  public void createTableAdapter() {
     adapterFactory.create( table, TableAdapter.class );
 
-    assertThat( getListeners( table, SWT.MeasureItem ) )
-      .hasSize( 1 );
-    assertThat( getListeners( table, SWT.EraseItem ) )
-      .hasSize( 1 );
+    assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 0 );
+    assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 0 );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void registerTableItemHeightAdjuster() {
+    adapterFactory.create( table, TableAdapter.class );
+
+    configureTableItemHeightAdjuster();
+    flushPendingEvents();
+
+    assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 2 );
+    assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 2 );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void registerTableItemHeightAdjusterOnOtherTable() {
+    adapterFactory.create( table, TableAdapter.class );
+    Table other = createTable( shell, 10 );
+    adapterFactory.create( other, TableAdapter.class );
+
+    other.addListener( SWT.MeasureItem, evt -> {} );
+    flushPendingEvents();
+
+    assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 0 );
+    assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 0 );
   }
 
   @Test
@@ -81,6 +106,8 @@ public class ItemHeightMeasurementEnablerTest {
     new ReadAndDispatch().spinLoop( shell, 100 );
 
     assertThat( table.getItemHeight() ).isEqualTo( expectedHeight );
+    assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 2 );
+    assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 2 );
   }
 
   @Test( expected = IllegalArgumentException.class )
@@ -91,6 +118,8 @@ public class ItemHeightMeasurementEnablerTest {
   private int configureTableItemHeightAdjuster() {
     int result = 24;
     table.addListener( SWT.MeasureItem, evt -> evt.height = result );
+    table.addListener( SWT.EraseItem, evt -> {} );
+    table.addListener( SWT.PaintItem, evt -> {} );
     return result;
   }
 

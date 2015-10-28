@@ -2,7 +2,9 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Tree;
@@ -11,21 +13,32 @@ class ItemHeightMeasurementEnabler {
 
   private final Scrollable scrollable;
   private final Composite adapter;
+  private final Listener ownerDrawInUseWatchDog;
 
-  boolean onMeasurement;
   int intermediateHeightBuffer;
+  boolean onMeasurement;
   int height;
 
   ItemHeightMeasurementEnabler( Scrollable scrollable, Composite adapter ) {
     this.scrollable = scrollable;
     this.adapter = adapter;
     this.height = calculateDefaultHeight( scrollable );
-    register( scrollable );
+    this.ownerDrawInUseWatchDog = evt -> registerListenerOnMeasurementEvent( evt );
+    registerMeasurementWatchDog( scrollable );
   }
 
-  private void register( Scrollable scrollable ) {
-    scrollable.addListener( SWT.MeasureItem, evt -> prepareScrollableToAllowProperHeightMeasurement( evt ) );
-    scrollable.addListener( SWT.EraseItem, evt -> restoreScrollableAfterMeasurement() );
+  private void registerListenerOnMeasurementEvent( Event event ) {
+    if( event.widget == scrollable && scrollable.getListeners( SWT.MeasureItem ).length != 0 ) {
+      scrollable.addListener( SWT.MeasureItem, evt -> prepareScrollableToAllowProperHeightMeasurement( evt ) );
+      scrollable.addListener( SWT.EraseItem, evt -> restoreScrollableAfterMeasurement() );
+      scrollable.getDisplay().removeFilter( SWT.MeasureItem, this.ownerDrawInUseWatchDog );
+    }
+  }
+
+  private void registerMeasurementWatchDog( Scrollable scrollable ) {
+    Display display = scrollable.getDisplay();
+    display.addFilter( SWT.MeasureItem, ownerDrawInUseWatchDog );
+    scrollable.addDisposeListener( evt -> display.removeFilter( SWT.MeasureItem, ownerDrawInUseWatchDog ) );
   }
 
   private void prepareScrollableToAllowProperHeightMeasurement( Event event ) {
@@ -55,7 +68,7 @@ class ItemHeightMeasurementEnabler {
   }
 
   private boolean needPreparations( Event event ) {
-    return scrollable.getListeners( SWT.MeasureItem ).length > 1 && event.height != height;
+    return event.height != height;
   }
 
   private static int calculateDefaultHeight( Scrollable scrollable ) {
