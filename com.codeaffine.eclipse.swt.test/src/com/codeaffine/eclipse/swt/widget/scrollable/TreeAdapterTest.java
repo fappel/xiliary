@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
@@ -211,6 +212,7 @@ public class TreeAdapterTest {
   private int configureTableItemHeightAdjuster() {
     int result = 24;
     tree.addListener( SWT.MeasureItem, evt -> evt.height = result );
+    flushPendingEvents();
     return result;
   }
 
