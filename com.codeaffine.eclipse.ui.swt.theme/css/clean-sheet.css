@@ -116,13 +116,13 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR {
-  color: #e8e8e8;
+  color: #dbdbdb;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_TAB_OUTER_KEYLINE_COLOR');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR {
-  color: #e8e8e8;
+  color: #dbdbdb;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_TAB_INNER_KEYLINE_COLOR');
 }
@@ -146,19 +146,19 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
-  color: #dfdfdf;
+  color: #c3c3c3;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_OUTER_KEYLINE_COLOR');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR {
-  color: #e2e2e2;
+  color: #d0d0d0;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_INNER_KEYLINE_COLOR');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
-  color: #e2e2e2;
+  color: #d0d0d0;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_OUTLINE_COLOR');
 }
