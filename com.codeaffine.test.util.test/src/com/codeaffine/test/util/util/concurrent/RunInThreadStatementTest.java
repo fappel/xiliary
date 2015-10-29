@@ -26,7 +26,7 @@ public class RunInThreadStatementTest {
   @Test
   public void evaluateOnFailure() throws Throwable {
     AssertionError expected = new AssertionError();
-    final RunInThreadStatement statement = createWithBaseThatThrows( expected );
+    RunInThreadStatement statement = createWithBaseThatThrows( expected );
 
     Throwable actual = thrownBy( () -> statement.evaluate() );
 
