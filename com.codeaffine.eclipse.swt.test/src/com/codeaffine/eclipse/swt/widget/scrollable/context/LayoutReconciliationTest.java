@@ -2,7 +2,9 @@ package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Control;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -114,5 +116,39 @@ public class LayoutReconciliationTest {
 
     assertThat( actual ).isNotEqualTo( initialAdapterBounds );
     assertThat( testHelper.getAdapter().isVisible() ).isFalse();
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void runWithSashForm() {
+    Rectangle initialAdapterBounds = testHelper.setUpWithSashForm();
+
+    Rectangle actual = testHelper.runReconciliation();
+
+    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void runWithSashFormIfScrollableHasWrongParent() {
+    testHelper.setUpWithSashForm();
+    testHelper.reparentScrollableToAdapterParent();
+
+    testHelper.runReconciliation();
+
+    assertThat( testHelper.getParent().getChildren() ).doesNotContain( testHelper.getScrollable() );
+    assertThat( testHelper.getScrollable().getParent() ).isEqualTo( testHelper.getAdapter().getParent() );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void runWithSashFormAndMaxControlSet() {
+    testHelper.setUpWithSashForm();
+    testHelper.getParent( SashForm.class ).setMaximizedControl( testHelper.getScrollable() );
+
+    testHelper.runReconciliation();
+    Control actual = testHelper.getParent( SashForm.class ).getMaximizedControl();
+
+    assertThat( actual ).isSameAs( testHelper.getAdapter() );
   }
 }

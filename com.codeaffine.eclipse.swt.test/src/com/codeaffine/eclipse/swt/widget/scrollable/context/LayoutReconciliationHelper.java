@@ -4,6 +4,7 @@ import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.graphics.Rectangle;
@@ -115,14 +116,26 @@ class LayoutReconciliationHelper {
     return setUpWithPageBook( pageBook, scrollable );
   }
 
-  public Rectangle setUpWithPageBookWithNonAdapterPage() {
+  Rectangle setUpWithPageBookWithNonAdapterPage() {
     PageBook pageBook = new PageBook( shell, SWT.NONE );
     Label page = new Label( pageBook, SWT.NONE );
     scrollable = createTree( pageBook, 1, 1 );
     return setUpWithPageBook( pageBook, page );
   }
 
-  public Rectangle runReconciliation() {
+  Rectangle setUpWithSashForm() {
+    SashForm sashForm = new SashForm( shell, SWT.NONE );
+    parent = sashForm;
+    scrollable = createTree( sashForm, 1, 1 );
+    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
+    adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
+    new Label( sashForm, SWT.NONE );
+    reconciliation = new LayoutReconciliation( adapter, scrollable );
+    shell.open();
+    return INITIAL_ADAPTER_BOUNDS;
+  }
+
+  Rectangle runReconciliation() {
     reconciliation.run();
     return adapter.getBounds();
   }
@@ -137,6 +150,19 @@ class LayoutReconciliationHelper {
 
   Tree getScrollable() {
     return scrollable;
+  }
+
+  Composite getParent() {
+    return parent;
+  }
+
+  <T extends Composite> T getParent( Class<T> type ) {
+    return type.cast( parent );
+  }
+
+  void reparentScrollableToAdapterParent() {
+    getScrollable().setParent( getAdapter() );
+    getScrollable().setParent( getAdapter().getParent() );
   }
 
   private static StackLayout createStackLayout( Tree topControl ) {
