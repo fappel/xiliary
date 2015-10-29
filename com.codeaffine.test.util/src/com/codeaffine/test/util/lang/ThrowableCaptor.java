@@ -8,13 +8,12 @@ public class ThrowableCaptor {
   }
 
   public static Throwable thrownBy( Actor actor ) {
-    Throwable result = null;
     try {
       actor.act();
     } catch( Throwable thrown ) {
-      result = thrown;
+      return thrown;
     }
-    return result;
+    return null;
   }
 
   /**
