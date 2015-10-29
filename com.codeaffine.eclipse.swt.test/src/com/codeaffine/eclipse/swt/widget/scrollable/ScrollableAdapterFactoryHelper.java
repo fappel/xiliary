@@ -8,9 +8,9 @@ import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.Ada
 
 class ScrollableAdapterFactoryHelper {
 
-  public static <S extends Scrollable, A extends Scrollable & Adapter<S>> A adapt( S table, Class<A> type ) {
+  public static <S extends Scrollable, A extends Scrollable & Adapter<S>> A adapt( S adaptable, Class<A> type ) {
     ScrollableAdapterFactory factory = new ScrollableAdapterFactory();
-    A result = factory.create( table, type );
+    A result = factory.create( adaptable, type );
     ScrollbarStyle style = ( ScrollbarStyle )result;
     style.setThumbColor( Display.getCurrent().getSystemColor( SWT.COLOR_RED ) );
     return result;
