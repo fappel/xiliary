@@ -33,14 +33,9 @@ class SizeComputer {
     if( computed.x - scrollable.getVerticalBar().getSize().x == scrollable.getSize().x ) {
       scrollable.setData( PREFERRED_SIZE, scrollable.getSize() );
     } else if( isVirtualAndOwnerDrawn() ) {
-      int parentWidth = adapter.getClientArea().width;
-      int width = max( getBufferedPreferredSize().x, parentWidth );
-      scrollable.setData( PREFERRED_SIZE, new Point( width, computed.y ) );
-    } else {
-      int parentWidth = adapter.getClientArea().width;
-      ScrollBar horizontalBar = scrollable.getHorizontalBar();
-      int width = max( getBufferedPreferredSize().x, max( parentWidth, horizontalBar.getMaximum() ) );
-      scrollable.setData( PREFERRED_SIZE, new Point( width, computed.y ) );
+      bestPreferredSizeGuessForVirtualAndOwnerDrawnScrollables( computed );
+    } else { // check possible improvement on non owner drawn scrollables: #28
+      bestPreferredlSizeGuessForOwnerDrawnScrollables( computed );
     }
   }
 
@@ -52,7 +47,7 @@ class SizeComputer {
     }
   }
 
-  boolean isVirtualAndOwnerDrawn() {
+  private boolean isVirtualAndOwnerDrawn() {
     return    scrollable.getListeners( SWT.MeasureItem ).length > 0
            && ( scrollable.getStyle() & SWT.VIRTUAL ) != 0;
   }
@@ -76,5 +71,20 @@ class SizeComputer {
 
   private String getWidthOffsetKey() {
     return WIDTH_OFFSET_ON_VISIBLE_HORIZONTAL_BAR + getPreferredSizeInternal();
+  }
+
+  private void bestPreferredSizeGuessForVirtualAndOwnerDrawnScrollables( Point computed ) {
+    int parentWidth = adapter.getClientArea().width;
+    int width = max( getBufferedPreferredSize().x, parentWidth );
+    scrollable.setData( PREFERRED_SIZE, new Point( width, computed.y ) );
+    // Ugly side effect, might lead to flickering - better options?
+    scrollable.getHorizontalBar().setVisible( false );
+  }
+
+  private void bestPreferredlSizeGuessForOwnerDrawnScrollables( Point computed ) {
+    int parentWidth = adapter.getClientArea().width;
+    ScrollBar horizontalBar = scrollable.getHorizontalBar();
+    int width = max( getBufferedPreferredSize().x, max( parentWidth, horizontalBar.getMaximum() ) );
+    scrollable.setData( PREFERRED_SIZE, new Point( width, computed.y ) );
   }
 }

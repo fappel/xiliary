@@ -75,9 +75,6 @@ public class AdaptionContext<T extends Scrollable> {
 
   public void updatePreferredSize() {
     sizeComputer.updatePreferredSize();
-    if( sizeComputer.isVirtualAndOwnerDrawn() ) {
-      scrollable.getHorizontalBar().setVisible( false );
-    }
   }
 
   public void adjustPreferredWidthIfHorizontalBarIsVisible() {

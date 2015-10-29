@@ -76,6 +76,7 @@ public class SizeComputerTest {
     Point actual = computer.getPreferredSize();
 
     assertThat( actual ).isEqualTo( expectedSizeOnOwnerDrawnScrollable() );
+    assertThat( scrollable.getHorizontalBar().isVisible() ).isFalse();
   }
 
   @Test
@@ -191,6 +192,7 @@ public class SizeComputerTest {
     scrollable.dispose();
     scrollable = createTree( adapter, 6, 4, SWT.VIRTUAL );
     scrollable.addListener( SWT.MeasureItem, evt -> {} );
+    scrollable.getHorizontalBar().setVisible( true );
   }
 
   private static void reparentScrollable( Composite parent, Scrollable scrollable ) {
