@@ -12,7 +12,7 @@
  IEclipsePreferences#org-eclipse-ui-editors {
   preferences:
     'AbstractTextEditor.Color.Background.SystemDefault=false'
-    'AbstractTextEditor.Color.Background=249,249,249'
+    'AbstractTextEditor.Color.Background=248,248,248'
     'AbstractTextEditor.Color.FindScope=188,173,255'
     'AbstractTextEditor.Color.Foreground=0,0,0'
     'AbstractTextEditor.Color.SelectionBackground=223,179,149'
@@ -164,27 +164,27 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START {
-  color: #f9f9f9;
+  color: #f8f8f8;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
-  color: #f9f9f9;
+  color: #f8f8f8;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_START {
-  color: #f9f9f9;
+  color: #f8f8f8;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_END {
-  color: #f9f9f9;
+  color: #f8f8f8;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_START {
-  color: #f9f9f9;
+  color: #f8f8f8;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END {
-  color: #f9f9f9;
+  color: #f8f8f8;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
@@ -199,7 +199,7 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
 
 .MTrimmedWindow { 
-  background-color: #f9f9f9;
+  background-color: #f8f8f8;
 }
 
 .MTrimBar {
@@ -235,7 +235,7 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
 
 .MPart {
-  background-color: #f9f9f9;
+  background-color: #f8f8f8;
 }
 
 .MPart.busy {
@@ -278,7 +278,7 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 .MPartStack.active .MPart Form > LayoutComposite > LayoutComposite > ToolBar,
 .MPartStack.active .MPart DependenciesComposite > SashForm > Section > * 
 .MPartStack.active .MPart LayoutComposite > * > LayoutComposite > Section > LayoutComposite > * {
-  background-color: #f9f9f9;
+  background-color: #f8f8f8;
 }
 
 .MPartStack {
@@ -313,11 +313,11 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
 
 .MPartStack > Composite {
-  background-color: #f9f9f9;
+  background-color: #f8f8f8;
 }
 
 CTabFolder Canvas {
-  background-color: #f9f9f9;
+  background-color: #f8f8f8;
 }
 
 CTabItem:selected {
@@ -325,15 +325,15 @@ CTabItem:selected {
 }
 
 Tree {
-  background-color: #f9f9f9;
+  background-color: #f8f8f8;
   flat-scroll-bar: true;
   flat-scroll-bar-thumb: #a6a6a6;
-  flat-scroll-bar-page-increment: #f8f8f8;
+  flat-scroll-bar-page-increment: #f0f0f0;
 }
 
 Table {
-  background-color: #f9f9f9;
+  background-color: #f8f8f8;
   flat-scroll-bar: true;
   flat-scroll-bar-thumb: #a6a6a6;
-  flat-scroll-bar-page-increment: #f8f8f8;
+  flat-scroll-bar-page-increment: #f0f0f0;
 }
