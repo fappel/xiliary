@@ -47,7 +47,6 @@ class ColorApplicatorSwitch {
     scrollable.setData( key, value );
   }
 
-
   private void applyTopLevelSelector() {
     if( isTopLevelWindow() ) {
       defaultApplicator.run();
