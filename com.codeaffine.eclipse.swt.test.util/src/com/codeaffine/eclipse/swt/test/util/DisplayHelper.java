@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -73,6 +74,9 @@ public class DisplayHelper implements TestRule {
     disposeNewShells();
     disposeImages();
     disposeDisplay();
+  }
+  public Color getSystemColor( int colorCode ) {
+    return getDisplay().getSystemColor( colorCode );
   }
 
   @Override

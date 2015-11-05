@@ -9,6 +9,8 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
@@ -117,6 +119,15 @@ public class DisplayHelperTest {
 
     assertThat( captured ).isSameAs( toBeThrown );
     assertThat( shell.isDisposed() ).isTrue();
+  }
+
+  @Test
+  public void getColorCode() {
+    Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLUE );
+
+    Color actual = displayHelper.getSystemColor( SWT.COLOR_BLUE );
+
+    assertThat( actual ).isEqualTo( expected );
   }
 
   private static Statement stubOriginTestEvaluationWithProblem( Throwable toBeThrown ) throws Throwable {
