@@ -6,7 +6,6 @@ import static java.lang.Math.max;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
 
 class SizeComputer {
@@ -15,10 +14,10 @@ class SizeComputer {
   static final String PREFERRED_SIZE = AdaptionContext.class.getName() + "# preferredSize";
   static final Point EMPTY_BUFFER_SIZE = new Point( 0, 0 );
 
-  private final Scrollable scrollable;
+  private final ScrollableControl<? extends Scrollable> scrollable;
   private final Composite adapter;
 
-  SizeComputer( Scrollable scrollable, Composite adapter ) {
+  SizeComputer( ScrollableControl<? extends Scrollable> scrollable, Composite adapter ) {
     this.scrollable = scrollable;
     this.adapter = adapter;
   }
@@ -29,8 +28,8 @@ class SizeComputer {
   }
 
   void updatePreferredSize() {
-    Point computed = scrollable.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
-    if( computed.x - scrollable.getVerticalBar().getSize().x == scrollable.getSize().x ) {
+    Point computed = scrollable.computePreferredSize();
+    if( computed.x - scrollable.getVerticalBarSize().x == scrollable.getSize().x ) {
       scrollable.setData( PREFERRED_SIZE, scrollable.getSize() );
     } else if( isVirtualAndOwnerDrawn() ) {
       bestPreferredSizeGuessForVirtualAndOwnerDrawnScrollables( computed );
@@ -40,16 +39,14 @@ class SizeComputer {
   }
 
   void adjustPreferredWidthIfHorizontalBarIsVisible() {
-    ScrollBar horizontalBar = scrollable.getHorizontalBar();
-    if( horizontalBar.isVisible() && adapter.getParent() == scrollable.getParent() ) {
+    if( scrollable.isHorizontalBarVisible() && scrollable.isChildOf( adapter.getParent() ) ) {
       updatePreferredSize();
       scrollable.setData( getWidthOffsetKey(), valueOf( getPreferredSizeInternal().x ) );
     }
   }
 
   private boolean isVirtualAndOwnerDrawn() {
-    return    scrollable.getListeners( SWT.MeasureItem ).length > 0
-           && ( scrollable.getStyle() & SWT.VIRTUAL ) != 0;
+    return scrollable.isOwnerDrawn() && scrollable.hasStyle( SWT.VIRTUAL );
   }
 
   private Point getPreferredSizeInternal() {
@@ -78,13 +75,13 @@ class SizeComputer {
     int width = max( getBufferedPreferredSize().x, parentWidth );
     scrollable.setData( PREFERRED_SIZE, new Point( width, computed.y ) );
     // Ugly side effect, might lead to flickering - better options?
-    scrollable.getHorizontalBar().setVisible( false );
+    scrollable.setHorizontalBarVisible( false );
   }
 
   private void bestPreferredlSizeGuessForOwnerDrawnScrollables( Point computed ) {
     int parentWidth = adapter.getClientArea().width;
-    ScrollBar horizontalBar = scrollable.getHorizontalBar();
-    int width = max( getBufferedPreferredSize().x, max( parentWidth, horizontalBar.getMaximum() ) );
+    int maximum = scrollable.getHorizontalBarMaximum();
+    int width = max( getBufferedPreferredSize().x, max( parentWidth, maximum ) );
     scrollable.setData( PREFERRED_SIZE, new Point( width, computed.y ) );
   }
 }

@@ -29,7 +29,8 @@ class TreeLayoutFactory extends ScrollableLayoutFactory<Tree> {
   public DisposeListener createWatchDog(
     AdaptionContext<Tree> context, FlatScrollBar horizontal, FlatScrollBar vertical )
   {
-    TreeVerticalScrollBarUpdater updater = new TreeVerticalScrollBarUpdater( context.getScrollable(), vertical );
+    Tree control = context.getScrollable().getControl();
+    TreeVerticalScrollBarUpdater updater = new TreeVerticalScrollBarUpdater( control, vertical );
     return new WatchDog( newContext( context ), updater );
   }
 

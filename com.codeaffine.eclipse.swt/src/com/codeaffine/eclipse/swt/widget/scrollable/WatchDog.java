@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Display;
@@ -27,8 +28,8 @@ class WatchDog implements Runnable, DisposeListener {
   WatchDog( AdaptionContext<?> context, VerticalScrollBarUpdater verticalUpdater ) {
     this( context,
           verticalUpdater,
-          new Visibility( context.getScrollable().getHorizontalBar(), context ),
-          new Visibility( context.getScrollable().getVerticalBar(), context ),
+          new Visibility( SWT.HORIZONTAL, context ),
+          new Visibility( SWT.VERTICAL, context ),
           null,
           new LayoutTrigger( context.getAdapter() ),
           new TreeWidth( context ),

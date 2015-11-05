@@ -21,6 +21,7 @@ import com.codeaffine.eclipse.swt.util.PlatformSupport;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.Adapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener, ScrollbarStyle {
 
@@ -333,8 +334,9 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
 
   private void initialize() {
     tree.setParent( this );
-    new ItemHeightMeasurementEnabler( tree, this );
-    context = new AdaptionContext<Tree>( this, tree );
+    ScrollableControl<Tree> scrollableControl = new ScrollableControl<>( tree );
+    new ItemHeightMeasurementEnabler( scrollableControl, this );
+    context = new AdaptionContext<Tree>( this, new ScrollableControl<>( tree ) );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
     tree.addDisposeListener( this );

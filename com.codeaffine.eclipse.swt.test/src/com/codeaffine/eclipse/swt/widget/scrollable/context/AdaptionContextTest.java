@@ -41,7 +41,7 @@ public class AdaptionContextTest {
   public void setUp() {
     shell = createShell( displayHelper, SWT.RESIZE );
     tree = createTree( shell, 2, 4 );
-    adaptionContext = new AdaptionContext<Tree>( tree.getParent(), tree );
+    adaptionContext = new AdaptionContext<Tree>( tree.getParent(), new ScrollableControl<>( tree ) );
     shell.open();
   }
 
@@ -53,7 +53,7 @@ public class AdaptionContextTest {
       .verticalBarIsInvisible()
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
-      .hasOffset( new OffsetComputer( tree ).compute() )
+      .hasOffset( new OffsetComputer( new ScrollableControl<>( tree ) ).compute() )
       .hasVisibleArea( expectedVisibleArea( tree ) )
       .hasHorizontalAdapterSelection( 0 )
       .hasBorderWidth( expectedBorderWidth( tree ) )
@@ -70,7 +70,7 @@ public class AdaptionContextTest {
       .verticalBarIsInvisible()
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
-      .hasOffset( new OffsetComputer( tree ).compute() )
+      .hasOffset( new OffsetComputer( new ScrollableControl<>( tree ) ).compute() )
       .hasVisibleArea( expectedVisibleArea( tree ) )
       .hasHorizontalAdapterSelection( 0 )
       .hasBorderWidth( expectedBorderWidth( tree ) )
@@ -87,7 +87,7 @@ public class AdaptionContextTest {
       .verticalBarIsInvisible()
       .horizontalBarIsInvisible()
       .hasPreferredSize( computePreferredTreeSize() )
-      .hasOffset( new OffsetComputer( tree ).compute() )
+      .hasOffset( new OffsetComputer( new ScrollableControl<>( tree ) ).compute() )
       .hasVisibleArea( expectedVisibleArea( tree ) )
       .hasHorizontalAdapterSelection( 0 )
       .hasBorderWidth( expectedBorderWidth( tree ) )
@@ -230,7 +230,7 @@ public class AdaptionContextTest {
   public void isScrollableAdaptedWithReplacementFake() {
     Composite composite = new Composite( tree.getParent(), SWT.NONE );
 
-    AdaptionContext<Tree> actual = new AdaptionContext<Tree>( composite, tree );
+    AdaptionContext<Tree> actual = new AdaptionContext<Tree>( composite, new ScrollableControl<>( tree ) );
 
     assertThat( actual ).isScrollableReplacement();
   }
@@ -240,7 +240,7 @@ public class AdaptionContextTest {
     Composite composite = new Composite( tree.getParent(), SWT.H_SCROLL | SWT.V_SCROLL );
     composite.getHorizontalBar().setSelection( SELECTION );
 
-    AdaptionContext<Tree> actual = new AdaptionContext<Tree>( composite, tree );
+    AdaptionContext<Tree> actual = new AdaptionContext<Tree>( composite, new ScrollableControl<>( tree ) );
 
     assertThat( actual ).hasHorizontalAdapterSelection( SELECTION );
   }
@@ -248,7 +248,7 @@ public class AdaptionContextTest {
   @Test
   public void createContextOnScrollableWithBorder() {
     Tree scrollable = new Tree( shell, SWT.BORDER );
-    AdaptionContext<Tree> actual = new AdaptionContext<Tree>( shell, scrollable );
+    AdaptionContext<Tree> actual = new AdaptionContext<Tree>( shell, new ScrollableControl<>( scrollable ) );
 
     assertThat( actual )
       .hasOriginOfScrollableOrdinates( expectedOriginOfScrollableOrdinates( scrollable ) )
@@ -262,7 +262,7 @@ public class AdaptionContextTest {
   }
 
   private Point computePreferredTreeSize() {
-    return new SizeComputer( tree, shell ).getPreferredSize();
+    return new SizeComputer( new ScrollableControl<>( tree ), shell ).getPreferredSize();
   }
 
   private Point expectedOriginOfScrollableOrdinates( Tree scrollable ) {
@@ -298,7 +298,7 @@ public class AdaptionContextTest {
     tree.setParent( parent );
     shell.setBounds( 100, 100, 1000, 700 );
     reparentScrollable( shell, tree );
-    return new AdaptionContext<Tree>( parent, tree );
+    return new AdaptionContext<Tree>( parent, new ScrollableControl<>( tree ) );
   }
 
   private static void reparentScrollable( Composite parent, Scrollable scrollable ) {
@@ -308,7 +308,7 @@ public class AdaptionContextTest {
   private void reinitWithOwnerDrawnAndVirtualScrollable() {
     tree = createTree( shell, 2, 4, SWT.VIRTUAL );
     tree.addListener( SWT.MeasureItem, evt -> {} );
-    adaptionContext = new AdaptionContext<Tree>( tree.getParent(), tree );
+    adaptionContext = new AdaptionContext<Tree>( tree.getParent(), new ScrollableControl<>( tree ) );
   }
 
   public static void waitForGtkRendering() {

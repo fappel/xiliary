@@ -21,6 +21,7 @@ import org.junit.Test;
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
@@ -30,6 +31,7 @@ public class ItemHeightMeasurementEnablerTest {
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ScrollableAdapterFactory adapterFactory;
+  private ScrollableControl<?> scrollableControl;
   private Shell shell;
   private Table table;
 
@@ -38,11 +40,12 @@ public class ItemHeightMeasurementEnablerTest {
     adapterFactory = new ScrollableAdapterFactory();
     shell = createShell( displayHelper );
     table = createTable( shell, 10 );
+    scrollableControl = new ScrollableControl<>( table );
   }
 
   @Test
   public void initialStateWithTable() {
-    ItemHeightMeasurementEnabler actual = new ItemHeightMeasurementEnabler( table, shell );
+    ItemHeightMeasurementEnabler actual = new ItemHeightMeasurementEnabler( scrollableControl, shell );
 
     assertThat( actual.height ).isEqualTo( table.getItemHeight() );
     assertThat( actual.intermediateHeightBuffer ).isZero();
@@ -53,8 +56,9 @@ public class ItemHeightMeasurementEnablerTest {
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void initialStateWithTree() {
     Tree tree = new Tree( shell, SWT.NONE );
+    ScrollableControl<?> scrollableControl = new ScrollableControl<>( tree );
 
-    ItemHeightMeasurementEnabler actual = new ItemHeightMeasurementEnabler( tree, shell );
+    ItemHeightMeasurementEnabler actual = new ItemHeightMeasurementEnabler( scrollableControl, shell );
 
     assertThat( actual.height ).isEqualTo( tree.getItemHeight() );
     assertThat( actual.intermediateHeightBuffer ).isZero();
@@ -112,7 +116,7 @@ public class ItemHeightMeasurementEnablerTest {
 
   @Test( expected = IllegalArgumentException.class )
   public void constructorWithUnsupportedScrollableType() {
-    new ItemHeightMeasurementEnabler( new Composite( shell, SWT.NONE ), shell );
+    new ItemHeightMeasurementEnabler( new ScrollableControl<>( new Composite( shell, SWT.NONE ) ), shell );
   }
 
   private int configureTableItemHeightAdjuster() {

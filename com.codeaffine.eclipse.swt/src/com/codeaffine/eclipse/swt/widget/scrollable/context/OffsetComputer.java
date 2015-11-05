@@ -10,14 +10,14 @@ class OffsetComputer {
   static final int DEFAULT_OFFSET = 0;
   static final int GTK_OFFSET = 4;
 
-  private final Scrollable scrollable;
+  private final ScrollableControl<? extends Scrollable> scrollable;
   private final Platform platform;
 
-  OffsetComputer( Scrollable scrollable ) {
+  OffsetComputer( ScrollableControl<? extends Scrollable> scrollable ) {
     this( scrollable, new Platform() );
   }
 
-  OffsetComputer( Scrollable scrollable, Platform platform ) {
+  OffsetComputer( ScrollableControl<? extends Scrollable> scrollable, Platform platform ) {
     this.scrollable = scrollable;
     this.platform = platform;
   }
@@ -34,6 +34,6 @@ class OffsetComputer {
   }
 
   private boolean isOverlay() {
-    return scrollable.getVerticalBar().getSize().x == 0 && scrollable.getHorizontalBar().getSize().y == 0;
+    return scrollable.getVerticalBarSize().x == 0 && scrollable.getHorizontalBarSize().y == 0;
   }
 }

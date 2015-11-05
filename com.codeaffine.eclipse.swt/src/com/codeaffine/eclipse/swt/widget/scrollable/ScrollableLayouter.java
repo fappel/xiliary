@@ -7,11 +7,12 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Scrollable;
 
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 class ScrollableLayouter {
 
   private final HorizontalSelectionComputer horizontalSelectionComputer;
-  private final Scrollable scrollable;
+  private final ScrollableControl<? extends Scrollable> scrollable;
 
   ScrollableLayouter( AdaptionContext<?> context ) {
     this.scrollable = context.getScrollable();

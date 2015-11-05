@@ -1,6 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -14,7 +15,6 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper;
-import com.codeaffine.test.util.lang.ThrowableCaptor;
 
 public class BoundsReconciliationTest {
 
@@ -29,7 +29,7 @@ public class BoundsReconciliationTest {
   public void setUp() {
     adapter = createShell( displayHelper );
     scrollable = TreeHelper.createTree( adapter, 1, 1 );
-    reconciliation = new BoundsReconciliation( adapter, scrollable );
+    reconciliation = new BoundsReconciliation( adapter, new ScrollableControl<>( scrollable ) );
   }
 
   @Test
@@ -55,7 +55,7 @@ public class BoundsReconciliationTest {
   public void runAfterScrollableBoundsHaveChangedByTreeExpansion() {
     Rectangle expected = adapter.getBounds();
     scrollable.setBounds( new Rectangle( 100, 200, 300, 400 ) );
-    reconciliation.treeExpanded( null );
+    reconciliation.treeExpanded();
 
     reconciliation.run();
 
@@ -66,7 +66,7 @@ public class BoundsReconciliationTest {
   public void runAfterScrollableBoundsHaveChangedByTreeCollaps() {
     Rectangle expected = adapter.getBounds();
     scrollable.setBounds( new Rectangle( 100, 200, 300, 400 ) );
-    reconciliation.treeCollapsed( null );
+    reconciliation.treeCollapsed();
 
     reconciliation.run();
 
@@ -77,7 +77,7 @@ public class BoundsReconciliationTest {
   public void subsequentRunWithoutChange() {
     Rectangle expected = adapter.getBounds();
     scrollable.setBounds( new Rectangle( 100, 200, 300, 400 ) );
-    reconciliation.treeExpanded( null );
+    reconciliation.treeExpanded();
     reconciliation.run();
 
     reconciliation.run();
@@ -89,7 +89,7 @@ public class BoundsReconciliationTest {
   public void subsequentRunWithChange() {
     Rectangle expected = new Rectangle( 10, 20, 100, 500 );
     scrollable.setBounds( new Rectangle( 100, 200, 300, 400 ) );
-    reconciliation.treeExpanded( null );
+    reconciliation.treeExpanded();
     reconciliation.run();
     scrollable.setBounds( expected );
 
@@ -102,12 +102,7 @@ public class BoundsReconciliationTest {
   public void runSuspended() {
     Rectangle expected = adapter.getBounds();
 
-    reconciliation.runSuspended( new Runnable() {
-      @Override
-      public void run() {
-        scrollable.setBounds( new Rectangle( 100, 200, 300, 400 ) );
-      }
-    } );
+    reconciliation.runSuspended( () -> scrollable.setBounds( new Rectangle( 100, 200, 300, 400 ) ) );
     reconciliation.run();
 
     assertThat( adapter.getBounds() ).isEqualTo( expected );
@@ -118,8 +113,7 @@ public class BoundsReconciliationTest {
     Rectangle expected = new Rectangle( 100, 200, 300, 400 );
     RuntimeException toBeThrown = new RuntimeException();
 
-    Throwable problem = ThrowableCaptor.thrownBy(
-      () -> reconciliation.runSuspended( stubRunnableWithProblem( toBeThrown ) ) );
+    Throwable problem = thrownBy( () -> reconciliation.runSuspended( stubRunnableWithProblem( toBeThrown ) ) );
     scrollable.setBounds( expected );
     reconciliation.run();
 

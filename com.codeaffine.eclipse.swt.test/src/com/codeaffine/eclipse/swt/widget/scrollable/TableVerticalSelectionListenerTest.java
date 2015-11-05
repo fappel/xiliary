@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 public class TableVerticalSelectionListenerTest {
@@ -27,7 +28,7 @@ public class TableVerticalSelectionListenerTest {
     Shell shell = createShell( displayHelper );
     Table table = createTable( shell, 20 );
     FlatScrollBar scrollBar = prepareScrollBar( shell, table );
-    AdaptionContext<Table> context = new AdaptionContext<Table>( shell, table );
+    AdaptionContext<Table> context = new AdaptionContext<>( shell, new ScrollableControl<>( table ) );
     TableVerticalSelectionListener listener = new TableVerticalSelectionListener( context );
 
     listener.widgetSelected( createEvent( scrollBar, ITEM_INDEX * SELECTION_RASTER_SMOOTH_FACTOR ) );

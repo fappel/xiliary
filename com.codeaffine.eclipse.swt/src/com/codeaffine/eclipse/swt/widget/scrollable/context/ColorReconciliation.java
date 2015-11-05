@@ -7,10 +7,10 @@ import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
 
 class ColorReconciliation {
 
+  private final ScrollableControl<? extends Scrollable> scrollable;
   private final ScrollbarStyle scrollbarStyle;
-  private final Scrollable scrollable;
 
-  ColorReconciliation( ScrollbarStyle scrollbarStyle, Scrollable scrollable ) {
+  ColorReconciliation( ScrollbarStyle scrollbarStyle, ScrollableControl<? extends Scrollable> scrollable ) {
     this.scrollbarStyle = scrollbarStyle;
     this.scrollable = scrollable;
   }

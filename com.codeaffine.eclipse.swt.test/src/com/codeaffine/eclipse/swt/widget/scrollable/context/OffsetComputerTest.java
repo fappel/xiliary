@@ -29,7 +29,7 @@ public class OffsetComputerTest {
     horizontalBar = mock( ScrollBar.class );
     Scrollable scrollable = stubScrollable( verticalBar, horizontalBar );
     platform = mock( Platform.class );
-    computer = new OffsetComputer( scrollable, platform );
+    computer = new OffsetComputer( new ScrollableControl<>( scrollable ), platform );
   }
 
   @Test

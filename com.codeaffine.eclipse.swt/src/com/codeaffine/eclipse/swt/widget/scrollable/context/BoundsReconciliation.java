@@ -1,53 +1,26 @@
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
-import org.eclipse.swt.events.ControlEvent;
-import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.events.TreeEvent;
-import org.eclipse.swt.events.TreeListener;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Tree;
 
-class BoundsReconciliation implements ControlListener, TreeListener {
+class BoundsReconciliation {
 
+  private final ScrollableControl<? extends Scrollable> scrollable;
   private final Composite adapter;
-  private final Scrollable scrollable;
 
   private Rectangle oldScrollableBounds;
   private Rectangle newScrollableBounds;
   private boolean treeEvent;
   private int suspendCount;
 
-  BoundsReconciliation( Composite adapter, Scrollable scrollable ) {
+  BoundsReconciliation( Composite adapter, ScrollableControl<? extends Scrollable> scrollable ) {
     this.adapter = adapter;
     this.scrollable = scrollable;
     registerListeners( scrollable );
     updateBoundsBuffer();
-  }
-
-  @Override
-  public void controlMoved( ControlEvent e ) {
-    if( !isSuspended() ) {
-      newScrollableBounds = scrollable.getBounds();
-    }
-  }
-
-  @Override
-  public void controlResized( ControlEvent e ) {
-    if( !isSuspended() ) {
-      newScrollableBounds = scrollable.getBounds();
-    }
-  }
-
-  @Override
-  public void treeExpanded( TreeEvent e ) {
-    treeEvent = true;
-  }
-
-  @Override
-  public void treeCollapsed( TreeEvent e ) {
-    treeEvent = true;
   }
 
   public void run() {
@@ -80,6 +53,26 @@ class BoundsReconciliation implements ControlListener, TreeListener {
     }
   }
 
+  void treeExpanded() {
+    treeEvent = true;
+  }
+
+  void treeCollapsed() {
+    treeEvent = true;
+  }
+
+  private void controlMoved( ) {
+    if( !isSuspended() ) {
+      newScrollableBounds = scrollable.getBounds();
+    }
+  }
+
+  private void controlResized() {
+    if( !isSuspended() ) {
+      newScrollableBounds = scrollable.getBounds();
+    }
+  }
+
   private boolean mustReconcile() {
     return scrollableBoundsHaveBeenChanged() && !changeByTreeEvent();
   }
@@ -105,10 +98,12 @@ class BoundsReconciliation implements ControlListener, TreeListener {
     return treeEvent = false;
   }
 
-  private void registerListeners( Scrollable scrollable ) {
-    scrollable.addControlListener( this );
-    if( scrollable instanceof Tree ) {
-      ( ( Tree )scrollable ).addTreeListener( this );
+  private void registerListeners( ScrollableControl<? extends Scrollable> scrollable ) {
+    scrollable.addListener( SWT.RESIZE, evt -> controlResized() );
+    scrollable.addListener( SWT.Move, evt -> controlMoved() );
+    if( scrollable.isInstanceof( Tree.class ) ) {
+      scrollable.addListener( SWT.Collapse, evt -> treeCollapsed() );
+      scrollable.addListener( SWT.Expand, evt -> treeExpanded() );
     }
   }
 }

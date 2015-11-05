@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 public class TreeWidthTest {
 
@@ -34,7 +35,7 @@ public class TreeWidthTest {
     tree = createTree( shell, 6, 4 );
     tree.pack();
     preferredWidthComputer = mock( PreferredWidthComputer.class );
-    context = new AdaptionContext<Tree>( tree.getParent(), tree );
+    context = new AdaptionContext<>( tree.getParent(), new ScrollableControl<>( tree ) );
     treeWidth = new TreeWidth( preferredWidthComputer, context );
     shell.open();
   }

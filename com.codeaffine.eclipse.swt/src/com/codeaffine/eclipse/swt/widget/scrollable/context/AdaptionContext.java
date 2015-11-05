@@ -13,6 +13,7 @@ public class AdaptionContext<T extends Scrollable> {
 
   private final ScrollbarVisibility scrollbarVisibility;
   private final Point originOfScrollableOrdinates;
+  private final ScrollableControl<T> scrollable;
   private final Reconciliation reconciliation;
   private final SizeComputer sizeComputer;
   private final Rectangle visibleArea;
@@ -20,14 +21,15 @@ public class AdaptionContext<T extends Scrollable> {
   private final Composite adapter;
   private final int borderWidth;
   private final int itemHeight;
-  private final T scrollable;
   private final int offset;
 
-  public AdaptionContext( Composite adapter, T scrollable ) {
+  public AdaptionContext( Composite adapter, ScrollableControl<T> scrollable ) {
     this( adapter, scrollable, 1, null );
   }
 
-  private AdaptionContext( Composite adapter, T scrollable, int itemHeight, Reconciliation reconciliation ) {
+  private AdaptionContext(
+    Composite adapter, ScrollableControl<T> scrollable, int itemHeight, Reconciliation reconciliation )
+  {
     this.sizeComputer = new SizeComputer( scrollable, adapter );
     this.scrollbarVisibility = new ScrollbarVisibility( sizeComputer, scrollable, adapter.getClientArea(), itemHeight );
     this.reconciliation = reconciliation == null ? new Reconciliation( adapter, scrollable ) : reconciliation;
@@ -57,7 +59,7 @@ public class AdaptionContext<T extends Scrollable> {
     return adapter;
   }
 
-  public T getScrollable() {
+  public ScrollableControl<T> getScrollable() {
     return scrollable;
   }
 
@@ -106,29 +108,29 @@ public class AdaptionContext<T extends Scrollable> {
   }
 
   public boolean isScrollableReplacedByAdapter() {
-    return scrollable.getParent() == adapter.getParent();
+    return scrollable.isChildOf( adapter.getParent() );
   }
 
   public int getBorderWidth() {
     return borderWidth;
   }
 
-  private static int getBorderWidth( Scrollable scrollable ) {
-    if( ( scrollable.getStyle() & SWT.BORDER ) > 0 ) {
+  private static int getBorderWidth( ScrollableControl<? extends Scrollable> scrollable ) {
+    if( scrollable.hasStyle( SWT.BORDER ) ) {
       return scrollable.getBorderWidth();
     }
     return 0;
   }
 
-  private static int computeVerticalBarOffset( Scrollable scrollable ) {
-    int result = scrollable.getVerticalBar().getSize().x;
+  private static int computeVerticalBarOffset( ScrollableControl<? extends Scrollable> scrollable ) {
+    int result = scrollable.getVerticalBarSize().x;
     if( result == 0 ) {
       result = OVERLAY_OFFSET;
     }
     return result;
   }
 
-  private static Rectangle computeVisibleArea( Composite adapter, Scrollable scrollable ) {
+  private static Rectangle computeVisibleArea( Composite adapter, ScrollableControl<? extends Scrollable> scrollable ) {
     Rectangle area = adapter.getClientArea();
     int borderAdjustment = getBorderWidth( scrollable ) * 2;
     return new Rectangle( area.x, area.y, area.width + borderAdjustment, area.height + borderAdjustment );

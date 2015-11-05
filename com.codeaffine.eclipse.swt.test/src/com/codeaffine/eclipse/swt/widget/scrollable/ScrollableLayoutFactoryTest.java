@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 public class ScrollableLayoutFactoryTest {
 
@@ -33,7 +34,7 @@ public class ScrollableLayoutFactoryTest {
     shell = createShell( displayHelper );
     scrollable = new Text( shell, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL );
     factorySpy = new ScrollableLayoutFactorySpy();
-    layout = factorySpy.create( new AdaptionContext<Scrollable>( shell, scrollable ) );
+    layout = factorySpy.create( new AdaptionContext<>( shell, new ScrollableControl<>( scrollable ) ) );
   }
 
   @Test

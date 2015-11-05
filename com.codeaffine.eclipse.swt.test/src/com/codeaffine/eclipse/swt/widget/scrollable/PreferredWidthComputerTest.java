@@ -13,6 +13,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 public class PreferredWidthComputerTest {
 
@@ -27,7 +28,7 @@ public class PreferredWidthComputerTest {
   public void setUp() {
     Shell shell = createShell( displayHelper );
     tree = createTree( shell, 6, 4 );
-    layoutContext = new AdaptionContext<Tree>( shell, tree );
+    layoutContext = new AdaptionContext<>( shell, new ScrollableControl<>( tree ) );
     computer = new PreferredWidthComputer( layoutContext );
     shell.open();
   }

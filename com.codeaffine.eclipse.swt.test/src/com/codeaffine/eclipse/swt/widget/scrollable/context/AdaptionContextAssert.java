@@ -6,8 +6,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scrollable;
 
-import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
-
 public class AdaptionContextAssert extends AbstractAssert<AdaptionContextAssert, AdaptionContext<?>> {
 
   public AdaptionContextAssert( AdaptionContext<?> actual ) {
@@ -131,7 +129,7 @@ public class AdaptionContextAssert extends AbstractAssert<AdaptionContextAssert,
 
   public AdaptionContextAssert hasScrollable( Scrollable expected ) {
     isNotNull();
-    if( actual.getScrollable() != expected ) {
+    if( !actual.getScrollable().isSameAs( expected ) ) {
       failWithMessage( "Expected scrollable to be <%s> but was <%s>.", expected, actual.getAdapter() );
     }
     return this;

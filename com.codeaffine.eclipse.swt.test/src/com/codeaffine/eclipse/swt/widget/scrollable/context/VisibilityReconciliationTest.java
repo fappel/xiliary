@@ -14,8 +14,6 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import com.codeaffine.eclipse.swt.widget.scrollable.context.VisibilityReconciliation;
-
 public class VisibilityReconciliationTest {
 
   private VisibilityReconciliation reconciliation;
@@ -26,7 +24,7 @@ public class VisibilityReconciliationTest {
   public void setUp() {
     adapter = stubAdapter();
     scrollable = stubScrollable();
-    reconciliation = new VisibilityReconciliation( adapter, scrollable );
+    reconciliation = new VisibilityReconciliation( adapter, new ScrollableControl<>( scrollable ) );
   }
 
   @Test

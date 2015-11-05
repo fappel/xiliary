@@ -29,7 +29,8 @@ class TableLayoutFactory extends ScrollableLayoutFactory<Table> {
   public DisposeListener createWatchDog(
     AdaptionContext<Table> context, FlatScrollBar horizontal, FlatScrollBar vertical )
   {
-    TableVerticalScrollBarUpdater updater = new TableVerticalScrollBarUpdater( context.getScrollable(), vertical );
+    Table control = context.getScrollable().getControl();
+    TableVerticalScrollBarUpdater updater = new TableVerticalScrollBarUpdater( control, vertical );
     return new WatchDog( newContext( context ), updater );
   }
 

@@ -5,12 +5,12 @@ import org.eclipse.swt.widgets.Scrollable;
 
 class VisibilityReconciliation {
 
-  private final Scrollable scrollable;
+  private final ScrollableControl<? extends Scrollable> scrollable;
   private final Composite adapter;
 
   boolean scrollableVisible;
 
-  VisibilityReconciliation( Composite adapter, Scrollable scrollable ) {
+  VisibilityReconciliation( Composite adapter, ScrollableControl<? extends Scrollable> scrollable ) {
     this.adapter = adapter;
     this.scrollable = scrollable;
     this.scrollableVisible = scrollable.getVisible();

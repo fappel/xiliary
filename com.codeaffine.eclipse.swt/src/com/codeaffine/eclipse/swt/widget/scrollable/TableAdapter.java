@@ -21,6 +21,7 @@ import com.codeaffine.eclipse.swt.util.PlatformSupport;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.Adapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 public class TableAdapter extends Table implements Adapter<Table>, DisposeListener, ScrollbarStyle {
 
@@ -332,8 +333,9 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
 
   private void initialize() {
     table.setParent( this );
-    new ItemHeightMeasurementEnabler( table, this );
-    context = new AdaptionContext<Table>( this, table );
+    ScrollableControl<Table> scrollableControl = new ScrollableControl<>( table );
+    new ItemHeightMeasurementEnabler( scrollableControl, this );
+    context = new AdaptionContext<>( this, scrollableControl );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
     table.addDisposeListener( this );

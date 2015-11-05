@@ -33,7 +33,7 @@ public class ColorReconciliationTest {
 
   @Test
   public void runIfScrollableBackgroundIsDifferentToScrollbarStyleBackground() {
-    ColorReconciliation reconciliation = new ColorReconciliation( scrollbarStyle, scrollable );
+    ColorReconciliation reconciliation = new ColorReconciliation( scrollbarStyle, newScrollbarControl() );
 
     reconciliation.run();
 
@@ -43,7 +43,7 @@ public class ColorReconciliationTest {
   @Test
   public void runIfScrollableBackgroundIsEqualsToScrollbarStyleBackground() {
     scrollable.setBackground( color );
-    ColorReconciliation reconciliation = new ColorReconciliation( scrollbarStyle, scrollable );
+    ColorReconciliation reconciliation = new ColorReconciliation( scrollbarStyle, newScrollbarControl() );
 
     reconciliation.run();
 
@@ -52,13 +52,16 @@ public class ColorReconciliationTest {
 
   @Test
   public void runWithNullAsScrollbarStyle() {
-    ColorReconciliation reconciliation = new ColorReconciliation( null, scrollable );
+    ColorReconciliation reconciliation = new ColorReconciliation( null, newScrollbarControl() );
 
     reconciliation.run();
 
     verify( scrollbarStyle, never() ).setBackgroundColor( scrollable.getBackground() );
   }
 
+  private ScrollableControl<Scrollable> newScrollbarControl() {
+    return new ScrollableControl<>( scrollable );
+  }
 
   private static ScrollbarStyle stubScrollbarStyle( Color color ) {
     ScrollbarStyle result = mock( ScrollbarStyle.class );

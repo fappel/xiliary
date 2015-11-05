@@ -32,6 +32,7 @@ import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Horizontal;
 import com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 public class ScrollableLayouterTest {
 
@@ -50,7 +51,7 @@ public class ScrollableLayouterTest {
     shell = createShell( displayHelper );
     adapter = createAdapter( shell );
     scrollable = createTree( adapter, 6, 4 );
-    layouter = new ScrollableLayouter( new AdaptionContext<Tree>( adapter, scrollable ) );
+    layouter = new ScrollableLayouter( new AdaptionContext<>( adapter, new ScrollableControl<>( scrollable ) ) );
     shell.open();
   }
 
@@ -165,7 +166,7 @@ public class ScrollableLayouterTest {
   {
     AdaptionContext<Scrollable> result
       = stubContext( verticalBarVisible, horizontalBarVisible, preferredSize, visibleArea );
-    when( result.getScrollable() ).thenReturn( scrollable );
+    when( result.getScrollable() ).thenReturn( new ScrollableControl<>( scrollable ) );
     when( result.getAdapter() ).thenReturn( adapter );
     return result;
   }

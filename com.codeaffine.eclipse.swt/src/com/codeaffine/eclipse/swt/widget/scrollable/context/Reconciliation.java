@@ -12,7 +12,7 @@ public class Reconciliation {
   final LayoutReconciliation layoutReconciliation;
   final ColorReconciliation colorReconciliation;
 
-  Reconciliation( Composite adapter, Scrollable scrollable ) {
+  Reconciliation( Composite adapter, ScrollableControl<? extends Scrollable> scrollable ) {
     this( new VisibilityReconciliation( adapter, scrollable ),
           new BoundsReconciliation( adapter, scrollable ),
           new LayoutReconciliation( adapter, scrollable ),

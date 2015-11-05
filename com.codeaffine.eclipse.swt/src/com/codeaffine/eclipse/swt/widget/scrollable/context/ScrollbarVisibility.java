@@ -14,10 +14,14 @@ class ScrollbarVisibility {
   private final boolean horizontalBarVisible;
   private final boolean verticalBarVisible;
 
-  ScrollbarVisibility( SizeComputer sizeComputer, Scrollable scrollable, Rectangle clientArea, int itemHeight ) {
-    horizontalBarVisible =    isWin32() && scrollable.getHorizontalBar().isVisible()
+  ScrollbarVisibility( SizeComputer sizeComputer,
+                       ScrollableControl<? extends Scrollable> scrollable,
+                       Rectangle clientArea,
+                       int itemHeight )
+  {
+    horizontalBarVisible =    isWin32() && scrollable.isHorizontalBarVisible()
                            || computeHorizontalBarVisible( sizeComputer, clientArea );
-    verticalBarVisible =    isWin32() && scrollable.getVerticalBar().isVisible()
+    verticalBarVisible =    isWin32() && scrollable.isVerticalBarVisible()
                          || computeVerticalBarVisible( sizeComputer, clientArea, itemHeight );
   }
 
@@ -45,15 +49,12 @@ class ScrollbarVisibility {
   }
 
   private static boolean computeVerticalBarVisible(
-    boolean horizontalBarVisible, int preferredHeight, int visibleAreaHeight, int itemHeight  )
+    boolean horizontalBarVisible, int preferredHeight, int visibleAreaHeight, int itemHeight )
   {
-    boolean result;
     if( !horizontalBarVisible ) {
-      result = computeVisibleItemsHeight( preferredHeight, itemHeight ) >= visibleAreaHeight;
-    } else {
-      result = computeVisibleItemsHeight( preferredHeight, itemHeight ) + BAR_BREADTH - 1 >= visibleAreaHeight;
+      return computeVisibleItemsHeight( preferredHeight, itemHeight ) >= visibleAreaHeight;
     }
-    return result;
+    return computeVisibleItemsHeight( preferredHeight, itemHeight ) + BAR_BREADTH - 1 >= visibleAreaHeight;
   }
 
   private static int computeVisibleItemsHeight( int preferredHeight, int itemHeight  ) {

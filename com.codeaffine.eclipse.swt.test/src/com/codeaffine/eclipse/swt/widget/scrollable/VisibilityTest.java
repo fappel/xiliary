@@ -17,10 +17,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 @RunWith( Parameterized.class )
 public class VisibilityTest {
@@ -36,24 +38,21 @@ public class VisibilityTest {
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private final int orientation;
+  @Parameter
+  public int orientation;
 
   private AdaptionContext<Tree> context;
   private Visibility visibility;
   private Shell shell;
   private Tree tree;
 
-  public VisibilityTest( int orientation ) {
-    this.orientation = orientation;
-  }
-
   @Before
   public void setUp() {
     shell = createShell( displayHelper, SWT.RESIZE );
     tree = createTree( shell, 2, 4 );
-    context = new AdaptionContext<Tree>( shell, tree );
+    context = new AdaptionContext<>( shell, new ScrollableControl<>( tree ) );
     shell.open();
-    visibility = createVisibility( tree, context );
+    visibility = new Visibility( orientation, context );
   }
 
   @Test
@@ -117,12 +116,5 @@ public class VisibilityTest {
     boolean actual = visibility.hasChanged();
 
     assertThat( actual ).isFalse();
-  }
-
-  private Visibility createVisibility( Tree tree, AdaptionContext<Tree> context ) {
-    if( ( orientation & SWT.VERTICAL ) > 0  ) {
-      return new Visibility( tree.getVerticalBar(), context );
-    }
-    return new Visibility( tree.getHorizontalBar(), context );
   }
 }

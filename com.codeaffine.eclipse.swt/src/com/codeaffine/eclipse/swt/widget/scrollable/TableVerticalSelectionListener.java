@@ -14,7 +14,7 @@ class TableVerticalSelectionListener extends SelectionAdapter {
   private final Table table;
 
   TableVerticalSelectionListener( AdaptionContext<Table> context ) {
-    this.table = context.getScrollable();
+    this.table = context.getScrollable().getControl();
   }
 
   @Override

@@ -23,6 +23,7 @@ import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.util.Platform;
 import com.codeaffine.eclipse.swt.util.Platform.PlatformType;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
@@ -124,6 +125,6 @@ public class ScrollableAdapterFactoryTest {
   }
 
   private AdaptionContext<Scrollable> createLayoutContext() {
-    return new AdaptionContext<Scrollable>( shell, createTree( shell, 1, 1 ) );
+    return new AdaptionContext<>( shell, new ScrollableControl<>( createTree( shell, 1, 1 ) ) );
   }
 }

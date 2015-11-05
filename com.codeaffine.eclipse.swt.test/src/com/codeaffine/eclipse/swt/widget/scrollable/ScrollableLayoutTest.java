@@ -21,6 +21,7 @@ import org.junit.Test;
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 public class ScrollableLayoutTest {
 
@@ -41,7 +42,7 @@ public class ScrollableLayoutTest {
     horizontalBarConfigurer = mock( ScrollBarConfigurer.class );
     treeLayouter = mock( ScrollableLayouter.class );
     tree = createTree( createShell( displayHelper ), 6, 4 );
-    context = new AdaptionContext<Tree>( tree.getParent(), tree );
+    context = new AdaptionContext<>( tree.getParent(), new ScrollableControl<>( tree ) );
     reconciliation = ReconciliationHelper.stubReconciliation();
     layout = new ScrollableLayout( context, overlayLayouter, treeLayouter, horizontalBarConfigurer, reconciliation );
   }

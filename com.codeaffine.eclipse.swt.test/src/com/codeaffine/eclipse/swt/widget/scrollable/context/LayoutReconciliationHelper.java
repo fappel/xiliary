@@ -38,7 +38,7 @@ class LayoutReconciliationHelper {
     parent = shell;
     scrollable = createTree( parent, 1, 1 );
     adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
-    reconciliation = new LayoutReconciliation( adapter, scrollable );
+    reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
     shell.open();
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     return INITIAL_ADAPTER_BOUNDS;
@@ -48,7 +48,7 @@ class LayoutReconciliationHelper {
     parent = shell;
     scrollable = createTree( parent, 1, 1 );
     adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
-    reconciliation = new LayoutReconciliation( adapter, scrollable );
+    reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
     shell.open();
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     parent.setLayout( createStackLayout( scrollable ) );
@@ -69,7 +69,7 @@ class LayoutReconciliationHelper {
     adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     viewForm.setContent( scrollable );
-    reconciliation = new LayoutReconciliation( adapter, scrollable );
+    reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
     shell.open();
     return INITIAL_ADAPTER_BOUNDS;
   }
@@ -81,7 +81,7 @@ class LayoutReconciliationHelper {
     adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     viewForm.setTopCenter( scrollable );
-    reconciliation = new LayoutReconciliation( adapter, scrollable );
+    reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
     shell.open();
     return INITIAL_ADAPTER_BOUNDS;
   }
@@ -93,7 +93,7 @@ class LayoutReconciliationHelper {
     adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     viewForm.setTopLeft( scrollable );
-    reconciliation = new LayoutReconciliation( adapter, scrollable );
+    reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
     shell.open();
     return INITIAL_ADAPTER_BOUNDS;
   }
@@ -105,7 +105,7 @@ class LayoutReconciliationHelper {
     adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     viewForm.setTopRight( scrollable );
-    reconciliation = new LayoutReconciliation( adapter, scrollable );
+    reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
     shell.open();
     return INITIAL_ADAPTER_BOUNDS;
   }
@@ -130,7 +130,7 @@ class LayoutReconciliationHelper {
     adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     new Label( sashForm, SWT.NONE );
-    reconciliation = new LayoutReconciliation( adapter, scrollable );
+    reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
     shell.open();
     return INITIAL_ADAPTER_BOUNDS;
   }
@@ -176,7 +176,7 @@ class LayoutReconciliationHelper {
     adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
     adapter.setVisible( false );
     pageBook.showPage( page );
-    reconciliation = new LayoutReconciliation( adapter, scrollable );
+    reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
     shell.open();
     return INITIAL_ADAPTER_BOUNDS;
   }
