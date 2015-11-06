@@ -95,6 +95,11 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
   }
 
   @Override
+  public void setEnabled( boolean enabled ) {
+    super.setEnabled( reconciliation.setEnabled( enabled ) );
+  }
+
+  @Override
   public TreeColumn getColumn( int index ) {
     return tree.getColumn( index );
   }

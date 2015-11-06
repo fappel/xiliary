@@ -19,6 +19,7 @@ import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
 public class ReconciliationTest {
 
   private VisibilityReconciliation visibliltyReconciliation;
+  private EnablementReconciliation enablementReconciliation;
   private BoundsReconciliation boundsReconciliation;
   private LayoutReconciliation layoutReconciliation;
   private ColorReconciliation colorReconciliation;
@@ -27,11 +28,15 @@ public class ReconciliationTest {
   @Before
   public void setUp() {
     visibliltyReconciliation = mock( VisibilityReconciliation.class );
+    enablementReconciliation = mock( EnablementReconciliation.class );
     boundsReconciliation = mock( BoundsReconciliation.class );
     layoutReconciliation = mock( LayoutReconciliation.class );
     colorReconciliation = mock( ColorReconciliation.class );
-    reconciliation
-      = new Reconciliation( visibliltyReconciliation, boundsReconciliation, layoutReconciliation, colorReconciliation );
+    reconciliation = new Reconciliation( visibliltyReconciliation,
+                                         enablementReconciliation,
+                                         boundsReconciliation,
+                                         layoutReconciliation,
+                                         colorReconciliation );
   }
 
   @Test
@@ -49,6 +54,16 @@ public class ReconciliationTest {
     when( visibliltyReconciliation.setVisible( expected ) ).thenReturn( expected );
 
     boolean actual = reconciliation.setVisible( expected );
+
+    assertThat( actual ).isSameAs( expected );
+  }
+
+  @Test
+  public void setEnabled() {
+    boolean expected = true;
+    when( enablementReconciliation.setEnabled( expected ) ).thenReturn( expected );
+
+    boolean actual = reconciliation.setEnabled( expected );
 
     assertThat( actual ).isSameAs( expected );
   }
@@ -101,7 +116,12 @@ public class ReconciliationTest {
 
   private InOrder order( Runnable runnable ) {
     return
-      inOrder( runnable, boundsReconciliation, visibliltyReconciliation, layoutReconciliation, colorReconciliation );
+      inOrder( runnable,
+               boundsReconciliation,
+               visibliltyReconciliation,
+               enablementReconciliation,
+               layoutReconciliation,
+               colorReconciliation );
   }
 
   private void verifyActionsBeforeRunnableExcecution( InOrder order ) {
@@ -110,6 +130,7 @@ public class ReconciliationTest {
 
   private void verifyActionsAfterRunnableExcecution( InOrder order ) {
     order.verify( visibliltyReconciliation ).run();
+    order.verify( enablementReconciliation ).run();
     order.verify( boundsReconciliation ).resume();
     order.verify( boundsReconciliation ).run();
     order.verify( layoutReconciliation ).run();

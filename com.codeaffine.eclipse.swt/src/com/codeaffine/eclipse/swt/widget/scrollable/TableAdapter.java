@@ -95,6 +95,11 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
   }
 
   @Override
+  public void setEnabled( boolean enabled ) {
+    super.setEnabled( reconciliation.setEnabled( enabled ) );
+  }
+
+  @Override
   public TableColumn getColumn( int index ) {
     return table.getColumn( index );
   }

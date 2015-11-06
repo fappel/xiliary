@@ -146,6 +146,17 @@ public class TableAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void changeTableEnablement() {
+    waitForReconciliation();
+
+    table.setEnabled( false );
+    waitForReconciliation();
+
+    assertThat( adapter.getEnabled() ).isFalse();
+  }
+
+  @Test
   public void getLayoutData() {
     RowData expected = new RowData();
     table.setLayoutData( expected );

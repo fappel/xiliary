@@ -270,6 +270,17 @@ public class ScrollableControlTest {
   }
 
   @Test
+  public void setEnabled() {
+    Scrollable scrollable = createScrollableWithVisibleScrollbars();
+    ScrollableControl<Scrollable> scrollableControl = new ScrollableControl<>( scrollable );
+
+    scrollableControl.setEnabled( false );
+    boolean actual = scrollableControl.getEnabled();
+
+    assertThat( actual ).isFalse();
+  }
+
+  @Test
   public void isInstanceOfWithMatchingTypeArgument() {
     ScrollableControl<?> scrollableControl = createScrollableControl( Tree.class );
 

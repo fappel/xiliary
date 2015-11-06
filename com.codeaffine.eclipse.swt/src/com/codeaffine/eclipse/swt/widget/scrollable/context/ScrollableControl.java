@@ -130,6 +130,14 @@ public class ScrollableControl <T extends Scrollable> {
     return scrollable.getVisible();
   }
 
+  public boolean getEnabled() {
+    return scrollable.getEnabled();
+  }
+
+  public void setEnabled( boolean enabled ) {
+    scrollable.setEnabled( enabled );
+  }
+
   public boolean isInstanceof( Class<? extends Scrollable> type ) {
     verifyNotNull( type, "type" );
 

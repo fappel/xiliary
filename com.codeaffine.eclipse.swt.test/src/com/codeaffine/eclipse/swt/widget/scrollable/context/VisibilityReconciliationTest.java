@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scrollable;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 public class VisibilityReconciliationTest {
@@ -152,13 +151,10 @@ public class VisibilityReconciliationTest {
   }
 
   private static Answer<Object> visibilityStub( final Control control ) {
-    return new Answer<Object>() {
-      @Override
-      public Object answer( InvocationOnMock invocation ) throws Throwable {
-        boolean visible = ( Boolean )invocation.getArguments()[ 0 ];
-        when( control.getVisible() ).thenReturn( visible );
-        return null;
-      }
+    return invocation -> {
+      boolean visible = ( Boolean )invocation.getArguments()[ 0 ];
+      when( control.getVisible() ).thenReturn( visible );
+      return null;
     };
   }
 }

@@ -160,6 +160,15 @@ public class TreeAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void changeTreeEnablement() {
+    tree.setEnabled( false );
+    waitForReconciliation();
+
+    assertThat( adapter.getEnabled() ).isFalse();
+  }
+
+  @Test
   public void getLayoutData() {
     RowData expected = new RowData();
     tree.setLayoutData( expected );
