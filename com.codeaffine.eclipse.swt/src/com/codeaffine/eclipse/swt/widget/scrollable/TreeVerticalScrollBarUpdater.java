@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class TreeVerticalScrollBarUpdater implements VerticalScrollBarUpdater {
@@ -16,7 +17,7 @@ class TreeVerticalScrollBarUpdater implements VerticalScrollBarUpdater {
   private final Tree tree;
 
   TreeVerticalScrollBarUpdater( Tree tree, FlatScrollBar scrollbar ) {
-    this.scrollbarConfiguration = new VerticalScrollbarConfigurationBuffer( tree );
+    this.scrollbarConfiguration = new VerticalScrollbarConfigurationBuffer( new ScrollableControl<>( tree ) );
     this.treeItemCollector = new TreeItemCollector( tree );
     this.scrollBar = scrollbar;
     this.tree = tree;

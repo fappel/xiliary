@@ -9,7 +9,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -112,11 +111,6 @@ public class ItemHeightMeasurementEnablerTest {
     assertThat( table.getItemHeight() ).isEqualTo( expectedHeight );
     assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 2 );
     assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 2 );
-  }
-
-  @Test( expected = IllegalArgumentException.class )
-  public void constructorWithUnsupportedScrollableType() {
-    new ItemHeightMeasurementEnabler( new ScrollableControl<>( new Composite( shell, SWT.NONE ) ), shell );
   }
 
   private int configureTableItemHeightAdjuster() {

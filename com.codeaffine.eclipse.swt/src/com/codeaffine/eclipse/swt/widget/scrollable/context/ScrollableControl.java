@@ -1,6 +1,12 @@
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
 import static com.codeaffine.eclipse.swt.util.ArgumentVerification.verifyNotNull;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.valueOf;
+import static java.lang.Integer.valueOf;
+
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
@@ -9,12 +15,16 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
 
 public class ScrollableControl <T extends Scrollable> {
+
+  static final Point POINT_OF_ORIGIN = new Point( 0, 0 );
+  static final Integer ZERO = valueOf( 0 );
 
   private final T scrollable;
 
@@ -29,7 +39,7 @@ public class ScrollableControl <T extends Scrollable> {
     if( scrollable instanceof Tree ) {
       return ( ( Tree )scrollable ).getItemHeight();
     }
-    throw new IllegalArgumentException( "Unsupported scrollable type: " + scrollable.getClass().getName() );
+    return ZERO.intValue();
   }
 
   public boolean isOwnerDrawn() {
@@ -130,30 +140,64 @@ public class ScrollableControl <T extends Scrollable> {
     return scrollable;
   }
 
-  /////////////////////////////////////
-  // scrollbar properties
-
   public boolean isVerticalBarVisible() {
-    return scrollable.getVerticalBar().isVisible();
+    return getSafely( scrollable.getVerticalBar(), bar -> valueOf( bar.isVisible() ), FALSE ).booleanValue();
   }
 
   public Point getVerticalBarSize() {
-    return scrollable.getVerticalBar().getSize();
+    return getSafely( scrollable.getVerticalBar(), bar -> bar.getSize(), POINT_OF_ORIGIN );
+  }
+
+  public int getVerticalBarSelection() {
+    return getSafely( scrollable.getVerticalBar(), bar -> valueOf( bar.getSelection() ), ZERO ).intValue();
+  }
+
+  public int getVerticalBarThumb() {
+    return getSafely( scrollable.getVerticalBar(), bar -> valueOf( bar.getThumb() ), ZERO ).intValue();
+  }
+
+  public int getVerticalBarPageIncrement() {
+    return getSafely( scrollable.getVerticalBar(), bar -> valueOf( bar.getPageIncrement() ), ZERO ).intValue();
+  }
+
+  public int getVerticalBarMaximum() {
+    return getSafely( scrollable.getVerticalBar(), bar -> valueOf( bar.getMaximum() ), ZERO ).intValue();
+  }
+
+  public int getVerticalBarIncrement() {
+    return getSafely( scrollable.getVerticalBar(), bar -> valueOf( bar.getIncrement() ), ZERO ).intValue();
   }
 
   public boolean isHorizontalBarVisible() {
-    return scrollable.getHorizontalBar().isVisible();
+    return getSafely( scrollable.getHorizontalBar(), bar -> valueOf( bar.isVisible() ), FALSE ).booleanValue();
   }
 
   public Point getHorizontalBarSize() {
-    return scrollable.getHorizontalBar().getSize();
+    return getSafely( scrollable.getHorizontalBar(), bar -> bar.getSize(), POINT_OF_ORIGIN );
   }
 
   public void setHorizontalBarVisible( boolean visible ) {
-    scrollable.getHorizontalBar().setVisible( visible );
+    setSafely( scrollable.getHorizontalBar(), bar -> bar.setVisible( visible ) );
+  }
+
+  public boolean getHorizontalBarVisible() {
+    return getSafely( scrollable.getHorizontalBar(), bar -> valueOf( bar.getVisible() ), FALSE ).booleanValue();
   }
 
   public int getHorizontalBarMaximum() {
-    return scrollable.getHorizontalBar().getMaximum();
+    return getSafely( scrollable.getHorizontalBar(), bar -> valueOf( bar.getMaximum() ), ZERO ).intValue();
+  }
+
+  private static void setSafely( ScrollBar scrollbar, Consumer<ScrollBar> consumer ) {
+    if( scrollbar != null ) {
+      consumer.accept( scrollbar );
+    }
+  }
+
+  private static <R> R getSafely( ScrollBar scrollbar, Function<ScrollBar,R> function, R defaultResult ) {
+    if( scrollbar == null ) {
+      return defaultResult;
+    }
+    return function.apply( scrollbar );
   }
 }

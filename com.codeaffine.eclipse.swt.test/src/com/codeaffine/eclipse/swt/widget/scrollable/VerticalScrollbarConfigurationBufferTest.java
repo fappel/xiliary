@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.ShellHelper;
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 public class VerticalScrollbarConfigurationBufferTest {
 
@@ -99,6 +100,6 @@ public class VerticalScrollbarConfigurationBufferTest {
   }
 
   private static VerticalScrollbarConfigurationBuffer createBuffer( Composite scrollable ) {
-    return new VerticalScrollbarConfigurationBuffer( scrollable );
+    return new VerticalScrollbarConfigurationBuffer( new ScrollableControl<>( scrollable ) );
   }
 }

@@ -1,52 +1,39 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Scrollable;
+
+import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 class VerticalScrollbarConfigurationBuffer {
 
   private static final int INITIALIZATION_TRIGGER = -1;
 
-  private final Scrollable scrollable;
+  private final ScrollableControl<? extends Scrollable> scrollable;
 
+  private int pageIncrement;
+  private int selection;
   private int increment;
   private int maximum;
-  private int pageIncrement;
   private int thumb;
-  private int selection;
 
-  VerticalScrollbarConfigurationBuffer( Scrollable scrollable ) {
+  VerticalScrollbarConfigurationBuffer( ScrollableControl<? extends Scrollable> scrollable ) {
     this.scrollable = scrollable;
-    maximum = INITIALIZATION_TRIGGER;
-
-  }
-
-  boolean hasChanged() {
-    if( hasVerticalBar() ) {
-      return    increment != getVerticalBar().getIncrement()
-             || maximum != getVerticalBar().getMaximum()
-             || pageIncrement != getVerticalBar().getPageIncrement()
-             || thumb != getVerticalBar().getThumb()
-             || selection != getVerticalBar().getSelection();
-    }
-    return true;
+    this.maximum = INITIALIZATION_TRIGGER;
   }
 
   void update() {
-    if( hasVerticalBar() ) {
-      increment = getVerticalBar().getIncrement();
-      maximum = getVerticalBar().getMaximum();
-      pageIncrement = getVerticalBar().getPageIncrement();
-      thumb = getVerticalBar().getThumb();
-      selection = getVerticalBar().getSelection();
-    }
+    increment = scrollable.getVerticalBarIncrement();
+    maximum = scrollable.getVerticalBarMaximum();
+    pageIncrement = scrollable.getVerticalBarPageIncrement();
+    thumb = scrollable.getVerticalBarThumb();
+    selection = scrollable.getVerticalBarSelection();
   }
 
-  private boolean hasVerticalBar() {
-    return getVerticalBar() != null;
-  }
-
-  private ScrollBar getVerticalBar() {
-    return scrollable.getVerticalBar();
+  boolean hasChanged() {
+    return    increment != scrollable.getVerticalBarIncrement()
+           || maximum != scrollable.getVerticalBarMaximum()
+           || pageIncrement != scrollable.getVerticalBarPageIncrement()
+           || thumb != scrollable.getVerticalBarThumb()
+           || selection != scrollable.getVerticalBarSelection();
   }
 }

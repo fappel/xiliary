@@ -57,9 +57,9 @@ public class ScrollableControlTest {
   public void getItemHeightOfUnsupportedType() {
     ScrollableControl<?> scrollableControl = createScrollableControl( Composite.class );
 
-    Throwable actual = thrownBy( () -> scrollableControl.getItemHeight() );
+    int actual = scrollableControl.getItemHeight();
 
-    assertThat( actual ).isInstanceOf( IllegalArgumentException.class );
+    assertThat( actual ).isZero();
   }
 
   @Test
@@ -348,9 +348,6 @@ public class ScrollableControlTest {
     assertThat( actual ).isZero();
   }
 
-  /////////////////////////////
-  // scrollbar properties tests
-
   @Test
   public void isVerticalBarVisible() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
@@ -358,6 +355,15 @@ public class ScrollableControlTest {
     boolean actual = new ScrollableControl<>( scrollable ).isVerticalBarVisible();
 
     assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void isVerticalBarVisibleIfVerticalBarIsNull() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.NO_SCROLL );
+
+    boolean actual = new ScrollableControl<>( scrollable ).isVerticalBarVisible();
+
+    assertThat( actual ).isFalse();
   }
 
   @Test
@@ -372,12 +378,141 @@ public class ScrollableControlTest {
   }
 
   @Test
+  public void getVerticalBarSizeIfVerticalBarIsNull() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.NO_SCROLL );
+
+    Point actual = new ScrollableControl<>( scrollable ).getVerticalBarSize();
+
+    assertThat( actual ).isEqualTo( ScrollableControl.POINT_OF_ORIGIN );
+  }
+
+  @Test
+  public void getVerticalBarSelection() {
+    Tree scrollable = ( Tree )createScrollableWithVisibleScrollbars();
+    ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
+    scrollable.setTopItem( scrollable.getItem( 2 ) );
+    int expected = scrollable.getVerticalBar().getSelection();
+
+    int actual = scrollableControl.getVerticalBarSelection();
+
+    assertThat( actual )
+      .isNotZero()
+      .isEqualTo( expected );
+  }
+
+  @Test
+  public void getVerticalBarSelectionIfVerticalBarIsNull() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.NO_SCROLL );
+
+    int actual = new ScrollableControl<>( scrollable ).getVerticalBarSelection();
+
+    assertThat( actual ).isZero();
+  }
+
+  @Test
+  public void getVerticalBarThumb() {
+    Scrollable scrollable = createScrollableWithVisibleScrollbars();
+    ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
+    int expected = scrollable.getVerticalBar().getThumb();
+
+    int actual = scrollableControl.getVerticalBarThumb();
+
+    assertThat( actual )
+      .isNotZero()
+      .isEqualTo( expected );
+  }
+
+  @Test
+  public void getVerticalBarThumbIfVerticalBarIsNull() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.NO_SCROLL );
+
+    int actual = new ScrollableControl<>( scrollable ).getVerticalBarThumb();
+
+    assertThat( actual ).isZero();
+  }
+
+  @Test
+  public void getVerticalBarPageIncrement() {
+    Scrollable scrollable = createScrollableWithVisibleScrollbars();
+    ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
+    int expected = scrollable.getVerticalBar().getPageIncrement();
+
+    int actual = scrollableControl.getVerticalBarPageIncrement();
+
+    assertThat( actual )
+      .isNotZero()
+      .isEqualTo( expected );
+  }
+
+  @Test
+  public void getVerticalBarPageIncrementIfVerticalBarIsNull() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.NO_SCROLL );
+
+    int actual = new ScrollableControl<>( scrollable ).getVerticalBarPageIncrement();
+
+    assertThat( actual ).isZero();
+  }
+
+  @Test
+  public void getVerticalBarMaximum() {
+    Scrollable scrollable = createScrollableWithVisibleScrollbars();
+    ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
+    int expected = scrollable.getVerticalBar().getMaximum();
+
+    int actual = scrollableControl.getVerticalBarMaximum();
+
+    assertThat( actual )
+      .isNotZero()
+      .isEqualTo( expected );
+  }
+
+  @Test
+  public void getVerticalBarMaximumIfVerticalBarIsNull() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.NO_SCROLL );
+
+    int actual = new ScrollableControl<>( scrollable ).getVerticalBarMaximum();
+
+    assertThat( actual ).isZero();
+  }
+
+  @Test
+  public void getVerticalBarIncrement() {
+    Scrollable scrollable = createScrollableWithVisibleScrollbars();
+    ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
+    int expected = scrollable.getVerticalBar().getIncrement();
+
+    int actual = scrollableControl.getVerticalBarIncrement();
+
+    assertThat( actual )
+    .isNotZero()
+    .isEqualTo( expected );
+  }
+
+  @Test
+  public void getVerticalBarIncrementIfVerticalBarIsNull() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.NO_SCROLL );
+
+    int actual = new ScrollableControl<>( scrollable ).getVerticalBarIncrement();
+
+    assertThat( actual ).isZero();
+  }
+
+  @Test
   public void isHorizontalBarVisible() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
 
     boolean actual = new ScrollableControl<>( scrollable ).isHorizontalBarVisible();
 
     assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void isHorizontalBarVisibleIfHorizontalBarIsNull() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.NO_SCROLL );
+
+    boolean actual = new ScrollableControl<>( scrollable ).isHorizontalBarVisible();
+
+    assertThat( actual ).isFalse();
   }
 
   @Test
@@ -394,7 +529,17 @@ public class ScrollableControlTest {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
 
     new ScrollableControl<>( scrollable ).setHorizontalBarVisible( false );
-    boolean actual = scrollable.getHorizontalBar().isVisible();
+    boolean actual = new ScrollableControl<>( scrollable ).getHorizontalBarVisible();
+
+    assertThat( actual ).isFalse();
+  }
+
+  @Test
+  public void setHorizontalBarVisibleIfHorizontalBarIsNull() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.NO_SCROLL );
+
+    new ScrollableControl<>( scrollable ).setHorizontalBarVisible( true );
+    boolean actual = new ScrollableControl<>( scrollable ).getHorizontalBarVisible();
 
     assertThat( actual ).isFalse();
   }
@@ -411,6 +556,15 @@ public class ScrollableControlTest {
   }
 
   @Test
+  public void getHorizontalBarSizeIfHorizontalBarIsNull() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.NO_SCROLL );
+
+    Point actual = new ScrollableControl<>( scrollable ).getHorizontalBarSize();
+
+    assertThat( actual ).isEqualTo( ScrollableControl.POINT_OF_ORIGIN );
+  }
+
+  @Test
   public void getHorizontalBarMaximum() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
     int expected = scrollable.getHorizontalBar().getMaximum();
@@ -418,6 +572,15 @@ public class ScrollableControlTest {
     int actual = new ScrollableControl<>( scrollable ).getHorizontalBarMaximum();
 
     assertThat( actual ).isEqualTo( expected );
+  }
+
+  @Test
+  public void getHorizontalBarMaximumIfHorizontalBarIsNull() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.NO_SCROLL );
+
+    int actual = new ScrollableControl<>( scrollable ).getHorizontalBarMaximum();
+
+    assertThat( actual ).isZero();
   }
 
   private Scrollable createScrollableWithVisibleScrollbars() {
