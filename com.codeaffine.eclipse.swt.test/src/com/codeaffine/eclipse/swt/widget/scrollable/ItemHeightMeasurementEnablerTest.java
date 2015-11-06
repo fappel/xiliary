@@ -79,6 +79,7 @@ public class ItemHeightMeasurementEnablerTest {
     adapterFactory.create( table, TableAdapter.class );
 
     configureTableItemHeightAdjuster();
+    new ReadAndDispatch().spinLoop( shell, 100 );
     flushPendingEvents();
 
     assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 2 );
