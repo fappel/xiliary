@@ -1,11 +1,13 @@
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
@@ -14,7 +16,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper;
 
 public class BoundsReconciliationTest {
 
@@ -28,7 +29,7 @@ public class BoundsReconciliationTest {
   @Before
   public void setUp() {
     adapter = createShell( displayHelper );
-    scrollable = TreeHelper.createTree( adapter, 1, 1 );
+    scrollable = createTree( adapter, 1, 1 );
     reconciliation = new BoundsReconciliation( adapter, new ScrollableControl<>( scrollable ) );
   }
 
@@ -93,6 +94,44 @@ public class BoundsReconciliationTest {
     reconciliation.run();
     scrollable.setBounds( expected );
 
+    reconciliation.run();
+
+    assertThat( adapter.getBounds() ).isEqualTo( expected );
+  }
+
+  @Test
+  public void runWithInitialBorderOffsetOnOwnerDrawnScrollableWithBorder() {
+    scrollable.dispose();
+    scrollable = createTree( adapter, 1, 1, SWT.BORDER );
+    scrollable.addListener( SWT.MeasureItem, evt -> {} );
+    reconciliation = new BoundsReconciliation( adapter, new ScrollableControl<>( scrollable ) );
+    Rectangle expected = adapter.getBounds();
+
+    scrollable.setBounds( -scrollable.getBorderWidth(), -scrollable.getBorderWidth(), 0, 0 );
+    reconciliation.run();
+
+    assertThat( adapter.getBounds() ).isEqualTo( expected );
+  }
+
+  @Test
+  public void runWithInitialBorderOffsetOnScrollableWithBorder() {
+    scrollable.dispose();
+    scrollable = createTree( adapter, 1, 1, SWT.BORDER );
+    reconciliation = new BoundsReconciliation( adapter, new ScrollableControl<>( scrollable ) );
+    Rectangle expected = new Rectangle( -scrollable.getBorderWidth(), -scrollable.getBorderWidth(), 0, 0 );
+
+    scrollable.setBounds( expected );
+    reconciliation.run();
+
+    assertThat( adapter.getBounds() ).isEqualTo( expected );
+  }
+
+  @Test
+  public void runWithoutInitialBorderOffsetOnOwnerDrawnScrollable() {
+    scrollable.addListener( SWT.MeasureItem, evt -> {} );
+    Rectangle expected = new Rectangle( -2, -2, 0, 0 );
+
+    scrollable.setBounds( expected );
     reconciliation.run();
 
     assertThat( adapter.getBounds() ).isEqualTo( expected );
