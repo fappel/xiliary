@@ -77,10 +77,10 @@ public class ItemHeightMeasurementEnablerTest {
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void registerTableItemHeightAdjuster() {
     adapterFactory.create( table, TableAdapter.class );
+    shell.open();
 
     configureTableItemHeightAdjuster();
     new ReadAndDispatch().spinLoop( shell, 100 );
-    flushPendingEvents();
 
     assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 2 );
     assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 2 );
