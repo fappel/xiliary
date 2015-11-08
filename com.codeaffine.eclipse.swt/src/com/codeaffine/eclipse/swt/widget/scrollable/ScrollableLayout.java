@@ -49,9 +49,9 @@ class ScrollableLayout extends Layout {
   }
 
   private void layout() {
+    scrollableLayouter.layout( context.newContext() );
     AdaptionContext<?> context = this.context.newContext();
-    scrollableLayouter.layout( context );
-    overlayLayouter.layout( this.context.newContext() );
+    overlayLayouter.layout( context );
     if( context.isHorizontalBarVisible() ) {
       horizontalBarConfigurer.configure( context );
     }
