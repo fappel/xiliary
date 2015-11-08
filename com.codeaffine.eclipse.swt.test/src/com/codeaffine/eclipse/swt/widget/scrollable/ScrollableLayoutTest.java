@@ -6,10 +6,9 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopB
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -17,6 +16,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.InOrder;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
@@ -29,7 +29,7 @@ public class ScrollableLayoutTest {
   public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ScrollBarConfigurer horizontalBarConfigurer;
-  private ScrollableLayouter treeLayouter;
+  private ScrollableLayouter scrollableLayouter;
   private OverlayLayouter overlayLayouter;
   private Reconciliation reconciliation;
   private AdaptionContext<Tree> context;
@@ -40,21 +40,24 @@ public class ScrollableLayoutTest {
   public void setUp() {
     overlayLayouter = mock( OverlayLayouter.class );
     horizontalBarConfigurer = mock( ScrollBarConfigurer.class );
-    treeLayouter = mock( ScrollableLayouter.class );
+    scrollableLayouter = mock( ScrollableLayouter.class );
     tree = createTree( createShell( displayHelper ), 6, 4 );
     context = new AdaptionContext<>( tree.getParent(), new ScrollableControl<>( tree ) );
     reconciliation = ReconciliationHelper.stubReconciliation();
-    layout = new ScrollableLayout( context, overlayLayouter, treeLayouter, horizontalBarConfigurer, reconciliation );
+    layout = new ScrollableLayout(
+      context, overlayLayouter, scrollableLayouter, horizontalBarConfigurer, reconciliation
+    );
   }
 
   @Test
   public void layout() {
      layout.layout( null, true );
 
-     verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
-     verify( overlayLayouter ).layout( any( AdaptionContext.class ) );
-     verify( treeLayouter ).layout( any( AdaptionContext.class ) );
-     verifyNoMoreInteractions( overlayLayouter, horizontalBarConfigurer, treeLayouter );
+     InOrder order = order();
+     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
+     order.verify( scrollableLayouter ).layout( any( AdaptionContext.class ) );
+     order.verify( overlayLayouter ).layout( any( AdaptionContext.class ) );
+     order.verifyNoMoreInteractions();
   }
 
   @Test
@@ -64,11 +67,12 @@ public class ScrollableLayoutTest {
 
     layout.layout( null, true );
 
-    verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
-    verify( overlayLayouter ).layout( any( AdaptionContext.class ) );
-    verify( treeLayouter ).layout( any( AdaptionContext.class ) );
-    verify( horizontalBarConfigurer ).configure( any( AdaptionContext.class ) );
-    verifyNoMoreInteractions( overlayLayouter, horizontalBarConfigurer, treeLayouter );
+    InOrder order = order();
+    order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
+    order.verify( scrollableLayouter ).layout( any( AdaptionContext.class ) );
+    order.verify( overlayLayouter ).layout( any( AdaptionContext.class ) );
+    order.verify( horizontalBarConfigurer ).configure( any( AdaptionContext.class ) );
+    order.verifyNoMoreInteractions();
   }
 
   @Test
@@ -79,11 +83,12 @@ public class ScrollableLayoutTest {
 
     layout.layout( null, true );
 
-    verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
-    verify( overlayLayouter, never() ).layout( any( AdaptionContext.class ) );
-    verify( treeLayouter, never() ).layout( any( AdaptionContext.class ) );
-    verify( horizontalBarConfigurer, never() ).configure( any( AdaptionContext.class ) );
-    verifyNoMoreInteractions( overlayLayouter, horizontalBarConfigurer, treeLayouter );
+    InOrder order = order();
+    order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
+    order.verify( overlayLayouter, never() ).layout( any( AdaptionContext.class ) );
+    order.verify( scrollableLayouter, never() ).layout( any( AdaptionContext.class ) );
+    order.verify( horizontalBarConfigurer, never() ).configure( any( AdaptionContext.class ) );
+    order.verifyNoMoreInteractions();
   }
 
   @Test
@@ -91,5 +96,9 @@ public class ScrollableLayoutTest {
     Point actual = layout.computeSize( null, SWT.DEFAULT, SWT.DEFAULT, true );
 
     assertThat( actual ).isEqualTo( tree.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ) );
+  }
+
+  private InOrder order() {
+    return inOrder( reconciliation, overlayLayouter, scrollableLayouter, horizontalBarConfigurer );
   }
 }

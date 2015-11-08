@@ -16,10 +16,12 @@ import java.util.Random;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.part.PageBook;
 import org.junit.Before;
@@ -97,11 +99,28 @@ public class ScrollableAdapterFactoryDemo {
   }
 
   @Test
-  public void tableDemoWithPackedShell() {
+  public void tableDemoWithPackedPopupShell() {
     shell.open();
-    createTableInSingleCellGridLayout( shell, table -> adapt( table, TableAdapter.class ) );
-    shell.pack();
-    shell.open();
+    Shell popup = new Shell( shell, SWT.NO_TRIM );
+    popup.setLocation( shell.getLocation() );
+    Table table = createTableInSingleCellGridLayout( popup, tbl -> adapt( tbl, TableAdapter.class ) );
+    popup.pack();
+    popup.open();
+    spinLoop( 1000 );
+
+    table.getItem( 1 ).dispose();
+    GridData data = new GridData( GridData.FILL_BOTH );
+    data.widthHint = table.getSize().x;
+    data.heightHint = table.getItemHeight();
+    table.setLayoutData( data );
+    popup.pack();
+    spinLoop( 1000 );
+
+    TableItem tableItem = new TableItem( table, SWT.NONE );
+    tableItem.setText( "replaced" );
+    data.heightHint = table.getItemHeight() * 2;
+    table.setLayoutData( data );
+    popup.pack();
     spinLoop();
   }
 
@@ -116,7 +135,15 @@ public class ScrollableAdapterFactoryDemo {
   }
 
   private void spinLoop() {
-    new ReadAndDispatch( ERROR_BOX_HANDLER ).spinLoop( shell );
+    newReadAndDispatch().spinLoop( shell );
+  }
+
+  private void spinLoop( long duration ) {
+    newReadAndDispatch().spinLoop( shell, duration );
+  }
+
+  private static ReadAndDispatch newReadAndDispatch() {
+    return new ReadAndDispatch( ERROR_BOX_HANDLER );
   }
 
   private void scheduleRandomPageSelection( PageBook pageBook, Control page1, Control page2 ) {
