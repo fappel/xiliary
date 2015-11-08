@@ -2,9 +2,9 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Eclipse SWT Auxiliaries Tests
 Bundle-SymbolicName: com.codeaffine.eclipse.swt.test;singleton:=true
-Bundle-Version: 0.1.0.qualifier
+Bundle-Version: 0.1.1.qualifier
 Bundle-Vendor: CODE AFFINE
-Fragment-Host: com.codeaffine.eclipse.swt;bundle-version="0.1.0"
+Fragment-Host: com.codeaffine.eclipse.swt;bundle-version="0.1.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.codeaffine.eclipse.swt.util;version="0.1.0",
  com.codeaffine.osgi.testuite;version="[1.0.0,2.0.0)",
