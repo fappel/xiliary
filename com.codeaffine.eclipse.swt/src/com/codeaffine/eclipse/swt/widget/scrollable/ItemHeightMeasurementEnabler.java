@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
+import com.codeaffine.eclipse.swt.util.ControlReflectionUtil;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 class ItemHeightMeasurementEnabler {
@@ -56,6 +57,7 @@ class ItemHeightMeasurementEnabler {
   private void restoreScrollableAfterMeasurement() {
     if( onMeasurement ) {
       reparentScrollable( true, adapter );
+      reAdjustParentReferenceOfScrollableAfterMeasurement();
       onMeasurement = false;
       adapter.getParent().layout();
     }
@@ -64,6 +66,12 @@ class ItemHeightMeasurementEnabler {
   private void reparentScrollable( boolean redraw, Composite parent ) {
     scrollable.setRedraw( redraw );
     scrollable.setParent( parent );
+  }
+
+  private void reAdjustParentReferenceOfScrollableAfterMeasurement() {
+    if( height == intermediateHeightBuffer ) {
+      new ControlReflectionUtil().setField( scrollable.getControl(), "parent", adapter.getParent() );
+    }
   }
 
   private boolean needPreparations( Event event ) {

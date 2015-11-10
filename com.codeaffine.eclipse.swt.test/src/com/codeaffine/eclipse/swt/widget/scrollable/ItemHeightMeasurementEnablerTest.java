@@ -84,6 +84,7 @@ public class ItemHeightMeasurementEnablerTest {
 
     assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 2 );
     assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 2 );
+    assertThat( table.getParent() ).isSameAs( shell );
   }
 
   @Test
@@ -112,6 +113,7 @@ public class ItemHeightMeasurementEnablerTest {
     assertThat( table.getItemHeight() ).isEqualTo( expectedHeight );
     assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 2 );
     assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 2 );
+    assertThat( table.getParent() ).isSameAs( shell );
   }
 
   private int configureTableItemHeightAdjuster() {

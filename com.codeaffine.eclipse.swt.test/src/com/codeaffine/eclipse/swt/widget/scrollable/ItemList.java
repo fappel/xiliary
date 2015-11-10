@@ -16,7 +16,7 @@ class ItemList {
   void fetchPage() {
     int startIndex = items.size();
     for( int i = startIndex; i < startIndex + FETCH_COUNT; i++ ) {
-      items.add(  "Item " + i );
+      items.add(  "Item " + i + " with very important description.");
     }
   }
 
