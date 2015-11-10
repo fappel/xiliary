@@ -1,1 +1,1 @@
-Placeholder for development branch repository deployment.
+A placeholder for development branch repository deployment.
