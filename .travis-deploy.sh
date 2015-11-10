@@ -19,18 +19,19 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   git clone --quiet --branch=gh-pages https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git . > /dev/null 2>&1 || error_exit "Error cloning gh-pages"
 
 
-  # clean the repository directory, then copy the build result into it
+  # clean the repository directory, then copy the build result into it (if master branch)
   if [ "$TRAVIS_BRANCH" == "master" ]; then
     git rm -rf ./*
     cp -rf ../com.codeaffine.xiliary.releng/repository/target/repository/* ./
   fi
   
+  # clean the development repository directory, then copy the build result into it (if development branch)
   if [ "$TRAVIS_BRANCH" == "development" ]; then
     if [ ! -d development ]; then
       mkdir development
     fi
     cd development
-    git rm -rf ./*
+    rm -rf ./*
     cp -rf ../../com.codeaffine.xiliary.releng/repository/target/repository/* ./  
   fi
   
