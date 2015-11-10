@@ -66,6 +66,16 @@ public class ScrollableAdapterFactoryDemo {
   }
 
   @Test
+  public void treeDemoWithoutHorizontalBar() {
+    Tree tree = new TestTreeFactory( SWT.NO_SCROLL | SWT.V_SCROLL ).create( shell );
+    adapt( tree, TreeAdapter.class );
+    shell.open();
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
+    spinLoop();
+  }
+
+  @Test
   public void treeDemoWithPageBook() {
     PageBook pageBook = new PageBook( shell, SWT.NONE );
     pageBook.setBackground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLUE ) );

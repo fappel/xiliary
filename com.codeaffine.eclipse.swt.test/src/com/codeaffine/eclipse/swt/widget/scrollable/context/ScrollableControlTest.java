@@ -598,6 +598,25 @@ public class ScrollableControlTest {
     assertThat( actual ).isZero();
   }
 
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void hasHorizontalBar() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.H_SCROLL );
+
+    boolean actual = new ScrollableControl<>( scrollable ).hasHorizontalBar();
+
+    assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void hasHorizontalBarIfHorizontalbarIsNull() {
+    Scrollable scrollable = new Tree( displayHelper.createShell(), SWT.NO_SCROLL );
+
+    boolean actual = new ScrollableControl<>( scrollable ).hasHorizontalBar();
+
+    assertThat( actual ).isFalse();
+  }
+
   private Scrollable createScrollableWithVisibleScrollbars() {
     Shell shell = createShell( displayHelper );
     Tree result = createTree( shell, 6, 4 );

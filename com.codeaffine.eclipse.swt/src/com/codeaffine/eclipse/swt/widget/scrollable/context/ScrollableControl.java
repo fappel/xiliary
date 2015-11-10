@@ -196,16 +196,24 @@ public class ScrollableControl <T extends Scrollable> {
     return getSafely( scrollable.getHorizontalBar(), bar -> valueOf( bar.getMaximum() ), ZERO ).intValue();
   }
 
+  public boolean hasHorizontalBar() {
+    return exists( scrollable.getHorizontalBar() );
+  }
+
   private static void setSafely( ScrollBar scrollbar, Consumer<ScrollBar> consumer ) {
-    if( scrollbar != null ) {
+    if( exists( scrollbar ) ) {
       consumer.accept( scrollbar );
     }
   }
 
   private static <R> R getSafely( ScrollBar scrollbar, Function<ScrollBar,R> function, R defaultResult ) {
-    if( scrollbar == null ) {
+    if( !exists( scrollbar ) ) {
       return defaultResult;
     }
     return function.apply( scrollbar );
+  }
+
+  private static boolean exists( ScrollBar scrollbar ) {
+    return scrollbar != null;
   }
 }

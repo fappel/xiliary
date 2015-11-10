@@ -19,8 +19,9 @@ class ScrollbarVisibility {
                        Rectangle clientArea,
                        int itemHeight )
   {
-    horizontalBarVisible =    isWin32() && scrollable.isHorizontalBarVisible()
-                           || computeHorizontalBarVisible( sizeComputer, clientArea );
+    horizontalBarVisible =    scrollable.hasHorizontalBar()
+                           && (    isWin32() && scrollable.isHorizontalBarVisible()
+                                || computeHorizontalBarVisible( sizeComputer, clientArea ) );
     verticalBarVisible =    isWin32() && scrollable.isVerticalBarVisible()
                          || !isWin32() && computeVerticalBarVisible( sizeComputer, clientArea, itemHeight );
   }
