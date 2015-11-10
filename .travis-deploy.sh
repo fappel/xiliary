@@ -25,6 +25,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   fi
 
   if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "development" ]; then
+    mkdir development
     cd development
     git rm -rf ./*
     cp -rf ../../com.codeaffine.xiliary.releng/repository/target/repository/* ./
