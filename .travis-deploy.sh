@@ -6,7 +6,7 @@ function error_exit
   exit 1
 }
 
-if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "development" ]); then
   echo -e "Starting to deploy to gh-pages\n"
 
   # create and cd into temporary deployment work directory
@@ -19,8 +19,15 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; th
   git clone --quiet --branch=gh-pages https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git . > /dev/null 2>&1 || error_exit "Error cloning gh-pages"
 
   # clean the repository directory, then copy the build result into it
-  git rm -rf ./*
-  cp -rf ../com.codeaffine.xiliary.releng/repository/target/repository/* ./
+  if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "master" ]; then
+    git rm -rf ./*
+    cp -rf ../com.codeaffine.xiliary.releng/repository/target/repository/* ./
+  fi
+
+  if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "development" ]; then
+    git rm -rf ./development/*
+    cp -rf ../com.codeaffine.xiliary.releng/repository/target/repository/* ./development
+  fi
   
   # add, commit and push files
   git add -f .
