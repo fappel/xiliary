@@ -26,7 +26,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
 
   if [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "$TRAVIS_BRANCH" == "development" ]; then
     git rm -rf ./development/*
-    cp -rf ../com.codeaffine.xiliary.releng/repository/target/repository/* ./development
+    cp -rf ../com.codeaffine.xiliary.releng/repository/target/repository/* ./development/
   fi
   
   # add, commit and push files
