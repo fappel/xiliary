@@ -28,11 +28,9 @@
       <category name="com.codeaffine.xiliary.all"/>
       <category name="com.codeaffine.xiliary.workflow"/>
    </feature>
-   <feature url="features/com.codeaffine.eclipse.ui.swt.theme.feature_0.1.1.qualifier.jar" id="com.codeaffine.eclipse.ui.swt.theme.feature" version="0.1.1.qualifier">
-      <category name="com.codeaffine.xiliary.all"/>
-   </feature>
    <feature url="features/com.codeaffine.eclipse.ui.swt.theme.feature_0.1.2.qualifier.jar" id="com.codeaffine.eclipse.ui.swt.theme.feature" version="0.1.2.qualifier">
       <category name="com.codeaffine.xiliary.e4.theme"/>
+      <category name="com.codeaffine.xiliary.all"/>
    </feature>
    <feature url="features/com.codeaffine.eclipse.swt.feature_0.1.2.qualifier.jar" id="com.codeaffine.eclipse.swt.feature" version="0.1.2.qualifier">
       <category name="com.codeaffine.xiliary.all"/>
