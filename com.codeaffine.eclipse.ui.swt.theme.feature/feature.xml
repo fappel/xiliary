@@ -3,7 +3,8 @@
       id="com.codeaffine.eclipse.ui.swt.theme.feature"
       label="Code Affine Theme"
       version="0.1.1.qualifier"
-      provider-name="CODE AFFINE">
+      provider-name="CODE AFFINE"
+      plugin="com.codeaffine.eclipse.ui.swt.theme">
 
    <description url="http://fappel.github.io/xiliary/">
       %description
