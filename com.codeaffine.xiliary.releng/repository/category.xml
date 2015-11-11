@@ -6,9 +6,6 @@
    <feature url="../features/com.codeaffine.eclipse.core.runtime.test.util.feature_0.1.0.qualifier.jar" id="com.codeaffine.eclipse.core.runtime.test.util.feature" version="0.1.0.qualifier">
       <category name="com.codeaffine.xiliary.all"/>
    </feature>
-   <feature url="features/com.codeaffine.eclipse.swt.feature_0.1.1.qualifier.jar" id="com.codeaffine.eclipse.swt.feature" version="0.1.1.qualifier">
-      <category name="com.codeaffine.xiliary.all"/>
-   </feature>
    <feature url="features/com.codeaffine.eclipse.swt.test.util.feature_0.1.0.qualifier.jar" id="com.codeaffine.eclipse.swt.test.util.feature" version="0.1.0.qualifier">
       <category name="com.codeaffine.xiliary.all"/>
    </feature>
@@ -33,7 +30,12 @@
    </feature>
    <feature url="features/com.codeaffine.eclipse.ui.swt.theme.feature_0.1.1.qualifier.jar" id="com.codeaffine.eclipse.ui.swt.theme.feature" version="0.1.1.qualifier">
       <category name="com.codeaffine.xiliary.all"/>
+   </feature>
+   <feature url="features/com.codeaffine.eclipse.ui.swt.theme.feature_0.1.2.qualifier.jar" id="com.codeaffine.eclipse.ui.swt.theme.feature" version="0.1.2.qualifier">
       <category name="com.codeaffine.xiliary.e4.theme"/>
+   </feature>
+   <feature url="features/com.codeaffine.eclipse.swt.feature_0.1.2.qualifier.jar" id="com.codeaffine.eclipse.swt.feature" version="0.1.2.qualifier">
+      <category name="com.codeaffine.xiliary.all"/>
    </feature>
    <category-def name="com.codeaffine.xiliary.all" label="All Xiliary Features">
       <description>
