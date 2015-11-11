@@ -14,6 +14,12 @@ import org.eclipse.swt.widgets.Widget;
 
 public class ControlReflectionUtil {
 
+  public static final String SCROLL_BAR = "scrollBar";
+  public static final String PARENT = "parent";
+  public static final String DISPLAY = "display";
+  public static final String CREATE_WIDGET = "createWidget";
+  public static final String STYLE = "style";
+
   private final Unsafe unsafe;
 
   public static class Parameter<T> {

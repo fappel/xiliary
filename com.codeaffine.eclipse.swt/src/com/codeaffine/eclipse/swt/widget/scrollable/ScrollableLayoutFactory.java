@@ -1,6 +1,9 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 
+import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.DISPLAY;
+import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.SCROLL_BAR;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.SelectionListener;
@@ -144,8 +147,8 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
   private ScrollBar createFlatScrollBarAdapter( FlatScrollBar scrollBar ) {
     Class<? extends Widget> adapterClass = reflectionUtil.defineWidgetClass( SCROLL_BAR_ADAPTER_CLASS );
     Widget widget = reflectionUtil.newInstance( adapterClass );
-    reflectionUtil.setField( widget, "display", Display.getCurrent() );
-    reflectionUtil.setField( widget, "scrollBar", scrollBar );
+    reflectionUtil.setField( widget, DISPLAY, Display.getCurrent() );
+    reflectionUtil.setField( widget, SCROLL_BAR, scrollBar );
     return ( ScrollBar )widget;
   }
 }

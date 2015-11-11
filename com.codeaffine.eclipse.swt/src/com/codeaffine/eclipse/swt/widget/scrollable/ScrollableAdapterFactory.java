@@ -1,6 +1,10 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.$;
+import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.CREATE_WIDGET;
+import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.DISPLAY;
+import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.PARENT;
+import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.STYLE;
 import static com.codeaffine.eclipse.swt.util.Platform.PlatformType.WIN32;
 import static java.lang.Integer.valueOf;
 import static java.lang.String.format;
@@ -52,7 +56,7 @@ public class ScrollableAdapterFactory {
     if( platformSupport.isGranted() ) {
       parent.layout();
       result.setBackground( scrollable.getBackground() );
-      reflectionUtil.setField( scrollable, "parent", parent );
+      reflectionUtil.setField( scrollable, ControlReflectionUtil.PARENT, parent );
     }
     return result;
   }
@@ -97,10 +101,10 @@ public class ScrollableAdapterFactory {
     int style = SWT.BORDER & scrollable.getStyle();
     A result = reflectionUtil.newInstance( type );
     if( platformSupport.isGranted() ) {
-      reflectionUtil.setField( result, "display", Display.getCurrent() );
-      reflectionUtil.setField( result, "parent", scrollable.getParent() );
-      reflectionUtil.setField( result, "style", Integer.valueOf( style ) );
-      reflectionUtil.invoke( result, "createWidget", $( valueOf( 0 ), int.class ) );
+      reflectionUtil.setField( result, DISPLAY, Display.getCurrent() );
+      reflectionUtil.setField( result, PARENT, scrollable.getParent() );
+      reflectionUtil.setField( result, STYLE, Integer.valueOf( style ) );
+      reflectionUtil.invoke( result, CREATE_WIDGET, $( valueOf( 0 ), int.class ) );
     }
     return result;
   }

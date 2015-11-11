@@ -1,5 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.PARENT;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
@@ -70,7 +72,7 @@ class ItemHeightMeasurementEnabler {
 
   private void reAdjustParentReferenceOfScrollableAfterMeasurement() {
     if( height == intermediateHeightBuffer ) {
-      new ControlReflectionUtil().setField( scrollable.getControl(), "parent", adapter.getParent() );
+      new ControlReflectionUtil().setField( scrollable.getControl(), PARENT, adapter.getParent() );
     }
   }
 

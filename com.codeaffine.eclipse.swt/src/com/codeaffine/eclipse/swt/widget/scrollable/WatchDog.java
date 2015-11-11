@@ -14,6 +14,7 @@ class WatchDog implements Runnable, DisposeListener {
   static final int DELAY = 10;
 
   private final VerticalScrollBarUpdater verticalBarUpdater;
+  private final NestingStructurePreserver nestingStructurePresever;
   private final Reconciliation reconciliation;
   private final Visibility vScrollVisibility;
   private final Visibility hScrollVisibility;
@@ -33,7 +34,8 @@ class WatchDog implements Runnable, DisposeListener {
           null,
           new LayoutTrigger( context.getAdapter() ),
           new TreeWidth( context ),
-          context.getReconciliation() );
+          context.getReconciliation(),
+          new NestingStructurePreserver( context ) );
   }
 
   WatchDog( AdaptionContext<?> context,
@@ -43,12 +45,14 @@ class WatchDog implements Runnable, DisposeListener {
             ActionScheduler actionScheduler,
             LayoutTrigger layoutTrigger,
             TreeWidth treeWidth,
-            Reconciliation reconciliation )
+            Reconciliation reconciliation,
+            NestingStructurePreserver nestingPresever )
   {
     this.context = context;
     this.verticalBarUpdater = verticalBarUpdater;
     this.hScrollVisibility = hScrollVisibility;
     this.vScrollVisibility = vScrollVisibility;
+    this.nestingStructurePresever = nestingPresever;
     this.scheduler = ensureScheduler( actionScheduler );
     this.reconciliation = reconciliation;
     this.layoutTrigger = layoutTrigger;
@@ -84,6 +88,7 @@ class WatchDog implements Runnable, DisposeListener {
     if( vScrollVisibility.isVisible() ) {
       verticalBarUpdater.update();
     }
+    nestingStructurePresever.run();
   }
 
   private boolean mustLayout() {
