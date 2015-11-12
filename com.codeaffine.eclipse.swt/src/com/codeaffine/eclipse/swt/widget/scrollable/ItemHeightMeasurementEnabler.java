@@ -34,7 +34,7 @@ class ItemHeightMeasurementEnabler {
       scrollable.addListener( SWT.MeasureItem, evt -> prepareScrollableToAllowProperHeightMeasurement( evt ) );
       scrollable.addListener( SWT.EraseItem, evt -> restoreScrollableAfterMeasurement() );
       scrollable.getDisplay().removeFilter( SWT.MeasureItem, this.ownerDrawInUseWatchDog );
-      scrollable.getDisplay().timerExec( 10, () -> { ensureRestore(); } );
+//      scrollable.getDisplay().timerExec( 10, () -> { ensureRestore(); } );
     }
   }
 
