@@ -46,7 +46,7 @@ public class ItemHeightMeasurementEnablerTest {
     ItemHeightMeasurementEnabler actual = new ItemHeightMeasurementEnabler( scrollableControl, shell );
 
     assertThat( actual.height ).isEqualTo( table.getItemHeight() );
-    assertThat( actual.intermediateHeightBuffer ).isZero();
+    assertThat( actual.intermediateHeightBuffer ).isEqualTo( ItemHeightMeasurementEnabler.UNSET );
     assertThat( actual.onMeasurement ).isFalse();
   }
 
@@ -59,7 +59,7 @@ public class ItemHeightMeasurementEnablerTest {
     ItemHeightMeasurementEnabler actual = new ItemHeightMeasurementEnabler( scrollableControl, shell );
 
     assertThat( actual.height ).isEqualTo( tree.getItemHeight() );
-    assertThat( actual.intermediateHeightBuffer ).isZero();
+    assertThat( actual.intermediateHeightBuffer ).isEqualTo( ItemHeightMeasurementEnabler.UNSET );
     assertThat( actual.onMeasurement ).isFalse();
   }
 

@@ -13,6 +13,8 @@ import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
 class ItemHeightMeasurementEnabler {
 
+  static final int UNSET = -1;
+
   private final Listener ownerDrawInUseWatchDog;
   private final ScrollableControl<?> scrollable;
   private final Composite adapter;
@@ -31,6 +33,7 @@ class ItemHeightMeasurementEnabler {
     this.ownerDrawInUseWatchDog = evt -> registerListenerOnMeasurementEvent( evt );
     this.prepare = evt -> prepareScrollableToAllowProperHeightMeasurement( evt );
     this.restore = evt -> restoreScrollableAfterMeasurement();
+    this.intermediateHeightBuffer = UNSET;
     registerMeasurementWatchDog( scrollable );
   }
 
@@ -58,8 +61,12 @@ class ItemHeightMeasurementEnabler {
   }
 
   private void shiftHeightStateBuffer( Event event ) {
-    height = intermediateHeightBuffer;
-    intermediateHeightBuffer = event.height;
+    if( event.height == intermediateHeightBuffer ) {
+      height = intermediateHeightBuffer;
+    }
+    if( intermediateHeightBuffer == UNSET ) {
+      intermediateHeightBuffer = event.height;
+    }
   }
 
   private void ensureRestore() {
