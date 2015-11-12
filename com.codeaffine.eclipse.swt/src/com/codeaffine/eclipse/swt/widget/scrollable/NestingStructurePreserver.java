@@ -30,6 +30,6 @@ class NestingStructurePreserver {
     if( asList( adapter.getParent().getChildren() ).contains( scrollable.getControl() ) ) {
       scrollable.setParent( adapter );
       controlReflectionUtil.setField( scrollable.getControl(), PARENT, adapter.getParent() );
-    };
+    }
   }
 }
