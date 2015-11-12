@@ -34,6 +34,7 @@ class ItemHeightMeasurementEnabler {
       scrollable.addListener( SWT.MeasureItem, evt -> prepareScrollableToAllowProperHeightMeasurement( evt ) );
       scrollable.addListener( SWT.EraseItem, evt -> restoreScrollableAfterMeasurement() );
       scrollable.getDisplay().removeFilter( SWT.MeasureItem, this.ownerDrawInUseWatchDog );
+      scrollable.getDisplay().timerExec( 10, () -> { ensureRestore(); } );
     }
   }
 
@@ -54,6 +55,11 @@ class ItemHeightMeasurementEnabler {
   private void shiftHeightStateBuffer( Event event ) {
     height = intermediateHeightBuffer;
     intermediateHeightBuffer = event.height;
+  }
+
+  private void ensureRestore() {
+    height = intermediateHeightBuffer;
+    restoreScrollableAfterMeasurement();
   }
 
   private void restoreScrollableAfterMeasurement() {
