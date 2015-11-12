@@ -44,6 +44,7 @@ import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapter;
+import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
 import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
@@ -171,6 +172,18 @@ public class ScrollableAdapterContributionPDETest {
     assertThat( getAdapterStyle().getBackgroundColor() ).isEqualTo( expectedColor( BACK_GROUND ) );
     assertThat( getAdapterStyle().getThumbColor() ).isEqualTo( expectedColor( THUMB ) );
     assertThat( getAdapterStyle().getPageIncrementColor() ).isEqualTo( expectedColor( PAGE_INC ) );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void applyCSSPropertyFlatScrollbarAfterColorSchemeIfMarkedAdapted() throws Exception {
+    Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
+    new ScrollableAdapterFactory().markAdapted( scrollable );
+
+    contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR_THUMB, THUMB, null, null );
+    contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR, TRUE, null, null );
+
+    assertThat( shell.getChildren()[ 0 ] ).isInstanceOf( typePair.scrollableType );
   }
 
   @Test

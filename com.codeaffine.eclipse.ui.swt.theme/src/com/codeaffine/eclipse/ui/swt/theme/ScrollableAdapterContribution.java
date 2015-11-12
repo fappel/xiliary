@@ -116,8 +116,9 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
   }
 
   private void applyColor( Object element, String styleElement, BiConsumer<ScrollbarStyle, Color> changer ) {
-    if( extractScrollable( element ).getData( styleElement ) != null ) {
-      changer.accept( getAdapter( extractScrollable( element ) ), getColor( element, styleElement ) );
+    Scrollable scrollable = extractScrollable( element );
+    if( scrollable.getData( styleElement ) != null && getAdapter( scrollable ) != null ) {
+      changer.accept( getAdapter( scrollable ), getColor( element, styleElement ) );
     }
   }
 
