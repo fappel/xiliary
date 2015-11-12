@@ -1,6 +1,5 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
-import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createTable;
 import static java.util.Arrays.asList;
@@ -75,53 +74,36 @@ public class ItemHeightMeasurementEnablerTest {
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
-  public void createTableAdapterWithOwnerDrawnItemRegistration() {
-    adapterFactory.create( table, TableAdapter.class );
-    shell.open();
-
-    configureOwnerDrawnItemHeightAdjustment();
-    new ReadAndDispatch().spinLoop( shell, 100 );
-
-    assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 2 );
-    assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 2 );
-    assertThat( table.getParent() ).isSameAs( shell );
-  }
-
-  @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
   public void createTableAdapterWithOwnerDrawnItemRegistrationOnIndependentWidget() {
     adapterFactory.create( table, TableAdapter.class );
     Table other = createTable( shell, 10 );
     adapterFactory.create( other, TableAdapter.class );
+    int expected = configureOwnerDrawnItemHeightAdjustment( table, table.getItemHeight() );
+    configureOwnerDrawnItemHeightAdjustment( other, 24 );
 
-    other.addListener( SWT.MeasureItem, evt -> {} );
-    flushPendingEvents();
+    new ReadAndDispatch().spinLoop( shell, 100 );
 
-    assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 0 );
-    assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 0 );
+    assertThat( table.getItemHeight() ).isEqualTo( expected );
   }
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void createTableAdapterWithOwnerDrawnItemRegistrationAndEraseEventSwallowed() {
     adapterFactory.create( table, TableAdapter.class );
-    int configured = configureOwnerDrawnItemHeightAdjustment();
+    int configured = configureOwnerDrawnItemHeightAdjustment( table, 24 );
     displayHelper.getDisplay().addFilter( SWT.EraseItem, event -> event.type = SWT.NONE );
     shell.open();
 
     new ReadAndDispatch().spinLoop( shell, 100 );
 
     assertThat( table.getItemHeight() ).isNotEqualTo( configured );
-    assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 2 );
-    assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 2 );
-    assertThat( table.getParent() ).isSameAs( shell );
   }
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void createTableAdapterWithOwnerDrawnItemRegistrationAndEraseEventSwallowedAfterMeasurmentTookPlace() {
     adapterFactory.create( table, TableAdapter.class );
-    int expected = configureOwnerDrawnItemHeightAdjustment();
+    int expected = configureOwnerDrawnItemHeightAdjustment( table, 24 );
     table.addListener( SWT.EraseItem, evt -> {
       displayHelper.getDisplay().addFilter( SWT.EraseItem, event -> event.type = SWT.NONE );
     } );
@@ -139,23 +121,31 @@ public class ItemHeightMeasurementEnablerTest {
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeItemHeightByOwnerDrawnItemEvents() {
     adapterFactory.create( table, TableAdapter.class );
-    int expectedHeight = configureOwnerDrawnItemHeightAdjustment();
+    int expectedHeight = configureOwnerDrawnItemHeightAdjustment( table, 24 );
     shell.open();
 
     new ReadAndDispatch().spinLoop( shell, 100 );
 
     assertThat( table.getItemHeight() ).isEqualTo( expectedHeight );
-    assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 2 );
-    assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 2 );
-    assertThat( table.getParent() ).isSameAs( shell );
   }
 
-  private int configureOwnerDrawnItemHeightAdjustment() {
-    int result = 24;
-    table.addListener( SWT.MeasureItem, evt -> evt.height = result );
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void changeItemHeightByOwnerDrawnItemEventsToEqualValue() {
+    adapterFactory.create( table, TableAdapter.class );
+    int expectedHeight = configureOwnerDrawnItemHeightAdjustment( table, table.getItemHeight() );
+    shell.open();
+
+    new ReadAndDispatch().spinLoop( shell, 100 );
+
+    assertThat( table.getItemHeight() ).isEqualTo( expectedHeight );
+  }
+
+  private static int configureOwnerDrawnItemHeightAdjustment( Table table, int requestedItemHeight ) {
+    table.addListener( SWT.MeasureItem, evt -> evt.height = requestedItemHeight );
     table.addListener( SWT.EraseItem, evt -> {} );
     table.addListener( SWT.PaintItem, evt -> {} );
-    return result;
+    return requestedItemHeight;
   }
 
   private static List<Listener> getListeners( Table table, int eventType ) {

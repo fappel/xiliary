@@ -16,6 +16,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -125,6 +126,19 @@ public class ScrollableControlTest {
     boolean actual = scrollable.getListeners( SWT.MeasureItem ).length > 0;
 
     assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void removeListener() {
+    Tree scrollable = createScrollable( Tree.class );
+    ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
+    Listener listener = evt -> {};
+
+    scrollableControl.addListener( SWT.MeasureItem, listener );
+    scrollableControl.removeListener( SWT.MeasureItem, listener );
+    boolean actual = scrollable.getListeners( SWT.MeasureItem ).length > 0;
+
+    assertThat( actual ).isFalse();
   }
 
   @Test

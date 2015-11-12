@@ -54,6 +54,10 @@ public class ScrollableControl <T extends Scrollable> {
     scrollable.addListener( eventType, listener );
   }
 
+  public void removeListener( int eventType, Listener listener ) {
+    scrollable.removeListener( eventType, listener );
+  }
+
   public Display getDisplay() {
     return scrollable.getDisplay();
   }

@@ -16,6 +16,8 @@ class ItemHeightMeasurementEnabler {
   private final Listener ownerDrawInUseWatchDog;
   private final ScrollableControl<?> scrollable;
   private final Composite adapter;
+  private final Listener prepare;
+  private final Listener restore;
 
   int intermediateHeightBuffer;
   boolean skipEnsureRestore;
@@ -27,13 +29,15 @@ class ItemHeightMeasurementEnabler {
     this.adapter = adapter;
     this.height = scrollable.getItemHeight();
     this.ownerDrawInUseWatchDog = evt -> registerListenerOnMeasurementEvent( evt );
+    this.prepare = evt -> prepareScrollableToAllowProperHeightMeasurement( evt );
+    this.restore = evt -> restoreScrollableAfterMeasurement();
     registerMeasurementWatchDog( scrollable );
   }
 
   private void registerListenerOnMeasurementEvent( Event event ) {
     if( scrollable.isSameAs( event.widget ) && scrollable.isOwnerDrawn() ) {
-      scrollable.addListener( SWT.MeasureItem, evt -> prepareScrollableToAllowProperHeightMeasurement( evt ) );
-      scrollable.addListener( SWT.EraseItem, evt -> restoreScrollableAfterMeasurement() );
+      scrollable.addListener( SWT.MeasureItem, prepare );
+      scrollable.addListener( SWT.EraseItem, restore );
       scrollable.getDisplay().removeFilter( SWT.MeasureItem, this.ownerDrawInUseWatchDog );
       scrollable.getDisplay().timerExec( 50, () -> { ensureRestore(); } );
     }
@@ -59,7 +63,7 @@ class ItemHeightMeasurementEnabler {
   }
 
   private void ensureRestore() {
-    if( !skipEnsureRestore ) {
+    if( onMeasurement && !skipEnsureRestore ) {
       height = intermediateHeightBuffer;
       restoreScrollableAfterMeasurement();
     }
@@ -83,6 +87,8 @@ class ItemHeightMeasurementEnabler {
   private void reAdjustParentReferenceOfScrollableAfterMeasurement() {
     if( height == intermediateHeightBuffer ) {
       new ControlReflectionUtil().setField( scrollable.getControl(), PARENT, adapter.getParent() );
+      scrollable.removeListener( SWT.MeasureItem, prepare );
+      scrollable.removeListener( SWT.EraseItem, restore );
     }
   }
 
