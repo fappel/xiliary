@@ -5,15 +5,10 @@ import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createTable;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -110,19 +105,33 @@ public class ItemHeightMeasurementEnablerTest {
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void createTableAdapterWithOwnerDrawnItemRegistrationAndEraseEventSwallowed() {
     adapterFactory.create( table, TableAdapter.class );
-    int configuredHeight = configureOwnerDrawnItemHeightAdjustment();
-    displayHelper.getDisplay().addFilter( SWT.EraseItem, evt -> evt.type = SWT.NONE );
+    int configured = configureOwnerDrawnItemHeightAdjustment();
+    displayHelper.getDisplay().addFilter( SWT.EraseItem, event -> event.type = SWT.NONE );
     shell.open();
-    PaintListener paintListener = mock( PaintListener.class);
-    table.addPaintListener( paintListener );
 
     new ReadAndDispatch().spinLoop( shell, 100 );
-    table.redraw();
 
-    verify( paintListener ).paintControl( any( PaintEvent.class ) );
-    assertThat( table.getItemHeight() ).isNotEqualTo( configuredHeight );
+    assertThat( table.getItemHeight() ).isNotEqualTo( configured );
     assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 2 );
     assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 2 );
+    assertThat( table.getParent() ).isSameAs( shell );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void createTableAdapterWithOwnerDrawnItemRegistrationAndEraseEventSwallowedAfterMeasurmentTookPlace() {
+    adapterFactory.create( table, TableAdapter.class );
+    int expected = configureOwnerDrawnItemHeightAdjustment();
+    table.addListener( SWT.EraseItem, evt -> {
+      displayHelper.getDisplay().addFilter( SWT.EraseItem, event -> event.type = SWT.NONE );
+    } );
+    shell.open();
+
+    new ReadAndDispatch().spinLoop( shell, 100 );
+
+    assertThat( table.getItemHeight() ).isEqualTo( expected );
+    assertThat( getListeners( table, SWT.MeasureItem ) ).hasSize( 2 );
+    assertThat( getListeners( table, SWT.EraseItem ) ).hasSize( 3 );
     assertThat( table.getParent() ).isSameAs( shell );
   }
 
