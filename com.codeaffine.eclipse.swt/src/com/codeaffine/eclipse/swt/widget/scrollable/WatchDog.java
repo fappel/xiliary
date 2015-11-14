@@ -13,15 +13,15 @@ class WatchDog implements Runnable, DisposeListener {
 
   static final int DELAY = 10;
 
-  private final VerticalScrollBarUpdater verticalBarUpdater;
   private final NestingStructurePreserver nestingStructurePresever;
+  private final VerticalScrollBarUpdater verticalBarUpdater;
   private final Reconciliation reconciliation;
   private final Visibility vScrollVisibility;
   private final Visibility hScrollVisibility;
+  private final WidthObserver widthObserver;
   private final LayoutTrigger layoutTrigger;
   private final ActionScheduler scheduler;
   private final AdaptionContext<?> context;
-  private final TreeWidth treeWidth;
 
   boolean layoutInitialized;
   boolean disposed;
@@ -33,7 +33,7 @@ class WatchDog implements Runnable, DisposeListener {
           new Visibility( SWT.VERTICAL, context ),
           null,
           new LayoutTrigger( context.getAdapter() ),
-          new TreeWidth( context ),
+          new WidthObserver( context ),
           context.getReconciliation(),
           new NestingStructurePreserver( context ) );
   }
@@ -44,7 +44,7 @@ class WatchDog implements Runnable, DisposeListener {
             Visibility vScrollVisibility,
             ActionScheduler actionScheduler,
             LayoutTrigger layoutTrigger,
-            TreeWidth treeWidth,
+            WidthObserver treeWidth,
             Reconciliation reconciliation,
             NestingStructurePreserver nestingPresever )
   {
@@ -56,7 +56,7 @@ class WatchDog implements Runnable, DisposeListener {
     this.scheduler = ensureScheduler( actionScheduler );
     this.reconciliation = reconciliation;
     this.layoutTrigger = layoutTrigger;
-    this.treeWidth = treeWidth;
+    this.widthObserver = treeWidth;
     scheduler.schedule( DELAY );
   }
 
@@ -82,7 +82,7 @@ class WatchDog implements Runnable, DisposeListener {
     if( mustLayout() ) {
       layoutTrigger.pull();
     }
-    treeWidth.update();
+    widthObserver.update();
     vScrollVisibility.update();
     hScrollVisibility.update();
     if( vScrollVisibility.isVisible() ) {
@@ -95,7 +95,7 @@ class WatchDog implements Runnable, DisposeListener {
     boolean result =    !layoutInitialized
                      || vScrollVisibility.hasChanged()
                      || hScrollVisibility.hasChanged()
-                     || treeWidth.hasScrollEffectingChange();
+                     || widthObserver.hasScrollEffectingChange();
     layoutInitialized = true;
     return result;
   }

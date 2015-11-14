@@ -29,7 +29,7 @@ public class WatchDogTest {
   private Visibility vScrollVisibility;
   private ActionScheduler scheduler;
   private LayoutTrigger layoutTrigger;
-  private TreeWidth treeWidth;
+  private WidthObserver treeWidth;
   private WatchDog watchDog;
 
   @Before
@@ -41,7 +41,7 @@ public class WatchDogTest {
     vScrollVisibility = mock( Visibility.class );
     scheduler = mock( ActionScheduler.class );
     layoutTrigger = mock( LayoutTrigger.class );
-    treeWidth = mock( TreeWidth.class );
+    treeWidth = mock( WidthObserver.class );
     reconciliation = stubReconciliation();
     nestingStructurePreserver = mock( NestingStructurePreserver.class );
     watchDog = new WatchDog( context,
