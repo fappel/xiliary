@@ -7,11 +7,14 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFact
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createPackedSingleColumnTable;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createTableInSingleCellGridLayout;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TableHelper.createVirtualTableWithOwnerDrawnItems;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createChildren;
+import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
 import static java.lang.Math.min;
 
 import java.util.Random;
+import java.util.stream.Stream;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
@@ -81,11 +84,9 @@ public class ScrollableAdapterFactoryDemo {
     pageBook.setBackground( displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLUE ) );
     Label label = new Label( pageBook, SWT.NONE );
     label.setText( "Frontpage" );
-    Tree tree = new TestTreeFactory().create( pageBook );
+    Tree tree = createTree( pageBook, 8, 3 );
     adapt( tree, TreeAdapter.class );
-    expandRootLevelItems( tree );
-    expandTopBranch( tree );
-    scheduleRandomPageSelection( pageBook, label, tree );
+    scheduleRandomPageSelection( pageBook, label, tree, () -> replaceTreeItems( tree ), 3 );
     shell.open();
     spinLoop();
   }
@@ -156,14 +157,27 @@ public class ScrollableAdapterFactoryDemo {
     return new ReadAndDispatch( ERROR_BOX_HANDLER );
   }
 
-  private void scheduleRandomPageSelection( PageBook pageBook, Control page1, Control page2 ) {
+  private void scheduleRandomPageSelection(
+    PageBook pageBook, Control page1, Control page2, Runnable page2Changer, int showPageRecurranceNumberToRunChange )
+  {
     displayHelper.getDisplay().timerExec( 2000, () -> {
+      int newShowPageRecurranceNumberToRunChange = showPageRecurranceNumberToRunChange;
       pageBook.showPage( page1 );
       if( new Random().nextBoolean() ) {
+        if( showPageRecurranceNumberToRunChange == 0 ) {
+          page2Changer.run();
+        }
         pageBook.showPage( page2 );
+        newShowPageRecurranceNumberToRunChange--;
       }
-      scheduleRandomPageSelection( pageBook, page1, page2 );
+      scheduleRandomPageSelection( pageBook, page1, page2, page2Changer, newShowPageRecurranceNumberToRunChange );
     } );
+  }
+
+  private static void replaceTreeItems( Tree tree ) {
+    Stream.of( tree.getItems() ).forEach( item -> item.dispose() );
+    createChildren( tree, "blub", 8, 3 );
+    tree.pack();
   }
 
   private static Table equipWithSingleColumnTable( Shell shell ) {

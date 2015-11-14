@@ -26,7 +26,15 @@ class WidthObserver {
 
   boolean hasScrollEffectingChange() {
     int preferredWidth = preferredWidthComputer.compute();
-    return scrollableWidthHasChanged( preferredWidth ) && effectsScrollBarSize( preferredWidth );
+    return    isBelowAdapterWidthAndShowsVerticalBar()
+           || scrollableWidthHasChanged( preferredWidth ) && effectsScrollBarSize( preferredWidth );
+  }
+
+  private boolean isBelowAdapterWidthAndShowsVerticalBar() {
+    Rectangle scrollableBounds = context.getScrollable().getBounds();
+    Rectangle clientArea = context.getAdapter().getClientArea();
+    return    context.getScrollable().isVerticalBarVisible()
+           && scrollableBounds.width == clientArea.width;
   }
 
   private boolean effectsScrollBarSize( int preferredWidth ) {

@@ -25,7 +25,7 @@ public class WidthObserverTest {
 
   private PreferredWidthComputer preferredWidthComputer;
   private AdaptionContext<Tree> context;
-  private WidthObserver treeWidth;
+  private WidthObserver observer;
   private Shell shell;
   private Tree tree;
 
@@ -36,7 +36,7 @@ public class WidthObserverTest {
     tree.pack();
     preferredWidthComputer = mock( PreferredWidthComputer.class );
     context = new AdaptionContext<>( tree.getParent(), new ScrollableControl<>( tree ) );
-    treeWidth = new WidthObserver( preferredWidthComputer, context );
+    observer = new WidthObserver( preferredWidthComputer, context );
     shell.open();
   }
 
@@ -44,7 +44,7 @@ public class WidthObserverTest {
   public void preferredWidthExceedsVisibleRange() {
     equipPreferredComputerWith( getVisbleRangeWidth() + getVerticalBarOffset() );
 
-    boolean actual = treeWidth.hasScrollEffectingChange();
+    boolean actual = observer.hasScrollEffectingChange();
 
     assertThat( actual ).isTrue();
   }
@@ -52,21 +52,38 @@ public class WidthObserverTest {
   @Test
   public void preferredWidthExceedsVisibleRangeWhenVerticalScrollBarIsVisible() {
     expandRootLevelItems( tree );
+    setTreeWidth( shell.getClientArea().width + getVerticalBarWidth() );
     context.updatePreferredSize();
     equipPreferredComputerWith( getVisbleRangeWidth() + getVerticalBarOffset() );
 
-    boolean actual = treeWidth.hasScrollEffectingChange();
+    boolean actual = observer.hasScrollEffectingChange();
 
     assertThat( actual ).isFalse();
   }
 
   @Test
+  public void preferredIsSameAsVisibleRangeWhenVerticalScrollBarIsVisible() {
+    expandRootLevelItems( tree );
+    setTreeWidth( shell.getClientArea().width );
+    context.updatePreferredSize();
+    equipPreferredComputerWith( getVisbleRangeWidth() + getVerticalBarOffset() );
+
+    boolean actual = observer.hasScrollEffectingChange();
+
+    assertThat( actual ).isTrue();
+  }
+
+  private int getVerticalBarWidth() {
+    return tree.getVerticalBar().isVisible() ? tree.getVerticalBar().getSize().x : 0 ;
+  }
+
+  @Test
   public void preferredWidthDeclinesBackIntoVisibleRange() {
     setTreeWidth( getVisbleRangeWidth() + 100 );
-    treeWidth.update();
+    observer.update();
     equipPreferredComputerWith( getVisbleRangeWidth() - 100 );
 
-    boolean actual = treeWidth.hasScrollEffectingChange();
+    boolean actual = observer.hasScrollEffectingChange();
 
     assertThat( actual ).isTrue();
   }
@@ -74,10 +91,10 @@ public class WidthObserverTest {
   @Test
   public void noDeclineIfPreferredWidthIsGreaterBufferedWidth() {
     setTreeWidth( getVisbleRangeWidth() - 100 );
-    treeWidth.update();
-    equipPreferredComputerWith( getVisbleRangeWidth() - 50 );
+    observer.update();
+    equipPreferredComputerWith( shell.getClientArea().width + getVerticalBarWidth() - 50 );
 
-    boolean actual = treeWidth.hasScrollEffectingChange();
+    boolean actual = observer.hasScrollEffectingChange();
 
     assertThat( actual ).isFalse();
   }
@@ -85,17 +102,17 @@ public class WidthObserverTest {
   @Test
   public void noDeclineIfTreeHeightIsEqualToVisibleRangeHeight() {
     tree.setSize( getVisbleRangeWidth() + 100 , getVisibleRangeHeight() );
-    treeWidth.update();
+    observer.update();
     equipPreferredComputerWith( getVisbleRangeWidth() - 100 );
 
-    boolean actual = treeWidth.hasScrollEffectingChange();
+    boolean actual = observer.hasScrollEffectingChange();
 
     assertThat( actual ).isFalse();
   }
 
   @Test
   public void widthHasNotChanged() {
-    boolean actual = treeWidth.hasScrollEffectingChange();
+    boolean actual = observer.hasScrollEffectingChange();
 
     assertThat( actual ).isFalse();
   }
