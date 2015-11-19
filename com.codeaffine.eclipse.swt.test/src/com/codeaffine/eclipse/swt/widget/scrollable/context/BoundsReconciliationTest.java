@@ -122,9 +122,9 @@ public class BoundsReconciliationTest {
     scrollable.dispose();
     scrollable = createTree( adapter, 1, 1, SWT.BORDER );
     reconciliation = new BoundsReconciliation( adapter, new ScrollableControl<>( scrollable ) );
-    Rectangle expected = new Rectangle( -scrollable.getBorderWidth(), -scrollable.getBorderWidth(), 0, 0 );
+    Rectangle expected = adapter.getBounds();
 
-    scrollable.setBounds( expected );
+    scrollable.setBounds( -scrollable.getBorderWidth(), -scrollable.getBorderWidth(), 0, 0 );
     reconciliation.run();
 
     assertThat( adapter.getBounds() ).isEqualTo( expected );

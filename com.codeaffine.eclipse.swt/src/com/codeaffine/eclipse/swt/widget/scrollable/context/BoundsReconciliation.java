@@ -64,16 +64,15 @@ class BoundsReconciliation {
   private void controlMoved() {
     if( !isSuspended() ) {
       newScrollableBounds = scrollable.getBounds();
-      if( mustWorkaroundOwnerDrawnScrollableWithBorderInitializations() ) {
+      if( mustWorkaroundScrollableWithBorderInitializations() ) {
         oldScrollableBounds = scrollable.getBounds();
       }
     }
   }
 
-  private boolean mustWorkaroundOwnerDrawnScrollableWithBorderInitializations() {
+  private boolean mustWorkaroundScrollableWithBorderInitializations() {
     return    newScrollableBounds.x == newScrollableBounds.y
            && newScrollableBounds.x == -scrollable.getBorderWidth()
-           && scrollable.isOwnerDrawn()
            && scrollable.hasStyle( SWT.BORDER );
   }
 
@@ -88,7 +87,11 @@ class BoundsReconciliation {
   }
 
   private boolean scrollableBoundsHaveBeenChanged() {
-    return !oldScrollableBounds.equals( newScrollableBounds );
+    boolean result = oldScrollableBounds.equals( newScrollableBounds );
+if( !result ) {
+  System.out.println(  oldScrollableBounds + "/"  + newScrollableBounds );
+}
+    return !result;
   }
 
   private boolean changeByTreeEvent() {
@@ -96,6 +99,7 @@ class BoundsReconciliation {
   }
 
   private void reconcile() {
+System.out.println( "reconcile: " + newScrollableBounds );
     adapter.setBounds( newScrollableBounds );
   }
 
