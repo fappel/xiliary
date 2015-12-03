@@ -345,6 +345,7 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
     tree.addDisposeListener( this );
+    new TreePageResizeFilter( this, tree );
   }
 
   private static LayoutMapping<Tree> createLayoutMapping( PlatformSupport platformSupport ) {
