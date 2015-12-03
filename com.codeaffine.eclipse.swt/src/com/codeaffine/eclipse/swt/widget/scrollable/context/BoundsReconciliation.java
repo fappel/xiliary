@@ -87,11 +87,7 @@ class BoundsReconciliation {
   }
 
   private boolean scrollableBoundsHaveBeenChanged() {
-    boolean result = oldScrollableBounds.equals( newScrollableBounds );
-if( !result ) {
-  System.out.println(  oldScrollableBounds + "/"  + newScrollableBounds );
-}
-    return !result;
+    return !oldScrollableBounds.equals( newScrollableBounds );
   }
 
   private boolean changeByTreeEvent() {
@@ -99,7 +95,6 @@ if( !result ) {
   }
 
   private void reconcile() {
-System.out.println( "reconcile: " + newScrollableBounds );
     adapter.setBounds( newScrollableBounds );
   }
 
