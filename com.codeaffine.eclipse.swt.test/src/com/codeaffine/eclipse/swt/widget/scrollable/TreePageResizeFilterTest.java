@@ -40,6 +40,7 @@ public class TreePageResizeFilterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void filterEventsIfUninitialized() {
     PageBook pageBook = new PageBook( shell, SWT.NONE );
     Tree treePage = createAdaptedTree( pageBook );
@@ -51,6 +52,7 @@ public class TreePageResizeFilterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void passEventsIfInitialized() {
     PageBook pageBook = new PageBook( shell, SWT.NONE );
     Tree treePage = createAdaptedTree( pageBook );
@@ -64,6 +66,7 @@ public class TreePageResizeFilterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void passEventsIfNonPagebookParent() {
     Composite parent = new Composite( shell, SWT.NONE );
     Tree treePage = createAdaptedTree( parent );
