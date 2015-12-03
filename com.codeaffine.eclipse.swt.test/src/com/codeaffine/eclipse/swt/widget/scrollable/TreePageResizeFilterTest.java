@@ -21,11 +21,15 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class TreePageResizeFilterTest {
 
   private static final Rectangle BOUNDS = new Rectangle( 1, 2, 600, 800 );
 
+  @Rule public final ConditionalIgnoreRule conditionIgnoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private Shell shell;
@@ -71,6 +75,7 @@ public class TreePageResizeFilterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void cleanupOnAdapterDisposal() {
     PageBook pageBook = new PageBook( shell, SWT.NONE );
     Tree treePage = createAdaptedTreeButDisposeAdapter( pageBook );
