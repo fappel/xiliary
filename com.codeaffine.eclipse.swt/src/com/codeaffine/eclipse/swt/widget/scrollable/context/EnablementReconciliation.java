@@ -9,6 +9,7 @@ class EnablementReconciliation {
   private final Composite adapter;
 
   boolean scrollableEnabled;
+  boolean adapterEnabled;
 
   EnablementReconciliation( Composite adapter, ScrollableControl<? extends Scrollable> scrollable ) {
     this.adapter = adapter;
@@ -20,6 +21,10 @@ class EnablementReconciliation {
     scrollableEnabled = scrollable.getEnabled();
     if( adapter.getEnabled() != scrollableEnabled ) {
       adapter.setEnabled( scrollableEnabled );
+    }
+    if( scrollableEnabled && adapterEnabled != adapter.isEnabled() ) {
+      adapter.setEnabled( scrollableEnabled );
+      adapterEnabled = adapter.isEnabled();
     }
   }
 
@@ -36,6 +41,7 @@ class EnablementReconciliation {
     }
     scrollable.setEnabled( result );
     scrollableEnabled = scrollable.getEnabled();
+    adapterEnabled = adapter.isEnabled();
     return result;
   }
 

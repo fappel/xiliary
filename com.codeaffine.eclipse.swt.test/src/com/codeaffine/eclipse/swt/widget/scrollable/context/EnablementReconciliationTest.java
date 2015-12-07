@@ -134,19 +134,31 @@ public class EnablementReconciliationTest {
     assertThat( adapter.getEnabled() ).isTrue();
   }
 
+  @Test
+  public void enableScrollableIfAdapterParentGetsEnabled() {
+    scrollable.setEnabled( true );
+    when( adapter.isEnabled() ).thenReturn( true );
+
+    reconciliation.run();
+
+    assertThat( scrollable.getEnabled() ).isTrue();
+    assertThat( adapter.getEnabled() ).isTrue();
+    assertThat( reconciliation.adapterEnabled ).isTrue();
+  }
+
   private static Composite stubAdapter() {
     Composite result = mock( Composite.class );
-    simulateVisibilityAttribute( result );
+    simulateEnablementAttribute( result );
     return result;
   }
 
   private static Scrollable stubScrollable() {
     Scrollable result = mock( Scrollable.class );
-    simulateVisibilityAttribute( result );
+    simulateEnablementAttribute( result );
     return result;
   }
 
-  private static void simulateVisibilityAttribute( final Control control ) {
+  private static void simulateEnablementAttribute( final Control control ) {
     doAnswer( enablementStub( control ) ).when( control ).setEnabled( anyBoolean() );
   }
 
