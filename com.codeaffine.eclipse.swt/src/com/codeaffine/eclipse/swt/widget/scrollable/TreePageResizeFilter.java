@@ -13,7 +13,7 @@ class TreePageResizeFilter {
   static final Rectangle IRRELEVANT_BOUNDS = new Rectangle( 0, 0, 0, 0 );
   static final String CLASS_NAME_PAGE_BOOK = "org.eclipse.ui.part.PageBook";
 
-  TreePageResizeFilter( TreeAdapter treeAdapter, Tree tree ) {
+  void register( TreeAdapter treeAdapter, Tree tree ) {
     if( hasPageBookParent( treeAdapter ) ) {
       registerEventFilter( treeAdapter, tree );
     }

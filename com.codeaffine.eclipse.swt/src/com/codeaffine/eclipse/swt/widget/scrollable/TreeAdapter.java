@@ -336,7 +336,7 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, ScrollbarStyle {
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
     new DisposalRouting().register( this, tree );
-    new TreePageResizeFilter( this, tree );
+    new TreePageResizeFilter().register( this, tree );
   }
 
   private static LayoutMapping<Tree> createLayoutMapping( PlatformSupport platformSupport ) {
