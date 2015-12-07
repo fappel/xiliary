@@ -2,8 +2,6 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.createLayoutFactory;
 
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -23,7 +21,7 @@ import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
-public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener, ScrollbarStyle {
+public class TreeAdapter extends Tree implements Adapter<Tree>, ScrollbarStyle {
 
   private LayoutFactory<Tree> layoutFactory;
   private Reconciliation reconciliation;
@@ -51,13 +49,6 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
 
   ///////////////////////////////
   // Tree overrides
-
-  @Override
-  public void widgetDisposed( DisposeEvent e ) {
-    if( !isDisposed() ) {
-      dispose();
-    }
-  }
 
   @Override
   public void setLayout( Layout layout ) {
@@ -344,7 +335,7 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, DisposeListener,
     context = new AdaptionContext<Tree>( this, new ScrollableControl<>( tree ) );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
-    tree.addDisposeListener( this );
+    new DisposalRouting().register( this, tree );
     new TreePageResizeFilter( this, tree );
   }
 

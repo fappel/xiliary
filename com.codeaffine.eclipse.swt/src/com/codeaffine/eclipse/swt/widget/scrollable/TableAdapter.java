@@ -2,8 +2,6 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.createLayoutFactory;
 
-import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
@@ -23,7 +21,7 @@ import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 
-public class TableAdapter extends Table implements Adapter<Table>, DisposeListener, ScrollbarStyle {
+public class TableAdapter extends Table implements Adapter<Table>, ScrollbarStyle {
 
   private LayoutFactory<Table> layoutFactory;
   private Reconciliation reconciliation;
@@ -51,13 +49,6 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
 
   ///////////////////////////////
   // Table overrides
-
-  @Override
-  public void widgetDisposed( DisposeEvent e ) {
-    if( !isDisposed() ) {
-      dispose();
-    }
-  }
 
   @Override
   public void setLayout( Layout layout ) {
@@ -343,7 +334,7 @@ public class TableAdapter extends Table implements Adapter<Table>, DisposeListen
     context = new AdaptionContext<>( this, scrollableControl );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
-    table.addDisposeListener( this );
+    new DisposalRouting().register( this, table );
   }
 
   private static LayoutMapping<Table> createLayoutMapping( PlatformSupport platformSupport ) {
