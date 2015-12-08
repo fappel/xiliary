@@ -11,7 +11,6 @@ import org.eclipse.e4.ui.css.core.dom.properties.ICSSPropertyHandler;
 import org.eclipse.e4.ui.css.core.engine.CSSEngine;
 import org.eclipse.e4.ui.css.swt.dom.ControlElement;
 import org.eclipse.jface.resource.ColorRegistry;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scrollable;
@@ -111,7 +110,6 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
       Scrollable scrollableExtension = typePair.scrollableType.cast( scrollable );
       ScrollbarStyle result = ( ScrollbarStyle )factory.create( scrollableExtension, typePair.adapterType );
       scrollable.setData( SCROLLABLE_STYLE, result );
-      applyBackgroundColorOnTopLevelWindowWorkaround( scrollable );
     }
   }
 
@@ -162,13 +160,6 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
 
   private Color getColor( CSSValue value ) {
     return colorRegistry.get( value.getCssText() );
-  }
-
-  private static void applyBackgroundColorOnTopLevelWindowWorkaround( Scrollable scrollable ) {
-    Color widgetBackground = scrollable.getDisplay().getSystemColor( SWT.COLOR_WIDGET_BACKGROUND );
-    if( !widgetBackground.equals( scrollable.getParent().getBackground() ) ) {
-      scrollable.setBackground( scrollable.getParent().getBackground() );
-    }
   }
 
   @SuppressWarnings("rawtypes")
