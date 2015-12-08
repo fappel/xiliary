@@ -12,6 +12,7 @@ import org.eclipse.e4.ui.css.core.engine.CSSEngine;
 import org.eclipse.e4.ui.css.swt.dom.ControlElement;
 import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Table;
@@ -31,6 +32,7 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
   public static final String FLAT_SCROLL_BAR_BACKGROUND = "flat-scroll-bar-background";
   public static final String FLAT_SCROLL_BAR_THUMB = "flat-scroll-bar-thumb";
   public static final String FLAT_SCROLL_BAR = "flat-scroll-bar";
+  public static final String ADAPTER_BACKGROUND_COLOR = "adapter-background-color";
   public static final String TOP_LEVEL_WINDOW_SELECTOR = "-top-level";
 
   @SuppressWarnings( { "unchecked", "rawtypes" } )
@@ -73,6 +75,7 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
         applyColor( element, FLAT_SCROLL_BAR_BACKGROUND, ( style, color ) -> style.setBackgroundColor( color ) );
         applyColor( element, FLAT_SCROLL_BAR_THUMB, ( style, color ) -> style.setThumbColor( color ) );
         applyColor( element, FLAT_SCROLL_BAR_PAGE_INCREMENT, ( style, color ) -> style.setPageIncrementColor( color ) );
+        applyColor( element, ADAPTER_BACKGROUND_COLOR, ( cmp, color ) -> ( ( Composite )cmp ).setBackground( color ) );
         break;
       case FLAT_SCROLL_BAR_BACKGROUND:
         applyColor( element, value, property, ( style, color ) -> style.setBackgroundColor( color ) );
@@ -83,6 +86,9 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
       case FLAT_SCROLL_BAR_PAGE_INCREMENT:
         applyColor( element, value, property, ( style, color ) -> style.setPageIncrementColor( color ) );
         break;
+      case ADAPTER_BACKGROUND_COLOR:
+        applyColor( element, value, property, ( style, color ) -> ( ( Composite )style ).setBackground( color ) );
+        break;
       case FLAT_SCROLL_BAR_BACKGROUND + TOP_LEVEL_WINDOW_SELECTOR:
         applyColor( element, value, property, ( style, color ) -> style.setBackgroundColor( color ) );
         break;
@@ -91,6 +97,9 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
         break;
       case FLAT_SCROLL_BAR_PAGE_INCREMENT + TOP_LEVEL_WINDOW_SELECTOR:
         applyColor( element, value, property, ( style, color ) -> style.setPageIncrementColor( color ) );
+        break;
+      case ADAPTER_BACKGROUND_COLOR + TOP_LEVEL_WINDOW_SELECTOR:
+        applyColor( element, value, property, ( cmp, color ) -> ( ( Composite )cmp ).setBackground( color ) );
         break;
     }
   }

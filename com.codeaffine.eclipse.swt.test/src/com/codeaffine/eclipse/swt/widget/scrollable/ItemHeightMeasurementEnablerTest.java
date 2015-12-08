@@ -30,6 +30,7 @@ public class ItemHeightMeasurementEnablerTest {
 
   private ScrollableAdapterFactory adapterFactory;
   private ScrollableControl<?> scrollableControl;
+  private int itemHeight;
   private Shell shell;
   private Table table;
 
@@ -38,6 +39,7 @@ public class ItemHeightMeasurementEnablerTest {
     adapterFactory = new ScrollableAdapterFactory();
     shell = createShell( displayHelper );
     table = createTable( shell, 10 );
+    itemHeight = table.getItemHeight() * 2;
     scrollableControl = new ScrollableControl<>( table );
   }
 
@@ -79,7 +81,7 @@ public class ItemHeightMeasurementEnablerTest {
     Table other = createTable( shell, 10 );
     adapterFactory.create( other, TableAdapter.class );
     int expected = configureOwnerDrawnItemHeightAdjustment( table, table.getItemHeight() );
-    configureOwnerDrawnItemHeightAdjustment( other, 24 );
+    configureOwnerDrawnItemHeightAdjustment( other, itemHeight );
 
     new ReadAndDispatch().spinLoop( shell, 100 );
 
@@ -90,7 +92,7 @@ public class ItemHeightMeasurementEnablerTest {
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void createTableAdapterWithOwnerDrawnItemRegistrationAndEraseEventSwallowed() {
     adapterFactory.create( table, TableAdapter.class );
-    int configured = configureOwnerDrawnItemHeightAdjustment( table, 24 );
+    int configured = configureOwnerDrawnItemHeightAdjustment( table, itemHeight );
     displayHelper.getDisplay().addFilter( SWT.EraseItem, event -> event.type = SWT.NONE );
     shell.open();
 
@@ -103,7 +105,7 @@ public class ItemHeightMeasurementEnablerTest {
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void createTableAdapterWithOwnerDrawnItemRegistrationAndEraseEventSwallowedAfterMeasurmentTookPlace() {
     adapterFactory.create( table, TableAdapter.class );
-    int expected = configureOwnerDrawnItemHeightAdjustment( table, 24 );
+    int expected = configureOwnerDrawnItemHeightAdjustment( table, itemHeight );
     table.addListener( SWT.EraseItem, evt -> {
       displayHelper.getDisplay().addFilter( SWT.EraseItem, event -> event.type = SWT.NONE );
     } );
@@ -121,7 +123,7 @@ public class ItemHeightMeasurementEnablerTest {
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeItemHeightByOwnerDrawnItemEvents() {
     adapterFactory.create( table, TableAdapter.class );
-    int expectedHeight = configureOwnerDrawnItemHeightAdjustment( table, 24 );
+    int expectedHeight = configureOwnerDrawnItemHeightAdjustment( table, itemHeight );
     shell.open();
 
     new ReadAndDispatch().spinLoop( shell, 100 );

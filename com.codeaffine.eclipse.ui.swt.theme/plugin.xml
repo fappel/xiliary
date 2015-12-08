@@ -50,6 +50,12 @@
          <property-name
                name="flat-scroll-bar-page-increment-top-level">
          </property-name>
+         <property-name
+               name="adapter-background-color">
+         </property-name>
+         <property-name
+               name="adapter-background-color-top-level">
+         </property-name>
       </handler>
    </extension>
 </plugin>
