@@ -74,4 +74,13 @@ class TestLayoutFactory implements LayoutFactory<Scrollable> {
   public Color getBackgroundColor() {
     return null;
   }
+
+  @Override
+  public void setDemeanor( Demeanor demeanor ) {
+  }
+
+  @Override
+  public Demeanor getDemeanor() {
+    return null;
+  }
 }

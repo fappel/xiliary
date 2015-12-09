@@ -163,6 +163,16 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, ScrollbarStyle {
     return layoutFactory.getBackgroundColor();
   }
 
+  @Override
+  public void setDemeanor( Demeanor demeanor ) {
+    layoutFactory.setDemeanor( demeanor );
+  }
+
+  @Override
+  public Demeanor getDemeanor() {
+    return layoutFactory.getDemeanor();
+  }
+
   //////////////////////////////////////////////////////
   // delegating adapter methods
 

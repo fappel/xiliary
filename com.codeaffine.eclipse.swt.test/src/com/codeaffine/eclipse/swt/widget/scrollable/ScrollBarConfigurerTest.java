@@ -5,13 +5,16 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.stubContext;
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Horizontal.H_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical.V_INVISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.Demeanor.FIXED_SCROLL_BAR_BREADTH;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Scrollable;
 import org.junit.Test;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 public class ScrollBarConfigurerTest {
@@ -24,12 +27,16 @@ public class ScrollBarConfigurerTest {
     FlatScrollBar scrollBar = mock( FlatScrollBar.class );
     ScrollBarConfigurer configurer = new ScrollBarConfigurer( scrollBar );
 
-    configurer.configure( stubContext( V_INVISIBLE, H_VISIBLE, PREFERRED_SIZE, VISIBLE_AREA ) );
+    configurer.configure( stubAdaptionContext() );
 
     verify( scrollBar ).setIncrement( 1 );
     verify( scrollBar ).setMaximum( PREFERRED_SIZE.x );
     verify( scrollBar ).setMinimum( OFFSET );
     verify( scrollBar ).setPageIncrement( VISIBLE_AREA.width + BORDER_WIDTH * 2 );
     verify( scrollBar ).setThumb( VISIBLE_AREA.width + BORDER_WIDTH * 2 );
+  }
+
+  private static AdaptionContext<Scrollable> stubAdaptionContext() {
+    return stubContext( V_INVISIBLE, H_VISIBLE, PREFERRED_SIZE, VISIBLE_AREA, FIXED_SCROLL_BAR_BREADTH );
   }
 }

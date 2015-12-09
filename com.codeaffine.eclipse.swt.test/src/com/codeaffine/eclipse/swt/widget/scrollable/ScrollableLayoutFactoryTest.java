@@ -1,6 +1,8 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.widget.scrollable.Demeanor.EXPAND_SCROLL_BAR_ON_MOUSE_OVER;
+import static com.codeaffine.eclipse.swt.widget.scrollable.Demeanor.FIXED_SCROLL_BAR_BREADTH;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -25,6 +27,7 @@ public class ScrollableLayoutFactoryTest {
   public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ScrollableLayoutFactorySpy factorySpy;
+  private AdaptionContext<Scrollable> context;
   private Scrollable scrollable;
   private Layout layout;
   private Shell shell;
@@ -34,7 +37,8 @@ public class ScrollableLayoutFactoryTest {
     shell = createShell( displayHelper );
     scrollable = new Text( shell, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL );
     factorySpy = new ScrollableLayoutFactorySpy();
-    layout = factorySpy.create( new AdaptionContext<>( shell, new ScrollableControl<>( scrollable ) ) );
+    context = new AdaptionContext<>( shell, new ScrollableControl<>( scrollable ) );
+    layout = factorySpy.create( context );
   }
 
   @Test
@@ -82,7 +86,7 @@ public class ScrollableLayoutFactoryTest {
 
   @Test
   public void setIncrementColor() {
-    Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLACK );
+    Color expected = displayHelper.getSystemColor( SWT.COLOR_BLACK );
 
     factorySpy.setIncrementColor( expected );
 
@@ -93,7 +97,7 @@ public class ScrollableLayoutFactoryTest {
 
   @Test
   public void setPageIncrementColor() {
-    Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLACK );
+    Color expected = displayHelper.getSystemColor( SWT.COLOR_BLACK );
 
     factorySpy.setPageIncrementColor( expected );
 
@@ -104,7 +108,7 @@ public class ScrollableLayoutFactoryTest {
 
   @Test
   public void setThumbColor() {
-    Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLACK );
+    Color expected = displayHelper.getSystemColor( SWT.COLOR_BLACK );
 
     factorySpy.setThumbColor( expected );
 
@@ -115,7 +119,7 @@ public class ScrollableLayoutFactoryTest {
 
   @Test
   public void setBackgroundColor() {
-    Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_BLACK );
+    Color expected = displayHelper.getSystemColor( SWT.COLOR_BLACK );
 
     factorySpy.setBackgroundColor( expected );
 
@@ -124,6 +128,24 @@ public class ScrollableLayoutFactoryTest {
     assertThat( factorySpy.getHorizontal().getParent().getBackground() ).isEqualTo( expected );
     assertThat( factorySpy.getBackgroundColor() ).isEqualTo( expected );
     assertThat( factorySpy.getCornerOverlay().getBackground() ).isEqualTo( expected );
+  }
+
+  @Test
+  public void getDemeanor() {
+    Demeanor actual = factorySpy.getDemeanor();
+
+    assertThat( actual ).isSameAs( EXPAND_SCROLL_BAR_ON_MOUSE_OVER );
+    assertThat( actual ).isSameAs( context.get( Demeanor.class ) );
+  }
+
+  @Test
+  public void setDemeanor() {
+    factorySpy.setDemeanor( FIXED_SCROLL_BAR_BREADTH );
+
+    Demeanor actual = factorySpy.getDemeanor();
+
+    assertThat( actual ).isSameAs( FIXED_SCROLL_BAR_BREADTH );
+    assertThat( actual ).isSameAs( context.get( Demeanor.class ) );
   }
 
   @Test

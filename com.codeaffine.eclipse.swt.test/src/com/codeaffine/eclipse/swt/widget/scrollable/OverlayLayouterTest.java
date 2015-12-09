@@ -1,19 +1,21 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShellWithoutLayout;
-import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.MAX_EXPANSION;
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.BORDER_WIDTH;
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.stubContext;
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Horizontal.H_INVISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Horizontal.H_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical.V_INVISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical.V_VISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.MAX_EXPANSION;
 import static com.codeaffine.eclipse.swt.widget.scrollable.OverlayLayouter.CORNER_COVERAGE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.OverlayLayouter.calculateCornerOverlayBounds;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.assertThat;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
+
+import java.util.Collection;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -23,11 +25,16 @@ import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameter;
+import org.junit.runners.Parameterized.Parameters;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
+@RunWith( Parameterized.class )
 public class OverlayLayouterTest {
 
   private static final int OFFSET = 2;
@@ -41,6 +48,14 @@ public class OverlayLayouterTest {
   private Label cornerOverlay;
   private Shell shell;
 
+  @Parameter
+  public Demeanor demeanor;
+
+  @Parameters
+  public static Collection<Demeanor> getDemeanor() {
+    return asList( Demeanor.values() );
+  }
+
   @Before
   public void setUp() {
     shell = createShellWithoutLayout( displayHelper, SWT.RESIZE );
@@ -52,23 +67,23 @@ public class OverlayLayouterTest {
 
   @Test
   public void layout() {
-    AdaptionContext<?> context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea(), demeanor );
 
     layouter.layout( context );
 
     assertThat( horizontal )
       .isVisible()
-      .hasBounds( 0, expectedHorizontalY(), getVisibleArea().width - MAX_EXPANSION, BAR_BREADTH );
+      .hasBounds( 0, expectedHorizontalY( context ), getVisibleArea().width - MAX_EXPANSION, barBreadth( context ) );
     assertThat( vertical )
       .isVisible()
-      .hasBounds( expectedVerticalX(), 0, BAR_BREADTH, getVisibleArea().height - MAX_EXPANSION );
+      .hasBounds( expectedVerticalX( context ), 0, barBreadth( context ), getVisibleArea().height - MAX_EXPANSION );
     assertThat( cornerOverlay.getBounds() )
       .isEqualTo( expectedCornerOverlayBounds() );
   }
 
   @Test
   public void layoutWithoutHorizontalBar() {
-    AdaptionContext<?> context = stubContext( V_VISIBLE, H_INVISIBLE, exceedVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> context = stubContext( V_VISIBLE, H_INVISIBLE, exceedVisibleArea(), getVisibleArea(), demeanor );
 
     layouter.layout( context );
 
@@ -77,20 +92,20 @@ public class OverlayLayouterTest {
       .hasBounds( 0, 0, 0, 0 );
     assertThat( vertical )
       .isVisible()
-      .hasBounds( expectedVerticalX(), 0, BAR_BREADTH, getVisibleArea().height );
+      .hasBounds( expectedVerticalX( context ), 0, barBreadth( context ), getVisibleArea().height );
     assertThat( cornerOverlay.getBounds() )
       .isEqualTo( expectedCornerOverlayBounds() );
   }
 
   @Test
   public void layoutWithoutVerticalBar() {
-    AdaptionContext<?> context = stubContext( V_INVISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> context = stubContext( V_INVISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea(), demeanor );
 
     layouter.layout( context );
 
     assertThat( horizontal )
       .isVisible()
-      .hasBounds( 0, expectedHorizontalY(), getVisibleArea().width, BAR_BREADTH );
+      .hasBounds( 0, expectedHorizontalY( context ), getVisibleArea().width, barBreadth( context ) );
     assertThat( vertical )
       .isNotVisible()
       .hasBounds( 0, 0, 0, 0 );
@@ -100,7 +115,7 @@ public class OverlayLayouterTest {
 
   @Test
   public void layoutWithoutScrollBars() {
-    AdaptionContext<?> context = stubContext( V_INVISIBLE, H_INVISIBLE, fitVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> context = stubContext( V_INVISIBLE, H_INVISIBLE, fitVisibleArea(), getVisibleArea(), demeanor );
 
     layouter.layout( context );
 
@@ -128,22 +143,22 @@ public class OverlayLayouterTest {
   }
 
   private AdaptionContext<?> stubContextWithOffset( int offset ) {
-    AdaptionContext<?> result = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> result = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea(), demeanor );
     when( result.getOffset() ).thenReturn( offset );
     return result;
   }
 
   private Rectangle expectedCornerOverlayBounds() {
-    AdaptionContext<?> context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> context = stubContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea(), demeanor );
     return calculateCornerOverlayBounds( horizontal, vertical , context);
   }
 
-  private int expectedHorizontalY() {
-    return getVisibleArea().height - BAR_BREADTH;
+  private int expectedHorizontalY( AdaptionContext<?> context ) {
+    return getVisibleArea().height - barBreadth( context );
   }
 
-  private int expectedVerticalX() {
-    return getVisibleArea().width - BAR_BREADTH;
+  private int expectedVerticalX( AdaptionContext<?> context ) {
+    return getVisibleArea().width - barBreadth( context );
   }
 
   private Rectangle getVisibleArea() {
@@ -156,5 +171,9 @@ public class OverlayLayouterTest {
 
   private static Point fitVisibleArea() {
     return new Point( 0, 0 );
+  }
+
+  private static int barBreadth( AdaptionContext<?> context ) {
+    return context.get( Demeanor.class ).getBarBreadth();
   }
 }

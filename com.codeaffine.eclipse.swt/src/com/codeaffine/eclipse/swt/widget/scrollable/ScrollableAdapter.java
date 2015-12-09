@@ -84,6 +84,16 @@ public class ScrollableAdapter<T extends Scrollable> extends Composite implement
     return layoutFactory.getBackgroundColor();
   }
 
+  @Override
+  public void setDemeanor( Demeanor demeanor ) {
+    layoutFactory.setDemeanor( demeanor );
+  }
+
+  @Override
+  public Demeanor getDemeanor() {
+    return layoutFactory.getDemeanor();
+  }
+
   public T getScrollable() {
     return scrollable;
   }

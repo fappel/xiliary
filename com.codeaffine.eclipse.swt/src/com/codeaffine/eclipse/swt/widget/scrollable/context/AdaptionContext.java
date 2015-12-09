@@ -1,5 +1,8 @@
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -13,6 +16,7 @@ public class AdaptionContext<T extends Scrollable> {
 
   private final ScrollbarVisibility scrollbarVisibility;
   private final Point originOfScrollableOrdinates;
+  private final Map<Class<?>, Object> attributes;
   private final ScrollableControl<T> scrollable;
   private final Reconciliation reconciliation;
   private final SizeComputer sizeComputer;
@@ -24,12 +28,16 @@ public class AdaptionContext<T extends Scrollable> {
   private final int offset;
 
   public AdaptionContext( Composite adapter, ScrollableControl<T> scrollable ) {
-    this( adapter, scrollable, 1, null );
+    this( adapter, scrollable, 1, null, new HashMap<>() );
   }
 
-  private AdaptionContext(
-    Composite adapter, ScrollableControl<T> scrollable, int itemHeight, Reconciliation reconciliation )
+  private AdaptionContext( Composite adapter,
+                           ScrollableControl<T> scrollable,
+                           int itemHeight,
+                           Reconciliation reconciliation,
+                           Map<Class<?>, Object> attributes )
   {
+    this.attributes = attributes;
     this.sizeComputer = new SizeComputer( scrollable, adapter );
     this.scrollbarVisibility = new ScrollbarVisibility( sizeComputer, scrollable, adapter.getClientArea(), itemHeight );
     this.reconciliation = reconciliation == null ? new Reconciliation( adapter, scrollable ) : reconciliation;
@@ -44,11 +52,19 @@ public class AdaptionContext<T extends Scrollable> {
   }
 
   public AdaptionContext<T> newContext( int itemHeight ) {
-    return new AdaptionContext<T>( adapter, scrollable, itemHeight, reconciliation );
+    return new AdaptionContext<T>( adapter, scrollable, itemHeight, reconciliation, attributes );
   }
 
   public AdaptionContext<T> newContext() {
-    return new AdaptionContext<T>( adapter, scrollable, itemHeight, reconciliation );
+    return new AdaptionContext<T>( adapter, scrollable, itemHeight, reconciliation, attributes );
+  }
+
+  public <A> void put( Class<A> key, A value ) {
+    attributes.put( key, value );
+  }
+
+  public <A> A get( Class<A> key ) {
+    return key.cast( attributes.get( key ) );
   }
 
   public Reconciliation getReconciliation() {

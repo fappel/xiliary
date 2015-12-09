@@ -75,4 +75,13 @@ class NativeLayoutFactory<T extends Scrollable> implements LayoutFactory<T> {
   public Color getBackgroundColor() {
     return null;
   }
+
+  @Override
+  public void setDemeanor( Demeanor demeanor ) {
+  }
+
+  @Override
+  public Demeanor getDemeanor() {
+    return null;
+  }
 }

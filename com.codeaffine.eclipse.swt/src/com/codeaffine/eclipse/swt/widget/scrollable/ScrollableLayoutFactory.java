@@ -3,6 +3,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.DISPLAY;
 import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.SCROLL_BAR;
+import static com.codeaffine.eclipse.swt.widget.scrollable.Demeanor.EXPAND_SCROLL_BAR_ON_MOUSE_OVER;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeListener;
@@ -28,6 +29,7 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
 
   private FlatScrollBar horizontalBar;
   private ScrollBar horizontalAdapter;
+  private AdaptionContext<T> context;
   private FlatScrollBar verticalBar;
   private ScrollBar verticalAdapter;
   private Label cornerOverlay;
@@ -43,6 +45,8 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
 
   @Override
   public Layout create( AdaptionContext<T> context ) {
+    this.context = context;
+    context.put( Demeanor.class, EXPAND_SCROLL_BAR_ON_MOUSE_OVER );
     context.getAdapter().setBackgroundMode( SWT.INHERIT_DEFAULT );
     context.getAdapter().setBackground( context.getScrollable().getBackground() );
     horizontalBar = createFlatScrollBar( context, SWT.HORIZONTAL );
@@ -132,6 +136,16 @@ abstract class ScrollableLayoutFactory<T extends Scrollable> implements LayoutFa
   @Override
   public Color getBackgroundColor() {
     return horizontalBar.getBackground();
+  }
+
+  @Override
+  public void setDemeanor( Demeanor demeanor ) {
+    context.put( Demeanor.class, demeanor );
+  }
+
+  @Override
+  public Demeanor getDemeanor() {
+    return context.get( Demeanor.class );
   }
 
   Label getCornerOverlay(){

@@ -10,6 +10,7 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Horizontal.H_VISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical.V_INVISIBLE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.AdaptionContextHelper.Vertical.V_VISIBLE;
+import static com.codeaffine.eclipse.swt.widget.scrollable.Demeanor.FIXED_SCROLL_BAR_BREADTH;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.BAR_BREADTH;
@@ -57,7 +58,7 @@ public class ScrollableLayouterTest {
 
   @Test
   public void withoutScrollBarsAndScrollableFitsInVisibleArea() {
-    layouter.layout( stubLayoutContext( V_INVISIBLE, H_INVISIBLE, fitVisibleArea(), getVisibleArea() ) );
+    layouter.layout( stubAdaptionContext( V_INVISIBLE, H_INVISIBLE, fitVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
       .isEqualTo( $( -BORDER_WIDTH,
@@ -68,7 +69,7 @@ public class ScrollableLayouterTest {
 
   @Test
   public void withoutScrollBarsAndScrollableDoesNotFitInVisibleArea() {
-    layouter.layout( stubLayoutContext( V_INVISIBLE, H_INVISIBLE, exceedVisibleArea(), getVisibleArea() ) );
+    layouter.layout( stubAdaptionContext( V_INVISIBLE, H_INVISIBLE, exceedVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
       .isEqualTo( $( -BORDER_WIDTH,
@@ -79,7 +80,7 @@ public class ScrollableLayouterTest {
 
   @Test
   public void withVerticalBarAndScrollableFitsInVisibleArea() {
-    layouter.layout( stubLayoutContext( V_VISIBLE, H_INVISIBLE, fitVisibleArea(), getVisibleArea() ) );
+    layouter.layout( stubAdaptionContext( V_VISIBLE, H_INVISIBLE, fitVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
       .isEqualTo( $( -BORDER_WIDTH,
@@ -90,7 +91,7 @@ public class ScrollableLayouterTest {
 
   @Test
   public void withVerticalBarAndScrollableDoesNotFitInVisibleArea() {
-    layouter.layout( stubLayoutContext( V_VISIBLE, H_INVISIBLE, exceedVisibleArea(), getVisibleArea() ) );
+    layouter.layout( stubAdaptionContext( V_VISIBLE, H_INVISIBLE, exceedVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
       .isEqualTo( $( -BORDER_WIDTH,
@@ -101,7 +102,7 @@ public class ScrollableLayouterTest {
 
   @Test
   public void withHorizontalBarAndScrollableFitsVisibleArea() {
-    layouter.layout( stubLayoutContext( V_INVISIBLE, H_VISIBLE, fitVisibleArea(), getVisibleArea() ) );
+    layouter.layout( stubAdaptionContext( V_INVISIBLE, H_VISIBLE, fitVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
       .isEqualTo( $( -BORDER_WIDTH,
@@ -112,7 +113,7 @@ public class ScrollableLayouterTest {
 
   @Test
   public void withHorizontalBarAndScrollableDoesNotFitVisibleArea() {
-    layouter.layout( stubLayoutContext( V_INVISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() ) );
+    layouter.layout( stubAdaptionContext( V_INVISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
       .isEqualTo( $( -BORDER_WIDTH,
@@ -123,7 +124,7 @@ public class ScrollableLayouterTest {
 
   @Test
   public void withScrollBarsAndScrollableDoesNotFitVisibleArea() {
-    layouter.layout( stubLayoutContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() ) );
+    layouter.layout( stubAdaptionContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
       .isEqualTo( $( -BORDER_WIDTH,
@@ -136,7 +137,7 @@ public class ScrollableLayouterTest {
   public void horizontalBarSelectionIfScrollableIsChildOfAdapter() {
     adapter.getHorizontalBar().setSelection( SELECTION );
 
-    layouter.layout( stubLayoutContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() ) );
+    layouter.layout( stubAdaptionContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() ) );
 
     assertThat( scrollable.getBounds() )
       .isEqualTo( $( -BORDER_WIDTH,
@@ -149,7 +150,7 @@ public class ScrollableLayouterTest {
   public void horizontalBarSelectionIfScrollableIsReplacedByAdapter() {
     expandTopBranch( scrollable );
     adapter.getHorizontalBar().setSelection( SELECTION );
-    AdaptionContext<?> context = stubLayoutContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
+    AdaptionContext<?> context = stubAdaptionContext( V_VISIBLE, H_VISIBLE, exceedVisibleArea(), getVisibleArea() );
     stubChildByAdapterReplacement( context );
 
     layouter.layout( context );
@@ -161,11 +162,11 @@ public class ScrollableLayouterTest {
                      expectedVerticalHeightIfHorizontalIsVisible() + BORDER_ADJUSTMENT ) );
   }
 
-  private AdaptionContext<Scrollable> stubLayoutContext(
+  private AdaptionContext<Scrollable> stubAdaptionContext(
     Vertical verticalBarVisible, Horizontal horizontalBarVisible, Point preferredSize, Rectangle visibleArea )
   {
     AdaptionContext<Scrollable> result
-      = stubContext( verticalBarVisible, horizontalBarVisible, preferredSize, visibleArea );
+      = stubContext( verticalBarVisible, horizontalBarVisible, preferredSize, visibleArea, FIXED_SCROLL_BAR_BREADTH );
     when( result.getScrollable() ).thenReturn( new ScrollableControl<>( scrollable ) );
     when( result.getAdapter() ).thenReturn( adapter );
     return result;
