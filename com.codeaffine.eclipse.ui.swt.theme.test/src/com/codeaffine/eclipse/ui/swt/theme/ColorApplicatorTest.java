@@ -27,7 +27,7 @@ public class ColorApplicatorTest {
 
   private static final CSSPrimitiveValue CSS_COLOR = stubCssColorValue( 0, 8, 15 );
 
-  @Rule public final ConditionalIgnoreRule  conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ApplicatorTestHelper applicatorTestHelper;

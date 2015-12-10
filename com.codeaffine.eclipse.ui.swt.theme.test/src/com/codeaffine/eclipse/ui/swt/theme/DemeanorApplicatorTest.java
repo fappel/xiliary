@@ -19,16 +19,19 @@ import org.junit.Test;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.Demeanor;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class DemeanorApplicatorTest {
 
   private static final CSSPrimitiveValue CSS_EXPAND = stubCssStringValue( DEMEANOR_EXPAND_ON_MOUSE_OVER );
   private static final CSSPrimitiveValue CSS_FIXED = stubCssStringValue( DEMEANOR_FIXED_WIDTH );
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ApplicatorTestHelper applicatorTestHelper;
   private DemeanorApplicator applicator;
@@ -44,6 +47,7 @@ public class DemeanorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void apply() {
     ScrollbarStyle style = applicatorTestHelper.adapt();
 
@@ -53,6 +57,7 @@ public class DemeanorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyTopLevelWindowAttribute() {
     String attribute = ADAPTER_DEMEANOR + TOP_LEVEL_WINDOW_SELECTOR;
     ScrollbarStyle style = applicatorTestHelper.adapt();
@@ -63,6 +68,7 @@ public class DemeanorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyTopLevelWindowAttributeOnChildShell() {
     String attribute = ADAPTER_DEMEANOR + TOP_LEVEL_WINDOW_SELECTOR;
     applicatorTestHelper.reparentScrollableOnChildShell();
@@ -74,6 +80,7 @@ public class DemeanorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyWithBuffering() {
     applicator.apply( scrollable, CSS_FIXED, ADAPTER_DEMEANOR, ADAPTER_DEMEANOR_SETTER );
     ScrollbarStyle style = applicatorTestHelper.adapt();
@@ -83,6 +90,7 @@ public class DemeanorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyTopLevelWindowAttributeWithBuffering() {
     String attribute = ADAPTER_DEMEANOR + TOP_LEVEL_WINDOW_SELECTOR;
     applicator.apply( scrollable, CSS_FIXED, attribute, ADAPTER_DEMEANOR_SETTER );
@@ -93,6 +101,7 @@ public class DemeanorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyTopLevelWindowAttributeWithBufferingOnChildShell() {
     String attribute = ADAPTER_DEMEANOR + TOP_LEVEL_WINDOW_SELECTOR;
     applicatorTestHelper.reparentScrollableOnChildShell();
@@ -104,6 +113,7 @@ public class DemeanorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyWithUnknowCSSValue() {
     applicatorTestHelper.adapt();
 
@@ -120,6 +130,7 @@ public class DemeanorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyDifferentValues() {
     ScrollbarStyle style = applicatorTestHelper.adapt();
 

@@ -19,14 +19,17 @@ import org.junit.Test;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class IntApplicatorTest {
 
   private static final CSSPrimitiveValue CSS_INCREMENT = stubCssIntValue( 7 );
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ApplicatorTestHelper applicatorTestHelper;
   private IntApplicator applicator;
@@ -42,6 +45,7 @@ public class IntApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void apply() {
     ScrollbarStyle style = applicatorTestHelper.adapt();
 
@@ -51,6 +55,7 @@ public class IntApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyTopLevelWindowAttribute() {
     String attribute = FLAT_SCROLL_BAR_INCREMENT_LENGTH + TOP_LEVEL_WINDOW_SELECTOR;
     ScrollbarStyle style = applicatorTestHelper.adapt();
@@ -61,6 +66,7 @@ public class IntApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyTopLevelWindowAttributeOnChildShell() {
     String attribute = FLAT_SCROLL_BAR_INCREMENT_LENGTH + TOP_LEVEL_WINDOW_SELECTOR;
     applicatorTestHelper.reparentScrollableOnChildShell();
@@ -72,6 +78,7 @@ public class IntApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyWithBuffering() {
     applicator.apply( scrollable, CSS_INCREMENT, FLAT_SCROLL_BAR_INCREMENT_LENGTH, FLAT_SCROLLBAR_INCREMENT_SETTER );
     ScrollbarStyle style = applicatorTestHelper.adapt();
@@ -81,6 +88,7 @@ public class IntApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyTopLevelWindowAttributeWithBuffering() {
     String attribute = FLAT_SCROLL_BAR_INCREMENT_LENGTH + TOP_LEVEL_WINDOW_SELECTOR;
     applicator.apply( scrollable, CSS_INCREMENT, attribute, FLAT_SCROLLBAR_INCREMENT_SETTER );
@@ -91,6 +99,7 @@ public class IntApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyTopLevelWindowAttributeWithBufferingOnChildShell() {
     String attribute = FLAT_SCROLL_BAR_INCREMENT_LENGTH + TOP_LEVEL_WINDOW_SELECTOR;
     applicatorTestHelper.reparentScrollableOnChildShell();
@@ -102,6 +111,7 @@ public class IntApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyWithNegativeCSSValue() {
     applicatorTestHelper.adapt();
 
@@ -114,7 +124,9 @@ public class IntApplicatorTest {
       .hasMessageContaining( FLAT_SCROLL_BAR_INCREMENT_LENGTH )
       .isInstanceOf( IllegalArgumentException.class );
   }
+
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyWithNonIntCSSValue() {
     applicatorTestHelper.adapt();
 
