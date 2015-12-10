@@ -3,8 +3,10 @@ package com.codeaffine.eclipse.ui.swt.theme;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.ADAPTER_BACKGROUND_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.ADAPTER_DEMEANOR_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_BACKGROUND_SETTER;
+import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_INCREMENT_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_PAGE_INCRECMENT_COLOR_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_THUMB_COLOR_SETTER;
+import static java.lang.Integer.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -51,6 +53,15 @@ public class AttributeSetterTest {
     FLAT_SCROLLBAR_PAGE_INCRECMENT_COLOR_SETTER.accept( style, expectedColor() );
 
     verify( style ).setPageIncrementColor( expectedColor() );
+  }
+
+  @Test
+  public void FLAT_SCROLLBAR_BUTTON_LENGHT_SETTER() {
+    ScrollbarStyle style = mock( ScrollbarStyle.class );
+
+    FLAT_SCROLLBAR_INCREMENT_SETTER.accept( style, valueOf( 7 ) );
+
+    verify( style ).setIncrementButtonLength( 7 );
   }
 
   @Test

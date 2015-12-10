@@ -16,6 +16,8 @@ class AttributeSetter {
     = ( style, color ) -> style.setThumbColor( color );
   static final BiConsumer<ScrollbarStyle, Color> FLAT_SCROLLBAR_PAGE_INCRECMENT_COLOR_SETTER
     = ( style, color ) -> style.setPageIncrementColor( color );
+  static final BiConsumer<ScrollbarStyle, Integer> FLAT_SCROLLBAR_INCREMENT_SETTER
+    = ( style, integer ) -> style.setIncrementButtonLength( integer.intValue() );
   static final BiConsumer<ScrollbarStyle, Color> ADAPTER_BACKGROUND_SETTER
     = ( style, color ) -> ( ( Composite )style ).setBackground( color );
   static final BiConsumer<ScrollbarStyle, Demeanor> ADAPTER_DEMEANOR_SETTER

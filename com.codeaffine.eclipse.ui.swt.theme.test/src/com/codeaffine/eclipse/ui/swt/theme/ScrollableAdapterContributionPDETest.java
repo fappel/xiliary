@@ -2,14 +2,16 @@ package com.codeaffine.eclipse.ui.swt.theme;
 
 import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
 import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.assertThat;
-import static com.codeaffine.eclipse.ui.swt.theme.CSSValueHelper.stubCccBooleanValue;
+import static com.codeaffine.eclipse.ui.swt.theme.CSSValueHelper.stubCssBooleanValue;
 import static com.codeaffine.eclipse.ui.swt.theme.CSSValueHelper.stubCssColorValue;
+import static com.codeaffine.eclipse.ui.swt.theme.CSSValueHelper.stubCssIntValue;
 import static com.codeaffine.eclipse.ui.swt.theme.CSSValueHelper.stubCssStringValue;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.ADAPTER_BACKGROUND;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.ADAPTER_DEMEANOR;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.DEMEANOR_FIXED_WIDTH;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.FLAT_SCROLL_BAR;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.FLAT_SCROLL_BAR_BACKGROUND;
+import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.FLAT_SCROLL_BAR_INCREMENT_LENGTH;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.FLAT_SCROLL_BAR_PAGE_INCREMENT;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.FLAT_SCROLL_BAR_THUMB;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.SUPPORTED_ADAPTERS;
@@ -55,12 +57,14 @@ import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 @RunWith( Parameterized.class )
 public class ScrollableAdapterContributionPDETest {
 
+  private static final String NAME = "name";
   private static final CSSPrimitiveValue PAGE_INC = stubCssColorValue( 20, 75, 230 );
   private static final CSSPrimitiveValue BACK_GROUND = stubCssColorValue( 10, 100, 200 );
   private static final CSSPrimitiveValue THUMB = stubCssColorValue( 15, 150, 250 );
-  private static final CSSPrimitiveValue TRUE = stubCccBooleanValue( true );
-  private static final CSSPrimitiveValue FALSE = stubCccBooleanValue( false );
+  private static final CSSPrimitiveValue TRUE = stubCssBooleanValue( true );
+  private static final CSSPrimitiveValue FALSE = stubCssBooleanValue( false );
   private static final CSSPrimitiveValue FIXED_WIDTH = stubCssStringValue( DEMEANOR_FIXED_WIDTH );
+  private static final CSSPrimitiveValue INC_LENGTH = stubCssIntValue( 7 );
 
   @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
@@ -93,17 +97,19 @@ public class ScrollableAdapterContributionPDETest {
     assertThat( actual )
       .hasAttributeValue( "adapter", "org.eclipse.e4.ui.css.swt.dom.WidgetElement" )
       .hasAttributeValue( "composite", "false" )
-      .hasChildWithAttributeValue( "name", FLAT_SCROLL_BAR )
-      .hasChildWithAttributeValue( "name", FLAT_SCROLL_BAR_BACKGROUND )
-      .hasChildWithAttributeValue( "name", FLAT_SCROLL_BAR_THUMB )
-      .hasChildWithAttributeValue( "name", FLAT_SCROLL_BAR_PAGE_INCREMENT )
-      .hasChildWithAttributeValue( "name", ADAPTER_BACKGROUND )
-      .hasChildWithAttributeValue( "name", ADAPTER_DEMEANOR )
-      .hasChildWithAttributeValue( "name", FLAT_SCROLL_BAR_BACKGROUND + TOP_LEVEL_WINDOW_SELECTOR )
-      .hasChildWithAttributeValue( "name", FLAT_SCROLL_BAR_THUMB + TOP_LEVEL_WINDOW_SELECTOR )
-      .hasChildWithAttributeValue( "name", FLAT_SCROLL_BAR_PAGE_INCREMENT + TOP_LEVEL_WINDOW_SELECTOR )
-      .hasChildWithAttributeValue( "name", ADAPTER_BACKGROUND + TOP_LEVEL_WINDOW_SELECTOR )
-      .hasChildWithAttributeValue( "name", ADAPTER_DEMEANOR + TOP_LEVEL_WINDOW_SELECTOR );
+      .hasChildWithAttributeValue( NAME, FLAT_SCROLL_BAR )
+      .hasChildWithAttributeValue( NAME, FLAT_SCROLL_BAR_BACKGROUND )
+      .hasChildWithAttributeValue( NAME, FLAT_SCROLL_BAR_THUMB )
+      .hasChildWithAttributeValue( NAME, FLAT_SCROLL_BAR_PAGE_INCREMENT )
+      .hasChildWithAttributeValue( NAME, FLAT_SCROLL_BAR_INCREMENT_LENGTH )
+      .hasChildWithAttributeValue( NAME, ADAPTER_BACKGROUND )
+      .hasChildWithAttributeValue( NAME, ADAPTER_DEMEANOR )
+      .hasChildWithAttributeValue( NAME, FLAT_SCROLL_BAR_BACKGROUND + TOP_LEVEL_WINDOW_SELECTOR )
+      .hasChildWithAttributeValue( NAME, FLAT_SCROLL_BAR_THUMB + TOP_LEVEL_WINDOW_SELECTOR )
+      .hasChildWithAttributeValue( NAME, FLAT_SCROLL_BAR_PAGE_INCREMENT + TOP_LEVEL_WINDOW_SELECTOR )
+      .hasChildWithAttributeValue( NAME, FLAT_SCROLL_BAR_INCREMENT_LENGTH + TOP_LEVEL_WINDOW_SELECTOR )
+      .hasChildWithAttributeValue( NAME, ADAPTER_BACKGROUND + TOP_LEVEL_WINDOW_SELECTOR )
+      .hasChildWithAttributeValue( NAME, ADAPTER_DEMEANOR + TOP_LEVEL_WINDOW_SELECTOR );
   }
 
   @Test
@@ -158,6 +164,7 @@ public class ScrollableAdapterContributionPDETest {
     contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR_BACKGROUND, BACK_GROUND, null, null );
     contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR_THUMB, THUMB, null, null );
     contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR_PAGE_INCREMENT, PAGE_INC, null, null );
+    contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR_INCREMENT_LENGTH, INC_LENGTH, null, null );
     contribution.applyCSSProperty( newElement( scrollable ), ADAPTER_DEMEANOR, FIXED_WIDTH, null, null );
 
     assertThat( shell.getChildren()[ 0 ] ).isInstanceOf( typePair.adapterType );
@@ -166,6 +173,7 @@ public class ScrollableAdapterContributionPDETest {
     assertThat( getAdapterStyle().getThumbColor() ).isEqualTo( expectedColor( THUMB ) );
     assertThat( getAdapterStyle().getPageIncrementColor() ).isEqualTo( expectedColor( PAGE_INC ) );
     assertThat( getAdapterStyle().getDemeanor() ).isSameAs( Demeanor.FIXED_SCROLL_BAR_BREADTH );
+    assertThat( getAdapterStyle().getIncrementButtonLength() ).isEqualTo( expectedInt( INC_LENGTH ) );
   }
 
   @Test
@@ -176,6 +184,7 @@ public class ScrollableAdapterContributionPDETest {
     contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR_BACKGROUND, BACK_GROUND, null, null );
     contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR_THUMB, THUMB, null, null );
     contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR_PAGE_INCREMENT, PAGE_INC, null, null );
+    contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR_INCREMENT_LENGTH, INC_LENGTH, null, null );
     contribution.applyCSSProperty( newElement( scrollable ), ADAPTER_BACKGROUND, BACK_GROUND, null, null );
     contribution.applyCSSProperty( newElement( scrollable ), ADAPTER_DEMEANOR, FIXED_WIDTH, null, null );
     contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR, TRUE, null, null );
@@ -186,6 +195,7 @@ public class ScrollableAdapterContributionPDETest {
     assertThat( getAdapterStyle().getThumbColor() ).isEqualTo( expectedColor( THUMB ) );
     assertThat( getAdapterStyle().getPageIncrementColor() ).isEqualTo( expectedColor( PAGE_INC ) );
     assertThat( getAdapterStyle().getDemeanor() ).isEqualTo( Demeanor.FIXED_SCROLL_BAR_BREADTH );
+    assertThat( getAdapterStyle().getIncrementButtonLength() ).isEqualTo( expectedInt( INC_LENGTH ) );
   }
 
   @Test
@@ -396,4 +406,9 @@ public class ScrollableAdapterContributionPDETest {
   private Color expectedColor( CSSPrimitiveValue value ) {
     return new Color( displayHelper.getDisplay(), getRGBA( value ).rgb );
   }
+
+  private static int expectedInt( CSSPrimitiveValue intValue ) {
+    return Integer.parseInt( intValue.getCssText() );
+  }
+
 }

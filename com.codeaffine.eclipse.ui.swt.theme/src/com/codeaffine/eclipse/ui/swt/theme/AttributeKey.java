@@ -63,4 +63,8 @@ class AttributeKey<T> {
   static AttributeKey<Demeanor> demeanorKey( String identifier ) {
     return key( identifier, Demeanor.class );
   }
+
+  static AttributeKey<Integer> integerKey( String identifier ) {
+    return new AttributeKey<>( identifier, Integer.class );
+  }
 }

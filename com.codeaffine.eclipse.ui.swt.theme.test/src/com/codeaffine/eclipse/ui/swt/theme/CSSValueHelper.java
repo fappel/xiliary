@@ -23,8 +23,12 @@ class CSSValueHelper {
     return result;
   }
 
-  static CSSPrimitiveValue stubCccBooleanValue( boolean booleanValue ) {
+  static CSSPrimitiveValue stubCssBooleanValue( boolean booleanValue ) {
     return stubCssStringValue( valueOf( booleanValue ) );
+  }
+
+  static CSSPrimitiveValue stubCssIntValue( int intValue ) {
+    return stubCssStringValue( valueOf( intValue ) );
   }
 
   static CSSPrimitiveValue stubCssStringValue( String stringValue ) {

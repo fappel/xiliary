@@ -72,6 +72,14 @@ public class AttributeKeyTest {
     assertThat( actual.type ).isSameAs( Demeanor.class );
   }
 
+  @Test
+  public void integerKey() {
+    AttributeKey<Integer> actual = AttributeKey.integerKey( IDENTIFIER );
+
+    assertThat( actual.identifier ).isSameAs( IDENTIFIER );
+    assertThat( actual.type ).isSameAs( Integer.class );
+  }
+
   @Test( expected = IllegalArgumentException.class )
   public void constructWithNullAsName() {
     key( null, TYPE );

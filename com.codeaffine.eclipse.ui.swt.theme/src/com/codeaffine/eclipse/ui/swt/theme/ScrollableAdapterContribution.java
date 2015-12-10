@@ -4,6 +4,7 @@ import static com.codeaffine.eclipse.ui.swt.theme.AttributeApplicator.attach;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.ADAPTER_BACKGROUND_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.ADAPTER_DEMEANOR_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_BACKGROUND_SETTER;
+import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_INCREMENT_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_PAGE_INCRECMENT_COLOR_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_THUMB_COLOR_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.ControlElements.extractControl;
@@ -34,6 +35,7 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
   public static final String FLAT_SCROLL_BAR_PAGE_INCREMENT = "flat-scroll-bar-page-increment";
   public static final String FLAT_SCROLL_BAR_BACKGROUND = "flat-scroll-bar-background";
   public static final String FLAT_SCROLL_BAR_THUMB = "flat-scroll-bar-thumb";
+  public static final String FLAT_SCROLL_BAR_INCREMENT_LENGTH = "flat-scroll-bar-increment-length";
   public static final String FLAT_SCROLL_BAR = "flat-scroll-bar";
   public static final String ADAPTER_DEMEANOR = "adapter-demeanor";
   public static final String ADAPTER_BACKGROUND = "adapter-background";
@@ -50,11 +52,13 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
   private final DemeanorApplicator demeanorApplicator;
   private final ScrollableAdapterFactory factory;
   private final ColorApplicator colorApplicator;
+  private final IntApplicator intApplicator;
 
   public ScrollableAdapterContribution() {
     factory = new ScrollableAdapterFactory();
     colorApplicator = new ColorApplicator( factory );
     demeanorApplicator = new DemeanorApplicator( factory );
+    intApplicator = new IntApplicator( factory );
   }
 
   @Override
@@ -96,6 +100,7 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
         colorApplicator.apply( element, FLAT_SCROLL_BAR_BACKGROUND, FLAT_SCROLLBAR_BACKGROUND_SETTER );
         colorApplicator.apply( element, FLAT_SCROLL_BAR_THUMB, FLAT_SCROLLBAR_THUMB_COLOR_SETTER );
         colorApplicator.apply( element, FLAT_SCROLL_BAR_PAGE_INCREMENT, FLAT_SCROLLBAR_PAGE_INCRECMENT_COLOR_SETTER );
+        intApplicator.apply( element, FLAT_SCROLL_BAR_INCREMENT_LENGTH, FLAT_SCROLLBAR_INCREMENT_SETTER );
         colorApplicator.apply( element, ADAPTER_BACKGROUND, ADAPTER_BACKGROUND_SETTER );
         demeanorApplicator.apply( element, ADAPTER_DEMEANOR, ADAPTER_DEMEANOR_SETTER );
         break;
@@ -107,6 +112,9 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
         break;
       case FLAT_SCROLL_BAR_PAGE_INCREMENT:
         colorApplicator.apply( element, value, property, FLAT_SCROLLBAR_PAGE_INCRECMENT_COLOR_SETTER );
+        break;
+      case FLAT_SCROLL_BAR_INCREMENT_LENGTH:
+        intApplicator.apply( element, value, property, FLAT_SCROLLBAR_INCREMENT_SETTER );
         break;
       case ADAPTER_DEMEANOR:
         demeanorApplicator.apply( element, value, property, ADAPTER_DEMEANOR_SETTER );
@@ -122,6 +130,9 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
         break;
       case FLAT_SCROLL_BAR_PAGE_INCREMENT + TOP_LEVEL_WINDOW_SELECTOR:
         colorApplicator.apply( element, value, property, FLAT_SCROLLBAR_PAGE_INCRECMENT_COLOR_SETTER );
+        break;
+      case FLAT_SCROLL_BAR_INCREMENT_LENGTH + TOP_LEVEL_WINDOW_SELECTOR:
+        intApplicator.apply( element, value, property, FLAT_SCROLLBAR_INCREMENT_SETTER );
         break;
       case ADAPTER_DEMEANOR + TOP_LEVEL_WINDOW_SELECTOR:
         demeanorApplicator.apply( element, value, property, ADAPTER_DEMEANOR_SETTER );
