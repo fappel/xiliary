@@ -11,11 +11,11 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.MAX
 import static com.codeaffine.eclipse.swt.widget.scrollable.OverlayLayouter.CORNER_COVERAGE;
 import static com.codeaffine.eclipse.swt.widget.scrollable.OverlayLayouter.calculateCornerOverlayBounds;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.assertThat;
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.util.Collection;
+import java.util.LinkedList;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -51,9 +51,14 @@ public class OverlayLayouterTest {
   @Parameter
   public Demeanor demeanor;
 
+
   @Parameters
-  public static Collection<Demeanor> getDemeanor() {
-    return asList( Demeanor.values() );
+  public static Collection<Object[]> data() {
+    Collection<Object[]> result = new LinkedList<>();
+    for( Demeanor element : Demeanor.values() ) {
+      result.add( new Object[] { element } );
+    }
+    return result;
   }
 
   @Before
