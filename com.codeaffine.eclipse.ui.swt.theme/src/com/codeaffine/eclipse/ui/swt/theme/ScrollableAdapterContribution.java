@@ -1,18 +1,21 @@
 package com.codeaffine.eclipse.ui.swt.theme;
 
+import static com.codeaffine.eclipse.ui.swt.theme.AttributeApplicator.attach;
+import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.ADAPTER_BACKGROUND_SETTER;
+import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.ADAPTER_DEMEANOR_SETTER;
+import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_BACKGROUND_SETTER;
+import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_PAGE_INCRECMENT_COLOR_SETTER;
+import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_THUMB_COLOR_SETTER;
+import static com.codeaffine.eclipse.ui.swt.theme.ControlElements.extractControl;
+import static com.codeaffine.eclipse.ui.swt.theme.ControlElements.extractScrollable;
 import static java.lang.Boolean.parseBoolean;
-import static org.eclipse.e4.ui.css.swt.helpers.CSSSWTColorHelper.getRGBA;
 
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.stream.Stream;
 
 import org.eclipse.e4.ui.css.core.dom.properties.ICSSPropertyHandler;
 import org.eclipse.e4.ui.css.core.engine.CSSEngine;
 import org.eclipse.e4.ui.css.swt.dom.ControlElement;
-import org.eclipse.jface.resource.ColorRegistry;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Table;
@@ -25,14 +28,17 @@ import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
 import com.codeaffine.eclipse.swt.widget.scrollable.TableAdapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
 
-@SuppressWarnings("restriction")
+@SuppressWarnings( "restriction" )
 public class ScrollableAdapterContribution implements ICSSPropertyHandler {
 
   public static final String FLAT_SCROLL_BAR_PAGE_INCREMENT = "flat-scroll-bar-page-increment";
   public static final String FLAT_SCROLL_BAR_BACKGROUND = "flat-scroll-bar-background";
   public static final String FLAT_SCROLL_BAR_THUMB = "flat-scroll-bar-thumb";
   public static final String FLAT_SCROLL_BAR = "flat-scroll-bar";
-  public static final String ADAPTER_BACKGROUND_COLOR = "adapter-background-color";
+  public static final String ADAPTER_DEMEANOR = "adapter-demeanor";
+  public static final String ADAPTER_BACKGROUND = "adapter-background";
+  public static final String DEMEANOR_FIXED_WIDTH = "fixed-width";
+  public static final String DEMEANOR_EXPAND_ON_MOUSE_OVER = "expand-on-mouse-over";
   public static final String TOP_LEVEL_WINDOW_SELECTOR = "-top-level";
 
   @SuppressWarnings( { "unchecked", "rawtypes" } )
@@ -41,24 +47,14 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
     new TypePair<>( Table.class, TableAdapter.class ),
   };
 
-  private static final String SCROLLABLE_STYLE = ScrollableAdapterContribution.class.getName() + "#SCROLLABLE_STYLE";
-
+  private final DemeanorApplicator demeanorApplicator;
   private final ScrollableAdapterFactory factory;
-  private final ColorRegistry colorRegistry;
+  private final ColorApplicator colorApplicator;
 
   public ScrollableAdapterContribution() {
     factory = new ScrollableAdapterFactory();
-    colorRegistry = new ColorRegistry();
-  }
-
-  @Override
-  public boolean applyCSSProperty( Object element, String property, CSSValue value, String pseudo, CSSEngine engine )
-    throws Exception
-  {
-    if( mustApply( element ) ) {
-      doApplyCssProperty( element, property, value );
-    }
-    return false;
+    colorApplicator = new ColorApplicator( factory );
+    demeanorApplicator = new DemeanorApplicator( factory );
   }
 
   @Override
@@ -68,40 +64,14 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
     return null;
   }
 
-  private void doApplyCssProperty( Object element, String property, CSSValue value ) {
-    switch( property ) {
-      case FLAT_SCROLL_BAR:
-        adapt( extractScrollable( element ), value );
-        applyColor( element, FLAT_SCROLL_BAR_BACKGROUND, ( style, color ) -> style.setBackgroundColor( color ) );
-        applyColor( element, FLAT_SCROLL_BAR_THUMB, ( style, color ) -> style.setThumbColor( color ) );
-        applyColor( element, FLAT_SCROLL_BAR_PAGE_INCREMENT, ( style, color ) -> style.setPageIncrementColor( color ) );
-        applyColor( element, ADAPTER_BACKGROUND_COLOR, ( cmp, color ) -> ( ( Composite )cmp ).setBackground( color ) );
-        break;
-      case FLAT_SCROLL_BAR_BACKGROUND:
-        applyColor( element, value, property, ( style, color ) -> style.setBackgroundColor( color ) );
-        break;
-      case FLAT_SCROLL_BAR_THUMB:
-        applyColor( element, value, property, ( style, color ) -> style.setThumbColor( color ) );
-        break;
-      case FLAT_SCROLL_BAR_PAGE_INCREMENT:
-        applyColor( element, value, property, ( style, color ) -> style.setPageIncrementColor( color ) );
-        break;
-      case ADAPTER_BACKGROUND_COLOR:
-        applyColor( element, value, property, ( style, color ) -> ( ( Composite )style ).setBackground( color ) );
-        break;
-      case FLAT_SCROLL_BAR_BACKGROUND + TOP_LEVEL_WINDOW_SELECTOR:
-        applyColor( element, value, property, ( style, color ) -> style.setBackgroundColor( color ) );
-        break;
-      case FLAT_SCROLL_BAR_THUMB + TOP_LEVEL_WINDOW_SELECTOR:
-        applyColor( element, value, property, ( style, color ) -> style.setThumbColor( color ) );
-        break;
-      case FLAT_SCROLL_BAR_PAGE_INCREMENT + TOP_LEVEL_WINDOW_SELECTOR:
-        applyColor( element, value, property, ( style, color ) -> style.setPageIncrementColor( color ) );
-        break;
-      case ADAPTER_BACKGROUND_COLOR + TOP_LEVEL_WINDOW_SELECTOR:
-        applyColor( element, value, property, ( cmp, color ) -> ( ( Composite )cmp ).setBackground( color ) );
-        break;
+  @Override
+  public boolean applyCSSProperty( Object element, String property, CSSValue value, String pseudo, CSSEngine engine )
+    throws Exception
+  {
+    if( mustApply( element ) ) {
+      doApplyCssProperty( extractScrollable( element ), property, value );
     }
+    return false;
   }
 
   private static boolean mustApply( Object element ) {
@@ -112,70 +82,6 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
     return element instanceof ControlElement;
   }
 
-  @SuppressWarnings( { "rawtypes", "unchecked" } )
-  private void adapt( Scrollable scrollable, CSSValue value ) {
-    if( !factory.isAdapted( scrollable ) && parseBoolean( value.getCssText() ) ) {
-      TypePair<? extends Scrollable, ? extends Adapter> typePair = lookupTypePair( scrollable );
-      Scrollable scrollableExtension = typePair.scrollableType.cast( scrollable );
-      ScrollbarStyle result = ( ScrollbarStyle )factory.create( scrollableExtension, typePair.adapterType );
-      scrollable.setData( SCROLLABLE_STYLE, result );
-    }
-  }
-
-  private void applyColor( Object element, String styleElement, BiConsumer<ScrollbarStyle, Color> changer ) {
-    Scrollable scrollable = extractScrollable( element );
-    if( scrollable.getData( styleElement ) != null && getAdapter( scrollable ) != null ) {
-      changer.accept( getAdapter( scrollable ), getColor( element, styleElement ) );
-    }
-  }
-
-  private void applyColor( Object element, CSSValue value, String key, BiConsumer<ScrollbarStyle, Color> changer ) {
-    ensureColorBuffering( value );
-    Scrollable scrollable = extractScrollable( element );
-    ColorApplicatorSwitch applicator = new ColorApplicatorSwitch( scrollable, key );
-    if( factory.isAdapted( scrollable ) && getAdapter( scrollable ) != null ) {
-      applicator.onDefault( () -> applyColor( changer, scrollable, value ) )
-                .onTopLevelWindow( () -> applicator.buffer( key, getColor( value ) ) );
-    } else {
-      String topLevelKey = key.replaceAll( TOP_LEVEL_WINDOW_SELECTOR, "" );
-      applicator.onDefault( () -> applicator.buffer( key, getColor( value ) ) )
-                .onTopLevelWindow( () -> applicator.buffer( topLevelKey, getColor( value ) ) );
-    }
-    applicator.apply();
-  }
-
-  private void applyColor( BiConsumer<ScrollbarStyle, Color> changer, Scrollable scrollable, CSSValue value ) {
-    changer.accept( getAdapter( scrollable ), getColor( value ) );
-  }
-
-  private static Scrollable extractScrollable( Object element ) {
-    return ( Scrollable )extractControl( element );
-  }
-
-  private static Control extractControl( Object element ) {
-    ControlElement controlElement = ( ControlElement )element;
-    return ( Control )controlElement.getNativeWidget();
-  }
-
-  private void ensureColorBuffering( CSSValue value ) {
-    if( !colorRegistry.hasValueFor( value.getCssText() ) ) {
-      colorRegistry.put( value.getCssText(), getRGBA( value ).rgb );
-    }
-  }
-
-  private static Color getColor( Object element, String styleElement ) {
-    return ( Color )extractScrollable( element ).getData( styleElement );
-  }
-
-  private Color getColor( CSSValue value ) {
-    return colorRegistry.get( value.getCssText() );
-  }
-
-  @SuppressWarnings("rawtypes")
-  private static TypePair<? extends Scrollable, ? extends Adapter> lookupTypePair( Scrollable scrollable ) {
-    return tryFindTypePair( scrollable ).get();
-  }
-
   @SuppressWarnings("rawtypes")
   private static Optional<TypePair<? extends Scrollable, ? extends Adapter>> tryFindTypePair( Control control ) {
     return Stream.of( SUPPORTED_ADAPTERS )
@@ -183,7 +89,63 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
       .findFirst();
   }
 
-  ScrollbarStyle getAdapter( Scrollable scrollable ) {
-    return ( ScrollbarStyle )scrollable.getData( SCROLLABLE_STYLE );
+  private void doApplyCssProperty( Scrollable element, String property, CSSValue value ) {
+    switch( property ) {
+      case FLAT_SCROLL_BAR:
+        adapt( element, value );
+        colorApplicator.apply( element, FLAT_SCROLL_BAR_BACKGROUND, FLAT_SCROLLBAR_BACKGROUND_SETTER );
+        colorApplicator.apply( element, FLAT_SCROLL_BAR_THUMB, FLAT_SCROLLBAR_THUMB_COLOR_SETTER );
+        colorApplicator.apply( element, FLAT_SCROLL_BAR_PAGE_INCREMENT, FLAT_SCROLLBAR_PAGE_INCRECMENT_COLOR_SETTER );
+        colorApplicator.apply( element, ADAPTER_BACKGROUND, ADAPTER_BACKGROUND_SETTER );
+        demeanorApplicator.apply( element, ADAPTER_DEMEANOR, ADAPTER_DEMEANOR_SETTER );
+        break;
+      case FLAT_SCROLL_BAR_BACKGROUND:
+        colorApplicator.apply( element, value, property, FLAT_SCROLLBAR_BACKGROUND_SETTER );
+        break;
+      case FLAT_SCROLL_BAR_THUMB:
+        colorApplicator.apply( element, value, property, FLAT_SCROLLBAR_THUMB_COLOR_SETTER );
+        break;
+      case FLAT_SCROLL_BAR_PAGE_INCREMENT:
+        colorApplicator.apply( element, value, property, FLAT_SCROLLBAR_PAGE_INCRECMENT_COLOR_SETTER );
+        break;
+      case ADAPTER_DEMEANOR:
+        demeanorApplicator.apply( element, value, property, ADAPTER_DEMEANOR_SETTER );
+        break;
+      case ADAPTER_BACKGROUND:
+        colorApplicator.apply( element, value, property, ADAPTER_BACKGROUND_SETTER );
+        break;
+      case FLAT_SCROLL_BAR_BACKGROUND + TOP_LEVEL_WINDOW_SELECTOR:
+        colorApplicator.apply( element, value, property, FLAT_SCROLLBAR_BACKGROUND_SETTER );
+        break;
+      case FLAT_SCROLL_BAR_THUMB + TOP_LEVEL_WINDOW_SELECTOR:
+        colorApplicator.apply( element, value, property, FLAT_SCROLLBAR_THUMB_COLOR_SETTER );
+        break;
+      case FLAT_SCROLL_BAR_PAGE_INCREMENT + TOP_LEVEL_WINDOW_SELECTOR:
+        colorApplicator.apply( element, value, property, FLAT_SCROLLBAR_PAGE_INCRECMENT_COLOR_SETTER );
+        break;
+      case ADAPTER_DEMEANOR + TOP_LEVEL_WINDOW_SELECTOR:
+        demeanorApplicator.apply( element, value, property, ADAPTER_DEMEANOR_SETTER );
+        break;
+      case ADAPTER_BACKGROUND + TOP_LEVEL_WINDOW_SELECTOR:
+        colorApplicator.apply( element, value, property, ADAPTER_BACKGROUND_SETTER );
+        break;
+      default:
+        throw new IllegalArgumentException( "Unsupported attribute '" + property + "'" );
+    }
+  }
+
+  @SuppressWarnings( { "rawtypes", "unchecked" } )
+  private void adapt( Scrollable scrollable, CSSValue value ) {
+    if( !factory.isAdapted( scrollable ) && parseBoolean( value.getCssText() ) ) {
+      TypePair<? extends Scrollable, ? extends Adapter> typePair = lookupTypePair( scrollable );
+      Scrollable scrollableExtension = typePair.scrollableType.cast( scrollable );
+      ScrollbarStyle result = ( ScrollbarStyle )factory.create( scrollableExtension, typePair.adapterType );
+      attach( scrollable, result );
+    }
+  }
+
+  @SuppressWarnings("rawtypes")
+  private static TypePair<? extends Scrollable, ? extends Adapter> lookupTypePair( Scrollable scrollable ) {
+    return tryFindTypePair( scrollable ).get();
   }
 }

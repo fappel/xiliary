@@ -328,12 +328,12 @@ Tree {
   flat-scroll-bar: true;
   flat-scroll-bar-thumb: #a6a6a6;
   flat-scroll-bar-page-increment: #f0f0f0;
-  adapter-background-color-top-level: #f8f8f8;
+  adapter-background-top-level: #f8f8f8;
 }
 
 Table {
   flat-scroll-bar: true;
   flat-scroll-bar-thumb: #a6a6a6;
   flat-scroll-bar-page-increment: #f0f0f0;
-  adapter-background-color-top-level: #f8f8f8;
+  adapter-background-top-level: #f8f8f8;
 }

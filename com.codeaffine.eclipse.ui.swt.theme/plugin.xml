@@ -51,10 +51,16 @@
                name="flat-scroll-bar-page-increment-top-level">
          </property-name>
          <property-name
-               name="adapter-background-color">
+               name="adapter-demeanor">
          </property-name>
          <property-name
-               name="adapter-background-color-top-level">
+               name="adapter-background">
+         </property-name>
+         <property-name
+               name="adapter-demeanor-top-level">
+         </property-name>
+         <property-name
+               name="adapter-background-top-level">
          </property-name>
       </handler>
    </extension>
