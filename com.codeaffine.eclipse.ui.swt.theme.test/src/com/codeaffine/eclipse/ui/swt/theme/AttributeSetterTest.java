@@ -18,15 +18,18 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.Demeanor;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
 import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class AttributeSetterTest {
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule  conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   @Test
   public void FLAT_SCROLLBAR_BACKGROUND_COLOR_SETTER() {
@@ -65,6 +68,7 @@ public class AttributeSetterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void ADAPTER_BACKGROUND_SETTER() {
     Tree scrollable = new Tree( displayHelper.createShell(), SWT.NONE );
     ScrollableAdapterFactory factory = new ScrollableAdapterFactory();

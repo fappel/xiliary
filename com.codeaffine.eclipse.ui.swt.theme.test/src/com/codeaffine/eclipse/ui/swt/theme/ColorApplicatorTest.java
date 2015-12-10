@@ -17,15 +17,18 @@ import org.junit.Test;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 @SuppressWarnings("restriction")
 public class ColorApplicatorTest {
 
   private static final CSSPrimitiveValue CSS_COLOR = stubCssColorValue( 0, 8, 15 );
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule  conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ApplicatorTestHelper applicatorTestHelper;
   private ColorApplicator applicator;
@@ -42,6 +45,7 @@ public class ColorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void apply() {
     ScrollbarStyle style = applicatorTestHelper.adapt();
 
@@ -51,6 +55,7 @@ public class ColorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyTopLevelWindowAttribute() {
     String attribute = FLAT_SCROLL_BAR_BACKGROUND + TOP_LEVEL_WINDOW_SELECTOR;
     ScrollbarStyle style = applicatorTestHelper.adapt();
@@ -59,7 +64,9 @@ public class ColorApplicatorTest {
 
     assertThat( style.getBackgroundColor().getRGBA() ).isEqualTo( getRGBA( CSS_COLOR ) );
   }
+
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyTopLevelWindowAttributeOnChildShell() {
     String attribute = FLAT_SCROLL_BAR_BACKGROUND + TOP_LEVEL_WINDOW_SELECTOR;
     applicatorTestHelper.reparentScrollableOnChildShell();
@@ -71,6 +78,7 @@ public class ColorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyWithBuffering() {
     applicator.apply( scrollable, CSS_COLOR, FLAT_SCROLL_BAR_BACKGROUND, FLAT_SCROLLBAR_BACKGROUND_SETTER );
     ScrollbarStyle style = applicatorTestHelper.adapt();
@@ -80,6 +88,7 @@ public class ColorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyTopLevelWindowAttributeWithBuffering() {
     String attribute = FLAT_SCROLL_BAR_BACKGROUND + TOP_LEVEL_WINDOW_SELECTOR;
     applicator.apply( scrollable, CSS_COLOR, attribute, FLAT_SCROLLBAR_BACKGROUND_SETTER );
@@ -90,6 +99,7 @@ public class ColorApplicatorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyTopLevelWindowAttributeWithBufferingOnChildShell() {
     String attribute = FLAT_SCROLL_BAR_BACKGROUND + TOP_LEVEL_WINDOW_SELECTOR;
     applicatorTestHelper.reparentScrollableOnChildShell();
