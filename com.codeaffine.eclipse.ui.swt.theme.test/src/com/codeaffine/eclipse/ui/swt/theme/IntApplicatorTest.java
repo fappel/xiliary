@@ -1,6 +1,5 @@
 package com.codeaffine.eclipse.ui.swt.theme;
 
-import static com.codeaffine.eclipse.ui.swt.theme.AttributeApplicator.attach;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_INCREMENT_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.CSSValueHelper.stubCssIntValue;
 import static com.codeaffine.eclipse.ui.swt.theme.CSSValueHelper.stubCssStringValue;
@@ -20,9 +19,7 @@ import org.junit.Test;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
-import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
 
 public class IntApplicatorTest {
 
@@ -31,7 +28,7 @@ public class IntApplicatorTest {
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private ScrollableAdapterFactory factory;
+  private ApplicatorTestHelper applicatorTestHelper;
   private IntApplicator applicator;
   private Scrollable scrollable;
   private Shell shell;
@@ -40,13 +37,13 @@ public class IntApplicatorTest {
   public void setUp() {
     shell = displayHelper.createShell();
     scrollable = new Tree( shell, SWT.NONE );
-    factory = new ScrollableAdapterFactory();
-    applicator = new IntApplicator( factory );
+    applicatorTestHelper = new ApplicatorTestHelper( scrollable );
+    applicator = new IntApplicator( applicatorTestHelper.getFactory() );
   }
 
   @Test
   public void apply() {
-    ScrollbarStyle style = adapt();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
 
     applicator.apply( scrollable, CSS_INCREMENT, FLAT_SCROLL_BAR_INCREMENT_LENGTH, FLAT_SCROLLBAR_INCREMENT_SETTER );
 
@@ -56,7 +53,7 @@ public class IntApplicatorTest {
   @Test
   public void applyTopLevelWindowAttribute() {
     String attribute = FLAT_SCROLL_BAR_INCREMENT_LENGTH + TOP_LEVEL_WINDOW_SELECTOR;
-    ScrollbarStyle style = adapt();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
 
     applicator.apply( scrollable, CSS_INCREMENT, attribute, FLAT_SCROLLBAR_INCREMENT_SETTER );
 
@@ -66,8 +63,8 @@ public class IntApplicatorTest {
   @Test
   public void applyTopLevelWindowAttributeOnChildShell() {
     String attribute = FLAT_SCROLL_BAR_INCREMENT_LENGTH + TOP_LEVEL_WINDOW_SELECTOR;
-    reparentScrollableOnChildShell();
-    ScrollbarStyle style = adapt();
+    applicatorTestHelper.reparentScrollableOnChildShell();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
 
     applicator.apply( scrollable, CSS_INCREMENT, attribute, FLAT_SCROLLBAR_INCREMENT_SETTER );
 
@@ -77,7 +74,7 @@ public class IntApplicatorTest {
   @Test
   public void applyWithBuffering() {
     applicator.apply( scrollable, CSS_INCREMENT, FLAT_SCROLL_BAR_INCREMENT_LENGTH, FLAT_SCROLLBAR_INCREMENT_SETTER );
-    ScrollbarStyle style = adapt();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
     applicator.apply( scrollable, FLAT_SCROLL_BAR_INCREMENT_LENGTH, FLAT_SCROLLBAR_INCREMENT_SETTER );
 
     assertThat( style.getIncrementButtonLength() ).isEqualTo( expectedValue( CSS_INCREMENT ) );
@@ -87,7 +84,7 @@ public class IntApplicatorTest {
   public void applyTopLevelWindowAttributeWithBuffering() {
     String attribute = FLAT_SCROLL_BAR_INCREMENT_LENGTH + TOP_LEVEL_WINDOW_SELECTOR;
     applicator.apply( scrollable, CSS_INCREMENT, attribute, FLAT_SCROLLBAR_INCREMENT_SETTER );
-    ScrollbarStyle style = adapt();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
     applicator.apply( scrollable, FLAT_SCROLL_BAR_INCREMENT_LENGTH, FLAT_SCROLLBAR_INCREMENT_SETTER );
 
     assertThat( style.getIncrementButtonLength() ).isEqualTo( expectedValue( CSS_INCREMENT ) );
@@ -96,9 +93,9 @@ public class IntApplicatorTest {
   @Test
   public void applyTopLevelWindowAttributeWithBufferingOnChildShell() {
     String attribute = FLAT_SCROLL_BAR_INCREMENT_LENGTH + TOP_LEVEL_WINDOW_SELECTOR;
-    reparentScrollableOnChildShell();
+    applicatorTestHelper.reparentScrollableOnChildShell();
     applicator.apply( scrollable, CSS_INCREMENT, attribute, FLAT_SCROLLBAR_INCREMENT_SETTER );
-    ScrollbarStyle style = adapt();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
     applicator.apply( scrollable, FLAT_SCROLL_BAR_INCREMENT_LENGTH, FLAT_SCROLLBAR_INCREMENT_SETTER );
 
     assertThat( style.getIncrementButtonLength() ).isNotEqualTo( expectedValue( CSS_INCREMENT ) );
@@ -106,7 +103,7 @@ public class IntApplicatorTest {
 
   @Test
   public void applyWithNegativeCSSValue() {
-    adapt();
+    applicatorTestHelper.adapt();
 
     Throwable actual = thrownBy( () -> {
       CSSPrimitiveValue negativeInt = stubCssIntValue( -1 );
@@ -119,7 +116,7 @@ public class IntApplicatorTest {
   }
   @Test
   public void applyWithNonIntCSSValue() {
-    adapt();
+    applicatorTestHelper.adapt();
 
     Throwable actual = thrownBy( () -> {
       CSSPrimitiveValue bad = stubCssStringValue( "bad" );
@@ -130,17 +127,6 @@ public class IntApplicatorTest {
     .hasMessageContaining( FLAT_SCROLL_BAR_INCREMENT_LENGTH )
     .hasMessageContaining( "bad" )
     .isInstanceOf( IllegalArgumentException.class );
-  }
-
-  private void reparentScrollableOnChildShell() {
-    Shell childShell = new Shell( shell );
-    scrollable.setParent( childShell );
-  }
-
-  private ScrollbarStyle adapt() {
-    ScrollbarStyle result = factory.create( ( Tree )scrollable, TreeAdapter.class );
-    attach( scrollable, result );
-    return result;
   }
 
   private static int expectedValue( CSSPrimitiveValue cssValue ) {

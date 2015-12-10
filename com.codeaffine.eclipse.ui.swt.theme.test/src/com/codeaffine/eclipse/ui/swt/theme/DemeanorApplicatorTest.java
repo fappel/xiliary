@@ -1,6 +1,5 @@
 package com.codeaffine.eclipse.ui.swt.theme;
 
-import static com.codeaffine.eclipse.ui.swt.theme.AttributeApplicator.attach;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.ADAPTER_DEMEANOR_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.CSSValueHelper.stubCssStringValue;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.ADAPTER_DEMEANOR;
@@ -21,9 +20,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.widget.scrollable.Demeanor;
-import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
-import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
 
 public class DemeanorApplicatorTest {
 
@@ -33,7 +30,7 @@ public class DemeanorApplicatorTest {
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private ScrollableAdapterFactory factory;
+  private ApplicatorTestHelper applicatorTestHelper;
   private DemeanorApplicator applicator;
   private Scrollable scrollable;
   private Shell shell;
@@ -42,13 +39,13 @@ public class DemeanorApplicatorTest {
   public void setUp() {
     shell = displayHelper.createShell();
     scrollable = new Tree( shell, SWT.NONE );
-    factory = new ScrollableAdapterFactory();
-    applicator = new DemeanorApplicator( factory );
+    applicatorTestHelper = new ApplicatorTestHelper( scrollable );
+    applicator = new DemeanorApplicator( applicatorTestHelper.getFactory() );
   }
 
   @Test
   public void apply() {
-    ScrollbarStyle style = adapt();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
 
     applicator.apply( scrollable, CSS_FIXED, ADAPTER_DEMEANOR, ADAPTER_DEMEANOR_SETTER );
 
@@ -58,7 +55,7 @@ public class DemeanorApplicatorTest {
   @Test
   public void applyTopLevelWindowAttribute() {
     String attribute = ADAPTER_DEMEANOR + TOP_LEVEL_WINDOW_SELECTOR;
-    ScrollbarStyle style = adapt();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
 
     applicator.apply( scrollable, CSS_FIXED, attribute, ADAPTER_DEMEANOR_SETTER );
 
@@ -68,8 +65,8 @@ public class DemeanorApplicatorTest {
   @Test
   public void applyTopLevelWindowAttributeOnChildShell() {
     String attribute = ADAPTER_DEMEANOR + TOP_LEVEL_WINDOW_SELECTOR;
-    reparentScrollableOnChildShell();
-    ScrollbarStyle style = adapt();
+    applicatorTestHelper.reparentScrollableOnChildShell();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
 
     applicator.apply( scrollable, CSS_FIXED, attribute, ADAPTER_DEMEANOR_SETTER );
 
@@ -79,7 +76,7 @@ public class DemeanorApplicatorTest {
   @Test
   public void applyWithBuffering() {
     applicator.apply( scrollable, CSS_FIXED, ADAPTER_DEMEANOR, ADAPTER_DEMEANOR_SETTER );
-    ScrollbarStyle style = adapt();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
     applicator.apply( scrollable, ADAPTER_DEMEANOR, ADAPTER_DEMEANOR_SETTER );
 
     assertThat( style.getDemeanor() ).isSameAs( Demeanor.FIXED_SCROLL_BAR_BREADTH );
@@ -89,7 +86,7 @@ public class DemeanorApplicatorTest {
   public void applyTopLevelWindowAttributeWithBuffering() {
     String attribute = ADAPTER_DEMEANOR + TOP_LEVEL_WINDOW_SELECTOR;
     applicator.apply( scrollable, CSS_FIXED, attribute, ADAPTER_DEMEANOR_SETTER );
-    ScrollbarStyle style = adapt();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
     applicator.apply( scrollable, ADAPTER_DEMEANOR, ADAPTER_DEMEANOR_SETTER );
 
     assertThat( style.getDemeanor() ).isSameAs( Demeanor.FIXED_SCROLL_BAR_BREADTH );
@@ -98,9 +95,9 @@ public class DemeanorApplicatorTest {
   @Test
   public void applyTopLevelWindowAttributeWithBufferingOnChildShell() {
     String attribute = ADAPTER_DEMEANOR + TOP_LEVEL_WINDOW_SELECTOR;
-    reparentScrollableOnChildShell();
+    applicatorTestHelper.reparentScrollableOnChildShell();
     applicator.apply( scrollable, CSS_FIXED, attribute, ADAPTER_DEMEANOR_SETTER );
-    ScrollbarStyle style = adapt();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
     applicator.apply( scrollable, ADAPTER_DEMEANOR, ADAPTER_DEMEANOR_SETTER );
 
     assertThat( style.getDemeanor() ).isNotSameAs( Demeanor.FIXED_SCROLL_BAR_BREADTH );
@@ -108,7 +105,7 @@ public class DemeanorApplicatorTest {
 
   @Test
   public void applyWithUnknowCSSValue() {
-    adapt();
+    applicatorTestHelper.adapt();
 
     Throwable actual = thrownBy( () -> {
       applicator.apply( scrollable, stubCssStringValue( "unknown" ), ADAPTER_DEMEANOR, ADAPTER_DEMEANOR_SETTER );
@@ -124,22 +121,11 @@ public class DemeanorApplicatorTest {
 
   @Test
   public void applyDifferentValues() {
-    ScrollbarStyle style = adapt();
+    ScrollbarStyle style = applicatorTestHelper.adapt();
 
     applicator.apply( scrollable, CSS_FIXED, ADAPTER_DEMEANOR, ADAPTER_DEMEANOR_SETTER );
     applicator.apply( scrollable, CSS_EXPAND, ADAPTER_DEMEANOR, ADAPTER_DEMEANOR_SETTER );
 
     assertThat( style.getDemeanor() ).isSameAs( Demeanor.EXPAND_SCROLL_BAR_ON_MOUSE_OVER );
-  }
-
-  private void reparentScrollableOnChildShell() {
-    Shell childShell = new Shell( shell );
-    scrollable.setParent( childShell );
-  }
-
-  private ScrollbarStyle adapt() {
-    ScrollbarStyle result = factory.create( ( Tree )scrollable, TreeAdapter.class );
-    attach( scrollable, result );
-    return result;
   }
 }
