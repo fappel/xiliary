@@ -9,7 +9,7 @@
  *     Frank Appel <fappel@codeaffine.com>
  *******************************************************************************/
  
- IEclipsePreferences#org-eclipse-ui-editors {
+IEclipsePreferences#org-eclipse-ui-editors {
   preferences:
     'AbstractTextEditor.Color.Background.SystemDefault=false'
     'AbstractTextEditor.Color.Background=248,248,248'
@@ -90,17 +90,33 @@ IEclipsePreferences#org-eclipse-jdt-ui {
 	  'sourceHoverBackgroundColor=238,238,238'
 }
  
-ThemesExtension { color-definition:  
-  '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START', 
-  '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END',
-  '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR',
-  '#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR',
-  '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR',
-  '#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START',
-  '#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END',
-  '#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR',
-  '#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR',
-  '#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR';
+ThemesExtension {
+	color-definition:  
+	  '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START', 
+	  '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END',
+	  '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR',
+	  '#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR',
+	  '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR',
+	  '#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START',
+	  '#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END',
+	  '#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR',
+	  '#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR',
+	  '#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR';
+}
+
+FontDefinition#org-eclipse-jface-textfont {
+  font-family: 'Source Code Pro';
+  font-size: 10px;
+}
+
+FontDefinition#org-eclipse-ui-workbench-texteditor-blockSelectionModeFont {
+  font-family: 'Source Code Pro';
+  font-size: 10px;
+}
+
+FontDefinition#org-eclipse-jdt-ui-editors-textfont {
+  font-family: 'Source Code Pro';
+  font-size: 10px;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
