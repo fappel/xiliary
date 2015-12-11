@@ -4,6 +4,8 @@ import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.ViewForm;
@@ -130,6 +132,20 @@ class LayoutReconciliationHelper {
     adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     new Label( sashForm, SWT.NONE );
+    reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
+    shell.open();
+    return INITIAL_ADAPTER_BOUNDS;
+  }
+
+  Rectangle setUpWithCTabFolder() {
+    CTabFolder cTabFolder = new CTabFolder( shell, SWT.BOTTOM | SWT.FLAT );
+    parent = cTabFolder;
+    scrollable = createTree( parent, 1, 1 );
+    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
+    CTabItem item = new CTabItem( cTabFolder, SWT.NONE, 0 );
+    item.setText( "item" );
+    item.setControl( scrollable );
+    adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
     shell.open();
     return INITIAL_ADAPTER_BOUNDS;

@@ -5,6 +5,8 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.stream.Stream;
 
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.ViewForm;
@@ -39,6 +41,9 @@ class LayoutReconciliation {
       }
       if( adapter.getParent() instanceof SashForm ) {
         reconcileSashLayout();
+      }
+      if( adapter.getParent() instanceof CTabFolder ) {
+        reconcileCTabFolder();
       }
     }
   }
@@ -88,6 +93,18 @@ class LayoutReconciliation {
     }
     if( scrollable.isSameAs( controlReflectionUtil.getField( parent, "maxControl", Control.class ) ) ) {
       controlReflectionUtil.setField( parent, "maxControl", adapter );
+      adapter.getParent().layout();
+    }
+  }
+
+  private void reconcileCTabFolder() {
+    CTabFolder parent = ( CTabFolder )adapter.getParent();
+    Stream.of( parent.getItems() ).forEach( item -> reconcileCItemScrollable( item ) );
+  }
+
+  private void reconcileCItemScrollable( CTabItem item ) {
+    if( scrollable.isSameAs( item.getControl() ) ) {
+      item.setControl( adapter );
       adapter.getParent().layout();
     }
   }

@@ -17,6 +17,8 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CTabFolder;
+import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -88,6 +90,20 @@ public class ScrollableAdapterFactoryDemo {
     adapt( tree, TreeAdapter.class );
     scheduleRandomPageSelection( pageBook, label, tree, () -> replaceTreeItems( tree ), 3 );
     shell.open();
+    spinLoop();
+  }
+
+  @Test
+  public void treeDemoWithCTabFolder() {
+    CTabFolder container = new CTabFolder( shell, SWT.BOTTOM | SWT.FLAT );
+    Tree tree = new TestTreeFactory().create( container );
+    adapt( tree, TreeAdapter.class );
+    CTabItem item = new CTabItem( container, SWT.NONE, 0 );
+    item.setText( "item" );
+    item.setControl( tree );
+    shell.open();
+    expandRootLevelItems( tree );
+    expandTopBranch( tree );
     spinLoop();
   }
 

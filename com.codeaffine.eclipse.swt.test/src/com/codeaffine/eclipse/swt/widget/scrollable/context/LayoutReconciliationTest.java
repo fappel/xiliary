@@ -151,4 +151,14 @@ public class LayoutReconciliationTest {
 
     assertThat( actual ).isSameAs( testHelper.getAdapter() );
   }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void runWithCTabFolder() {
+    Rectangle initialAdapterBounds = testHelper.setUpWithCTabFolder();
+
+    Rectangle actual = testHelper.runReconciliation();
+
+    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+  }
 }
