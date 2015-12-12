@@ -1,5 +1,7 @@
 package com.codeaffine.eclipse.ui.swt.theme;
 
+import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.FLAT_SCROLL_BAR_PAGE_INCREMENT;
+
 import java.util.function.BiConsumer;
 
 import org.eclipse.swt.graphics.Color;
@@ -22,4 +24,9 @@ class AttributeSetter {
     = ( style, color ) -> ( ( Composite )style ).setBackground( color );
   static final BiConsumer<ScrollbarStyle, Demeanor> ADAPTER_DEMEANOR_SETTER
     = ( style, demeanor ) -> style.setDemeanor( demeanor );
+  static final BiConsumer<ScrollbarStyle, ScrollbarPreference> DEMEANOR_PREFERENCE_SETTER
+    = ( style, preference ) -> style.setDemeanor( DemeanorApplicator.parse( preference.getValue() ) );
+  static final BiConsumer<ScrollbarStyle, ScrollbarPreference> INCREMENT_LENGTH_PREFERENCE_SETTER
+    = ( style, preference ) -> style.setIncrementButtonLength(
+        N0Applicator.parse( preference.getValue(), FLAT_SCROLL_BAR_PAGE_INCREMENT ).intValue() );
 }

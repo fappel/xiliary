@@ -125,7 +125,7 @@ public class DemeanorApplicatorTest {
       .hasMessageContaining( "unknown" )
       .hasMessageContaining( ADAPTER_DEMEANOR )
       .hasMessageContaining( DEMEANOR_EXPAND_ON_MOUSE_OVER )
-      .hasMessageContaining( DEMEANOR_EXPAND_ON_MOUSE_OVER )
+      .hasMessageContaining( DEMEANOR_FIXED_WIDTH )
       .isInstanceOf( IllegalArgumentException.class );
   }
 
@@ -138,5 +138,36 @@ public class DemeanorApplicatorTest {
     applicator.apply( scrollable, CSS_EXPAND, ADAPTER_DEMEANOR, ADAPTER_DEMEANOR_SETTER );
 
     assertThat( style.getDemeanor() ).isSameAs( Demeanor.EXPAND_SCROLL_BAR_ON_MOUSE_OVER );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void parse() {
+    Demeanor actual = DemeanorApplicator.parse( DEMEANOR_FIXED_WIDTH );
+
+    assertThat( actual ).isSameAs( Demeanor.FIXED_SCROLL_BAR_BREADTH );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void parseWithIllegalArgument() {
+    Throwable actual = thrownBy( () -> DemeanorApplicator.parse( "illegal" ) );
+
+    assertThat( actual )
+      .hasMessageContaining( "illegal" )
+      .hasMessageContaining( ADAPTER_DEMEANOR )
+      .hasMessageContaining( DEMEANOR_EXPAND_ON_MOUSE_OVER )
+      .hasMessageContaining( DEMEANOR_FIXED_WIDTH )
+      .isInstanceOf( IllegalArgumentException.class );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void parseWithNullAsArgument() {
+    Throwable actual = thrownBy( () -> DemeanorApplicator.parse( null ) );
+
+    assertThat( actual )
+      .hasMessageContaining( "value" )
+      .isInstanceOf( IllegalArgumentException.class );
   }
 }

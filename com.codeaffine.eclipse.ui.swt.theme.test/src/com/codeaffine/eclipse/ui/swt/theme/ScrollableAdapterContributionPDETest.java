@@ -8,6 +8,7 @@ import static com.codeaffine.eclipse.ui.swt.theme.CSSValueHelper.stubCssIntValue
 import static com.codeaffine.eclipse.ui.swt.theme.CSSValueHelper.stubCssStringValue;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.ADAPTER_BACKGROUND;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.ADAPTER_DEMEANOR;
+import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.DEMEANOR_EXPAND_ON_MOUSE_OVER;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.DEMEANOR_FIXED_WIDTH;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.FLAT_SCROLL_BAR;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.FLAT_SCROLL_BAR_BACKGROUND;
@@ -64,8 +65,11 @@ public class ScrollableAdapterContributionPDETest {
   private static final CSSPrimitiveValue TRUE = stubCssBooleanValue( true );
   private static final CSSPrimitiveValue FALSE = stubCssBooleanValue( false );
   private static final CSSPrimitiveValue FIXED_WIDTH = stubCssStringValue( DEMEANOR_FIXED_WIDTH );
+  private static final CSSPrimitiveValue EXPAND = stubCssStringValue( DEMEANOR_EXPAND_ON_MOUSE_OVER );
   private static final CSSPrimitiveValue INC_LENGTH = stubCssIntValue( 7 );
+  private static final CSSPrimitiveValue INC_ZERO = stubCssIntValue( 0 );
 
+  @Rule public final ScrollbarPreferenceRule scrollbarPreferenceRule = new ScrollbarPreferenceRule();
   @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -178,6 +182,21 @@ public class ScrollableAdapterContributionPDETest {
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
+  public void applyPreferenceOnFlatScrollbarAdaption() throws Exception {
+    Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
+    scrollbarPreferenceRule.setValue( FLAT_SCROLL_BAR_INCREMENT_LENGTH, INC_LENGTH.getCssText() );
+    scrollbarPreferenceRule.setValue( ADAPTER_DEMEANOR, DEMEANOR_FIXED_WIDTH );
+
+    contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR, TRUE, null, null );
+    contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR_INCREMENT_LENGTH, INC_ZERO, null, null );
+    contribution.applyCSSProperty( newElement( scrollable ), ADAPTER_DEMEANOR, EXPAND, null, null );
+
+    assertThat( getAdapterStyle().getIncrementButtonLength() ).isEqualTo( expectedInt( INC_LENGTH ) );
+    assertThat( getAdapterStyle().getDemeanor() ).isSameAs( Demeanor.FIXED_SCROLL_BAR_BREADTH );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void applyCSSPropertyFlatScrollbarAfterScheme() throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
 
@@ -194,6 +213,21 @@ public class ScrollableAdapterContributionPDETest {
     assertThat( getAdapterStyle().getBackgroundColor() ).isEqualTo( expectedColor( BACK_GROUND ) );
     assertThat( getAdapterStyle().getThumbColor() ).isEqualTo( expectedColor( THUMB ) );
     assertThat( getAdapterStyle().getPageIncrementColor() ).isEqualTo( expectedColor( PAGE_INC ) );
+    assertThat( getAdapterStyle().getDemeanor() ).isEqualTo( Demeanor.FIXED_SCROLL_BAR_BREADTH );
+    assertThat( getAdapterStyle().getIncrementButtonLength() ).isEqualTo( expectedInt( INC_LENGTH ) );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void applyPreferenceOnFlatScrollbarAfterScheme() throws Exception {
+    Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
+    scrollbarPreferenceRule.setValue( FLAT_SCROLL_BAR_INCREMENT_LENGTH, INC_LENGTH.getCssText() );
+    scrollbarPreferenceRule.setValue( ADAPTER_DEMEANOR, DEMEANOR_FIXED_WIDTH );
+
+    contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR_INCREMENT_LENGTH, INC_ZERO, null, null );
+    contribution.applyCSSProperty( newElement( scrollable ), ADAPTER_DEMEANOR, EXPAND, null, null );
+    contribution.applyCSSProperty( newElement( scrollable ), FLAT_SCROLL_BAR, TRUE, null, null );
+
     assertThat( getAdapterStyle().getDemeanor() ).isEqualTo( Demeanor.FIXED_SCROLL_BAR_BREADTH );
     assertThat( getAdapterStyle().getIncrementButtonLength() ).isEqualTo( expectedInt( INC_LENGTH ) );
   }

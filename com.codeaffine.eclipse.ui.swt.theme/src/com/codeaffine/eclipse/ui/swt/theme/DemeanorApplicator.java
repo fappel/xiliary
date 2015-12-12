@@ -1,5 +1,6 @@
 package com.codeaffine.eclipse.ui.swt.theme;
 
+import static com.codeaffine.eclipse.swt.util.ArgumentVerification.verifyNotNull;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeKey.demeanorKey;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.ADAPTER_DEMEANOR;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.DEMEANOR_EXPAND_ON_MOUSE_OVER;
@@ -54,15 +55,21 @@ class DemeanorApplicator {
       .execute();
   }
 
-  private static Demeanor getDemeanor( CSSValue value ) {
-    if( value.getCssText().equals( DEMEANOR_FIXED_WIDTH ) ) {
+  static Demeanor parse( String value ) {
+    verifyNotNull( value, "value" );
+
+    if( value.equals( DEMEANOR_FIXED_WIDTH ) ) {
       return Demeanor.FIXED_SCROLL_BAR_BREADTH;
     }
-    if( value.getCssText().equals( DEMEANOR_EXPAND_ON_MOUSE_OVER ) ) {
+    if( value.equals( DEMEANOR_EXPAND_ON_MOUSE_OVER ) ) {
       return Demeanor.EXPAND_SCROLL_BAR_ON_MOUSE_OVER;
     }
-    String message =   "'" + value.getCssText() + "' is not a valid value for attribute '" + ADAPTER_DEMEANOR + "'. "
+    String message =   "'" + value + "' is not a valid value for attribute '" + ADAPTER_DEMEANOR + "'. "
                      + "Allowed values are '" + DEMEANOR_EXPAND_ON_MOUSE_OVER + "' and '" + DEMEANOR_FIXED_WIDTH + "'.";
     throw new IllegalArgumentException( message );
+  }
+
+  private static Demeanor getDemeanor( CSSValue value ) {
+    return parse( value.getCssText() );
   }
 }
