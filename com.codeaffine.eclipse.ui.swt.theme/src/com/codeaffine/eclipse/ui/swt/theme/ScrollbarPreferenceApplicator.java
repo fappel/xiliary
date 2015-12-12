@@ -19,6 +19,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Scrollable;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.Adapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
@@ -95,12 +96,19 @@ class ScrollbarPreferenceApplicator implements IPropertyChangeListener {
     Consumer<Scrollable> styleApplicator,
     T defaultValue )
   {
-    Scrollable scrollable = ( ( Adapter<?> )style ).getScrollable();
+    Scrollable scrollable = getScrollable( style );
     if( hasPreservedCssValue( attributeKey, scrollable ) ) {
       styleApplicator.accept( scrollable );
     } else {
       attributeSetter.accept( style, defaultValue );
     }
+  }
+
+  private static Scrollable getScrollable( ScrollbarStyle style ) {
+    if( style instanceof Adapter ) {
+      return ( ( Adapter<?> )style ).getScrollable();
+    }
+    return ( ( ScrollableAdapter<?> )style ).getScrollable();
   }
 
   private static boolean hasPreservedCssValue( AttributeKey<?> attributeKey, Scrollable scrollable ) {

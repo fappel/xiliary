@@ -13,6 +13,7 @@ import static java.lang.Integer.valueOf;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
 import org.junit.Rule;
@@ -20,6 +21,8 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree;
+import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
 import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
@@ -100,5 +103,18 @@ public class ScrollbarPreferenceApplicatorPDETest {
     scrollbarPreferenceRule.setValue( FLAT_SCROLL_BAR_INCREMENT_LENGTH, UNSET );
 
     assertThat( style.getIncrementButtonLength() ).isSameAs( 1 );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void applyFromScrollableAdapter() {
+    Shell shell = displayHelper.createShell();
+    ScrollableAdapter<Tree> scrollableAdapter = new FlatScrollBarTree( shell, parent -> new Tree( parent, SWT.NONE ) );
+    attach( scrollableAdapter.getScrollable(), scrollableAdapter );
+    scrollbarPreferenceRule.setValue( ADAPTER_DEMEANOR, DEMEANOR_FIXED_WIDTH );
+
+    scrollbarPreferenceRule.setValue( ADAPTER_DEMEANOR, UNSET );
+
+    assertThat( scrollableAdapter.getDemeanor() ).isSameAs( EXPAND_SCROLL_BAR_ON_MOUSE_OVER );
   }
 }
