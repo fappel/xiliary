@@ -7,7 +7,7 @@ import org.eclipse.jface.preference.IPreferenceStore;
 
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
 
-class ScrollbarPreference {
+public class ScrollbarPreference {
 
   private final Supplier<IPreferenceStore> preferenceStoreSupplier;
   private final String name;
@@ -21,17 +21,17 @@ class ScrollbarPreference {
     this.name = name;
   }
 
-  void apply( ScrollbarStyle result, BiConsumer<ScrollbarStyle, ScrollbarPreference> consumer ) {
+  public void apply( ScrollbarStyle result, BiConsumer<ScrollbarStyle, ScrollbarPreference> consumer ) {
     if( isCustomized() ) {
       consumer.accept( result, this );
     }
   }
 
-  boolean isCustomized() {
+  public boolean isCustomized() {
     return !getValue().equals( preferenceStoreSupplier.get().getDefaultString( name ) );
   }
 
-  String getValue() {
+  public String getValue() {
     return preferenceStoreSupplier.get().getString( name );
   }
 }
