@@ -20,7 +20,7 @@ public class Activator extends AbstractUIPlugin {
 
   @Override
   public void start( BundleContext context ) throws Exception {
-    fontLoader.load( context );
+    new Thread( () -> fontLoader.load( context ) ).start();
     getPreferenceStore().addPropertyChangeListener( preferenceApplictor );
     instance = this;
   }

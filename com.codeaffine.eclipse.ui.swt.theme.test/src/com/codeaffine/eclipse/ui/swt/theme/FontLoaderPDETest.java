@@ -1,30 +1,46 @@
 package com.codeaffine.eclipse.ui.swt.theme;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.osgi.framework.FrameworkUtil.getBundle;
+
+import java.io.File;
 
 import org.eclipse.swt.graphics.FontData;
 import org.junit.Rule;
 import org.junit.Test;
+import org.osgi.framework.Bundle;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.test.util.junit.AwaitConditionRule;
+import com.codeaffine.test.util.junit.AwaitConditionRule.AwaitCondition;
+import com.codeaffine.test.util.junit.AwaitConditionRule.AwaitConditionDeclaration;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class FontLoaderPDETest {
 
   @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final AwaitConditionRule awaitConditionRule = new AwaitConditionRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
+
+  static class FontBuffering implements AwaitCondition {
+
+    @Override
+    public boolean isSatisfied() {
+      Bundle bundle = Activator.getInstance().getBundle();
+      File dataFile = bundle.getDataFile( FontLoader.FONTS_DIRECTORY );
+      return dataFile.listFiles().length == 14;
+    }
+  }
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
+  @AwaitConditionDeclaration( timeout = 1000, condition = FontBuffering.class )
   public void load() {
-    FontLoader fontLoader = new FontLoader( FontLoader.FONTS_DIRECTORY );
+    assertThat( getFontList( "Source Code Pro" ) ).isNotEmpty();
+  }
 
-    fontLoader.load( getBundle( FontLoader.class ).getBundleContext() );
-
-    FontData[] fontList = displayHelper.getDisplay().getFontList( "Source Code Pro", true );
-    assertThat( fontList ).isNotEmpty();
+  private FontData[] getFontList( String faceName ) {
+    return displayHelper.getDisplay().getFontList( faceName, true );
   }
 }
