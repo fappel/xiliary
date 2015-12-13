@@ -8,7 +8,6 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.themes.ITheme;
 
 /*
  * Note that this is a highly experimental workaround. It tries to solve timing
@@ -26,7 +25,9 @@ class FontRegistryUpdater {
   FontRegistryUpdater() {
     this.display = Display.getCurrent();
     this.shellOpenObserver = evt -> onShellShow( evt );
-    Display.getCurrent().addFilter( SWT.Show, shellOpenObserver );
+    if( SWT.getPlatform().startsWith( "win32" ) ) {
+      Display.getCurrent().addFilter( SWT.Show, shellOpenObserver );
+    }
   }
 
   private void onShellShow( Event evt ) {
@@ -42,23 +43,26 @@ class FontRegistryUpdater {
   }
 
   private void waitTillFontIsLoaded() {
-    while( display.getFontList( FONT_FACE, true ).length == 0 ) {
+    long timeout = System.currentTimeMillis() + 1000;
+    while( !isLoaded() && timeout > System.currentTimeMillis() ) {
       display.readAndDispatch();
     }
   }
 
   private void updateFontEntries() {
-    ITheme theme = PlatformUI.getWorkbench().getThemeManager().getCurrentTheme();
-    FontRegistry fontRegistry = theme.getFontRegistry();
-    updateFontEntry( display, fontRegistry, "org.eclipse.jface.textfont" );
+    FontRegistry fontRegistry = PlatformUI.getWorkbench().getThemeManager().getCurrentTheme().getFontRegistry();
     updateFontEntry( display, fontRegistry, "org.eclipse.ui.workbench.texteditor.blockSelectionModeFont" );
+    updateFontEntry( display, fontRegistry, "org.eclipse.jface.textfont" );
     updateFontEntry( display, fontRegistry, "org.eclipse.jdt.ui.editors.textfont" );
   }
 
-  private static void updateFontEntry( Display display, FontRegistry fontRegistry, String symbolicName ) {
+  private static  void updateFontEntry( Display display, FontRegistry fontRegistry, String symbolicName ) {
     Font textFont = fontRegistry.get( symbolicName );
     fontRegistry.put( symbolicName, display.getSystemFont().getFontData() );
-    fontRegistry.put( symbolicName, display.getFontList( FONT_FACE, true ) );
     fontRegistry.put( symbolicName, textFont.getFontData() );
+  }
+
+  private boolean isLoaded() {
+    return display.getFontList( FONT_FACE, true ).length != 0;
   }
 }
