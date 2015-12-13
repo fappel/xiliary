@@ -23,10 +23,12 @@ import org.osgi.util.tracker.ServiceTracker;
 
 class FontLoader {
 
+  static final String FONT_FACE = "Source Code Pro";
   static final String FONTS_DIRECTORY = "/fonts";
 
   private final String fontDirectory;
   private final Display display;
+
 
   FontLoader( String fontDirectory ) {
     this.fontDirectory = fontDirectory;
@@ -61,15 +63,15 @@ class FontLoader {
   private void loadFont( BundleContext context, String fontPath ) {
     if( fontPath.endsWith( ".ttf" ) ) {
       URL url = computeFontUrl( find( context.getBundle(), new Path( fontPath ), emptyMap() ) );
-      File diskLocation = getDiskLocation( context, fontPath );
+      File diskLocation = getDiskLocation( fontPath );
       copyToDisk( url, diskLocation );
       display.asyncExec( () -> display.loadFont( diskLocation.toString() ) );
     }
   }
 
-  private static File getDiskLocation( BundleContext context, String fontPath ) {
+  private static File getDiskLocation( String fontPath ) {
     try {
-      return context.getBundle().getDataFile( fontPath ).getCanonicalFile();
+      return Activator.getInstance().getStateLocation().append( fontPath ).toFile().getCanonicalFile();
     } catch( IOException shouldNotHappen ) {
       throw new IllegalStateException( shouldNotHappen );
     }

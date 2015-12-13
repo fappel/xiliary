@@ -4,10 +4,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.swt.graphics.FontData;
 import org.junit.Rule;
 import org.junit.Test;
-import org.osgi.framework.Bundle;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
@@ -27,8 +27,8 @@ public class FontLoaderPDETest {
 
     @Override
     public boolean isSatisfied() {
-      Bundle bundle = Activator.getInstance().getBundle();
-      File dataFile = bundle.getDataFile( FontLoader.FONTS_DIRECTORY );
+      IPath stateLocation = Activator.getInstance().getStateLocation();
+      File dataFile = stateLocation.append( FontLoader.FONTS_DIRECTORY ).toFile();
       return dataFile.listFiles().length == 14;
     }
   }
@@ -37,7 +37,7 @@ public class FontLoaderPDETest {
   @ConditionalIgnore( condition = GtkPlatform.class )
   @AwaitConditionDeclaration( timeout = 1000, condition = FontBuffering.class )
   public void load() {
-    assertThat( getFontList( "Source Code Pro" ) ).isNotEmpty();
+    assertThat( getFontList( FontLoader.FONT_FACE ) ).isNotEmpty();
   }
 
   private FontData[] getFontList( String faceName ) {

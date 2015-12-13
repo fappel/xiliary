@@ -17,8 +17,6 @@ import org.eclipse.ui.PlatformUI;
  */
 class FontRegistryUpdater {
 
-  private static final String FONT_FACE = "Source Code Pro";
-
   private final Listener shellOpenObserver;
   private final Display display;
 
@@ -51,9 +49,11 @@ class FontRegistryUpdater {
 
   private void updateFontEntries() {
     FontRegistry fontRegistry = PlatformUI.getWorkbench().getThemeManager().getCurrentTheme().getFontRegistry();
-    updateFontEntry( display, fontRegistry, "org.eclipse.ui.workbench.texteditor.blockSelectionModeFont" );
-    updateFontEntry( display, fontRegistry, "org.eclipse.jface.textfont" );
-    updateFontEntry( display, fontRegistry, "org.eclipse.jdt.ui.editors.textfont" );
+    if( fontRegistry.getFontData( "org.eclipse.jface.textfont" )[ 0 ].getName().equals( FontLoader.FONT_FACE ) ) {
+      updateFontEntry( display, fontRegistry, "org.eclipse.ui.workbench.texteditor.blockSelectionModeFont" );
+      updateFontEntry( display, fontRegistry, "org.eclipse.jface.textfont" );
+      updateFontEntry( display, fontRegistry, "org.eclipse.jdt.ui.editors.textfont" );
+    }
   }
 
   private static  void updateFontEntry( Display display, FontRegistry fontRegistry, String symbolicName ) {
@@ -63,6 +63,6 @@ class FontRegistryUpdater {
   }
 
   private boolean isLoaded() {
-    return display.getFontList( FONT_FACE, true ).length != 0;
+    return display.getFontList( FontLoader.FONT_FACE, true ).length != 0;
   }
 }
