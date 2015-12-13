@@ -61,9 +61,17 @@ class FontLoader {
   private void loadFont( BundleContext context, String fontPath ) {
     if( fontPath.endsWith( ".ttf" ) ) {
       URL url = computeFontUrl( find( context.getBundle(), new Path( fontPath ), emptyMap() ) );
-      File diskLocation = context.getBundle().getDataFile( fontPath );
+      File diskLocation = getDiskLocation( context, fontPath );
       copyToDisk( url, diskLocation );
       display.asyncExec( () -> display.loadFont( diskLocation.toString() ) );
+    }
+  }
+
+  private static File getDiskLocation( BundleContext context, String fontPath ) {
+    try {
+      return context.getBundle().getDataFile( fontPath ).getCanonicalFile();
+    } catch( IOException shouldNotHappen ) {
+      throw new IllegalStateException( shouldNotHappen );
     }
   }
 
@@ -77,9 +85,8 @@ class FontLoader {
 
   private static void copyToDisk( URL url, File diskLocation ) {
     try( InputStream input = url.openStream() ) {
-      java.nio.file.Path path = diskLocation.getCanonicalFile().toPath();
-      ensureDirectoryExists( path );
-      copy( input, path, REPLACE_EXISTING );
+      ensureDirectoryExists( diskLocation.toPath() );
+      copy( input, diskLocation.toPath(), REPLACE_EXISTING );
     } catch (IOException shouldNotHappen ) {
       throw new IllegalStateException( shouldNotHappen );
     }

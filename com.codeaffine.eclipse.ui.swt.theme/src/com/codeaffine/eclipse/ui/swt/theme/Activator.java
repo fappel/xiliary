@@ -12,10 +12,10 @@ public class Activator extends AbstractUIPlugin {
   private final ScrollbarPreferenceApplicator preferenceApplictor;
   private final FontLoader fontLoader;
 
-
   public Activator() {
     fontLoader = new FontLoader( FONTS_DIRECTORY );
     preferenceApplictor = new ScrollbarPreferenceApplicator();
+    new FontRegistryUpdater();
   }
 
   @Override
