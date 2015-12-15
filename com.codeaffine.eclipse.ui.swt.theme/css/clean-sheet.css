@@ -120,13 +120,13 @@ FontDefinition#org-eclipse-jdt-ui-editors-textfont {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
-  color: #f2f2f6;
+  color: #f2f2f2;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_START')
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
-  color: #f2f2f6;
+  color: #f2f2f2;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_END');
 }
@@ -150,13 +150,13 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
-  color: #eaeaef;
+  color: #eaeaea;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_START');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
-  color: #eaeaef;
+  color: #eaeaea;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_END');
 }
@@ -219,15 +219,15 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
 
 .MTrimBar {
-  background-color: #eaeaef;
+  background-color: #eaeaea;
 }
  
 .MTrimBar#org-eclipse-ui-main-toolbar {
-	background-color: #ffffff #e4e4ea 100%;
+	background-color: #ffffff #e4e4e4 100%;
 }
  
 #PerspectiveSwitcher {
-  eclipse-perspective-keyline-color: #e4e4ea #ffffff;
+  eclipse-perspective-keyline-color: #e4e4e4 #ffffff;
 }
 
 .MToolBar.Draggable {
