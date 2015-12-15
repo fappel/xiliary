@@ -12,7 +12,7 @@
 IEclipsePreferences#org-eclipse-ui-editors {
   preferences:
     'AbstractTextEditor.Color.Background.SystemDefault=false'
-    'AbstractTextEditor.Color.Background=247,247,247'
+    'AbstractTextEditor.Color.Background=249,249,252'
     'AbstractTextEditor.Color.FindScope=188,173,255'
     'AbstractTextEditor.Color.Foreground=0,0,0'
     'AbstractTextEditor.Color.SelectionBackground=223,179,149'
@@ -120,13 +120,13 @@ FontDefinition#org-eclipse-jdt-ui-editors-textfont {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
-  color: #f2f2f4;
+  color: #f2f2f6;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_START')
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
-  color: #f2f2f4;
+  color: #f2f2f6;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_END');
 }
@@ -150,13 +150,13 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
-  color: #ebebed;
+  color: #eaeaef;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_START');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
-  color: #ebebed;
+  color: #eaeaef;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_END');
 }
@@ -180,27 +180,27 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START {
-  color: #f7f7f7;
+  color: #fafafc;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
-  color: #f7f7f7;
+  color: #fafafc;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_START {
-  color: #f7f7f7;
+  color: #fafafc;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_END {
-  color: #f7f7f7;
+  color: #fafafc;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_START {
-  color: #f7f7f7;
+  color: #fafafc;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END {
-  color: #f7f7f7;
+  color: #fafafc;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
@@ -215,19 +215,19 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
 
 .MTrimmedWindow { 
-  background-color: #f7f7f7;
+  background-color: #fafafc;
 }
 
 .MTrimBar {
-  background-color: #ebebed;
+  background-color: #eaeaef;
 }
  
 .MTrimBar#org-eclipse-ui-main-toolbar {
-	background-color: #ffffff #e5e5e8 100%;
+	background-color: #ffffff #e4e4ea 100%;
 }
  
 #PerspectiveSwitcher {
-  eclipse-perspective-keyline-color: #e5e5e8 #ffffff;
+  eclipse-perspective-keyline-color: #e4e4ea #ffffff;
 }
 
 .MToolBar.Draggable {
@@ -251,7 +251,7 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
 
 .MPart {
-  background-color: #f7f7f7;
+  background-color: #fafafc;
 }
 
 .MPart.busy {
@@ -294,11 +294,12 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 .MPartStack.active .MPart Form > LayoutComposite > LayoutComposite > ToolBar,
 .MPartStack.active .MPart DependenciesComposite > SashForm > Section > * 
 .MPartStack.active .MPart LayoutComposite > * > LayoutComposite > Section > LayoutComposite > * {
-  background-color: #f7f7f7;
+  background-color: #fafafc;
 }
 
 .MPartStack {
 	swt-tab-renderer: url('bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
+	unselected-hot-tab-color-background: #fafafc;
   swt-selected-tab-fill: '#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START' '#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END' 100% 100%;
   swt-unselected-tabs-color: '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START' '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END' 100% 100%;
   swt-outer-keyline-color: '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR';
@@ -329,11 +330,11 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
 
 .MPartStack > Composite {
-  background-color: #f7f7f7;
+  background-color: #fafafc;
 }
 
 CTabFolder Canvas {
-  background-color: #f7f7f7;
+  background-color: #fafafc;
 }
 
 CTabItem:selected {
@@ -344,12 +345,12 @@ Tree {
   flat-scroll-bar: true;
   flat-scroll-bar-thumb: #a6a6a6;
   flat-scroll-bar-page-increment: #f0f0f0;
-  adapter-background-top-level: #f7f7f7;
+  adapter-background-top-level: #fafafc;
 }
 
 Table {
   flat-scroll-bar: true;
   flat-scroll-bar-thumb: #a6a6a6;
   flat-scroll-bar-page-increment: #f0f0f0;
-  adapter-background-top-level: #f7f7f7;
+  adapter-background-top-level: #fafafc;
 }
