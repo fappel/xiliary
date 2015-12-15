@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.e4.ui.css.swt.theme;bundle-version="[0.9.300,1.0.0)"
  com.codeaffine.eclipse.swt;bundle-version="[0.1.0,1.0.0)",
  org.eclipse.swt;bundle-version="[3.103.1,4.0.0)",
  org.eclipse.jface;bundle-version="[3.11.0,4.0.0)",
- org.eclipse.core.runtime;bundle-version="[3.11.1,4.0.0)",
+ org.eclipse.core.runtime;bundle-version="[3.11.0,4.0.0)",
  org.eclipse.ui;bundle-version="[3.107.0,4.0.0)"
 Bundle-Activator: com.codeaffine.eclipse.ui.swt.theme.Activator
 Import-Package: org.osgi.framework;version="[1.8.0,2.0.0)"
