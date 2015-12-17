@@ -1,7 +1,6 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree.MAX_EXPANSION;
-import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar.BAR_BREADTH;
 
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -32,9 +31,9 @@ class OverlayLayouter {
 
   private void layoutVertical( AdaptionContext<?> context ) {
     if( context.isVerticalBarVisible() ) {
-      int x = context.getVisibleArea().width - BAR_BREADTH - borderOffset( context );
+      int x = context.getVisibleArea().width - barBreadth( context ) - borderOffset( context );
       int height = computeVerticalHeight( context );
-      vertical.setBounds( x, 0, BAR_BREADTH, height );
+      vertical.setBounds( x, 0, barBreadth( context ), height );
       vertical.setVisible( true );
     } else {
       vertical.setVisible( false );
@@ -50,9 +49,9 @@ class OverlayLayouter {
 
   private void layoutHorizontal( AdaptionContext<?> context ) {
     if( context.isHorizontalBarVisible() ) {
-      int y = context.getVisibleArea().height - BAR_BREADTH - borderOffset( context );
+      int y = context.getVisibleArea().height - barBreadth( context ) - borderOffset( context );
       int width = computeHorizontalWidth( context );
-      horizontal.setBounds( 0, y, width, BAR_BREADTH );
+      horizontal.setBounds( 0, y, width, barBreadth( context ) );
       horizontal.setVisible( true );
     } else {
       horizontal.setVisible( false );
@@ -83,5 +82,9 @@ class OverlayLayouter {
 
   private static int borderOffset( AdaptionContext<?> context ) {
     return context.getBorderWidth() * 2;
+  }
+
+  private static int barBreadth( AdaptionContext<?> context ) {
+    return context.get( Demeanor.class ).getBarBreadth();
   }
 }

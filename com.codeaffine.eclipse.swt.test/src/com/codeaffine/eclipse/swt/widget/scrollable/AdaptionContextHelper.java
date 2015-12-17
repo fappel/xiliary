@@ -39,12 +39,12 @@ class AdaptionContextHelper {
   }
 
   static AdaptionContext<Scrollable> stubContext(
-    Vertical verticalBarVisible, Horizontal horizontalBarVisible, Point preferredSize, Rectangle area )
+    Vertical vBarVisible, Horizontal hBarVisible, Point preferredSize, Rectangle area, Demeanor demeanor )
   {
     @SuppressWarnings("unchecked")
     AdaptionContext<Scrollable> result = mock( AdaptionContext.class );
-    when( result.isVerticalBarVisible() ).thenReturn( verticalBarVisible.value );
-    when( result.isHorizontalBarVisible() ).thenReturn( horizontalBarVisible.value );
+    when( result.isVerticalBarVisible() ).thenReturn( vBarVisible.value );
+    when( result.isHorizontalBarVisible() ).thenReturn( hBarVisible.value );
     when( result.getPreferredSize() ).thenReturn( preferredSize );
     when( result.getVerticalBarOffset() ).thenReturn( STUB_VERTICAL_BAR_OFFSET );
     when( result.getOffset() ).thenReturn( OFFSET );
@@ -53,6 +53,7 @@ class AdaptionContextHelper {
       .thenReturn( new Rectangle( area.x, area.y, area.width + BORDER_ADJUSTMENT, area.height + BORDER_ADJUSTMENT ) );
     when( result.getOriginOfScrollableOrdinates() )
       .thenReturn( new Point( area.x - BORDER_WIDTH, area.y - BORDER_WIDTH ) );
+    when( result.get( Demeanor.class ) ).thenReturn( demeanor );
     return result;
   }
 }

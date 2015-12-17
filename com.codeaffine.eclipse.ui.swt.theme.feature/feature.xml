@@ -2,7 +2,7 @@
 <feature
       id="com.codeaffine.eclipse.ui.swt.theme.feature"
       label="Code Affine Theme"
-      version="0.1.2.qualifier"
+      version="0.2.0.qualifier"
       provider-name="CODE AFFINE"
       plugin="com.codeaffine.eclipse.ui.swt.theme">
 
@@ -38,6 +38,13 @@
 
    <plugin
          id="com.codeaffine.eclipse.swt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="com.codeaffine.eclipse.swt.source"
          download-size="0"
          install-size="0"
          version="0.0.0"

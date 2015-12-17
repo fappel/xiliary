@@ -13,4 +13,6 @@ public interface ScrollbarStyle {
   Color getThumbColor();
   void setBackgroundColor( Color color );
   Color getBackgroundColor();
+  void setDemeanor( Demeanor demeanor );
+  Demeanor getDemeanor();
 }

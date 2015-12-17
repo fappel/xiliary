@@ -15,7 +15,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.lang.reflect.Modifier;
 
 import org.junit.Assume;
 import org.junit.rules.MethodRule;
@@ -52,58 +51,7 @@ public class ConditionalIgnoreRule implements MethodRule {
 
   private static IgnoreCondition getIgnoreContition( Object target, FrameworkMethod method ) {
     ConditionalIgnore annotation = method.getAnnotation( ConditionalIgnore.class );
-    return new IgnoreConditionCreator( target, annotation ).create();
-  }
-
-  private static class IgnoreConditionCreator {
-    private final Object target;
-    private final Class<? extends IgnoreCondition> conditionType;
-
-    IgnoreConditionCreator( Object target, ConditionalIgnore annotation ) {
-      this.target = target;
-      this.conditionType = annotation.condition();
-    }
-
-    IgnoreCondition create() {
-      checkConditionType();
-      try {
-        return createCondition();
-      } catch( RuntimeException re ) {
-        throw re;
-      } catch( Exception e ) {
-        throw new RuntimeException( e );
-      }
-    }
-
-    private IgnoreCondition createCondition() throws Exception {
-      IgnoreCondition result;
-      if( isConditionTypeStandalone() ) {
-        result = conditionType.newInstance();
-      } else {
-        result = conditionType.getDeclaredConstructor( target.getClass() ).newInstance( target );
-      }
-      return result;
-    }
-
-    private void checkConditionType() {
-      if( !isConditionTypeStandalone() && !isConditionTypeDeclaredInTarget() ) {
-        String msg
-          = "Conditional class '%s' is a member class "
-          + "but was not declared inside the test case using it.\n"
-          + "Either make this class a static class, "
-          + "standalone class (by declaring it in it's own file) "
-          + "or move it inside the test case using it";
-        throw new IllegalArgumentException( String.format ( msg, conditionType.getName() ) );
-      }
-    }
-
-    private boolean isConditionTypeStandalone() {
-      return !conditionType.isMemberClass() || Modifier.isStatic( conditionType.getModifiers() );
-    }
-
-    private boolean isConditionTypeDeclaredInTarget() {
-      return target.getClass().isAssignableFrom( conditionType.getDeclaringClass() );
-    }
+    return new ConditionCreator<>( target, annotation.condition() ).create();
   }
 
   private static class IgnoreStatement extends Statement {

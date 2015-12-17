@@ -9,6 +9,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.swt.dnd.DragSource;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -82,6 +84,17 @@ public class TreeAdapterTest {
 
     assertThat( adapter.isDisposed() ).isTrue();
     assertThat( shell.getChildren() ).isEmpty();
+  }
+
+  @Test
+  public void disposalWithDragSourceOnTree() {
+    Tree tree = new TestTreeFactory().create( shell );
+    ScrollableAdapterFactoryHelper.adapt( tree, TreeAdapter.class );
+    DragSource dragSource = new DragSource( tree, DND.DROP_MOVE | DND.DROP_COPY );
+
+    shell.dispose();
+
+    assertThat( dragSource.isDisposed() ).isTrue();
   }
 
   @Test

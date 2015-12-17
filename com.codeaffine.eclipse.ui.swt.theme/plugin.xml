@@ -4,26 +4,24 @@
    <extension
          point="org.eclipse.e4.ui.css.swt.theme">
       <theme
-            basestylesheeturi="css/win7.css"
-            id="com.codeaffine.eclipse.ui.swt.theme.win7"
-            label="Windows [Flat-Scrollbar]"
-            os="win32"
-            os_version="6.1">
-      </theme>
-      <theme
-            basestylesheeturi="css/dark.css"
-            id="com.codeaffine.eclipse.ui.swt.theme.dark"
-            label="Dark [Flat-Scrollbar]"
-            os="win32"
-            os_version="6.1">
-      </theme>
-      <theme
             basestylesheeturi="css/clean-sheet.css"
             id="com.codeaffine.eclipse.ui.swt.theme.clean-sheet"
             label="Clean Sheet"
             os="win32"
             os_version="10">
       </theme>
+      <theme
+            basestylesheeturi="css/win7.css"
+            id="com.codeaffine.eclipse.ui.swt.theme.win7"
+            label="Windows [Flat-Scrollbar]"
+            os="win32"
+            os_version="6.1">
+      </theme>
+      <stylesheet
+            os="win32"
+            uri="css/dark.css">
+        <themeid refid="org.eclipse.e4.ui.css.theme.e4_dark"></themeid>
+      </stylesheet>
    </extension>
    <extension
          point="org.eclipse.e4.ui.css.core.propertyHandler">
@@ -44,6 +42,9 @@
                name="flat-scroll-bar-page-increment">
          </property-name>
          <property-name
+               name="flat-scroll-bar-increment-length">
+         </property-name>
+         <property-name
                name="flat-scroll-bar-background-top-level">
          </property-name>
          <property-name
@@ -52,7 +53,46 @@
          <property-name
                name="flat-scroll-bar-page-increment-top-level">
          </property-name>
+         <property-name
+               name="flat-scroll-bar-increment-length-top-level">
+         </property-name>
+         <property-name
+               name="adapter-demeanor">
+         </property-name>
+         <property-name
+               name="adapter-background">
+         </property-name>
+         <property-name
+               name="adapter-demeanor-top-level">
+         </property-name>
+         <property-name
+               name="adapter-background-top-level">
+         </property-name>
       </handler>
    </extension>
-
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="com.codeaffine.eclipse.ui.swt.theme.ScrollbarPreferencesInitializer">
+      </initializer>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            id="com.codeaffine.eclipse.ui.swt.theme.ScrollbarPreferencePage"
+            category="org.eclipse.ui.preferencePages.Views"
+            class="com.codeaffine.eclipse.ui.swt.theme.ScrollbarPreferencePage"
+            name="Scrollbars">
+         <keywordReference
+               id="com.codeaffine.eclipse.ui.swt.theme.keywords.ScrollbarPreferencePage">
+         </keywordReference>
+      </page>
+   </extension>
+      <extension
+         point="org.eclipse.ui.keywords">
+      <keyword
+            id="com.codeaffine.eclipse.ui.swt.theme.keywords.ScrollbarPreferencePage"
+            label="appearance scrollbars">
+      </keyword>
+   </extension>
 </plugin>

@@ -59,9 +59,9 @@ enum Direction {
     }
 
     @Override
-    protected void expand( Control control, int maxEexpansion ) {
+    protected void expand( Control control, int maxExpansion ) {
       Rectangle bounds = control.getBounds();
-      int expand = expand( bounds.height, maxEexpansion );
+      int expand = expand( bounds.height, maxExpansion );
       control.setBounds( bounds.x, bounds.y - expand, bounds.width, bounds.height + expand );
     }
   },

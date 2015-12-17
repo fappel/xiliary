@@ -31,8 +31,6 @@ class ComponentDistribution {
     this.buttonLen = buttonLen;
   }
 
-
-
   private static int slideLen( int buttonLen, int len ) {
     return len - buttonLen * 2;
   }
