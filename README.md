@@ -1,16 +1,16 @@
 Xiliary   [![Build Status](https://travis-ci.org/fappel/xiliary.svg?branch=master)](https://travis-ci.org/fappel/xiliary)
 =======
 
+<a href="http://with-eclipse.github.io/" target="_blank">
+<img alt="with-Eclipse logo" src="http://with-eclipse.github.io/with-eclipse-0.jpg" />
+</a>
+
 ####Introduction
 Auxiliary libraries for Eclipse, JUnit and Java development in general.
 It includes the *FlatScrollBar* and more...
 
  * Released components are available from this p2 software repository: http://fappel.github.io/xiliary
  * Builds from development branch are also available: http://fappel.github.io/xiliary/development
-
-<a href="http://with-eclipse.github.io/" target="_blank">
-<img alt="with-Eclipse logo" src="http://with-eclipse.github.io/with-eclipse-0.jpg" />
-</a>
 
 
 ####FlatScrollBar
@@ -22,17 +22,23 @@ as easy as this in two tiny steps:
 ```
 Tree {
   flat-scroll-bar: true;
+  flat-scroll-bar-background : #ababab;
   flat-scroll-bar-thumb: #cdcdcd;
   flat-scroll-bar-page-increment: #f8f8f8;
   flat-scroll-bar-thumb-top-level: #454545;
   flat-scroll-bar-page-increment-top-level: #f8f8f8;
+  flat-scroll-bar-increment-length: 7;
+  adapter-demeanor: expand-on-mouse-over; /* fixed-width */
 }
 
 Table {
   flat-scroll-bar: true;
+  flat-scroll-bar-background : #ababab;
   flat-scroll-bar-thumb: #cdcdcd;
   flat-scroll-bar-page-increment: #f8f8f8;
   flat-scroll-bar-thumb-top-level: #454545;
   flat-scroll-bar-page-increment-top-level: #f8f8f8;
+  flat-scroll-bar-increment-length: 7;
+  adapter-demeanor: expand-on-mouse-over; /* fixed-width */
 }
 ```
