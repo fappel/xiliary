@@ -40,7 +40,7 @@ public class AwaitConditionRule implements MethodRule {
 
   private static Statement createStatement( FrameworkMethod method, Object target ) {
     AwaitConditionDeclaration declaration = getDeclaration( method );
-    return new AwaitConditionStatment( declaration.timeout(), createCondition( target, declaration.condition() ) );
+    return new AwaitConditionStatement( declaration.timeout(), createCondition( target, declaration.condition() ) );
   }
 
   private static AwaitCondition createCondition( Object target, Class<? extends AwaitCondition> conditionType ) {
