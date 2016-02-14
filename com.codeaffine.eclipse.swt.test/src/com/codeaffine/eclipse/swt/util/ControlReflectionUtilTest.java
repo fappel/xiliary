@@ -23,8 +23,11 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.StyledTextAdapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class ControlReflectionUtilTest {
 
@@ -33,8 +36,8 @@ public class ControlReflectionUtilTest {
   private static final String FIELD_NAME_PARENT = "parent";
   private static final String FIELD_NAME_COLUMN_COUNT = "columnCount";
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private ControlReflectionUtil reflectionUtil;
 
@@ -96,6 +99,7 @@ public class ControlReflectionUtilTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void invokeOfReceiverExtensionMethod() {
     StyledText receiver = reflectionUtil.newInstance( StyledTextAdapter.class );
     reflectionUtil.setField( receiver, FIELD_NAME_DISPLAY, displayHelper.getDisplay() );
@@ -216,6 +220,7 @@ public class ControlReflectionUtilTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void getFieldOfReceiverExtension() {
     int expected = 10;
     Tree receiver = reflectionUtil.newInstance( TreeAdapter.class );
