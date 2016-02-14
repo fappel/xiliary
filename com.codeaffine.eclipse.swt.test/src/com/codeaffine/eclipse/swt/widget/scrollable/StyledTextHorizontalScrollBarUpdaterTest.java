@@ -11,14 +11,18 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class StyledTextHorizontalScrollBarUpdaterTest {
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void update() {
     Shell shell = createShell( displayHelper );
     StyledText styledText = new StyledText( shell, SWT.H_SCROLL | SWT.V_SCROLL );
