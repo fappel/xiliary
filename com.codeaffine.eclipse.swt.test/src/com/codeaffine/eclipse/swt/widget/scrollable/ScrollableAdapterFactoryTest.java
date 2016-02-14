@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Scrollable;
@@ -125,6 +126,7 @@ public class ScrollableAdapterFactoryTest {
   }
 
   private AdaptionContext<Scrollable> createLayoutContext() {
-    return new AdaptionContext<>( shell, new ScrollableControl<>( createTree( shell, 1, 1 ) ) );
+    Composite adapter = new Composite( shell, SWT.NONE );
+    return new AdaptionContext<>( adapter, new ScrollableControl<>( createTree( shell, 1, 1 ) ) );
   }
 }

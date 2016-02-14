@@ -22,35 +22,38 @@ import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
 public class WatchDogTest {
 
   private NestingStructurePreserver nestingStructurePreserver;
-  private TreeVerticalScrollBarUpdater settingCopier;
+  private ScrollBarUpdater horizontalScrollBarUpdater;
+  private ScrollBarUpdater verticalScrollBarUpdater;
   private AdaptionContext<Scrollable> context;
   private Reconciliation reconciliation;
   private Visibility hScrollVisibility;
   private Visibility vScrollVisibility;
   private ActionScheduler scheduler;
   private LayoutTrigger layoutTrigger;
-  private WidthObserver treeWidth;
+  private SizeObserver sizeObserver;
   private WatchDog watchDog;
 
   @Before
   @SuppressWarnings("unchecked")
   public void setUp() {
     context = mock( AdaptionContext.class );
-    settingCopier = mock( TreeVerticalScrollBarUpdater.class );
+    horizontalScrollBarUpdater = mock( ScrollBarUpdater.class );
+    verticalScrollBarUpdater = mock( ScrollBarUpdater.class );
     hScrollVisibility = mock( Visibility.class );
     vScrollVisibility = mock( Visibility.class );
     scheduler = mock( ActionScheduler.class );
     layoutTrigger = mock( LayoutTrigger.class );
-    treeWidth = mock( WidthObserver.class );
+    sizeObserver = mock( SizeObserver.class );
     reconciliation = stubReconciliation();
     nestingStructurePreserver = mock( NestingStructurePreserver.class );
     watchDog = new WatchDog( context,
-                             settingCopier,
+                             horizontalScrollBarUpdater,
+                             verticalScrollBarUpdater,
                              hScrollVisibility,
                              vScrollVisibility,
                              scheduler,
                              layoutTrigger,
-                             treeWidth,
+                             sizeObserver,
                              reconciliation,
                              nestingStructurePreserver );
     watchDog.layoutInitialized = true;
@@ -70,11 +73,12 @@ public class WatchDogTest {
     order.verify( context ).updatePreferredSize();
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
-    order.verify( treeWidth ).hasScrollEffectingChange();
-    order.verify( treeWidth ).update();
+    order.verify( sizeObserver ).mustLayoutAdapter();
+    order.verify( sizeObserver ).update();
     order.verify( vScrollVisibility ).update();
     order.verify( hScrollVisibility ).update();
     order.verify( vScrollVisibility ).isVisible();
+    order.verify( hScrollVisibility ).isVisible();
     order.verify( nestingStructurePreserver ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
@@ -90,10 +94,11 @@ public class WatchDogTest {
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( context ).updatePreferredSize();
     order.verify( layoutTrigger ).pull();
-    order.verify( treeWidth ).update();
+    order.verify( sizeObserver ).update();
     order.verify( vScrollVisibility ).update();
     order.verify( hScrollVisibility ).update();
     order.verify( vScrollVisibility ).isVisible();
+    order.verify( hScrollVisibility ).isVisible();
     order.verify( nestingStructurePreserver ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
@@ -110,10 +115,11 @@ public class WatchDogTest {
     order.verify( context ).updatePreferredSize();
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( layoutTrigger ).pull();
-    order.verify( treeWidth ).update();
+    order.verify( sizeObserver ).update();
     order.verify( vScrollVisibility ).update();
     order.verify( hScrollVisibility ).update();
     order.verify( vScrollVisibility ).isVisible();
+    order.verify( hScrollVisibility ).isVisible();
     order.verify( nestingStructurePreserver ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
@@ -131,18 +137,19 @@ public class WatchDogTest {
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
     order.verify( layoutTrigger ).pull();
-    order.verify( treeWidth ).update();
+    order.verify( sizeObserver ).update();
     order.verify( vScrollVisibility ).update();
     order.verify( hScrollVisibility ).update();
     order.verify( vScrollVisibility ).isVisible();
+    order.verify( hScrollVisibility ).isVisible();
     order.verify( nestingStructurePreserver ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
   }
 
   @Test
-  public void runIfTreeWidthHasScrollEffectingChange() {
-    when( treeWidth.hasScrollEffectingChange() ).thenReturn( true );
+  public void runIfSizeObserverRequestsAdapterLayout() {
+    when( sizeObserver.mustLayoutAdapter() ).thenReturn( true );
 
     watchDog.run();
 
@@ -151,12 +158,13 @@ public class WatchDogTest {
     order.verify( context ).updatePreferredSize();
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
-    order.verify( treeWidth ).hasScrollEffectingChange();
+    order.verify( sizeObserver ).mustLayoutAdapter();
     order.verify( layoutTrigger ).pull();
-    order.verify( treeWidth ).update();
+    order.verify( sizeObserver ).update();
     order.verify( vScrollVisibility ).update();
     order.verify( hScrollVisibility ).update();
     order.verify( vScrollVisibility ).isVisible();
+    order.verify( hScrollVisibility ).isVisible();
     order.verify( nestingStructurePreserver ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
@@ -173,12 +181,36 @@ public class WatchDogTest {
     order.verify( context ).updatePreferredSize();
     order.verify( vScrollVisibility ).hasChanged();
     order.verify( hScrollVisibility ).hasChanged();
-    order.verify( treeWidth ).hasScrollEffectingChange();
-    order.verify( treeWidth ).update();
+    order.verify( sizeObserver ).mustLayoutAdapter();
+    order.verify( sizeObserver ).update();
     order.verify( vScrollVisibility ).update();
     order.verify( hScrollVisibility ).update();
     order.verify( vScrollVisibility ).isVisible();
-    order.verify( settingCopier ).update();
+    order.verify( verticalScrollBarUpdater ).update();
+    order.verify( hScrollVisibility ).isVisible();
+    order.verify( nestingStructurePreserver ).run();
+    order.verify( scheduler ).schedule( WatchDog.DELAY );
+    verifyNoMoreInteractionOnDocs();
+  }
+
+  @Test
+  public void runIfHorizontalScrollBarIsVisible() {
+    when( hScrollVisibility.isVisible() ).thenReturn( true );
+
+    watchDog.run();
+
+    InOrder order = docOrder();
+    order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
+    order.verify( context ).updatePreferredSize();
+    order.verify( vScrollVisibility ).hasChanged();
+    order.verify( hScrollVisibility ).hasChanged();
+    order.verify( sizeObserver ).mustLayoutAdapter();
+    order.verify( sizeObserver ).update();
+    order.verify( vScrollVisibility ).update();
+    order.verify( hScrollVisibility ).update();
+    order.verify( vScrollVisibility ).isVisible();
+    order.verify( hScrollVisibility ).isVisible();
+    order.verify( horizontalScrollBarUpdater ).update();
     order.verify( nestingStructurePreserver ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
@@ -205,30 +237,39 @@ public class WatchDogTest {
     order.verify( context, never() ).updatePreferredSize();
     verify( vScrollVisibility, never() ).hasChanged();
     verify( hScrollVisibility, never() ).hasChanged();
-    verify( treeWidth, never() ).hasScrollEffectingChange();
-    verify( treeWidth, never() ).update();
+    verify( sizeObserver, never() ).mustLayoutAdapter();
+    verify( sizeObserver, never() ).update();
     verify( vScrollVisibility, never() ).update();
     verify( hScrollVisibility, never() ).update();
     verify( nestingStructurePreserver, never() ).run();
     verify( vScrollVisibility, never() ).isVisible();
+    verify( hScrollVisibility, never() ).isVisible();
     verifyNoMoreInteractionOnDocs();
   }
 
   private InOrder docOrder() {
     return inOrder( context,
-                    settingCopier,
+                    horizontalScrollBarUpdater,
+                    verticalScrollBarUpdater,
                     hScrollVisibility,
                     vScrollVisibility,
                     scheduler,
                     layoutTrigger,
-                    treeWidth,
+                    sizeObserver,
                     reconciliation,
                     nestingStructurePreserver );
   }
 
   private void verifyNoMoreInteractionOnDocs() {
     verifyNoMoreInteractions(
-      settingCopier, hScrollVisibility, vScrollVisibility, layoutTrigger, treeWidth, reconciliation, nestingStructurePreserver
+      horizontalScrollBarUpdater,
+      verticalScrollBarUpdater,
+      hScrollVisibility,
+      vScrollVisibility,
+      layoutTrigger,
+      sizeObserver,
+      reconciliation,
+      nestingStructurePreserver
     );
   }
 }

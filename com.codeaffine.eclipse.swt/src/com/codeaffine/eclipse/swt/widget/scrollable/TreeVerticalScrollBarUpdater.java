@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
-class TreeVerticalScrollBarUpdater implements VerticalScrollBarUpdater {
+class TreeVerticalScrollBarUpdater implements ScrollBarUpdater {
 
   private final VerticalScrollbarConfigurationBuffer scrollbarConfiguration;
   private final TreeItemCollector treeItemCollector;

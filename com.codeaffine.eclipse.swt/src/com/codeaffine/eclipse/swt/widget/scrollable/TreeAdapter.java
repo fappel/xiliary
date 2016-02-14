@@ -24,8 +24,8 @@ import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 public class TreeAdapter extends Tree implements Adapter<Tree>, ScrollbarStyle {
 
   private LayoutFactory<Tree> layoutFactory;
-  private Reconciliation reconciliation;
   private AdaptionContext<Tree> context;
+  private Reconciliation reconciliation;
   private Tree tree;
 
   TreeAdapter() {

@@ -11,30 +11,31 @@ import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 
 class ScrollableLayout extends Layout {
 
-  private final ScrollBarConfigurer horizontalBarConfigurer;
   private final ScrollableLayouter scrollableLayouter;
   private final OverlayLayouter overlayLayouter;
   private final Reconciliation reconciliation;
   private final AdaptionContext<?> context;
 
-  ScrollableLayout( AdaptionContext<?> context, FlatScrollBar horizontal, FlatScrollBar vertical, Label cornerOverlay ) {
+  ScrollableLayout( AdaptionContext<?> context,
+                    ScrollableLayouter scrollableLayouter,
+                    FlatScrollBar horizontal,
+                    FlatScrollBar vertical,
+                    Label cornerOverlay )
+  {
     this( context,
           new OverlayLayouter( horizontal, vertical, cornerOverlay ),
-          new ScrollableLayouter( context ),
-          new ScrollBarConfigurer( horizontal ),
+          scrollableLayouter,
           context.getReconciliation() );
   }
 
   ScrollableLayout( AdaptionContext<?> context,
                     OverlayLayouter overlayLayouter,
                     ScrollableLayouter scrollableLayouter,
-                    ScrollBarConfigurer horizontalBarConfigurer,
                     Reconciliation reconciliation  )
   {
     this.context = context;
     this.overlayLayouter = overlayLayouter;
     this.scrollableLayouter = scrollableLayouter;
-    this.horizontalBarConfigurer = horizontalBarConfigurer;
     this.reconciliation = reconciliation;
   }
 
@@ -50,10 +51,6 @@ class ScrollableLayout extends Layout {
 
   private void layout() {
     scrollableLayouter.layout( context.newContext() );
-    AdaptionContext<?> context = this.context.newContext();
-    overlayLayouter.layout( context );
-    if( context.isHorizontalBarVisible() ) {
-      horizontalBarConfigurer.configure( context );
-    }
+    overlayLayouter.layout( context.newContext() );
   }
 }

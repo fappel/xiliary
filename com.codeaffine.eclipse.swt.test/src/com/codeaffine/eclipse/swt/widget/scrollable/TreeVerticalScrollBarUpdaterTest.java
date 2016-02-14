@@ -5,7 +5,7 @@ import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
-import static com.codeaffine.eclipse.swt.widget.scrollable.VerticalScrollBarUpdater.SELECTION_RASTER_SMOOTH_FACTOR;
+import static com.codeaffine.eclipse.swt.widget.scrollable.ScrollBarUpdater.SELECTION_RASTER_SMOOTH_FACTOR;
 import static com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBarAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 

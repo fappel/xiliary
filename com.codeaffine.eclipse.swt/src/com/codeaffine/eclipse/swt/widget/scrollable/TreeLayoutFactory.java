@@ -12,17 +12,18 @@ class TreeLayoutFactory extends ScrollableLayoutFactory<Tree> {
 
   @Override
   public Layout create( AdaptionContext<Tree> context, FlatScrollBar horizontal, FlatScrollBar vertical ) {
-    return new ScrollableLayout( newContext( context ), horizontal, vertical, getCornerOverlay() );
+    ScrollableLayouter layouter = new StructuredScrollableLayouter( context.getScrollable() );
+    return new ScrollableLayout( newContext( context ), layouter, horizontal, vertical, getCornerOverlay() );
   }
 
   @Override
   public SelectionListener createHorizontalSelectionListener( AdaptionContext<Tree> context ) {
-    return new HorizontalSelectionListener( context );
+    return new StructuredScrollableHorizontalSelectionListener( context );
   }
 
   @Override
   public SelectionListener createVerticalSelectionListener( AdaptionContext<Tree> context ) {
-    return new TreeVerticalSelectionListener( context );
+    return new TreeVerticalSelectionListener( context.getScrollable().getControl() );
   }
 
   @Override
@@ -30,8 +31,10 @@ class TreeLayoutFactory extends ScrollableLayoutFactory<Tree> {
     AdaptionContext<Tree> context, FlatScrollBar horizontal, FlatScrollBar vertical )
   {
     Tree control = context.getScrollable().getControl();
-    TreeVerticalScrollBarUpdater updater = new TreeVerticalScrollBarUpdater( control, vertical );
-    return new WatchDog( newContext( context ), updater );
+    ScrollBarUpdater horizontalUpdater = new StructuredScrollableHorizontalScrollBarUpdater( context, horizontal );
+    ScrollBarUpdater verticalUpdater = new TreeVerticalScrollBarUpdater( control, vertical );
+    SizeObserver sizeObserver = new StructuredScrollableSizeObserver( context );
+    return new WatchDog( newContext( context ), horizontalUpdater, verticalUpdater, sizeObserver );
   }
 
   private static AdaptionContext<Tree> newContext( AdaptionContext<Tree> context ) {

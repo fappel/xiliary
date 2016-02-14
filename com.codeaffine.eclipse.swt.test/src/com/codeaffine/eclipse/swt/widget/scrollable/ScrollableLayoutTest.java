@@ -1,6 +1,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.widget.scrollable.ReconciliationHelper.stubReconciliation;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
 import static java.util.stream.Collectors.toList;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
 import org.junit.Rule;
@@ -34,25 +36,19 @@ public class ScrollableLayoutTest {
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
-  private ScrollBarConfigurer horizontalBarConfigurer;
-  private ScrollableLayouter scrollableLayouter;
+  private StructuredScrollableLayouter scrollableLayouter;
   private OverlayLayouter overlayLayouter;
   private Reconciliation reconciliation;
-  private AdaptionContext<Tree> context;
+  private AdaptionContext<?> context;
   private ScrollableLayout layout;
-  private Tree tree;
 
   @Before
   public void setUp() {
+    context = createContext();
     overlayLayouter = mock( OverlayLayouter.class );
-    horizontalBarConfigurer = mock( ScrollBarConfigurer.class );
-    scrollableLayouter = mock( ScrollableLayouter.class );
-    tree = createTree( createShell( displayHelper ), 6, 4 );
-    context = new AdaptionContext<>( tree.getParent(), new ScrollableControl<>( tree ) );
-    reconciliation = ReconciliationHelper.stubReconciliation();
-    layout = new ScrollableLayout(
-      context, overlayLayouter, scrollableLayouter, horizontalBarConfigurer, reconciliation
-    );
+    scrollableLayouter = mock( StructuredScrollableLayouter.class );
+    reconciliation = stubReconciliation();
+    layout = new ScrollableLayout( context, overlayLayouter, scrollableLayouter, reconciliation );
   }
 
   @Test
@@ -70,24 +66,9 @@ public class ScrollableLayoutTest {
   }
 
   @Test
-  public void layoutIfHorizontalBarIsVisible() {
-    expandTopBranch( tree );
-    context.updatePreferredSize();
-
-    layout.layout( null, true );
-
-    InOrder order = order();
-    order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
-    order.verify( scrollableLayouter ).layout( any( AdaptionContext.class ) );
-    order.verify( overlayLayouter ).layout( any( AdaptionContext.class ) );
-    order.verify( horizontalBarConfigurer ).configure( any( AdaptionContext.class ) );
-    order.verifyNoMoreInteractions();
-  }
-
-  @Test
   public void ensureReconciliationClamp() {
     doNothing().when( reconciliation ).runWhileSuspended( any( Runnable.class ) );
-    expandTopBranch( tree );
+    expandTopBranch( ( Tree )context.getScrollable().getControl() );
     context.updatePreferredSize();
 
     layout.layout( null, true );
@@ -96,7 +77,6 @@ public class ScrollableLayoutTest {
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( overlayLayouter, never() ).layout( any( AdaptionContext.class ) );
     order.verify( scrollableLayouter, never() ).layout( any( AdaptionContext.class ) );
-    order.verify( horizontalBarConfigurer, never() ).configure( any( AdaptionContext.class ) );
     order.verifyNoMoreInteractions();
   }
 
@@ -104,13 +84,18 @@ public class ScrollableLayoutTest {
   public void computeSize() {
     Point actual = layout.computeSize( null, SWT.DEFAULT, SWT.DEFAULT, true );
 
-    assertThat( actual ).isEqualTo( tree.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ) );
+    assertThat( actual ).isEqualTo( context.getScrollable().computeSize( SWT.DEFAULT, SWT.DEFAULT, true ) );
+  }
+
+  private AdaptionContext<Scrollable> createContext() {
+    Scrollable scrollable = createTree( createShell( displayHelper ), 6, 4 );
+    ScrollableControl<Scrollable> scrollableControl = new ScrollableControl<>( scrollable );
+    return new AdaptionContext<>( scrollable.getParent(), scrollableControl );
   }
 
   private InOrder order() {
-    return inOrder( reconciliation, overlayLayouter, scrollableLayouter, horizontalBarConfigurer );
+    return inOrder( reconciliation, overlayLayouter, scrollableLayouter );
   }
-
 
   private void assertContextGetsUpdated( ArgumentCaptor<AdaptionContext> captor ) {
     List<AdaptionContext> captured = captor.getAllValues();

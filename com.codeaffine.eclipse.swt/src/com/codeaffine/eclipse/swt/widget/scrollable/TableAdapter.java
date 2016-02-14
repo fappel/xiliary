@@ -24,8 +24,8 @@ import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 public class TableAdapter extends Table implements Adapter<Table>, ScrollbarStyle {
 
   private LayoutFactory<Table> layoutFactory;
-  private Reconciliation reconciliation;
   private AdaptionContext<Table> context;
+  private Reconciliation reconciliation;
   private Table table;
 
   TableAdapter() {

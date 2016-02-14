@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -38,6 +39,9 @@ public class ScrollableControl <T extends Scrollable> {
     }
     if( scrollable instanceof Tree ) {
       return ( ( Tree )scrollable ).getItemHeight();
+    }
+    if( scrollable instanceof StyledText ) {
+      return ( ( StyledText )scrollable ).getLineHeight();
     }
     return ZERO.intValue();
   }

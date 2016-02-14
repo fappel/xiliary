@@ -12,6 +12,8 @@ import static org.mockito.Mockito.verify;
 
 import java.lang.reflect.Field;
 
+import org.eclipse.swt.accessibility.Accessible;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -21,6 +23,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.widget.scrollable.StyledTextAdapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
 
 public class ControlReflectionUtilTest {
@@ -90,6 +93,17 @@ public class ControlReflectionUtilTest {
     reflectionUtil.invoke( receiver, "showSelection" );
 
     verify( receiver ).showSelection();
+  }
+
+  @Test
+  public void invokeOfReceiverExtensionMethod() {
+    StyledText receiver = reflectionUtil.newInstance( StyledTextAdapter.class );
+    reflectionUtil.setField( receiver, FIELD_NAME_DISPLAY, displayHelper.getDisplay() );
+
+    reflectionUtil.invoke( receiver, "initializeAccessible" );
+    Accessible actual = reflectionUtil.getField( receiver, "acc", Accessible.class );
+
+    assertThat( actual ).isNotNull();
   }
 
   @Test
@@ -194,6 +208,17 @@ public class ControlReflectionUtilTest {
   public void getFieldOfReceiver() {
     int expected = 10;
     Tree receiver = reflectionUtil.newInstance( Tree.class );
+    reflectionUtil.setField( receiver, FIELD_NAME_COLUMN_COUNT, expected );
+
+    int actual = reflectionUtil.getField( receiver, FIELD_NAME_COLUMN_COUNT, Integer.class );
+
+    assertThat( actual ).isEqualTo( expected );
+  }
+
+  @Test
+  public void getFieldOfReceiverExtension() {
+    int expected = 10;
+    Tree receiver = reflectionUtil.newInstance( TreeAdapter.class );
     reflectionUtil.setField( receiver, FIELD_NAME_COLUMN_COUNT, expected );
 
     int actual = reflectionUtil.getField( receiver, FIELD_NAME_COLUMN_COUNT, Integer.class );

@@ -12,6 +12,7 @@ import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.custom.ViewForm;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Scrollable;
 
 import com.codeaffine.eclipse.swt.util.ControlReflectionUtil;
@@ -26,6 +27,7 @@ class LayoutReconciliation {
     this.controlReflectionUtil = new ControlReflectionUtil();
     this.scrollable = scrollable;
     this.adapter = adapter;
+    registerSourceViewerRulerLayoutActorIfNeeded( scrollable, adapter );
   }
 
   void run() {
@@ -44,6 +46,19 @@ class LayoutReconciliation {
       }
       if( adapter.getParent() instanceof CTabFolder ) {
         reconcileCTabFolder();
+      }
+    }
+  }
+
+  private static void registerSourceViewerRulerLayoutActorIfNeeded(
+    ScrollableControl<? extends Scrollable> scrollable, Composite adapter )
+  {
+    Composite parent = adapter.getParent();
+    if( parent != null ) {
+      Layout layout = parent.getLayout();
+      String rulerLayoutTypeName = "org.eclipse.jface.text.source.SourceViewer$RulerLayout";
+      if( layout != null && layout.getClass().getName().equals( rulerLayoutTypeName ) ) {
+        parent.setLayout( new LayoutActor( layout, scrollable, adapter ) );
       }
     }
   }

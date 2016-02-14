@@ -117,6 +117,7 @@ public class ScrollableAdapterFactory {
     List<Class<?>> result = new ArrayList<Class<?>>();
     result.add( TreeAdapter.class );
     result.add( TableAdapter.class );
+    result.add( StyledTextAdapter.class );
     return unmodifiableList( result );
   }
 }

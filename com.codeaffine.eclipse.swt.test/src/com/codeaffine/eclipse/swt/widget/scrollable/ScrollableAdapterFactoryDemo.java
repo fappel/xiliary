@@ -161,6 +161,18 @@ public class ScrollableAdapterFactoryDemo {
     spinLoop();
   }
 
+  @Test
+  public void styledTextDemo() {
+    TestStyledTextFactory testStyledTextFactory = new TestStyledTextFactory();
+//    testStyledTextFactory.create( shell );
+    adapt( testStyledTextFactory.create( shell ), StyledTextAdapter.class );
+    shell.open();
+    displayHelper.getDisplay().timerExec( 1000, () -> {
+      testStyledTextFactory.getStyledText().setLocation( 42, 0 );
+    } );
+    spinLoop();
+  }
+
   private void spinLoop() {
     newReadAndDispatch().spinLoop( shell );
   }

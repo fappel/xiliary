@@ -1,6 +1,8 @@
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
+import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.test.util.graphics.RectangleAssert.assertThat;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -8,7 +10,9 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
@@ -26,12 +30,13 @@ public class BoundsReconciliationTest {
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private BoundsReconciliation reconciliation;
-  private Shell adapter;
+  private Composite adapter;
   private Tree scrollable;
 
   @Before
   public void setUp() {
-    adapter = createShell( displayHelper );
+    Shell shell = createShell( displayHelper );
+    adapter = new Composite( shell, SWT.NONE );
     scrollable = createTree( adapter, 1, 1 );
     reconciliation = new BoundsReconciliation( adapter, new ScrollableControl<>( scrollable ) );
   }
@@ -56,10 +61,28 @@ public class BoundsReconciliationTest {
   }
 
   @Test
+  public void runAfterScrollableSizeHaveBeenChanged() {
+    scrollable.setSize( 50, 60 );
+
+    reconciliation.run();
+
+    assertThat( adapter.getBounds() ).isEqualToRectangleOf( 0, 0, 50, 60 );
+  }
+
+  @Test
+  public void runAfterScrollableLocationHaveBeenChanged() {
+    scrollable.setLocation( 50, 60 );
+
+    reconciliation.run();
+
+    assertThat( adapter.getBounds() ).isEqualToRectangleOf( 50, 60, 0, 0 );
+  }
+
+  @Test
   public void runAfterScrollableBoundsHaveChangedByTreeExpansion() {
     Rectangle expected = adapter.getBounds();
     scrollable.setBounds( new Rectangle( 100, 200, 300, 400 ) );
-    reconciliation.treeExpanded();
+    trigger( SWT.Expand ).on( scrollable );
 
     reconciliation.run();
 
@@ -70,7 +93,7 @@ public class BoundsReconciliationTest {
   public void runAfterScrollableBoundsHaveChangedByTreeCollaps() {
     Rectangle expected = adapter.getBounds();
     scrollable.setBounds( new Rectangle( 100, 200, 300, 400 ) );
-    reconciliation.treeCollapsed();
+    trigger( SWT.Collapse ).on( scrollable );
 
     reconciliation.run();
 
@@ -81,7 +104,7 @@ public class BoundsReconciliationTest {
   public void subsequentRunWithoutChange() {
     Rectangle expected = adapter.getBounds();
     scrollable.setBounds( new Rectangle( 100, 200, 300, 400 ) );
-    reconciliation.treeExpanded();
+    trigger( SWT.Expand ).on( scrollable );
     reconciliation.run();
 
     reconciliation.run();
@@ -91,15 +114,26 @@ public class BoundsReconciliationTest {
 
   @Test
   public void subsequentRunWithChange() {
-    Rectangle expected = new Rectangle( 10, 20, 100, 500 );
+    scrollable.setBounds( new Rectangle( 10, 20, 100, 500 ) );
+    trigger( SWT.Expand ).on( scrollable );
+    reconciliation.run();
     scrollable.setBounds( new Rectangle( 100, 200, 300, 400 ) );
-    reconciliation.treeExpanded();
-    reconciliation.run();
-    scrollable.setBounds( expected );
 
     reconciliation.run();
 
-    assertThat( adapter.getBounds() ).isEqualTo( expected );
+    assertThat( adapter.getBounds() ).isEqualToRectangleOf( 90, 180, 300, 400 );
+  }
+
+  @Test
+  public void subsequentRunWithLocationChange() {
+    scrollable.setBounds( new Rectangle( 10, 20, 100, 500 ) );
+    trigger( SWT.Expand ).on( scrollable );
+    reconciliation.run();
+    scrollable.setLocation( new Point( 100, 200 ) );
+
+    reconciliation.run();
+
+    assertThat( adapter.getBounds() ).isEqualToRectangleOf( 90, 180, 100, 500 );
   }
 
   @Test

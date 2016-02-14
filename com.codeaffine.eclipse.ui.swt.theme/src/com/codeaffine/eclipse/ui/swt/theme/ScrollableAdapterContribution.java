@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 import org.eclipse.e4.ui.css.core.dom.properties.ICSSPropertyHandler;
 import org.eclipse.e4.ui.css.core.engine.CSSEngine;
 import org.eclipse.e4.ui.css.swt.dom.ControlElement;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Table;
@@ -28,6 +29,7 @@ import org.w3c.dom.css.CSSValue;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.Adapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
+import com.codeaffine.eclipse.swt.widget.scrollable.StyledTextAdapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.TableAdapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
 
@@ -49,6 +51,7 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
   static final TypePair<? extends Scrollable, ? extends Adapter>[] SUPPORTED_ADAPTERS = new TypePair[] {
     new TypePair<>( Tree.class, TreeAdapter.class ),
     new TypePair<>( Table.class, TableAdapter.class ),
+    new TypePair<>( StyledText.class, StyledTextAdapter.class ),
   };
 
   private final ScrollbarPreference incrementButtonLengthPreference;

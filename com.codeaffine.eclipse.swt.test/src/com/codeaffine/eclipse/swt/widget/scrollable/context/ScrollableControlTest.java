@@ -10,6 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
@@ -55,6 +56,16 @@ public class ScrollableControlTest {
     int actual = scrollableControl.getItemHeight();
 
     assertThat( actual ).isSameAs( scrollable.getItemHeight() );
+  }
+
+  @Test
+  public void getItemHeightOfStyledText() {
+    StyledText scrollable = createScrollable( StyledText.class );
+    ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
+
+    int actual = scrollableControl.getItemHeight();
+
+    assertThat( actual ).isSameAs( scrollable.getLineHeight() );
   }
 
   @Test

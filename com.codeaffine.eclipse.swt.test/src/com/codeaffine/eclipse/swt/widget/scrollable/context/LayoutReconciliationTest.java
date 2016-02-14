@@ -1,10 +1,16 @@
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.eclipse.jface.text.source.SourceViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Scrollable;
+import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -160,5 +166,42 @@ public class LayoutReconciliationTest {
     Rectangle actual = testHelper.runReconciliation();
 
     assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+  }
+
+  @Test
+  public void registerSourceViewerRulerLayoutActor() {
+    Shell shell = displayHelper.createShell();
+    shell.setLayout( new SourceViewer.RulerLayout() );
+    Composite adapter = new Composite( shell, SWT.NONE );
+    Composite scrollable = new Composite( adapter, SWT.NONE );
+
+    new LayoutReconciliation( adapter, new ScrollableControl<Scrollable>( scrollable ) );
+
+    assertThat( shell.getLayout() ).isInstanceOf( LayoutActor.class );
+  }
+
+  @Test
+  public void registerSourceViewerRulerLayoutActorIfAdapterParentHasNoLayout() {
+    Shell shell = displayHelper.createShell();
+    Composite adapter = new Composite( shell, SWT.NONE );
+    Composite scrollable = new Composite( adapter, SWT.NONE );
+
+    Throwable actual = thrownBy( () ->  {
+      new LayoutReconciliation( adapter, new ScrollableControl<Scrollable>( scrollable ) );
+    } );
+
+    assertThat( actual ).isNull();
+  }
+
+  @Test
+  public void registerSourceViewerRulerLayoutActorIfAdapterHasNoParent() {
+    Shell shell = displayHelper.createShell();
+    Composite scrollable = new Composite( shell, SWT.NONE );
+
+    Throwable actual = thrownBy( () ->  {
+      new LayoutReconciliation( shell, new ScrollableControl<Scrollable>( scrollable ) );
+    } );
+
+    assertThat( actual ).isNull();
   }
 }

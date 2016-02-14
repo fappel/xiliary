@@ -14,41 +14,49 @@ class WatchDog implements Runnable, DisposeListener {
   static final int DELAY = 10;
 
   private final NestingStructurePreserver nestingStructurePresever;
-  private final VerticalScrollBarUpdater verticalBarUpdater;
+  private final ScrollBarUpdater horizontalBarUpdater;
+  private final ScrollBarUpdater verticalBarUpdater;
   private final Reconciliation reconciliation;
   private final Visibility vScrollVisibility;
   private final Visibility hScrollVisibility;
-  private final WidthObserver widthObserver;
   private final LayoutTrigger layoutTrigger;
-  private final ActionScheduler scheduler;
   private final AdaptionContext<?> context;
+  private final SizeObserver sizeObserver;
+  private final ActionScheduler scheduler;
 
   boolean layoutInitialized;
   boolean disposed;
 
-  WatchDog( AdaptionContext<?> context, VerticalScrollBarUpdater verticalUpdater ) {
+  WatchDog( AdaptionContext<?> context,
+            ScrollBarUpdater horizontalUpdater,
+            ScrollBarUpdater verticalUpdater,
+            SizeObserver sizeObserver )
+  {
     this( context,
+          horizontalUpdater,
           verticalUpdater,
           new Visibility( SWT.HORIZONTAL, context ),
           new Visibility( SWT.VERTICAL, context ),
           null,
           new LayoutTrigger( context.getAdapter() ),
-          new WidthObserver( context ),
+          sizeObserver,
           context.getReconciliation(),
           new NestingStructurePreserver( context ) );
   }
 
   WatchDog( AdaptionContext<?> context,
-            VerticalScrollBarUpdater verticalBarUpdater,
+            ScrollBarUpdater horizontalBarUpdater,
+            ScrollBarUpdater verticalBarUpdater,
             Visibility hScrollVisibility,
             Visibility vScrollVisibility,
             ActionScheduler actionScheduler,
             LayoutTrigger layoutTrigger,
-            WidthObserver treeWidth,
+            SizeObserver sizeObserver,
             Reconciliation reconciliation,
             NestingStructurePreserver nestingPresever )
   {
     this.context = context;
+    this.horizontalBarUpdater = horizontalBarUpdater;
     this.verticalBarUpdater = verticalBarUpdater;
     this.hScrollVisibility = hScrollVisibility;
     this.vScrollVisibility = vScrollVisibility;
@@ -56,7 +64,7 @@ class WatchDog implements Runnable, DisposeListener {
     this.scheduler = ensureScheduler( actionScheduler );
     this.reconciliation = reconciliation;
     this.layoutTrigger = layoutTrigger;
-    this.widthObserver = treeWidth;
+    this.sizeObserver = sizeObserver;
     scheduler.schedule( DELAY );
   }
 
@@ -82,11 +90,14 @@ class WatchDog implements Runnable, DisposeListener {
     if( mustLayout() ) {
       layoutTrigger.pull();
     }
-    widthObserver.update();
+    sizeObserver.update();
     vScrollVisibility.update();
     hScrollVisibility.update();
     if( vScrollVisibility.isVisible() ) {
       verticalBarUpdater.update();
+    }
+    if( hScrollVisibility.isVisible() ) {
+      horizontalBarUpdater.update();
     }
     nestingStructurePresever.run();
   }
@@ -95,7 +106,7 @@ class WatchDog implements Runnable, DisposeListener {
     boolean result =    !layoutInitialized
                      || vScrollVisibility.hasChanged()
                      || hScrollVisibility.hasChanged()
-                     || widthObserver.hasScrollEffectingChange();
+                     || sizeObserver.mustLayoutAdapter();
     layoutInitialized = true;
     return result;
   }

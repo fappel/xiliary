@@ -12,17 +12,18 @@ class TableLayoutFactory extends ScrollableLayoutFactory<Table> {
 
   @Override
   public Layout create( AdaptionContext<Table> context, FlatScrollBar horizontal, FlatScrollBar vertical ) {
-    return new ScrollableLayout( newContext( context ), horizontal, vertical, getCornerOverlay() );
+    ScrollableLayouter layouter = new StructuredScrollableLayouter( context.getScrollable() );
+    return new ScrollableLayout( newContext( context ), layouter, horizontal, vertical, getCornerOverlay() );
   }
 
   @Override
   public SelectionListener createHorizontalSelectionListener( AdaptionContext<Table> context ) {
-    return new HorizontalSelectionListener( context );
+    return new StructuredScrollableHorizontalSelectionListener( context );
   }
 
   @Override
   public SelectionListener createVerticalSelectionListener( AdaptionContext<Table> context ) {
-    return new TableVerticalSelectionListener( context );
+    return new TableVerticalSelectionListener( context.getScrollable().getControl() );
   }
 
   @Override
@@ -30,8 +31,10 @@ class TableLayoutFactory extends ScrollableLayoutFactory<Table> {
     AdaptionContext<Table> context, FlatScrollBar horizontal, FlatScrollBar vertical )
   {
     Table control = context.getScrollable().getControl();
-    TableVerticalScrollBarUpdater updater = new TableVerticalScrollBarUpdater( control, vertical );
-    return new WatchDog( newContext( context ), updater );
+    ScrollBarUpdater horizontalUpdater = new StructuredScrollableHorizontalScrollBarUpdater( context, horizontal );
+    ScrollBarUpdater verticalUpdater = new TableVerticalScrollBarUpdater( control, vertical );
+    SizeObserver sizeObserver = new StructuredScrollableSizeObserver( context );
+    return new WatchDog( newContext( context ), horizontalUpdater, verticalUpdater, sizeObserver );
   }
 
   private static AdaptionContext<Table> newContext( AdaptionContext<Table> context ) {
