@@ -33,7 +33,7 @@ class TableLayoutFactory extends ScrollableLayoutFactory<Table> {
     Table control = context.getScrollable().getControl();
     ScrollBarUpdater horizontalUpdater = new StructuredScrollableHorizontalScrollBarUpdater( context, horizontal );
     ScrollBarUpdater verticalUpdater = new TableVerticalScrollBarUpdater( control, vertical );
-    SizeObserver sizeObserver = new StructuredScrollableSizeObserver( context );
+    SizeObserver sizeObserver = new StructuredScrollableSizeObserver();
     return new WatchDog( newContext( context ), horizontalUpdater, verticalUpdater, sizeObserver );
   }
 

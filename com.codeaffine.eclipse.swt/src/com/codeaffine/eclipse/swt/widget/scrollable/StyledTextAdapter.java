@@ -308,6 +308,7 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
     super.setLayout( layoutFactory.create( context ) );
     new DisposalRouting().register( this, styledText );
     new ControlReflectionUtil().invoke( this, "initializeAccessible" );
+    layout();
   }
 
   private static LayoutMapping<StyledText> createLayoutMapping( PlatformSupport platformSupport ) {

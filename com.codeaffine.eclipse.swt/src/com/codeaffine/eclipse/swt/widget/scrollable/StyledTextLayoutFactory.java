@@ -33,7 +33,8 @@ class StyledTextLayoutFactory extends ScrollableLayoutFactory<StyledText> {
     StyledText control = context.getScrollable().getControl();
     ScrollBarUpdater horizontalUpdater = new StyledTextHorizontalScrollBarUpdater( control, horizontal );
     ScrollBarUpdater verticalUpdater = new StyledTextVerticalScrollBarUpdater( control, vertical );
-    return new WatchDog( newContext( context ), horizontalUpdater, verticalUpdater, new SizeObserver() {} );
+    SizeObserver sizeObserver = new StyledTextSizeObserver( control );
+    return new WatchDog( newContext( context ), horizontalUpdater, verticalUpdater, sizeObserver );
   }
 
   private static AdaptionContext<StyledText> newContext( AdaptionContext<StyledText> context ) {

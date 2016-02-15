@@ -11,7 +11,7 @@ import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
 
 class WatchDog implements Runnable, DisposeListener {
 
-  static final int DELAY = 10;
+  static final int DELAY = 50;
 
   private final NestingStructurePreserver nestingStructurePresever;
   private final ScrollBarUpdater horizontalBarUpdater;
@@ -20,10 +20,10 @@ class WatchDog implements Runnable, DisposeListener {
   private final Visibility vScrollVisibility;
   private final Visibility hScrollVisibility;
   private final LayoutTrigger layoutTrigger;
-  private final AdaptionContext<?> context;
   private final SizeObserver sizeObserver;
   private final ActionScheduler scheduler;
 
+  AdaptionContext<?> context;
   boolean layoutInitialized;
   boolean disposed;
 
@@ -35,8 +35,8 @@ class WatchDog implements Runnable, DisposeListener {
     this( context,
           horizontalUpdater,
           verticalUpdater,
-          new Visibility( SWT.HORIZONTAL, context ),
-          new Visibility( SWT.VERTICAL, context ),
+          new Visibility( SWT.HORIZONTAL ),
+          new Visibility( SWT.VERTICAL ),
           null,
           new LayoutTrigger( context.getAdapter() ),
           sizeObserver,
@@ -90,9 +90,10 @@ class WatchDog implements Runnable, DisposeListener {
     if( mustLayout() ) {
       layoutTrigger.pull();
     }
-    sizeObserver.update();
-    vScrollVisibility.update();
-    hScrollVisibility.update();
+    context = context.newContext();
+    sizeObserver.update( context );
+    vScrollVisibility.update( context );
+    hScrollVisibility.update( context );
     if( vScrollVisibility.isVisible() ) {
       verticalBarUpdater.update();
     }
@@ -104,9 +105,9 @@ class WatchDog implements Runnable, DisposeListener {
 
   private boolean mustLayout() {
     boolean result =    !layoutInitialized
-                     || vScrollVisibility.hasChanged()
-                     || hScrollVisibility.hasChanged()
-                     || sizeObserver.mustLayoutAdapter();
+                     || vScrollVisibility.hasChanged( context )
+                     || hScrollVisibility.hasChanged( context )
+                     || sizeObserver.mustLayoutAdapter( context );
     layoutInitialized = true;
     return result;
   }

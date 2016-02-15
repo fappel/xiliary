@@ -33,7 +33,7 @@ class TreeLayoutFactory extends ScrollableLayoutFactory<Tree> {
     Tree control = context.getScrollable().getControl();
     ScrollBarUpdater horizontalUpdater = new StructuredScrollableHorizontalScrollBarUpdater( context, horizontal );
     ScrollBarUpdater verticalUpdater = new TreeVerticalScrollBarUpdater( control, vertical );
-    SizeObserver sizeObserver = new StructuredScrollableSizeObserver( context );
+    SizeObserver sizeObserver = new StructuredScrollableSizeObserver();
     return new WatchDog( newContext( context ), horizontalUpdater, verticalUpdater, sizeObserver );
   }
 

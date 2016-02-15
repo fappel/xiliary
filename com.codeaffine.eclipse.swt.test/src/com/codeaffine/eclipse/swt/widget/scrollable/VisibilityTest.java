@@ -52,7 +52,7 @@ public class VisibilityTest {
     tree = createTree( shell, 2, 4 );
     context = new AdaptionContext<>( shell, new ScrollableControl<>( tree ) );
     shell.open();
-    visibility = new Visibility( orientation, context );
+    visibility = new Visibility( orientation );
   }
 
   @Test
@@ -79,7 +79,7 @@ public class VisibilityTest {
     expandRootLevelItems( tree );
     expandTopBranch( tree );
     context.updatePreferredSize();
-    visibility.update();
+    visibility.update( context.newContext() );
 
     boolean actual = visibility.isVisible();
 
@@ -88,7 +88,7 @@ public class VisibilityTest {
 
   @Test
   public void hasChanged() {
-    boolean actual = visibility.hasChanged();
+    boolean actual = visibility.hasChanged( context.newContext() );
 
     assertThat( actual ).isFalse();
   }
@@ -100,7 +100,7 @@ public class VisibilityTest {
     expandTopBranch( tree );
     context.updatePreferredSize();
 
-    boolean actual = visibility.hasChanged();
+    boolean actual = visibility.hasChanged( context.newContext() );
 
     assertThat( actual ).isTrue();
   }
@@ -111,9 +111,9 @@ public class VisibilityTest {
     expandRootLevelItems( tree );
     expandTopBranch( tree );
 
-    visibility.update();
+    visibility.update( context.newContext() );
 
-    boolean actual = visibility.hasChanged();
+    boolean actual = visibility.hasChanged( context.newContext() );
 
     assertThat( actual ).isFalse();
   }

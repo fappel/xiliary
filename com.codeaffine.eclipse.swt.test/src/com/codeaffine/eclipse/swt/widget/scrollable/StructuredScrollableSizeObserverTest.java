@@ -4,6 +4,7 @@ import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShellWithou
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandRootLevelItems;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -36,7 +37,7 @@ public class StructuredScrollableSizeObserverTest {
     tree.pack();
     preferredWidthComputer = mock( PreferredWidthComputer.class );
     context = new AdaptionContext<>( tree.getParent(), new ScrollableControl<>( tree ) );
-    observer = new StructuredScrollableSizeObserver( preferredWidthComputer, context );
+    observer = new StructuredScrollableSizeObserver( preferredWidthComputer );
     shell.open();
   }
 
@@ -44,7 +45,7 @@ public class StructuredScrollableSizeObserverTest {
   public void preferredWidthExceedsVisibleRange() {
     equipPreferredComputerWith( getVisbleRangeWidth() + getVerticalBarOffset() );
 
-    boolean actual = observer.mustLayoutAdapter();
+    boolean actual = observer.mustLayoutAdapter( context.newContext() );
 
     assertThat( actual ).isTrue();
   }
@@ -56,7 +57,7 @@ public class StructuredScrollableSizeObserverTest {
     context.updatePreferredSize();
     equipPreferredComputerWith( getVisbleRangeWidth() + getVerticalBarOffset() );
 
-    boolean actual = observer.mustLayoutAdapter();
+    boolean actual = observer.mustLayoutAdapter( context.newContext() );
 
     assertThat( actual ).isFalse();
   }
@@ -68,7 +69,7 @@ public class StructuredScrollableSizeObserverTest {
     context.updatePreferredSize();
     equipPreferredComputerWith( getVisbleRangeWidth() + getVerticalBarOffset() );
 
-    boolean actual = observer.mustLayoutAdapter();
+    boolean actual = observer.mustLayoutAdapter(  context.newContext() );
 
     assertThat( actual ).isTrue();
   }
@@ -80,10 +81,10 @@ public class StructuredScrollableSizeObserverTest {
   @Test
   public void preferredWidthDeclinesBackIntoVisibleRange() {
     setTreeWidth( getVisbleRangeWidth() + 100 );
-    observer.update();
+    observer.update( context.newContext() );
     equipPreferredComputerWith( getVisbleRangeWidth() - 100 );
 
-    boolean actual = observer.mustLayoutAdapter();
+    boolean actual = observer.mustLayoutAdapter(  context.newContext() );
 
     assertThat( actual ).isTrue();
   }
@@ -91,10 +92,10 @@ public class StructuredScrollableSizeObserverTest {
   @Test
   public void noDeclineIfPreferredWidthIsGreaterBufferedWidth() {
     setTreeWidth( getVisbleRangeWidth() - 100 );
-    observer.update();
+    observer.update( context.newContext() );
     equipPreferredComputerWith( shell.getClientArea().width + getVerticalBarWidth() - 50 );
 
-    boolean actual = observer.mustLayoutAdapter();
+    boolean actual = observer.mustLayoutAdapter( context.newContext() );
 
     assertThat( actual ).isFalse();
   }
@@ -102,17 +103,17 @@ public class StructuredScrollableSizeObserverTest {
   @Test
   public void noDeclineIfTreeHeightIsEqualToVisibleRangeHeight() {
     tree.setSize( getVisbleRangeWidth() + 100 , getVisibleRangeHeight() );
-    observer.update();
+    observer.update( context.newContext() );
     equipPreferredComputerWith( getVisbleRangeWidth() - 100 );
 
-    boolean actual = observer.mustLayoutAdapter();
+    boolean actual = observer.mustLayoutAdapter( context.newContext() );
 
     assertThat( actual ).isFalse();
   }
 
   @Test
   public void widthHasNotChanged() {
-    boolean actual = observer.mustLayoutAdapter();
+    boolean actual = observer.mustLayoutAdapter( context.newContext() );
 
     assertThat( actual ).isFalse();
   }
@@ -130,7 +131,7 @@ public class StructuredScrollableSizeObserverTest {
   }
 
   private void equipPreferredComputerWith( int preferredWidth ) {
-    when( preferredWidthComputer.compute() ).thenReturn( preferredWidth );
+    when( preferredWidthComputer.compute( any( AdaptionContext.class ) ) ).thenReturn( preferredWidth );
   }
 
   private void setTreeWidth( int expectedWidth ) {

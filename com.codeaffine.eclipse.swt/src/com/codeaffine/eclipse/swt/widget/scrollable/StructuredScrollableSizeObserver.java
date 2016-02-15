@@ -7,55 +7,52 @@ import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 class StructuredScrollableSizeObserver implements SizeObserver {
 
   private final PreferredWidthComputer preferredWidthComputer;
-  private final AdaptionContext<?> context;
 
   private int width;
 
-  StructuredScrollableSizeObserver( AdaptionContext<?> context ) {
-    this( new PreferredWidthComputer( context ), context );
+  StructuredScrollableSizeObserver() {
+    this( new PreferredWidthComputer() );
   }
 
-  StructuredScrollableSizeObserver( PreferredWidthComputer preferredWidthComputer, AdaptionContext<?> context ) {
+  StructuredScrollableSizeObserver( PreferredWidthComputer preferredWidthComputer ) {
     this.preferredWidthComputer = preferredWidthComputer;
-    this.context = context;
   }
 
   @Override
-  public void update() {
+  public void update( AdaptionContext<?> context ) {
     width = context.getScrollable().getSize().x;
   }
 
   @Override
-  public boolean mustLayoutAdapter() {
-    int preferredWidth = preferredWidthComputer.compute();
-    return    isBelowAdapterWidthAndShowsVerticalBar()
-           || scrollableWidthHasChanged( preferredWidth ) && effectsScrollBarSize( preferredWidth );
+  public boolean mustLayoutAdapter( AdaptionContext<?> context ) {
+    int preferredWidth = preferredWidthComputer.compute( context );
+    return    isBelowAdapterWidthAndShowsVerticalBar( context )
+           || scrollableWidthHasChanged( preferredWidth ) && effectsScrollBarSize( preferredWidth, context );
   }
 
-  private boolean isBelowAdapterWidthAndShowsVerticalBar() {
+  private static boolean isBelowAdapterWidthAndShowsVerticalBar( AdaptionContext<?> context ) {
     Rectangle scrollableBounds = context.getScrollable().getBounds();
     Rectangle clientArea = context.getAdapter().getClientArea();
     return    context.getScrollable().isVerticalBarVisible()
            && scrollableBounds.width == clientArea.width;
   }
 
-  private boolean effectsScrollBarSize( int preferredWidth ) {
-    return    exeedsVisibleRangeWidth( preferredWidth )
-           || declinesBackIntoVisibleRangeWidth( preferredWidth );
+  private boolean effectsScrollBarSize( int preferredWidth, AdaptionContext<?> context ) {
+    return    exeedsVisibleRangeWidth( preferredWidth, context )
+           || declinesBackIntoVisibleRangeWidth( preferredWidth, context );
   }
 
-  private boolean exeedsVisibleRangeWidth( int preferredWidth ) {
+  private static boolean exeedsVisibleRangeWidth( int preferredWidth, AdaptionContext<?> context ) {
     Rectangle adapterClientArea = context.getAdapter().getClientArea();
     int visibleAreaWidth = adapterClientArea.width;
-    AdaptionContext<?> context = this.context.newContext();
     if( context.isVerticalBarVisible() ) {
       visibleAreaWidth += context.getVerticalBarOffset();
     }
     return preferredWidth > visibleAreaWidth;
   }
 
-  private boolean declinesBackIntoVisibleRangeWidth( int preferredWidth ) {
-    return declines( preferredWidth ) && hasHorizontalScrollBarPadding();
+  private boolean declinesBackIntoVisibleRangeWidth( int preferredWidth, AdaptionContext<?> context ) {
+    return declines( preferredWidth ) && hasHorizontalScrollBarPadding( context );
   }
 
   private boolean scrollableWidthHasChanged( int preferredWidth ) {
@@ -66,7 +63,7 @@ class StructuredScrollableSizeObserver implements SizeObserver {
     return preferredWidth <= width;
   }
 
-  private boolean hasHorizontalScrollBarPadding() {
+  private static boolean hasHorizontalScrollBarPadding( AdaptionContext<?> context ) {
     Rectangle adapterClientArea = context.getAdapter().getClientArea();
     return context.getScrollable().getSize().y < adapterClientArea.height;
   }

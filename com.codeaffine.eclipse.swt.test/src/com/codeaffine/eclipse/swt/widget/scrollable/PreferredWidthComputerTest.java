@@ -29,7 +29,7 @@ public class PreferredWidthComputerTest {
     Shell shell = createShell( displayHelper );
     tree = createTree( shell, 6, 4 );
     layoutContext = new AdaptionContext<>( shell, new ScrollableControl<>( tree ) );
-    computer = new PreferredWidthComputer( layoutContext );
+    computer = new PreferredWidthComputer();
     shell.open();
   }
 
@@ -37,7 +37,7 @@ public class PreferredWidthComputerTest {
   public void compute() {
     layoutContext.updatePreferredSize();
 
-    int actual = computer.compute();
+    int actual = computer.compute( layoutContext.newContext() );
 
     assertThat( actual ).isEqualTo( preferredWidth() );
   }
@@ -47,7 +47,7 @@ public class PreferredWidthComputerTest {
     expandRootLevelItems( tree );
     layoutContext.updatePreferredSize();
 
-    int actual = computer.compute();
+    int actual = computer.compute( layoutContext.newContext() );
 
     assertThat( actual ).isEqualTo( overlayAdjustment() );
   }

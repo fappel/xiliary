@@ -250,7 +250,7 @@ public class TreeAdapterTest {
   }
 
   private void waitForReconciliation() {
-    new ReadAndDispatch().spinLoop( shell, WatchDog.DELAY * 3 );
+    new ReadAndDispatch().spinLoop( shell, WatchDog.DELAY * 6 );
   }
 
   private Rectangle expectedBounds() {

@@ -1,6 +1,8 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
+import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
+
 interface SizeObserver {
-  default boolean mustLayoutAdapter() { return false; }
-  default void update() {}
+  boolean mustLayoutAdapter( AdaptionContext<?> context );
+  void update( AdaptionContext<?> context );
 }
