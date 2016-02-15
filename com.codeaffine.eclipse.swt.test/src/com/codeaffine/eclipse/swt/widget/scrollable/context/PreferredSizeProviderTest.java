@@ -20,12 +20,15 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.StyledTextHelper;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class PreferredSizeProviderTest {
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private Shell shell;
 
@@ -48,6 +51,7 @@ public class PreferredSizeProviderTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void getSizeOnCollapse() {
     Tree scrollable = createTree( shell, 4, 6 );
     triggerExpansion( scrollable );
