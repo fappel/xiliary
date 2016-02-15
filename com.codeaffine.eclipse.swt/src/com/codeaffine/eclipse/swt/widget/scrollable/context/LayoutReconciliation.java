@@ -121,6 +121,7 @@ class LayoutReconciliation {
     if( scrollable.isSameAs( item.getControl() ) ) {
       item.setControl( adapter );
       adapter.getParent().layout();
+      adapter.setVisible( true );
     }
   }
 
