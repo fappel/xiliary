@@ -34,7 +34,7 @@ public class SizeComputerTest {
     shell = createShell( displayHelper );
     adapter = createAdapter( shell );
     scrollable = createTree( adapter, 6, 4 );
-    computer = new SizeComputer( new ScrollableControl<>( scrollable ), adapter );
+    computer = createSizeComputer();
     shell.layout();
     shell.open();
   }
@@ -68,7 +68,7 @@ public class SizeComputerTest {
   @Test
   public void getPreferredSizeIfWidthIsLargerThanAdapterAreaWidthButHasOwnerDrawnItemsAndIsVirtual() {
     createOwnderDrawnVirtualScrollable();
-    computer = new SizeComputer( new ScrollableControl<>( scrollable ), adapter );
+    computer = createSizeComputer();
     shell.layout();
     expandTopBranch( scrollable );
     shell.setSize( 200, 200 );
@@ -197,5 +197,9 @@ public class SizeComputerTest {
 
   private static void reparentScrollable( Composite parent, Scrollable scrollable ) {
     new ControlReflectionUtil().setField( scrollable, "parent", parent );
+  }
+
+  private SizeComputer createSizeComputer() {
+    return new SizeComputer( new ScrollableControl<>( scrollable ), adapter );
   }
 }

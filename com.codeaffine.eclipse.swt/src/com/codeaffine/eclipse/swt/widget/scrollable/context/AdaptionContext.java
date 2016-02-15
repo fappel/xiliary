@@ -28,17 +28,18 @@ public class AdaptionContext<T extends Scrollable> {
   private final int offset;
 
   public AdaptionContext( Composite adapter, ScrollableControl<T> scrollable ) {
-    this( adapter, scrollable, 1, null, new HashMap<>() );
+    this( adapter, scrollable, 1, null, new SizeComputer( scrollable, adapter ), new HashMap<>() );
   }
 
   private AdaptionContext( Composite adapter,
                            ScrollableControl<T> scrollable,
                            int itemHeight,
                            Reconciliation reconciliation,
+                           SizeComputer sizeComputer,
                            Map<Class<?>, Object> attributes )
   {
     this.attributes = attributes;
-    this.sizeComputer = new SizeComputer( scrollable, adapter );
+    this.sizeComputer = sizeComputer;
     this.scrollbarVisibility = new ScrollbarVisibility( sizeComputer, scrollable, adapter.getClientArea(), itemHeight );
     this.reconciliation = reconciliation == null ? new Reconciliation( adapter, scrollable ) : reconciliation;
     this.verticalBarOffset = computeVerticalBarOffset( scrollable );
@@ -52,11 +53,11 @@ public class AdaptionContext<T extends Scrollable> {
   }
 
   public AdaptionContext<T> newContext( int itemHeight ) {
-    return new AdaptionContext<T>( adapter, scrollable, itemHeight, reconciliation, attributes );
+    return new AdaptionContext<T>( adapter, scrollable, itemHeight, reconciliation, sizeComputer, attributes );
   }
 
   public AdaptionContext<T> newContext() {
-    return new AdaptionContext<T>( adapter, scrollable, itemHeight, reconciliation, attributes );
+    return new AdaptionContext<T>( adapter, scrollable, itemHeight, reconciliation, sizeComputer, attributes );
   }
 
   public <A> void put( Class<A> key, A value ) {

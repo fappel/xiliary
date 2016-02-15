@@ -15,9 +15,11 @@ class SizeComputer {
   static final Point EMPTY_BUFFER_SIZE = new Point( 0, 0 );
 
   private final ScrollableControl<? extends Scrollable> scrollable;
+  private final PreferredSizeProvider preferredSizeProvider;
   private final Composite adapter;
 
   SizeComputer( ScrollableControl<? extends Scrollable> scrollable, Composite adapter ) {
+    this.preferredSizeProvider = new PreferredSizeProvider( scrollable );
     this.scrollable = scrollable;
     this.adapter = adapter;
   }
@@ -28,13 +30,14 @@ class SizeComputer {
   }
 
   void updatePreferredSize() {
-    Point computed = scrollable.computePreferredSize();
-    if( computed.x - scrollable.getVerticalBarSize().x == scrollable.getSize().x ) {
+//    Point preferredSize = scrollable.computePreferredSize();
+    Point preferredSize = preferredSizeProvider.getSize();
+    if( preferredSize.x - scrollable.getVerticalBarSize().x == scrollable.getSize().x ) {
       scrollable.setData( PREFERRED_SIZE, scrollable.getSize() );
     } else if( isVirtualAndOwnerDrawn() ) {
-      bestPreferredSizeGuessForVirtualAndOwnerDrawnScrollables( computed );
+      bestPreferredSizeGuessForVirtualAndOwnerDrawnScrollables( preferredSize );
     } else { // check possible improvement on non owner drawn scrollables: #28
-      bestPreferredlSizeGuessForOwnerDrawnScrollables( computed );
+      bestPreferredlSizeGuessForOwnerDrawnScrollables( preferredSize );
     }
   }
 
