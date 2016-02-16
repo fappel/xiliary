@@ -19,9 +19,7 @@ import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
-import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -37,7 +35,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.testhelper.LoremIpsum;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 
 public class ScrollableAdapterFactoryDemo {
@@ -182,25 +179,6 @@ public class ScrollableAdapterFactoryDemo {
   @Test
   public void styledTextDemo() {
     adapt( new TestStyledTextFactory().create( shell ), StyledTextAdapter.class );
-    shell.open();
-    spinLoop();
-  }
-
-  @Test
-  public void styledTextAsContextInfoPopupDemo() {
-    displayHelper.getDisplay().timerExec( 500, () -> {
-      Shell popUp = new Shell( this.shell, SWT.NO_TRIM | SWT.ON_TOP );
-      popUp.setLayout( new FillLayout() );
-      popUp.setSize(100, 30 );
-      popUp.setLocation( this.shell.getLocation() );
-      popUp.setBackground( displayHelper.getSystemColor( SWT.COLOR_BLACK ));
-      StyledText styledText = new StyledText( popUp, SWT.MULTI | SWT.READ_ONLY | SWT.WRAP );
-      styledText.setText( LoremIpsum.PARAGRAPH );
-      styledText.setStyleRange( new StyleRange( 2, 10, displayHelper.getSystemColor( SWT.COLOR_BLUE ), displayHelper.getSystemColor( SWT.COLOR_GREEN ) ) );
-      adapt( styledText, StyledTextAdapter.class );
-      styledText.setBackground( new Color( displayHelper.getDisplay(), 250, 150, 33 ) );
-      popUp.open();
-    } );
     shell.open();
     spinLoop();
   }

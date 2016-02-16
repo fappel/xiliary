@@ -87,10 +87,11 @@ class WatchDog implements Runnable, DisposeListener {
 
   private void doRun() {
     context.updatePreferredSize();
+    context = context.newContext();
     if( mustLayout() ) {
       layoutTrigger.pull();
+      context = context.newContext();
     }
-    context = context.newContext();
     sizeObserver.update( context );
     vScrollVisibility.update( context );
     hScrollVisibility.update( context );

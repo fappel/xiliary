@@ -70,9 +70,9 @@ public class WatchDogTest {
     InOrder order = docOrder();
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( context ).updatePreferredSize();
-    order.verify( vScrollVisibility ).hasChanged( context );
-    order.verify( hScrollVisibility ).hasChanged( context );
-    order.verify( sizeObserver ).mustLayoutAdapter( context );
+    order.verify( vScrollVisibility ).hasChanged( any( AdaptionContext.class ) );
+    order.verify( hScrollVisibility ).hasChanged( any( AdaptionContext.class ) );
+    order.verify( sizeObserver ).mustLayoutAdapter( any( AdaptionContext.class ) );
     order.verify( sizeObserver ).update( any( AdaptionContext.class ) );
     order.verify( vScrollVisibility ).update( any( AdaptionContext.class ) );
     order.verify( hScrollVisibility ).update( any( AdaptionContext.class ) );
@@ -105,14 +105,14 @@ public class WatchDogTest {
 
   @Test
   public void runIfVerticalScrollVisibilityHasChanged() {
-    when( vScrollVisibility.hasChanged( context ) ).thenReturn( true );
+    when( vScrollVisibility.hasChanged( any( AdaptionContext.class ) ) ).thenReturn( true );
 
     watchDog.run();
 
     InOrder order = docOrder();
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( context ).updatePreferredSize();
-    order.verify( vScrollVisibility ).hasChanged( context );
+    order.verify( vScrollVisibility ).hasChanged( any( AdaptionContext.class ) );
     order.verify( layoutTrigger ).pull();
     order.verify( sizeObserver ).update( any( AdaptionContext.class ) );
     order.verify( vScrollVisibility ).update( any( AdaptionContext.class ) );
@@ -126,15 +126,15 @@ public class WatchDogTest {
 
   @Test
   public void runIfHorizontalScrollVisibilityHasChanged() {
-    when( hScrollVisibility.hasChanged( context ) ).thenReturn( true );
+    when( hScrollVisibility.hasChanged( any( AdaptionContext.class ) ) ).thenReturn( true );
 
     watchDog.run();
 
     InOrder order = docOrder();
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( context ).updatePreferredSize();
-    order.verify( vScrollVisibility ).hasChanged( context );
-    order.verify( hScrollVisibility ).hasChanged( context );
+    order.verify( vScrollVisibility ).hasChanged( any( AdaptionContext.class ) );
+    order.verify( hScrollVisibility ).hasChanged( any( AdaptionContext.class ) );
     order.verify( layoutTrigger ).pull();
     order.verify( sizeObserver ).update( any( AdaptionContext.class ) );
     order.verify( vScrollVisibility ).update( any( AdaptionContext.class ) );
@@ -148,16 +148,16 @@ public class WatchDogTest {
 
   @Test
   public void runIfSizeObserverRequestsAdapterLayout() {
-    when( sizeObserver.mustLayoutAdapter( context ) ).thenReturn( true );
+    when( sizeObserver.mustLayoutAdapter( any( AdaptionContext.class ) ) ).thenReturn( true );
 
     watchDog.run();
 
     InOrder order = docOrder();
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( context ).updatePreferredSize();
-    order.verify( vScrollVisibility ).hasChanged( context );
-    order.verify( hScrollVisibility ).hasChanged( context );
-    order.verify( sizeObserver ).mustLayoutAdapter( context );
+    order.verify( vScrollVisibility ).hasChanged( any( AdaptionContext.class ) );
+    order.verify( hScrollVisibility ).hasChanged( any( AdaptionContext.class ) );
+    order.verify( sizeObserver ).mustLayoutAdapter( any( AdaptionContext.class ) );
     order.verify( layoutTrigger ).pull();
     order.verify( sizeObserver ).update( any( AdaptionContext.class ) );
     order.verify( vScrollVisibility ).update( any( AdaptionContext.class ) );
@@ -178,9 +178,9 @@ public class WatchDogTest {
     InOrder order = docOrder();
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( context ).updatePreferredSize();
-    order.verify( vScrollVisibility ).hasChanged( context );
-    order.verify( hScrollVisibility ).hasChanged( context );
-    order.verify( sizeObserver ).mustLayoutAdapter( context );
+    order.verify( vScrollVisibility ).hasChanged( any( AdaptionContext.class ) );
+    order.verify( hScrollVisibility ).hasChanged( any( AdaptionContext.class ) );
+    order.verify( sizeObserver ).mustLayoutAdapter( any( AdaptionContext.class ) );
     order.verify( sizeObserver ).update( any( AdaptionContext.class ) );
     order.verify( vScrollVisibility ).update( any( AdaptionContext.class ) );
     order.verify( hScrollVisibility ).update( any( AdaptionContext.class ) );
@@ -201,9 +201,9 @@ public class WatchDogTest {
     InOrder order = docOrder();
     order.verify( reconciliation ).runWhileSuspended( any( Runnable.class ) );
     order.verify( context ).updatePreferredSize();
-    order.verify( vScrollVisibility ).hasChanged( context );
-    order.verify( hScrollVisibility ).hasChanged( context );
-    order.verify( sizeObserver ).mustLayoutAdapter( context );
+    order.verify( vScrollVisibility ).hasChanged( any( AdaptionContext.class ) );
+    order.verify( hScrollVisibility ).hasChanged( any( AdaptionContext.class ) );
+    order.verify( sizeObserver ).mustLayoutAdapter( any( AdaptionContext.class ) );
     order.verify( sizeObserver ).update( any( AdaptionContext.class ) );
     order.verify( vScrollVisibility ).update( any( AdaptionContext.class ) );
     order.verify( hScrollVisibility ).update( any( AdaptionContext.class ) );
