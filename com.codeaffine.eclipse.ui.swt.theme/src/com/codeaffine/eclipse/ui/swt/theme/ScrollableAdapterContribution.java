@@ -160,10 +160,13 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
     if( !factory.isAdapted( scrollable ) && parseBoolean( value.getCssText() ) ) {
       TypePair<? extends Scrollable, ? extends Adapter> typePair = lookupTypePair( scrollable );
       Scrollable scrollableExtension = typePair.scrollableType.cast( scrollable );
-      ScrollbarStyle result = ( ScrollbarStyle )factory.create( scrollableExtension, typePair.adapterType );
-      attach( scrollable, result );
-      incrementButtonLengthPreference.apply( result, INCREMENT_LENGTH_PREFERENCE_SETTER );
-      demeanorPreference.apply( result, DEMEANOR_PREFERENCE_SETTER );
+      Optional adapter = factory.create( scrollableExtension, typePair.adapterType );
+      if( adapter.isPresent() ) {
+        ScrollbarStyle result = ( ScrollbarStyle )adapter.get();
+        attach( scrollable, result );
+        incrementButtonLengthPreference.apply( result, INCREMENT_LENGTH_PREFERENCE_SETTER );
+        demeanorPreference.apply( result, DEMEANOR_PREFERENCE_SETTER );
+      }
     }
   }
 

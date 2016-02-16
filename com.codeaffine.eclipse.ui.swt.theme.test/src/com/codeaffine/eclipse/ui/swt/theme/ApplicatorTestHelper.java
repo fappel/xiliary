@@ -30,7 +30,7 @@ class ApplicatorTestHelper {
   }
 
   ScrollbarStyle adapt() {
-    ScrollbarStyle result = factory.create( ( Tree )scrollable, TreeAdapter.class );
+    ScrollbarStyle result = factory.create( ( Tree )scrollable, TreeAdapter.class ).get();
     attach( scrollable, result );
     return result;
   }

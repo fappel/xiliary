@@ -6,6 +6,8 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.StyledTextHelper.crea
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Optional;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.dnd.DND;
@@ -44,7 +46,7 @@ public class StyledTextAdapterTest {
     styledText = createStyledText( shell );
     layoutData = new Object();
     styledText.setLayoutData( layoutData );
-    adapter = adapterFactory.create( styledText, StyledTextAdapter.class );
+    adapter = adapterFactory.create( styledText, StyledTextAdapter.class ).get();
   }
 
   @Test
@@ -103,21 +105,6 @@ public class StyledTextAdapterTest {
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
-  public void changeStyledTextBounds() {
-    openShellWithoutLayout();
-    styledText = new StyledText( shell, SWT.NONE );
-    adapter = adapterFactory.create( styledText, StyledTextAdapter.class );
-    waitForReconciliation();
-
-    styledText.setBounds( expectedBounds() );
-    waitForReconciliation();
-
-    assertThat( adapter.getBounds() ).isEqualTo( expectedBounds() );
-    assertThat( styledText.getBounds() ).isEqualTo( expectedBounds() );
-  }
-
-  @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
   public void changeStyledTextBoundsWithVisibleScrollBars() {
     openShellWithoutLayout();
     waitForReconciliation();
@@ -149,6 +136,15 @@ public class StyledTextAdapterTest {
     waitForReconciliation();
 
     assertThat( adapter.getEnabled() ).isFalse();
+  }
+
+  @Test
+  public void adaptWithoutScrollBarStyle() {
+    openShellWithoutLayout();
+    styledText = new StyledText( shell, SWT.NONE );
+    Optional<StyledTextAdapter> adapter = adapterFactory.create( styledText, StyledTextAdapter.class );
+
+    assertThat( adapter.isPresent() ).isFalse();
   }
 
   @Test

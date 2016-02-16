@@ -76,7 +76,7 @@ public class AttributeSetterTest {
   public void ADAPTER_BACKGROUND_SETTER() {
     Tree scrollable = new Tree( displayHelper.createShell(), SWT.NONE );
     ScrollableAdapterFactory factory = new ScrollableAdapterFactory();
-    TreeAdapter style = factory.create( scrollable, TreeAdapter.class );
+    TreeAdapter style = factory.create( scrollable, TreeAdapter.class ).get();
 
     ADAPTER_BACKGROUND_SETTER.accept( style, expectedColor() );
 

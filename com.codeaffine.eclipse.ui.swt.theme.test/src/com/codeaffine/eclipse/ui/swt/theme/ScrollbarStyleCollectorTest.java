@@ -32,9 +32,9 @@ public class ScrollbarStyleCollectorTest {
   public void setUp() {
     ScrollableAdapterFactory factory = new ScrollableAdapterFactory();
     Shell shell = displayHelper.createShell();
-    style1 = factory.create( new Tree( shell, SWT.NONE ), TreeAdapter.class );
+    style1 = factory.create( new Tree( shell, SWT.NONE ), TreeAdapter.class ).get();
     Composite composite = new Composite( shell, SWT.NONE );
-    style2 = factory.create( new Tree( composite, SWT.NONE ), TreeAdapter.class );
+    style2 = factory.create( new Tree( composite, SWT.NONE ), TreeAdapter.class ).get();
   }
 
   @Test

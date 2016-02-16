@@ -39,7 +39,7 @@ class LayoutReconciliationHelper {
   Rectangle setUpWithFillLayout() {
     parent = shell;
     scrollable = createTree( parent, 1, 1 );
-    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
+    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class ).get();
     reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
     shell.open();
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
@@ -49,7 +49,7 @@ class LayoutReconciliationHelper {
   Rectangle setUpWithStackLayout() {
     parent = shell;
     scrollable = createTree( parent, 1, 1 );
-    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
+    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class ).get();
     reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
     shell.open();
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
@@ -68,7 +68,7 @@ class LayoutReconciliationHelper {
     ViewForm viewForm = new ViewForm( shell, SWT.NONE );
     parent = viewForm;
     scrollable = createTree( viewForm, 1, 1 );
-    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
+    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class ).get();
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     viewForm.setContent( scrollable );
     reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
@@ -80,7 +80,7 @@ class LayoutReconciliationHelper {
     ViewForm viewForm = new ViewForm( shell, SWT.NONE );
     parent = viewForm;
     scrollable = createTree( viewForm, 1, 1 );
-    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
+    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class ).get();
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     viewForm.setTopCenter( scrollable );
     reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
@@ -92,7 +92,7 @@ class LayoutReconciliationHelper {
     ViewForm viewForm = new ViewForm( shell, SWT.NONE );
     parent = viewForm;
     scrollable = createTree( viewForm, 1, 1 );
-    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
+    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class ).get();
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     viewForm.setTopLeft( scrollable );
     reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
@@ -104,7 +104,7 @@ class LayoutReconciliationHelper {
     ViewForm viewForm = new ViewForm( shell, SWT.NONE );
     parent = viewForm;
     scrollable = createTree( viewForm, 1, 1 );
-    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
+    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class ).get();
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     viewForm.setTopRight( scrollable );
     reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
@@ -129,7 +129,7 @@ class LayoutReconciliationHelper {
     SashForm sashForm = new SashForm( shell, SWT.NONE );
     parent = sashForm;
     scrollable = createTree( sashForm, 1, 1 );
-    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
+    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class ).get();
     adapter.setBounds( INITIAL_ADAPTER_BOUNDS );
     new Label( sashForm, SWT.NONE );
     reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );
@@ -141,7 +141,7 @@ class LayoutReconciliationHelper {
     CTabFolder cTabFolder = new CTabFolder( shell, SWT.BOTTOM | SWT.FLAT );
     parent = cTabFolder;
     scrollable = createTree( parent, 1, 1 );
-    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
+    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class ).get();
     CTabItem item = new CTabItem( cTabFolder, SWT.NONE, 0 );
     item.setText( "item" );
     item.setControl( scrollable );
@@ -189,7 +189,7 @@ class LayoutReconciliationHelper {
 
   private Rectangle setUpWithPageBook( PageBook pageBook, Control page ) {
     parent = pageBook;
-    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
+    adapter = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class ).get();
     adapter.setVisible( false );
     pageBook.showPage( page );
     reconciliation = new LayoutReconciliation( adapter, new ScrollableControl<>( scrollable ) );

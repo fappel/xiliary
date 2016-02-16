@@ -43,7 +43,7 @@ public class ScrollbarPreferenceApplicatorPDETest {
     scrollbarPreferenceRule.addListener( new ScrollbarPreferenceApplicator() );
     Tree scrollable = new Tree( displayHelper.createShell(), SWT.NONE );
     attributePreserver = new AttributePreserver( scrollable );
-    style = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class );
+    style = new ScrollableAdapterFactory().create( scrollable, TreeAdapter.class ).get();
     attach( scrollable, style );
   }
 

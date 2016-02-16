@@ -13,6 +13,7 @@ import static java.util.Collections.unmodifiableList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -42,9 +43,28 @@ public class ScrollableAdapterFactory {
     platformSupport = new PlatformSupport( WIN32 );
   }
 
-  public <S extends Scrollable, A extends Scrollable & Adapter<S>> A create( S scrollable, Class<A> type ) {
+  public <S extends Scrollable, A extends Scrollable & Adapter<S>> Optional<A> create( S scrollable, Class<A> type ) {
+    if( !usesScrollbars( scrollable ) ) {
+      return Optional.empty();
+    }
     ensureThatTypeIsSupported( type );
+    return adapt( scrollable, type );
+  }
 
+  public <S extends Scrollable> void markAdapted( S scrollable ) {
+    scrollable.setData( ADAPTED, Boolean.TRUE );
+  }
+
+  public boolean isAdapted( Scrollable scrollable ) {
+    return Boolean.TRUE.equals( scrollable.getData( ADAPTED ) );
+  }
+
+  private static <S extends Scrollable> boolean usesScrollbars( S scrollable ) {
+    int scrollableStyle = scrollable.getStyle();
+    return ( scrollableStyle & SWT.H_SCROLL ) > 0 || ( scrollableStyle & SWT.V_SCROLL ) > 0;
+  }
+
+  private <A extends Scrollable & Adapter<S>, S extends Scrollable> Optional<A> adapt( S scrollable, Class<A> type ) {
     Composite parent = scrollable.getParent();
     int ordinalNumber = captureDrawingOrderOrdinalNumber( scrollable );
     A result = createAdapter( scrollable, type );
@@ -58,16 +78,7 @@ public class ScrollableAdapterFactory {
       result.setBackground( scrollable.getBackground() );
       reflectionUtil.setField( scrollable, ControlReflectionUtil.PARENT, parent );
     }
-    return result;
-  }
-
-
-  public <S extends Scrollable> void markAdapted( S scrollable ) {
-    scrollable.setData( ADAPTED, Boolean.TRUE );
-  }
-
-  public boolean isAdapted( Scrollable scrollable ) {
-    return Boolean.TRUE.equals( scrollable.getData( ADAPTED ) );
+    return Optional.of( result );
   }
 
   @SuppressWarnings("unchecked")

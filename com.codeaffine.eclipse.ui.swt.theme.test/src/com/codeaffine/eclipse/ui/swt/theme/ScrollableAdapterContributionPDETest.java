@@ -430,7 +430,7 @@ public class ScrollableAdapterContributionPDETest {
 
   private static Scrollable createScrollable( Composite composite, Class<?> type ) throws Exception {
     Constructor<?> constructor = type.getDeclaredConstructor( Composite.class, int.class );
-    return ( Scrollable )constructor.newInstance( composite, SWT.NONE );
+    return ( Scrollable )constructor.newInstance( composite, SWT.V_SCROLL | SWT.H_SCROLL );
   }
 
   private ScrollbarStyle getAdapterStyle() {

@@ -38,7 +38,7 @@ public class AttributeApplicatorTest {
   public void setUp() {
     scrollable = new Tree( displayHelper.createShell(), SWT.NONE );
     ScrollableAdapterFactory factory = new ScrollableAdapterFactory();
-    adapterStyle = factory.create( scrollable, TreeAdapter.class );
+    adapterStyle = factory.create( scrollable, TreeAdapter.class ).get();
     applicator = new AttributeApplicator( factory );
   }
 

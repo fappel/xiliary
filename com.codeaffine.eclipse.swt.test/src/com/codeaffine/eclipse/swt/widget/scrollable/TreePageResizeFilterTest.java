@@ -97,7 +97,7 @@ public class TreePageResizeFilterTest {
 
   private static Tree createAdaptedTreeButDisposeAdapter( PageBook pageBook ) {
     Tree result = createTree( pageBook, 4, 6 );
-    TreeAdapter adapter = new ScrollableAdapterFactory().create( result, TreeAdapter.class );
+    TreeAdapter adapter = new ScrollableAdapterFactory().create( result, TreeAdapter.class ).get();
     result.setParent( adapter );
     result.setParent( pageBook );
     adapter.dispose();

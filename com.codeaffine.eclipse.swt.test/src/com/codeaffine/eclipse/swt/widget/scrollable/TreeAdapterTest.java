@@ -7,6 +7,8 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopB
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Optional;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTException;
 import org.eclipse.swt.dnd.DND;
@@ -49,7 +51,7 @@ public class TreeAdapterTest {
     tree = createTree( shell, 4, 6 );
     layoutData = new Object();
     tree.setLayoutData( layoutData );
-    adapter = adapterFactory.create( tree, TreeAdapter.class );
+    adapter = adapterFactory.create( tree, TreeAdapter.class ).get();
   }
 
   @Test
@@ -111,7 +113,7 @@ public class TreeAdapterTest {
   public void changeTreeBounds() {
     openShellWithoutLayout();
     tree = createTree( shell, 1, 1 );
-    adapter = adapterFactory.create( tree, TreeAdapter.class );
+    adapter = adapterFactory.create( tree, TreeAdapter.class ).get();
     waitForReconciliation();
 
     tree.setBounds( expectedBounds() );
@@ -229,6 +231,15 @@ public class TreeAdapterTest {
     waitForReconciliation();
 
     assertThat( tree.getItemHeight() ).isEqualTo( expectedHeight );
+  }
+
+  @Test
+  public void adaptWithoutScrollBarStyle() {
+    openShellWithoutLayout();
+    tree = new Tree( shell, SWT.NO_SCROLL );
+    Optional<TreeAdapter> adapter = adapterFactory.create( tree, TreeAdapter.class );
+
+    assertThat( adapter.isPresent() ).isFalse();
   }
 
   private int configureTableItemHeightAdjuster() {
