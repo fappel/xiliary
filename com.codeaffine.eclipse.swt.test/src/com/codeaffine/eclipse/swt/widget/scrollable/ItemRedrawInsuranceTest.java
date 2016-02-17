@@ -67,7 +67,6 @@ public class ItemRedrawInsuranceTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
   public void registerOnScrollableWithoutVerticalScrollbar() {
     Scrollable scrollable = createTable( shell, 10, SWT.VIRTUAL | SWT.NO_SCROLL );
     scrollable.addListener( SWT.MeasureItem, evt -> {} );
@@ -78,6 +77,7 @@ public class ItemRedrawInsuranceTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void verticalScrollBarSelectionChange() {
     Table scrollable = createTable( shell, 100, SWT.VIRTUAL );
     scrollable.addListener( SWT.MeasureItem, evt -> {} );
