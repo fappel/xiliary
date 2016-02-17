@@ -47,7 +47,7 @@ class TableHelper {
 
   static Table createVirtualTableWithOwnerDrawnItems( Composite parent, ItemList itemList ) {
     Table result = new Table( parent, SWT.BORDER | SWT.VIRTUAL );
-    result.addListener( SWT.MeasureItem, evt -> { evt.height = 24; } );
+    result.addListener( SWT.MeasureItem, evt -> { evt.height = 36; } );
     result.addListener( SWT.EraseItem, evt -> {} );
     result.addListener( SWT.PaintItem, evt -> {} );
     result.addListener( SWT.SetData, event -> fetchPage( itemList, result, event ) );
@@ -88,7 +88,11 @@ class TableHelper {
   }
 
   static Table createTable( Composite parent, int itemCount ) {
-    Table result = new Table( parent, SWT.NONE );
+    return createTable( parent, itemCount, SWT.NONE );
+  }
+
+  static Table createTable( Composite parent, int itemCount, int style ) {
+    Table result = new Table( parent, style );
     result.setLinesVisible( true );
     createHeaders( result );
     createItems( result, "table-item_", itemCount );

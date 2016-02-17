@@ -342,6 +342,7 @@ public class TreeAdapter extends Tree implements Adapter<Tree>, ScrollbarStyle {
     tree.setParent( this );
     ScrollableControl<Tree> scrollableControl = new ScrollableControl<>( tree );
     new ItemHeightMeasurementEnabler( scrollableControl, this );
+    new ItemRedrawInsurance().register( scrollableControl );
     context = new AdaptionContext<Tree>( this, new ScrollableControl<>( tree ) );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );

@@ -341,6 +341,7 @@ public class TableAdapter extends Table implements Adapter<Table>, ScrollbarStyl
     table.setParent( this );
     ScrollableControl<Table> scrollableControl = new ScrollableControl<>( table );
     new ItemHeightMeasurementEnabler( scrollableControl, this );
+    new ItemRedrawInsurance().register( scrollableControl );
     context = new AdaptionContext<>( this, scrollableControl );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
