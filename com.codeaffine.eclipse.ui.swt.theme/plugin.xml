@@ -95,4 +95,10 @@
             label="appearance scrollbars">
       </keyword>
    </extension>
+      <extension
+            point="org.eclipse.ui.startup">
+         <startup
+               class="com.codeaffine.eclipse.ui.swt.theme.StartupFontLoader">
+         </startup>
+      </extension>
 </plugin>
