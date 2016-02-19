@@ -1,5 +1,7 @@
 package com.codeaffine.eclipse.ui.swt.theme;
 
+import static com.codeaffine.eclipse.ui.swt.theme.FontLoader.FONT_FACE;
+
 import org.eclipse.jface.resource.FontRegistry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
@@ -30,26 +32,33 @@ class FontRegistryUpdater {
 
   private void onShellShow( Event evt ) {
     if( evt.widget instanceof Shell ) {
-      update();
+      update( ( Shell )evt.widget );
       display.removeFilter( SWT.Show, shellOpenObserver );
     }
   }
 
-  private void update() {
-    waitTillFontIsLoaded();
-    updateFontEntries();
+  private void update( Shell shell ) {
+    shell.setRedraw( false );
+    waitTillFontIsLoaded( shell );
+    display.asyncExec( () -> {
+      try {
+        updateFontEntries();
+      } finally {
+        shell.setRedraw( true );
+      }
+    } );
   }
 
-  private void waitTillFontIsLoaded() {
+  private void waitTillFontIsLoaded( Shell shell) {
     long timeout = System.currentTimeMillis() + 1000;
-    while( !isLoaded() && timeout > System.currentTimeMillis() ) {
+    while( !shell.isVisible() && !isLoaded() && timeout > System.currentTimeMillis() ) {
       display.readAndDispatch();
     }
   }
 
   private void updateFontEntries() {
     FontRegistry fontRegistry = PlatformUI.getWorkbench().getThemeManager().getCurrentTheme().getFontRegistry();
-    if( fontRegistry.getFontData( "org.eclipse.jface.textfont" )[ 0 ].getName().equals( FontLoader.FONT_FACE ) ) {
+    if( fontRegistry.getFontData( "org.eclipse.jface.textfont" )[ 0 ].getName().equals( FONT_FACE ) ) {
       updateFontEntry( display, fontRegistry, "org.eclipse.ui.workbench.texteditor.blockSelectionModeFont" );
       updateFontEntry( display, fontRegistry, "org.eclipse.jface.textfont" );
       updateFontEntry( display, fontRegistry, "org.eclipse.jdt.ui.editors.textfont" );
@@ -59,10 +68,12 @@ class FontRegistryUpdater {
   private static  void updateFontEntry( Display display, FontRegistry fontRegistry, String symbolicName ) {
     Font textFont = fontRegistry.get( symbolicName );
     fontRegistry.put( symbolicName, display.getSystemFont().getFontData() );
+    display.readAndDispatch();
     fontRegistry.put( symbolicName, textFont.getFontData() );
+    display.readAndDispatch();
   }
 
   private boolean isLoaded() {
-    return display.getFontList( FontLoader.FONT_FACE, true ).length != 0;
+    return display.getFontList( FONT_FACE, true ).length != 0;
   }
 }
