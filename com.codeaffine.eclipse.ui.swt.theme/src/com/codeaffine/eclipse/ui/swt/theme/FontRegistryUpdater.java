@@ -4,8 +4,6 @@ import static com.codeaffine.eclipse.ui.swt.theme.FontLoader.FONT_FACE;
 
 import org.eclipse.jface.resource.FontRegistry;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ShellEvent;
-import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
