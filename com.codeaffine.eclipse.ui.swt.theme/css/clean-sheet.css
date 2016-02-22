@@ -89,7 +89,15 @@ IEclipsePreferences#org-eclipse-jdt-ui {
 	  'semanticHighlighting.typeParameter.enabled=true'
 	  'sourceHoverBackgroundColor=238,238,238'
 }
- 
+
+IEclipsePreferences#org-eclipse-debug-ui {
+  preferences:
+    'org.eclipse.debug.ui.consoleBackground=249,249,252'
+    'org.eclipse.debug.ui.errorColor=196,58,26'
+    'org.eclipse.debug.ui.inColor=76,119,15'
+    'org.eclipse.debug.ui.outColor=0,0,0'
+}
+
 ThemesExtension {
 	color-definition:  
 	  '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START', 
@@ -115,6 +123,11 @@ FontDefinition#org-eclipse-ui-workbench-texteditor-blockSelectionModeFont {
 }
 
 FontDefinition#org-eclipse-jdt-ui-editors-textfont {
+  font-family: 'Source Code Pro';
+  font-size: 10px;
+}
+
+FontDefinition#org-eclipse-debug-ui-consoleFont {
   font-family: 'Source Code Pro';
   font-size: 10px;
 }
