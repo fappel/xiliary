@@ -2,7 +2,7 @@
 <feature
       id="com.codeaffine.test.util.feature"
       label="Test Auxiliaries"
-      version="0.1.0.qualifier"
+      version="0.2.0.qualifier"
       provider-name="CODE AFFINE">
 
    <description url="http://fappel.github.io/xiliary/">
