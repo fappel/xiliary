@@ -12,21 +12,67 @@
 
   <artifactId>com.codeaffine.xiliary.repository</artifactId>
   <packaging>eclipse-repository</packaging>
-
+  
+    
+  <properties>
+    <software.download.area>${deploy.work.dir}</software.download.area>
+  </properties>
+  
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.eclipse.tycho</groupId>
-        <artifactId>tycho-p2-repository-plugin</artifactId>
-        <version>${tycho-version}</version>
-        <configuration>
-          <repositoryName>Xiliary Software Repository</repositoryName>
-          <includeAllDependencies>false</includeAllDependencies>
-          <compress>true</compress>
-        </configuration>
-      </plugin>
-      
-      <plugin>
+			<plugin>
+			  <groupId>org.eclipse.tycho.extras</groupId>
+			  <artifactId>tycho-eclipserun-plugin</artifactId>
+			  <version>${tycho-version}</version>
+			  <configuration>
+			    <!-- IMPORTANT: DO NOT split the arg line -->
+			    <appArgLine>-application org.eclipse.ant.core.antRunner -buildfile packaging-p2-composite.ant p2.composite.add -Dsite.label="Xiliary Software Repository" -Dproject.build.directory=${project.build.directory} -DunqualifiedVersion=${unqualifiedVersion} -DbuildQualifier=${buildQualifier} -Dsoftware.download.area="${software.download.area}"</appArgLine>
+			    <repositories>
+			      <repository>
+			        <id>mars</id>
+			        <layout>p2</layout>
+			        <url>http://download.eclipse.org/releases/mars/</url>
+			      </repository>
+			    </repositories>
+			    <dependencies>
+			      <dependency>
+			        <artifactId>org.eclipse.ant.core</artifactId>
+			        <type>eclipse-plugin</type>
+			      </dependency>
+			      <dependency>
+			        <artifactId>org.apache.ant</artifactId>
+			        <type>eclipse-plugin</type>
+			      </dependency>
+			      <dependency>
+			        <artifactId>org.eclipse.equinox.p2.repository.tools</artifactId>
+			        <type>eclipse-plugin</type>
+			      </dependency>
+			      <dependency>
+			        <artifactId>org.eclipse.equinox.p2.core.feature</artifactId>
+			        <type>eclipse-feature</type>
+			      </dependency>
+			      <dependency>
+			        <artifactId>org.eclipse.equinox.p2.extras.feature</artifactId>
+			        <type>eclipse-feature</type>
+			      </dependency>
+			      <dependency>
+			        <artifactId>org.eclipse.equinox.ds</artifactId>
+			        <type>eclipse-plugin</type>
+			      </dependency>
+			    </dependencies>
+			  </configuration>
+			  <executions>
+			    <execution>
+			      <id>add-p2-composite-repository</id>
+			      <phase>package</phase>
+			      <goals>
+			        <goal>eclipse-run</goal>
+			      </goals>
+			    </execution>
+			  </executions>
+			</plugin>
+	    
+	    <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <version>2.6</version>
         <executions>
@@ -38,7 +84,7 @@
             </goals>
             <configuration>
               <encoding>UTF-8</encoding>
-              <outputDirectory>${basedir}/target/repository</outputDirectory>
+              <outputDirectory>${software.download.area}</outputDirectory>
               <resources>          
                 <resource>
                   <directory>rootfiles</directory>
@@ -49,48 +95,64 @@
           </execution>
         </executions>
       </plugin>
-            
-      <plugin>
-        <groupId>org.eclipse.tycho.extras</groupId>
-        <artifactId>tycho-eclipserun-plugin</artifactId>
-        <version>${tycho-extras-version}</version>
-        <executions>
-          <execution>
-            <id>add-repo-properties</id>
-            <goals>
-              <goal>eclipse-run</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <appArgLine>-application org.eclipse.wtp.releng.tools.addRepoProperties</appArgLine>
-              <argLine>
-                -DartifactRepoDirectory=${project.build.directory}/repository
-                -Dp2StatsURI=http://www.codeaffine.com/xiliary-p2-stats
-                -DstatsTrackedArtifacts=com.codeaffine.xiliary
-                -DstatsArtifactsSuffix=-${project.version}
-              </argLine>
-              <dependencies>
-                <dependency>
-                  <artifactId>org.eclipse.wtp.releng.tools.feature</artifactId>
-                  <type>eclipse-feature</type>
-                </dependency>
-              </dependencies>
-              <repositories>
-                <repository>
-                  <url>http://download.eclipse.org/webtools/releng/repository</url>
-                  <layout>p2</layout>
-                </repository>
-                <repository>
-                  <url>http://download.eclipse.org/releases/luna</url>
-                  <layout>p2</layout>
-                </repository>
-              </repositories>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
+			
     </plugins>
   </build>
+
+<!--   <build> -->
+<!--     <plugins> -->
+<!--       <plugin> -->
+<!--         <groupId>org.eclipse.tycho</groupId> -->
+<!--         <artifactId>tycho-p2-repository-plugin</artifactId> -->
+<!--         <version>${tycho-version}</version> -->
+<!--         <configuration> -->
+<!--           <repositoryName>Xiliary Software Repository</repositoryName> -->
+<!--           <includeAllDependencies>false</includeAllDependencies> -->
+<!--           <compress>true</compress> -->
+<!--         </configuration> -->
+<!--       </plugin> -->
+            
+<!--       <plugin> -->
+<!--         <groupId>org.eclipse.tycho.extras</groupId> -->
+<!--         <artifactId>tycho-eclipserun-plugin</artifactId> -->
+<!--         <version>${tycho-extras-version}</version> -->
+<!--         <executions> -->
+<!--           <execution> -->
+<!--             <id>add-repo-properties</id> -->
+<!--             <goals> -->
+<!--               <goal>eclipse-run</goal> -->
+<!--             </goals> -->
+<!--             <phase>package</phase> -->
+<!--             <configuration> -->
+<!--               <appArgLine>-application org.eclipse.wtp.releng.tools.addRepoProperties</appArgLine> -->
+<!--               <argLine> -->
+<!--                 -DartifactRepoDirectory=${project.build.directory}/repository -->
+<!--                 -Dp2StatsURI=http://www.codeaffine.com/xiliary-p2-stats -->
+<!--                 -DstatsTrackedArtifacts=com.codeaffine.xiliary -->
+<!--                 -DstatsArtifactsSuffix=-${project.version} -->
+<!--               </argLine> -->
+<!--               <dependencies> -->
+<!--                 <dependency> -->
+<!--                   <artifactId>org.eclipse.wtp.releng.tools.feature</artifactId> -->
+<!--                   <type>eclipse-feature</type> -->
+<!--                 </dependency> -->
+<!--               </dependencies> -->
+<!--               <repositories> -->
+<!--                 <repository> -->
+<!--                   <url>http://download.eclipse.org/webtools/releng/repository</url> -->
+<!--                   <layout>p2</layout> -->
+<!--                 </repository> -->
+<!--                 <repository> -->
+<!--                   <url>http://download.eclipse.org/releases/luna</url> -->
+<!--                   <layout>p2</layout> -->
+<!--                 </repository> -->
+<!--               </repositories> -->
+<!--             </configuration> -->
+<!--           </execution> -->
+<!--         </executions> -->
+<!--       </plugin> -->
+
+<!--     </plugins> -->
+<!--   </build> -->
 
 </project>
