@@ -8,10 +8,11 @@ function error_exit
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "development" ]); then
   echo -e "Checkout composite repository from gh-pages\n"
+  current = $PWD
 
   # create and cd into temporary deployment work directory
-  mkdir deployment-work
-  cd deployment-work
+  mkdir $HOME/deployment-work
+  cd $HOME/deployment-work
 
   # setup git and clone from gh-pages branch
   git config --global user.email "travis-deployer@codeaffine.com"
@@ -39,11 +40,10 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
     rm -rf ./assets
     rm -rf ./images
     rm -rf ./development
-    cd ..
   fi
 
   # go back to the directory where we started
-  cd ..
+  cd current
 
   echo -e "Done with composite repository deployment preparations\n"
 fi
