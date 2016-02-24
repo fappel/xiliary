@@ -8,9 +8,9 @@ function error_exit
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "development" ]); then
   echo -e "Checkout composite repository from gh-pages\n"
-  cwd=$(PWD)
+  cwd=$(pwd)
   
-  echo -e cwd
+  echo "The current working directory : $cwd"
 
   # create and cd into temporary deployment work directory
   mkdir $HOME/deployment-work
@@ -45,7 +45,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   fi
 
   # go back to the directory where we started
-  cd cwdq
+  cd $cwd
 
   echo -e "Done with composite repository deployment preparations\n"
 fi
