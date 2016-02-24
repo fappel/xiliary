@@ -20,6 +20,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
 
   # remove web content
   if [ "$TRAVIS_BRANCH" == "master" ]; then
+    export DEPLOY_WORK_DIRECTORY="$PWD"
     rm *.html
     rm *.jar
     rm -rf ./plugins
@@ -30,6 +31,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   fi
   if [ "$TRAVIS_BRANCH" == "development" ]; then
     cd development
+    export DEPLOY_WORK_DIRECTORY="$PWD/development"
     rm *.html
     rm *.jar
     rm -rf ./plugins

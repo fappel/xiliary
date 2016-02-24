@@ -15,7 +15,7 @@
   
     
   <properties>
-    <software.download.area>${deploy.work.dir}</software.download.area>
+    <software.download.area>${env.DEPLOY_WORK_DIRECTORY}</software.download.area>
   </properties>
   
   <build>
