@@ -31,7 +31,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   fi
   if [ "$TRAVIS_BRANCH" == "development" ]; then
     cd development
-    export DEPLOY_WORK_DIRECTORY="$PWD/development"
+    export DEPLOY_WORK_DIRECTORY="$PWD"
     rm *.html
     rm *.jar
     rm -rf ./plugins
