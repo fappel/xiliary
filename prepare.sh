@@ -8,7 +8,7 @@ function error_exit
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "development" ]); then
   echo -e "Checkout composite repository from gh-pages\n"
-  cwd="$(pwd)"
+  cwd=$(PWD)
   
   echo -e cwd
 
