@@ -6,8 +6,12 @@ branches:
     - master
     - development
 script:
-  - echo -e $DEPLOY_WORK_DIRECTORY 
-  - mvn -f ./com.codeaffine.xiliary.releng/pom.xml clean verify -Ddeploy.work.dir=$DEPLOY_WORK_DIRECTORY
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      mvn -f ./com.codeaffine.xiliary.releng/pom.xml clean verify -Ddeploy.work.dir="$PWD"
+    fi
+  - if [ "$TRAVIS_BRANCH" == "development" ]; then
+      mvn -f ./com.codeaffine.xiliary.releng/pom.xml clean verify -Ddeploy.work.dir="$PWD/development"
+    fi
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
