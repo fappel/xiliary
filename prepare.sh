@@ -8,7 +8,7 @@ function error_exit
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "development" ]); then
   echo -e "Checkout composite repository from gh-pages\n"
-  current = $PWD
+  current=$PWD
 
   # create and cd into temporary deployment work directory
   mkdir $HOME/deployment-work
