@@ -11,7 +11,7 @@ before_script:
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3 # give xvfb some time to start
   - chmod a+x prepare.sh
-  - ./prepare.sh
+  - source ./prepare.sh
 after_success: 
   - chmod a+x deploy.sh
   - ./deploy.sh
