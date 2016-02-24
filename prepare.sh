@@ -10,8 +10,6 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   echo -e "Checkout composite repository from gh-pages\n"
   cwd=$(pwd)
   
-  echo "The current working directory : $cwd"
-
   # create and cd into temporary deployment work directory
   mkdir $HOME/deployment-work
   cd $HOME/deployment-work

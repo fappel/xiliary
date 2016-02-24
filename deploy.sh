@@ -9,9 +9,8 @@ function error_exit
 if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "development" ]); then
   echo -e "Starting to deploy to gh-pages\n"
 
-  pwd
   # cd into temporary deployment work directory
-  cd deployment-work
+  cd $HOME/deployment-work
   
   echo -e "Repository Content\n"
   ls
