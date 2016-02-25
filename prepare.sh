@@ -25,9 +25,6 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   if [ "$TRAVIS_BRANCH" == "master" ]; then
     export DEPLOY_WORK_DIRECTORY=""
     rm *.html
-    rm *.jar
-    rm -rf ./plugins
-    rm -rf ./features
     rm -rf ./assets
     rm -rf ./images
     rm -rf ./development
@@ -36,9 +33,6 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
     cd development
     export DEPLOY_WORK_DIRECTORY="development"
     rm *.html
-    rm *.jar
-    rm -rf ./plugins
-    rm -rf ./features
     rm -rf ./assets
     rm -rf ./images
     rm -rf ./development
