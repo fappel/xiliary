@@ -3,18 +3,29 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <name>Xiliary</name>
   
   <groupId>com.codeaffine.xiliary</groupId>
   <artifactId>com.codeaffine.xiliary.parent</artifactId>
-  <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <!-- 
+    Maven will print warnings for this pom and every submodule using the version variable.
+    However, as long as it works it's far more simple to use a variable for repository version 
+    management. In case the version variable support will be dropped in future we still can 
+    inline the value...
+  -->
+  <version>${xiliary.version}</version>
+
   <properties>
-    <tycho-version>0.23.0</tycho-version>
-    <tycho-extras-version>0.23.0</tycho-extras-version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>    
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <tycho.version>0.23.0</tycho.version>
+    <tycho.extras.version>0.23.0</tycho.extras.version>
+    <mycila.version>2.11</mycila.version>
+    <junit.version>4.11</junit.version>
+    <mockito.version>1.8.4</mockito.version>
+    <xiliary.version>0.1.0-SNAPSHOT</xiliary.version>
+    <target.platform.definition>eclipse-4.5</target.platform.definition>
   </properties>
 
   <prerequisites>
@@ -28,51 +39,51 @@
     <module>../com.codeaffine.test.util.feature</module>
 
     <module>../com.codeaffine.test.util</module>
-<!--     <module>../com.codeaffine.test.util.test</module> -->
+    <module>../com.codeaffine.test.util.test</module>
     
     <!-- Eclipse Core Runtime -->
     <module>../com.codeaffine.eclipse.core.runtime.feature</module>
     <module>../com.codeaffine.eclipse.core.runtime.test.util.feature</module>
 
     <module>../com.codeaffine.eclipse.core.runtime</module>
-<!--     <module>../com.codeaffine.eclipse.core.runtime.test</module> -->
+    <module>../com.codeaffine.eclipse.core.runtime.test</module>
     <module>../com.codeaffine.eclipse.core.runtime.test.util</module>
-<!--     <module>../com.codeaffine.eclipse.core.runtime.test.util.test</module> -->
+    <module>../com.codeaffine.eclipse.core.runtime.test.util.test</module>
 
     <!-- Eclipse SWT -->
     <module>../com.codeaffine.eclipse.swt.feature</module>
     <module>../com.codeaffine.eclipse.swt.test.util.feature</module>
     
     <module>../com.codeaffine.eclipse.swt</module>
-<!--     <module>../com.codeaffine.eclipse.swt.test</module> -->
+    <module>../com.codeaffine.eclipse.swt.test</module>
     <module>../com.codeaffine.eclipse.swt.test.util</module>
-<!--     <module>../com.codeaffine.eclipse.swt.test.util.test</module> -->
+    <module>../com.codeaffine.eclipse.swt.test.util.test</module>
     
     <!-- Eclipse UI -->
     <module>../com.codeaffine.eclipse.ui.feature</module>
     <module>../com.codeaffine.eclipse.ui.swt.theme.feature</module>
     
     <module>../com.codeaffine.eclipse.ui</module>
-<!--     <module>../com.codeaffine.eclipse.ui.test</module> -->
+    <module>../com.codeaffine.eclipse.ui.test</module>
     <module>../com.codeaffine.eclipse.ui.swt.theme</module>
-<!--     <module>../com.codeaffine.eclipse.ui.swt.theme.test</module> -->
+    <module>../com.codeaffine.eclipse.ui.swt.theme.test</module>
 
     <!-- OSGi -->
     <module>../com.codeaffine.osgi.test.util.feature</module>
     
     <module>../com.codeaffine.osgi.test.util</module>
-<!--     <module>../com.codeaffine.osgi.test.util.test</module> -->
+    <module>../com.codeaffine.osgi.test.util.test</module>
 
     <!-- Workflow -->
     <module>../com.codeaffine.workflow.feature</module>
     <module>../com.codeaffine.workflow.test.util.feature</module>
     
     <module>../com.codeaffine.workflow</module>
-<!--     <module>../com.codeaffine.workflow.test</module> -->
+    <module>../com.codeaffine.workflow.test</module>
     <module>../com.codeaffine.workflow.persistence</module>
-<!--     <module>../com.codeaffine.workflow.persistence.test</module> -->
+    <module>../com.codeaffine.workflow.persistence.test</module>
     <module>../com.codeaffine.workflow.test.util</module>
-<!--     <module>../com.codeaffine.workflow.test.util.test</module> -->
+    <module>../com.codeaffine.workflow.test.util.test</module>
 
     <!-- to be continued :-) -->
     
@@ -91,14 +102,14 @@
 			<plugin>
 			   <groupId>org.eclipse.tycho</groupId>
 			   <artifactId>target-platform-configuration</artifactId>
-			   <version>${tycho-version}</version>
+			   <version>${tycho.version}</version>
 			   <configuration>
 			      <target>
 			         <artifact>
 			            <groupId>com.codeaffine.xiliary</groupId>
 			            <artifactId>com.codeaffine.xiliary.parent</artifactId>
-                  <version>0.1.0-SNAPSHOT</version>
-                  <classifier>eclipse-4.5</classifier>
+                  <version>${xiliary.version}</version>
+                  <classifier>${target.platform.definition}</classifier>
 			         </artifact>
           	</target>
             <includePackedArtifacts>true</includePackedArtifacts>
@@ -108,14 +119,14 @@
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-maven-plugin</artifactId>
-        <version>${tycho-version}</version>
+        <version>${tycho.version}</version>
         <extensions>true</extensions>
       </plugin>
 
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-packaging-plugin</artifactId>
-        <version>${tycho-version}</version>
+        <version>${tycho.version}</version>
         <configuration>
           <format>yyyyMMdd-HHmm</format>
         </configuration>
@@ -124,7 +135,7 @@
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-source-plugin</artifactId>
-        <version>${tycho-version}</version>
+        <version>${tycho.version}</version>
         <executions>
           <execution>
             <id>plugin-source</id>
@@ -138,7 +149,7 @@
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-surefire-plugin</artifactId>
-        <version>${tycho-version}</version>
+        <version>${tycho.version}</version>
         <configuration>
           <argLine>-Xmx512m</argLine>
           <useUIHarness>true</useUIHarness>
@@ -152,7 +163,7 @@
       <plugin>
         <groupId>org.eclipse.tycho.extras</groupId>
         <artifactId>tycho-pack200b-plugin</artifactId>
-        <version>${tycho-extras-version}</version>
+        <version>${tycho.extras.version}</version>
         <executions>
           <execution>
             <id>pack200-pack</id>
@@ -167,7 +178,7 @@
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-p2-plugin</artifactId>
-        <version>${tycho-version}</version>
+        <version>${tycho.version}</version>
         <executions>
           <execution>
             <id>p2-metadata</id>
@@ -185,7 +196,7 @@
       <plugin>
        <groupId>com.mycila</groupId>
        <artifactId>license-maven-plugin</artifactId>
-       <version>2.11</version>
+       <version>${mycila.version}</version>
        <configuration>
          <header>${session.executionRootDirectory}/licence-header.txt</header>
          <includes>
@@ -214,13 +225,13 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.11</version>
+      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
-      <version>1.8.4</version>
+      <version>${mockito.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
