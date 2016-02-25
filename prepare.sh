@@ -6,7 +6,7 @@ function error_exit
   exit 1
 }
 
-set -ev
+set -e
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "development" ]); then
   echo -e "Checkout composite repository from gh-pages\n"

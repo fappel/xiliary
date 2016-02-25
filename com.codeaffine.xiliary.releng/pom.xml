@@ -24,8 +24,10 @@
     <mycila.version>2.11</mycila.version>
     <junit.version>4.11</junit.version>
     <mockito.version>1.8.4</mockito.version>
+    <maven.resources.plugin.version>2.6</maven.resources.plugin.version>
     <xiliary.version>0.1.0-SNAPSHOT</xiliary.version>
     <target.platform.definition>eclipse-4.5</target.platform.definition>
+    <software.download.area>${user.home}/deployment-work/${DEPLOY_WORK_DIRECTORY}</software.download.area>
   </properties>
 
   <prerequisites>
