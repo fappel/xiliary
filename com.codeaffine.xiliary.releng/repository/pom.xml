@@ -91,6 +91,50 @@
         </executions>
       </plugin>
 			
+			<plugin>
+        <groupId>org.eclipse.tycho.extras</groupId>
+        <artifactId>tycho-p2-extras-plugin</artifactId>
+        <version>${tycho.extras.version}</version>
+        <executions>
+          <execution>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>mirror</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <source>
+            <!-- Repository for Test Libraries -->
+            <repository>
+              <url>http://fappel.github.io/test-libraries/</url>
+              <layout>p2</layout>
+            </repository>
+          </source>
+          <ius>
+            <iu>
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.assertj.core,1.6.0,2.0.0</parameters>
+              </query>
+            </iu>
+          </ius>
+          <destination>${project.build.directory}/repository</destination>
+          <followOnlyFilteredRequirements>true</followOnlyFilteredRequirements>
+          <followStrictOnly>false</followStrictOnly>
+          <includeOptional>false</includeOptional>
+          <includeNonGreedy>false</includeNonGreedy>
+          <latestVersionOnly>true</latestVersionOnly>
+          <mirrorMetadataOnly>false</mirrorMetadataOnly>
+          <compress>true</compress>
+          <includePacked>true</includePacked>
+          <append>true</append>
+        </configuration>
+      </plugin>
+			
+			
     </plugins>
   </build>
 
