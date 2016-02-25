@@ -128,6 +128,22 @@
                 <parameters>org.assertj.core.source,1.6.0,2.0.0</parameters>
               </query>
             </iu>
+            <iu>
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.mockito.mockito-all,1.9.5,2.0.0</parameters>
+              </query>
+            </iu>
+            <iu>
+              <query>
+                <expression>
+                  id == $0 &amp;&amp; version &gt;= $1 &amp;&amp; version &lt; $2
+                </expression>
+                <parameters>org.mockito.mockito-all.source,1.9.5,2.0.0</parameters>
+              </query>
+            </iu>
           </ius>
           <destination>${project.build.directory}/repository</destination>
           <followOnlyFilteredRequirements>true</followOnlyFilteredRequirements>
