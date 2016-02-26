@@ -206,6 +206,7 @@
          </includes>
          <excludes>
            <exclude>**/ConditionalIgnoreRule.java</exclude>
+           <exclude>**/EqualsTester.java</exclude>
          </excludes>
          <aggregate>true</aggregate>
        </configuration>
