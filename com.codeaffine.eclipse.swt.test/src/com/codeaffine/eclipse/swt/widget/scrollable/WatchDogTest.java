@@ -32,6 +32,7 @@ import com.codeaffine.eclipse.swt.widget.scrollable.context.Reconciliation;
 public class WatchDogTest {
 
   private NestingStructurePreserver nestingStructurePreserver;
+  private StructureScrollableRedrawInsurance redrawInsurance;
   private ScrollBarUpdater horizontalScrollBarUpdater;
   private ScrollBarUpdater verticalScrollBarUpdater;
   private AdaptionContext<?> context;
@@ -55,6 +56,7 @@ public class WatchDogTest {
     sizeObserver = mock( SizeObserver.class );
     reconciliation = stubReconciliation();
     nestingStructurePreserver = mock( NestingStructurePreserver.class );
+    redrawInsurance = mock( StructureScrollableRedrawInsurance.class );
     watchDog = new WatchDog( context,
                              horizontalScrollBarUpdater,
                              verticalScrollBarUpdater,
@@ -64,7 +66,8 @@ public class WatchDogTest {
                              layoutTrigger,
                              sizeObserver,
                              reconciliation,
-                             nestingStructurePreserver );
+                             nestingStructurePreserver,
+                             redrawInsurance );
     watchDog.layoutInitialized = true;
   }
 
@@ -89,6 +92,7 @@ public class WatchDogTest {
     order.verify( vScrollVisibility ).isVisible();
     order.verify( hScrollVisibility ).isVisible();
     order.verify( nestingStructurePreserver ).run();
+    order.verify( redrawInsurance ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
   }
@@ -109,6 +113,7 @@ public class WatchDogTest {
     order.verify( vScrollVisibility ).isVisible();
     order.verify( hScrollVisibility ).isVisible();
     order.verify( nestingStructurePreserver ).run();
+    order.verify( redrawInsurance ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
   }
@@ -130,6 +135,7 @@ public class WatchDogTest {
     order.verify( vScrollVisibility ).isVisible();
     order.verify( hScrollVisibility ).isVisible();
     order.verify( nestingStructurePreserver ).run();
+    order.verify( redrawInsurance ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
   }
@@ -152,6 +158,7 @@ public class WatchDogTest {
     order.verify( vScrollVisibility ).isVisible();
     order.verify( hScrollVisibility ).isVisible();
     order.verify( nestingStructurePreserver ).run();
+    order.verify( redrawInsurance ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
   }
@@ -175,6 +182,7 @@ public class WatchDogTest {
     order.verify( vScrollVisibility ).isVisible();
     order.verify( hScrollVisibility ).isVisible();
     order.verify( nestingStructurePreserver ).run();
+    order.verify( redrawInsurance ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
   }
@@ -198,6 +206,7 @@ public class WatchDogTest {
     order.verify( verticalScrollBarUpdater ).update();
     order.verify( hScrollVisibility ).isVisible();
     order.verify( nestingStructurePreserver ).run();
+    order.verify( redrawInsurance ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
   }
@@ -221,6 +230,7 @@ public class WatchDogTest {
     order.verify( hScrollVisibility ).isVisible();
     order.verify( horizontalScrollBarUpdater ).update();
     order.verify( nestingStructurePreserver ).run();
+    order.verify( redrawInsurance ).run();
     order.verify( scheduler ).schedule( WatchDog.DELAY );
     verifyNoMoreInteractionOnDocs();
   }
@@ -266,7 +276,8 @@ public class WatchDogTest {
                     layoutTrigger,
                     sizeObserver,
                     reconciliation,
-                    nestingStructurePreserver );
+                    nestingStructurePreserver,
+                    redrawInsurance );
   }
 
   private void verifyNoMoreInteractionOnDocs() {
@@ -278,7 +289,8 @@ public class WatchDogTest {
       layoutTrigger,
       sizeObserver,
       reconciliation,
-      nestingStructurePreserver
+      nestingStructurePreserver,
+      redrawInsurance
     );
   }
 

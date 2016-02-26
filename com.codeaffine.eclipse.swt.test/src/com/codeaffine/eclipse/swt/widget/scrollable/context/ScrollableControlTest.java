@@ -343,6 +343,24 @@ public class ScrollableControlTest {
   }
 
   @Test
+  public void isStructuredScrollableType() {
+    ScrollableControl<?> scrollableControl = createScrollableControl( Tree.class );
+
+    boolean actual = scrollableControl.isStructuredScrollableType();
+
+    assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void isStructureScrollableTypeWithNonStructureScrollableType() {
+    ScrollableControl<?> scrollableControl = createScrollableControl( StyledText.class );
+
+    boolean actual = scrollableControl.isStructuredScrollableType();
+
+    assertThat( actual ).isFalse();
+  }
+
+  @Test
   public void getBackground() {
     Tree scrollable = createScrollable( Tree.class );
     ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );

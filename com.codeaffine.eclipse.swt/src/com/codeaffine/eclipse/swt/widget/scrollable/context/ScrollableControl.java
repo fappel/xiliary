@@ -162,6 +162,10 @@ public class ScrollableControl <T extends Scrollable> {
     return type.isInstance( scrollable );
   }
 
+  public boolean isStructuredScrollableType() {
+    return isInstanceof( Table.class ) || isInstanceof( Tree.class );
+  }
+
   public T getControl() {
     return scrollable;
   }

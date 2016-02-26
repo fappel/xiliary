@@ -19,7 +19,11 @@ import org.eclipse.swt.widgets.Composite;
 public class StyledTextHelper {
 
   public static StyledText createStyledText( Composite parent ) {
-    StyledText result = new StyledText( parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL );
+    return createStyledText( parent, SWT.MULTI | SWT.H_SCROLL | SWT.V_SCROLL );
+  }
+
+  public static StyledText createStyledText( Composite parent, int style ) {
+    StyledText result = new StyledText( parent, style );
     result.setText( PARAGRAPHS );
     return result;
   }

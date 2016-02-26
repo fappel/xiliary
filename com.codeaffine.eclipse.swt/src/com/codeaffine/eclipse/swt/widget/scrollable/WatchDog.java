@@ -24,6 +24,7 @@ class WatchDog implements Runnable, DisposeListener {
   static final int DELAY = 50;
 
   private final NestingStructurePreserver nestingStructurePresever;
+  private final StructureScrollableRedrawInsurance structureScrollableRedrawInsurance;
   private final ScrollBarUpdater horizontalBarUpdater;
   private final ScrollBarUpdater verticalBarUpdater;
   private final Reconciliation reconciliation;
@@ -36,6 +37,7 @@ class WatchDog implements Runnable, DisposeListener {
   AdaptionContext<?> context;
   boolean layoutInitialized;
   boolean disposed;
+
 
   WatchDog( AdaptionContext<?> context,
             ScrollBarUpdater horizontalUpdater,
@@ -51,7 +53,8 @@ class WatchDog implements Runnable, DisposeListener {
           new LayoutTrigger( context.getAdapter() ),
           sizeObserver,
           context.getReconciliation(),
-          new NestingStructurePreserver( context ) );
+          new NestingStructurePreserver( context ),
+          new StructureScrollableRedrawInsurance( context.getScrollable() ) );
   }
 
   WatchDog( AdaptionContext<?> context,
@@ -63,7 +66,8 @@ class WatchDog implements Runnable, DisposeListener {
             LayoutTrigger layoutTrigger,
             SizeObserver sizeObserver,
             Reconciliation reconciliation,
-            NestingStructurePreserver nestingPresever )
+            NestingStructurePreserver nestingPresever,
+            StructureScrollableRedrawInsurance structureScrollableRedrawInsurance )
   {
     this.context = context;
     this.horizontalBarUpdater = horizontalBarUpdater;
@@ -71,6 +75,7 @@ class WatchDog implements Runnable, DisposeListener {
     this.hScrollVisibility = hScrollVisibility;
     this.vScrollVisibility = vScrollVisibility;
     this.nestingStructurePresever = nestingPresever;
+    this.structureScrollableRedrawInsurance = structureScrollableRedrawInsurance;
     this.scheduler = ensureScheduler( actionScheduler );
     this.reconciliation = reconciliation;
     this.layoutTrigger = layoutTrigger;
@@ -112,6 +117,7 @@ class WatchDog implements Runnable, DisposeListener {
       horizontalBarUpdater.update();
     }
     nestingStructurePresever.run();
+    structureScrollableRedrawInsurance.run();
   }
 
   private boolean mustLayout() {

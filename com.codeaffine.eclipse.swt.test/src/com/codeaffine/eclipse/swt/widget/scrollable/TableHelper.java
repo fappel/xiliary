@@ -56,7 +56,7 @@ class TableHelper {
   }
 
   static Table createVirtualTableWithOwnerDrawnItems( Composite parent, ItemList itemList ) {
-    Table result = new Table( parent, SWT.BORDER | SWT.VIRTUAL );
+    Table result = new Table( parent, SWT.BORDER | SWT.VIRTUAL | SWT.MULTI | SWT.FULL_SELECTION );
     result.addListener( SWT.MeasureItem, evt -> { evt.height = 36; } );
     result.addListener( SWT.EraseItem, evt -> {} );
     result.addListener( SWT.PaintItem, evt -> {} );
