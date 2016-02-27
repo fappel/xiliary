@@ -49,12 +49,25 @@ public class LayoutActorTest {
   @Test
   public void layout() {
     LayoutActor actor = new LayoutActor( newLayoutWithMargin(), scrollable, adapter );
+    scrollable.setSize( 30, 40  );
     scrollable.setLocation( new Point( X_LOCATION, Y_LOCATION ) );
 
     actor.layout( shell, true );
 
     assertThat( scrollable.getLocation() ).isEqualToPointOf( MARGIN, MARGIN );
     assertThat( adapter.getLocation() ).isEqualToPointOf( MARGIN - X_LOCATION, MARGIN - Y_LOCATION );
+  }
+
+  @Test // explorative workaround for layout problems of lazy loaded textviewers with ruler layout
+  public void layoutIfSizeIsEmpty() {
+    LayoutActor actor = new LayoutActor( newLayoutWithMargin(), scrollable, adapter );
+    scrollable.setSize( 0, 0 );
+    scrollable.setLocation( new Point( X_LOCATION, Y_LOCATION ) );
+
+    actor.layout( shell, true );
+
+    assertThat( scrollable.getLocation() ).isEqualToPointOf( MARGIN, MARGIN );
+    assertThat( adapter.getLocation() ).isEqualToPointOf( MARGIN / 2, MARGIN - Y_LOCATION );
   }
 
   @Test

@@ -57,6 +57,9 @@ class LayoutActor extends LayoutWrapper {
   }
 
   private static Rectangle computeAdapterBounds( Rectangle oldBounds, Rectangle newBounds ) {
+    if( oldBounds.width == 0 && oldBounds.height == 0 ) {
+      return new Rectangle( newBounds.x / 2, newBounds.y - oldBounds.y, newBounds.width, newBounds.height );
+    }
     return new Rectangle( newBounds.x - oldBounds.x, newBounds.y - oldBounds.y, newBounds.width, newBounds.height );
   }
 }
