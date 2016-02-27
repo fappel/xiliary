@@ -109,7 +109,29 @@ public class StructureScrollableRedrawInsuranceTest {
 
     flushPendingEvents();
     trigger( SWT.Selection ).on( scrollable.getVerticalBar() );
+    flushPendingEvents();
     scrollable.addPaintListener( listener );
+    redrawInsurance.run();
+    flushPendingEvents();
+
+    verify( listener, never() ).paintControl( any( PaintEvent.class ) );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
+  public void runOnVerticalScrollBarPostSelectionChange() {
+    Table scrollable = createTable( shell, 100, SWT.VIRTUAL );
+    scrollable.addListener( SWT.MeasureItem, evt -> {} );
+    StructureScrollableRedrawInsurance redrawInsurance = newRedrawInsurance( scrollable );
+    PaintListener listener = mock( PaintListener.class );
+    shell.open();
+
+    flushPendingEvents();
+    trigger( SWT.Selection ).on( scrollable.getVerticalBar() );
+    flushPendingEvents();
+    scrollable.addPaintListener( listener );
+    redrawInsurance.run();
+    flushPendingEvents();
     redrawInsurance.run();
     flushPendingEvents();
 

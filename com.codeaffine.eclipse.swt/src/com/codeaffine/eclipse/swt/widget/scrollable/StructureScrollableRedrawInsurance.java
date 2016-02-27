@@ -19,7 +19,8 @@ class StructureScrollableRedrawInsurance {
 
   private final ScrollableControl<?> scrollable;
 
-  private boolean mustRedraw;
+  private int actualRedrawRequestCount;
+  private int previousRedrawRequestCount;
 
   StructureScrollableRedrawInsurance( ScrollableControl<?> scrollable ) {
     this.scrollable = scrollable;
@@ -36,13 +37,22 @@ class StructureScrollableRedrawInsurance {
   }
 
   private void captureVerticalScrolling( Scrollable scrollable ) {
-    scrollable.getVerticalBar().addListener( SWT.Selection, evt -> mustRedraw = true );
+    scrollable.getVerticalBar().addListener( SWT.Selection, evt -> mark() );
+  }
+
+  private void mark() {
+    actualRedrawRequestCount++;
   }
 
   public void run() {
-    if( mustRedraw ) {
-      scrollable.getControl().redraw();
-      mustRedraw = false;
+    if( actualRedrawRequestCount > 0 ) {
+      if( previousRedrawRequestCount == actualRedrawRequestCount ) {
+        scrollable.getControl().redraw();
+        actualRedrawRequestCount = 0;
+        previousRedrawRequestCount = 0;
+      } else {
+        previousRedrawRequestCount = actualRedrawRequestCount;
+      }
     }
   }
 }
