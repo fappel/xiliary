@@ -13,7 +13,6 @@ package com.codeaffine.eclipse.swt.widget.scrollable.context;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
@@ -55,7 +54,7 @@ public class AdaptionContext<T extends Scrollable> {
     this.verticalBarOffset = computeVerticalBarOffset( scrollable );
     this.offset = new OffsetComputer( scrollable ).compute();
     this.visibleArea = computeVisibleArea( adapter, scrollable );
-    this.borderWidth = getBorderWidth( scrollable );
+    this.borderWidth = scrollable.getBorderWidth();
     this.originOfScrollableOrdinates = new Point( visibleArea.x - borderWidth, visibleArea.y - borderWidth );
     this.scrollable = scrollable;
     this.adapter = adapter;
@@ -142,13 +141,6 @@ public class AdaptionContext<T extends Scrollable> {
     return borderWidth;
   }
 
-  private static int getBorderWidth( ScrollableControl<? extends Scrollable> scrollable ) {
-    if( scrollable.hasStyle( SWT.BORDER ) ) {
-      return scrollable.getBorderWidth();
-    }
-    return 0;
-  }
-
   private static int computeVerticalBarOffset( ScrollableControl<? extends Scrollable> scrollable ) {
     int result = scrollable.getVerticalBarSize().x;
     if( result == 0 ) {
@@ -159,7 +151,7 @@ public class AdaptionContext<T extends Scrollable> {
 
   private static Rectangle computeVisibleArea( Composite adapter, ScrollableControl<? extends Scrollable> scrollable ) {
     Rectangle area = adapter.getClientArea();
-    int borderAdjustment = getBorderWidth( scrollable ) * 2;
+    int borderAdjustment = scrollable.getBorderWidth() * 2;
     return new Rectangle( area.x, area.y, area.width + borderAdjustment, area.height + borderAdjustment );
   }
 }

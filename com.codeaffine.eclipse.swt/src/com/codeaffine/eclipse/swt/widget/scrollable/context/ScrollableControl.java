@@ -121,7 +121,10 @@ public class ScrollableControl <T extends Scrollable> {
   }
 
   public int getBorderWidth() {
-    return scrollable.getBorderWidth();
+    if( hasStyle( SWT.BORDER ) ) {
+      return scrollable.getBorderWidth();
+    }
+    return 0;
   }
 
   public Color getBackground() {
