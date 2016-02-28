@@ -50,16 +50,16 @@ class LayoutActor extends LayoutWrapper {
   @Override
   public void layout( Composite composite, boolean flushCache ) {
     operationWithRedrawSuspension.execute( composite, () -> {
-      Rectangle oldBounds = scrollable.getBounds();
       super.layout( composite, flushCache );
-      adapter.setBounds( computeAdapterBounds( oldBounds, scrollable.getBounds() ) );
+      adapter.setBounds( computeAdapterBounds() );
     } );
   }
 
-  private static Rectangle computeAdapterBounds( Rectangle oldBounds, Rectangle newBounds ) {
-    if( oldBounds.width == 0 && oldBounds.height == 0 ) {
-      return new Rectangle( newBounds.x / 2, newBounds.y - oldBounds.y, newBounds.width, newBounds.height );
-    }
-    return new Rectangle( newBounds.x - oldBounds.x, newBounds.y - oldBounds.y, newBounds.width, newBounds.height );
+  private Rectangle computeAdapterBounds() {
+    Rectangle scrollableBounds = scrollable.getBounds();
+    Rectangle adapterBounds = adapter.getBounds();
+    int x = scrollableBounds.x - adapterBounds.x;
+    int y = scrollableBounds.y - adapterBounds.y;
+    return new Rectangle( x, y, scrollableBounds.width, scrollableBounds.height );
   }
 }

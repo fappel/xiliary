@@ -17,6 +17,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Layout;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Rule;
@@ -28,7 +29,6 @@ import com.codeaffine.eclipse.swt.util.OperationWithRedrawSuspension;
 
 public class LayoutActorTest {
 
-  private static final int MARGIN = 40;
   private static final int X_LOCATION = 10;
   private static final int Y_LOCATION = 20;
 
@@ -42,38 +42,26 @@ public class LayoutActorTest {
   @Before
   public void setUp() {
     shell = displayHelper.createShell();
-    scrollable = new ScrollableControl<>( new Composite( shell, SWT.NONE ) );
     adapter = new Composite( shell, SWT.NONE );
+    scrollable = new ScrollableControl<>( new Composite( adapter, SWT.NONE ) );
   }
 
   @Test
   public void layout() {
-    LayoutActor actor = new LayoutActor( newLayoutWithMargin(), scrollable, adapter );
-    scrollable.setSize( 30, 40  );
-    scrollable.setLocation( new Point( X_LOCATION, Y_LOCATION ) );
+    adapter.setLocation( X_LOCATION, Y_LOCATION );
+    Layout layout = createScrollablePositioningLayout( X_LOCATION * 2, Y_LOCATION * 2 );
+    LayoutActor actor = new LayoutActor( layout, scrollable, adapter );
 
     actor.layout( shell, true );
 
-    assertThat( scrollable.getLocation() ).isEqualToPointOf( MARGIN, MARGIN );
-    assertThat( adapter.getLocation() ).isEqualToPointOf( MARGIN - X_LOCATION, MARGIN - Y_LOCATION );
-  }
-
-  @Test // explorative workaround for layout problems of lazy loaded textviewers with ruler layout
-  public void layoutIfSizeIsEmpty() {
-    LayoutActor actor = new LayoutActor( newLayoutWithMargin(), scrollable, adapter );
-    scrollable.setSize( 0, 0 );
-    scrollable.setLocation( new Point( X_LOCATION, Y_LOCATION ) );
-
-    actor.layout( shell, true );
-
-    assertThat( scrollable.getLocation() ).isEqualToPointOf( MARGIN, MARGIN );
-    assertThat( adapter.getLocation() ).isEqualToPointOf( MARGIN / 2, MARGIN - Y_LOCATION );
+    assertThat( scrollable.getLocation() ).isEqualToPointOf( X_LOCATION * 2, Y_LOCATION * 2 );
+    assertThat( adapter.getLocation() ).isEqualToPointOf( X_LOCATION, Y_LOCATION );
   }
 
   @Test
   public void ensureRedrawSuspension() {
     OperationWithRedrawSuspension operation = mock( OperationWithRedrawSuspension.class );
-    LayoutActor actor = new LayoutActor( newLayoutWithMargin(), scrollable, adapter, operation );
+    LayoutActor actor = new LayoutActor( new FillLayout(), scrollable, adapter, operation );
     scrollable.setLocation( new Point( X_LOCATION, Y_LOCATION ) );
 
     actor.layout( shell, true );
@@ -84,18 +72,26 @@ public class LayoutActorTest {
 
   @Test
   public void computeSize() {
-    LayoutActor actor = new LayoutActor( newLayoutWithMargin(), scrollable, adapter );
-    Point expected = new LayoutWrapper( newLayoutWithMargin() ).computeSize( shell, SWT.DEFAULT, SWT.DEFAULT, true );
+    LayoutActor actor = new LayoutActor( new FillLayout(), scrollable, adapter );
+    Point expected = new LayoutWrapper( new FillLayout() ).computeSize( shell, SWT.DEFAULT, SWT.DEFAULT, true );
 
     Point actual = actor.computeSize( shell, SWT.DEFAULT, SWT.DEFAULT, true );
 
     assertThat( actual ).isEqualTo( expected );
   }
 
-  private static FillLayout newLayoutWithMargin() {
-    FillLayout result = new FillLayout();
-    result.marginHeight = MARGIN;
-    result.marginWidth = MARGIN;
-    return result;
+  private Layout createScrollablePositioningLayout(int xLocation, int yLocation) {
+    return new Layout() {
+
+      @Override
+      protected void layout( Composite composite, boolean flushCache ) {
+        scrollable.setLocation( new Point( xLocation, yLocation ) );
+      }
+
+      @Override
+      protected Point computeSize( Composite composite, int wHint, int hHint, boolean flushCache ) {
+        return new Point( 0, 0 );
+      }
+    };
   }
 }
