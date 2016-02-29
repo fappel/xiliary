@@ -44,13 +44,6 @@
          fragment="true"/>
 
    <plugin
-         id="com.codeaffine.eclipse.ui.swt.theme.win.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"/>
-
-   <plugin
          id="com.codeaffine.eclipse.swt"
          download-size="0"
          install-size="0"
