@@ -38,8 +38,6 @@
 
    <plugin
          id="com.codeaffine.eclipse.ui.swt.theme.win"
-         os="win32"
-         ws="win32"
          download-size="0"
          install-size="0"
          version="0.0.0"
