@@ -5,6 +5,7 @@ branches:
   only:
     - master
     - development
+    - OS-X-build
 script: "mvn -f ./com.codeaffine.xiliary.releng/pom.xml clean verify"
 before_script:
   - "export DISPLAY=:99.0"
