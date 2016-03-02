@@ -38,4 +38,11 @@
     </plugins>
   </build>
   
+  <dependencies>
+    <dependency>
+      <groupId>com.codeaffine.xiliary</groupId>
+      <artifactId>com.codeaffine.eclipse.swt</artifactId>
+    </dependency>
+  </dependencies>
+  
 </project>
