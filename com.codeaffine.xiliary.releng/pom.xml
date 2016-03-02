@@ -28,6 +28,7 @@
     <junit.version>4.11</junit.version>
     <mockito.version>1.8.4</mockito.version>
     <maven.resources.plugin.version>2.6</maven.resources.plugin.version>
+    <vm.args>-Xmx512m</vm.args>
   </properties>
 
   <prerequisites>
@@ -174,7 +175,7 @@
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-          <argLine>-Xmx512m -XstartOnFirstThread</argLine>
+          <argLine>${vm.args}</argLine>
           <useUIHarness>true</useUIHarness>
           <appArgLine>-nl en -consolelog -registryMultiLanguage</appArgLine>
           <includes>
