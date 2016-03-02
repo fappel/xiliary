@@ -37,5 +37,13 @@
       </plugin>
     </plugins>
   </build>
-    
+  
+  <dependencies>
+    <dependency>
+      <groupId>com.codeaffine.xiliary</groupId>
+      <artifactId>com.codeaffine.eclipse.swt.win</artifactId>
+      <version>[0.3.0,1.0.0)</version>
+    </dependency>
+  </dependencies>
+  
 </project>
