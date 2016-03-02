@@ -42,6 +42,7 @@
     <dependency>
       <groupId>com.codeaffine.xiliary</groupId>
       <artifactId>com.codeaffine.eclipse.swt</artifactId>
+      <version>[0.3.0,1.0.0)</version>
     </dependency>
   </dependencies>
   
