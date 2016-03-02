@@ -49,6 +49,11 @@
         <!-- Eclipse UI -->
         <module>../com.codeaffine.eclipse.ui.swt.theme.feature</module>
         <module>../com.codeaffine.eclipse.ui.swt.theme.win</module>
+        
+        <!-- Eclipse SWT -->
+        <module>../com.codeaffine.eclipse.swt.feature</module>
+        <module>../com.codeaffine.eclipse.swt.win</module>
+        
       </modules>
     </profile>
   </profiles>
@@ -71,7 +76,6 @@
     <module>../com.codeaffine.eclipse.core.runtime.test.util.test</module>
 
     <!-- Eclipse SWT -->
-    <module>../com.codeaffine.eclipse.swt.feature</module>
     <module>../com.codeaffine.eclipse.swt.test.util.feature</module>
     
     <module>../com.codeaffine.eclipse.swt</module>
