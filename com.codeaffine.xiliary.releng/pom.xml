@@ -34,10 +34,28 @@
     <maven>3.0</maven>
   </prerequisites>
 
+  <profiles>
+    <profile>
+      <activation>
+        <os>
+          <family>Linux</family>
+          <arch>x64</arch>
+        </os>
+      </activation>
+      <modules>
+        <!-- General Java -->
+        <module>repository</module>
+
+        <!-- Eclipse UI -->
+        <module>../com.codeaffine.eclipse.ui.swt.theme.feature</module>
+        <module>../com.codeaffine.eclipse.ui.swt.theme.win</module>
+      </modules>
+    </profile>
+  </profiles>
+  
   <modules>
   
     <!-- General Java -->
-    <module>repository</module>
     <module>../com.codeaffine.test.util.feature</module>
 
     <module>../com.codeaffine.test.util</module>
@@ -63,12 +81,10 @@
     
     <!-- Eclipse UI -->
     <module>../com.codeaffine.eclipse.ui.feature</module>
-    <module>../com.codeaffine.eclipse.ui.swt.theme.feature</module>
     
     <module>../com.codeaffine.eclipse.ui</module>
     <module>../com.codeaffine.eclipse.ui.test</module>
     <module>../com.codeaffine.eclipse.ui.swt.theme</module>
-    <module>../com.codeaffine.eclipse.ui.swt.theme.win</module>
     <module>../com.codeaffine.eclipse.ui.swt.theme.test</module>
 
     <!-- OSGi -->
@@ -102,23 +118,23 @@
   <build>
     <plugins>
       
-			<plugin>
-			   <groupId>org.eclipse.tycho</groupId>
-			   <artifactId>target-platform-configuration</artifactId>
-			   <version>${tycho.version}</version>
-			   <configuration>
-			      <target>
-			         <artifact>
-			            <groupId>com.codeaffine.xiliary</groupId>
-			            <artifactId>com.codeaffine.xiliary.parent</artifactId>
+      <plugin>
+         <groupId>org.eclipse.tycho</groupId>
+         <artifactId>target-platform-configuration</artifactId>
+         <version>${tycho.version}</version>
+         <configuration>
+            <target>
+               <artifact>
+                  <groupId>com.codeaffine.xiliary</groupId>
+                  <artifactId>com.codeaffine.xiliary.parent</artifactId>
                   <version>${xiliary.version}</version>
                   <classifier>${target.platform.definition}</classifier>
-			         </artifact>
-          	</target>
+               </artifact>
+            </target>
             <includePackedArtifacts>true</includePackedArtifacts>
-			   </configuration>
-			</plugin>
-			
+         </configuration>
+      </plugin>
+      
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-maven-plugin</artifactId>
@@ -154,7 +170,7 @@
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-          <argLine>-Xmx512m</argLine>
+          <argLine>-Xmx512m -XstartOnFirstThread</argLine>
           <useUIHarness>true</useUIHarness>
           <appArgLine>-nl en -consolelog -registryMultiLanguage</appArgLine>
           <includes>
