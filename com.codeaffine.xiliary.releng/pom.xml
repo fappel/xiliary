@@ -28,7 +28,7 @@
     <junit.version>4.11</junit.version>
     <mockito.version>1.8.4</mockito.version>
     <maven.resources.plugin.version>2.6</maven.resources.plugin.version>
-    <vm.args>-Xmx512m ${os-jvm-flags}</vm.args>
+    <vm.args>${os-jvm-flags}</vm.args>
   </properties>
 
   <prerequisites>
@@ -43,6 +43,9 @@
           <family>windows</family>
         </os>
       </activation>
+      <properties>
+        <os-jvm-flags>-Xmx512m</os-jvm-flags>
+      </properties>
     </profile>
     <profile>
       <id>linux</id>
@@ -52,6 +55,9 @@
           <name>!mac os x</name>
         </os>
       </activation>
+      <properties>
+        <os-jvm-flags>-Xmx512m</os-jvm-flags>
+      </properties>
     </profile>
     <profile>
       <id>mac</id>
@@ -61,7 +67,7 @@
         </os>
       </activation>
       <properties>
-        <os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+        <os-jvm-flags>-Xmx512m -XstartOnFirstThread</os-jvm-flags>
       </properties>
     </profile>
   </profiles>
@@ -161,11 +167,6 @@
              <environment>
                <os>macosx</os>
                <ws>cocoa</ws>
-               <arch>x86</arch>
-             </environment>
-             <environment>
-               <os>macosx</os>
-               <ws>cocoa</ws>
                <arch>x86_64</arch>
              </environment>
              <environment>
@@ -205,11 +206,6 @@
 							<os>win32</os>
 							<ws>win32</ws>
 							<arch>x86_64</arch>
-						</environment>
-						<environment>
-							<os>macosx</os>
-							<ws>cocoa</ws>
-							<arch>x86</arch>
 						</environment>
 						<environment>
 							<os>macosx</os>

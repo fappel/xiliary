@@ -19,10 +19,6 @@ public class ScrollBarAdapter extends ScrollBar {
 
   private FlatScrollBar scrollBar;
 
-  private ScrollBarAdapter() {
-    super( null, -1 );
-  }
-
   public void setScrollbar( FlatScrollBar scrollBar ) {
     this.scrollBar = scrollBar;
   }
