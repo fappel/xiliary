@@ -28,7 +28,7 @@
     <junit.version>4.11</junit.version>
     <mockito.version>1.8.4</mockito.version>
     <maven.resources.plugin.version>2.6</maven.resources.plugin.version>
-    <vm.args>-Xmx512m</vm.args>
+    <vm.args>-Xmx512m ${os-jvm-flags}</vm.args>
   </properties>
 
   <prerequisites>
@@ -37,81 +37,94 @@
 
   <profiles>
     <profile>
+      <id>windows</id>
       <activation>
         <os>
-          <family>Linux</family>
-          <arch>x64</arch>
+          <family>windows</family>
         </os>
       </activation>
-      <modules>
-        <!-- General Java -->
-        <module>repository</module>
-
-        <!-- Eclipse UI -->
-        <module>../com.codeaffine.eclipse.ui.swt.theme.feature</module>
-        <module>../com.codeaffine.eclipse.ui.swt.theme.win</module>
-        
-        <!-- Eclipse SWT -->
-        <module>../com.codeaffine.eclipse.swt.feature</module>
-        <module>../com.codeaffine.eclipse.swt.win</module>
-        
-      </modules>
+    </profile>
+    <profile>
+      <id>linux</id>
+      <activation>
+        <os>
+          <family>unix</family>
+          <name>!mac os x</name>
+        </os>
+      </activation>
+    </profile>
+    <profile>
+      <id>mac</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <properties>
+        <os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
+      </properties>
     </profile>
   </profiles>
-  
-  <modules>
-  
-    <!-- General Java -->
-    <module>../com.codeaffine.test.util.feature</module>
 
-    <module>../com.codeaffine.test.util</module>
-    <module>../com.codeaffine.test.util.test</module>
-    
-    <!-- Eclipse Core Runtime -->
-    <module>../com.codeaffine.eclipse.core.runtime.feature</module>
-    <module>../com.codeaffine.eclipse.core.runtime.test.util.feature</module>
-
-    <module>../com.codeaffine.eclipse.core.runtime</module>
-    <module>../com.codeaffine.eclipse.core.runtime.test</module>
-    <module>../com.codeaffine.eclipse.core.runtime.test.util</module>
-    <module>../com.codeaffine.eclipse.core.runtime.test.util.test</module>
-
-    <!-- Eclipse SWT -->
-    <module>../com.codeaffine.eclipse.swt.test.util.feature</module>
-    
-    <module>../com.codeaffine.eclipse.swt</module>
-    <module>../com.codeaffine.eclipse.swt.test</module>
-    <module>../com.codeaffine.eclipse.swt.test.util</module>
-    <module>../com.codeaffine.eclipse.swt.test.util.test</module>
-    
-    <!-- Eclipse UI -->
-    <module>../com.codeaffine.eclipse.ui.feature</module>
-    
-    <module>../com.codeaffine.eclipse.ui</module>
-    <module>../com.codeaffine.eclipse.ui.test</module>
-    <module>../com.codeaffine.eclipse.ui.swt.theme</module>
-    <module>../com.codeaffine.eclipse.ui.swt.theme.test</module>
-
-    <!-- OSGi -->
-    <module>../com.codeaffine.osgi.test.util.feature</module>
-    
-    <module>../com.codeaffine.osgi.test.util</module>
-    <module>../com.codeaffine.osgi.test.util.test</module>
-
-    <!-- Workflow -->
-    <module>../com.codeaffine.workflow.feature</module>
-    <module>../com.codeaffine.workflow.test.util.feature</module>
-    
-    <module>../com.codeaffine.workflow</module>
-    <module>../com.codeaffine.workflow.test</module>
-    <module>../com.codeaffine.workflow.persistence</module>
-    <module>../com.codeaffine.workflow.persistence.test</module>
-    <module>../com.codeaffine.workflow.test.util</module>
-    <module>../com.codeaffine.workflow.test.util.test</module>
-
-    <!-- to be continued :-) -->
-    
-  </modules>
+	<modules>
+		
+		<!-- General Java -->
+		<module>repository</module>
+		<module>../com.codeaffine.test.util.feature</module>
+		
+		<module>../com.codeaffine.test.util</module>
+		<module>../com.codeaffine.test.util.test</module>
+		
+		<!-- Eclipse Core Runtime -->
+		<module>../com.codeaffine.eclipse.core.runtime.feature</module>
+		<module>../com.codeaffine.eclipse.core.runtime.test.util.feature</module>
+		
+		<module>../com.codeaffine.eclipse.core.runtime</module>
+		<module>../com.codeaffine.eclipse.core.runtime.test</module>
+		<module>../com.codeaffine.eclipse.core.runtime.test.util</module>
+		<module>../com.codeaffine.eclipse.core.runtime.test.util.test</module>        
+		
+		<!-- Eclipse SWT -->
+		<module>../com.codeaffine.eclipse.swt.feature</module>
+		<module>../com.codeaffine.eclipse.swt.test.util.feature</module>
+		
+		<module>../com.codeaffine.eclipse.swt</module>
+		<module>../com.codeaffine.eclipse.swt.win</module>
+		<module>../com.codeaffine.eclipse.swt.mac</module>
+		<module>../com.codeaffine.eclipse.swt.test</module>
+		<module>../com.codeaffine.eclipse.swt.test.util</module>
+		<module>../com.codeaffine.eclipse.swt.test.util.test</module>
+		
+		<!-- Eclipse UI -->
+		<module>../com.codeaffine.eclipse.ui.swt.theme.feature</module>
+		<module>../com.codeaffine.eclipse.ui.feature</module>
+		
+		<module>../com.codeaffine.eclipse.ui</module>
+		<module>../com.codeaffine.eclipse.ui.test</module>
+		<module>../com.codeaffine.eclipse.ui.swt.theme.win</module>
+		<module>../com.codeaffine.eclipse.ui.swt.theme</module>
+		<module>../com.codeaffine.eclipse.ui.swt.theme.test</module>
+		
+		<!-- OSGi -->
+		<module>../com.codeaffine.osgi.test.util.feature</module>
+		
+		<module>../com.codeaffine.osgi.test.util</module>
+		<module>../com.codeaffine.osgi.test.util.test</module>
+		
+		<!-- Workflow -->
+		<module>../com.codeaffine.workflow.feature</module>
+		<module>../com.codeaffine.workflow.test.util.feature</module>
+		
+		<module>../com.codeaffine.workflow</module>
+		<module>../com.codeaffine.workflow.test</module>
+		<module>../com.codeaffine.workflow.persistence</module>
+		<module>../com.codeaffine.workflow.persistence.test</module>
+		<module>../com.codeaffine.workflow.test.util</module>
+		<module>../com.codeaffine.workflow.test.util.test</module>
+		
+		<!-- to be continued :-) -->
+	  
+	</modules>
 
   <pluginRepositories>
     <pluginRepository>
@@ -122,22 +135,56 @@
 
   <build>
     <plugins>
-      
+
       <plugin>
          <groupId>org.eclipse.tycho</groupId>
          <artifactId>target-platform-configuration</artifactId>
          <version>${tycho.version}</version>
          <configuration>
-            <target>
-               <artifact>
-                  <groupId>com.codeaffine.xiliary</groupId>
-                  <artifactId>com.codeaffine.xiliary.parent</artifactId>
-                  <version>${xiliary.version}</version>
-                  <classifier>${target.platform.definition}</classifier>
-               </artifact>
-            </target>
-            <includePackedArtifacts>true</includePackedArtifacts>
-         </configuration>
+           <target>
+             <artifact>
+               <groupId>com.codeaffine.xiliary</groupId>
+               <artifactId>com.codeaffine.xiliary.parent</artifactId>
+               <version>${xiliary.version}</version>
+               <classifier>${target.platform.definition}</classifier>
+             </artifact>
+           </target>
+           <resolver>p2</resolver>
+           <allowConflictingDependencies>true</allowConflictingDependencies>
+           <includePackedArtifacts>true</includePackedArtifacts>
+           <environments>
+             <environment>
+               <os>win32</os>
+               <ws>win32</ws>
+               <arch>x86_64</arch>
+             </environment>
+             <environment>
+               <os>macosx</os>
+               <ws>cocoa</ws>
+               <arch>x86</arch>
+             </environment>
+             <environment>
+               <os>macosx</os>
+               <ws>cocoa</ws>
+               <arch>x86_64</arch>
+             </environment>
+             <environment>
+               <os>win32</os>
+               <ws>win32</ws>
+               <arch>x86</arch>
+             </environment>
+             <environment>
+               <os>linux</os>
+               <ws>gtk</ws>
+               <arch>x86</arch>
+             </environment>
+             <environment>
+               <os>linux</os>
+               <ws>gtk</ws>
+               <arch>x86_64</arch>
+             </environment>
+          </environments>
+        </configuration>
       </plugin>
       
       <plugin>
@@ -152,8 +199,40 @@
         <artifactId>tycho-packaging-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-          <format>yyyyMMdd-HHmm</format>
-        </configuration>
+					<format>yyyyMMdd-HHmm</format>
+					<environments>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+				</configuration>
       </plugin>
 
       <plugin>
