@@ -27,6 +27,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   
   # update OS-X-build branch
   echo -e "Update OS-X-Build branch\n"
+  git checkout development
   rm .travis.yml
   mv .travis-os-x.yml .travis.yml
   git add -A
