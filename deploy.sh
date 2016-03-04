@@ -28,7 +28,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   # update OS-X-build branch
   echo -e "Update OS-X-Build branch\n"
   rm .travis.yml
-  mv .travis-ox-x.yml .travis.yml
+  mv .travis-os-x.yml .travis.yml
   git add -A
   git commit -m "Update of OS-X-build branch"
   git push origin OS-X-build -f
