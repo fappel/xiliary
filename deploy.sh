@@ -31,6 +31,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   mv .travis-os-x.yml .travis.yml
   git add -A
   git commit -m "Update of OS-X-build branch"
+  git remote set-url origin https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git
   git push origin OS-X-build -f
   echo -e "Done with OS-X-Build branch update\n"
 
