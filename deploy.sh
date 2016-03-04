@@ -35,7 +35,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   git remote set-url origin https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git
   git branch --set-upstream-to=origin/OS-X-build "$TRAVIS_BRANCH"
   git fetch origin OS-X-build:"$TRAVIS_BRANCH"
-  git push origin OS-X-build -f
+  git push origin "$TRAVIS_BRANCH":OS-X-build -f
   git remote set-url origin https://xxx:xxx@github.com/fappel/xiliary.git
   echo -e "Done with OS X build trigger\n"
 
