@@ -26,16 +26,16 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   cd $cwd
   
   # update OS-X-build branch
-  echo -e "Update OS-X-Build branch\n"
-  git checkout development
+  echo -e "Trigger OS X build with content from $TRAVIS_BRANCH\n"
+  git checkout "$TRAVIS_BRANCH"
   rm .travis.yml
   mv .travis-os-x.yml .travis.yml
   git add -A
-  git commit -m "Update of OS-X-build branch"
+  git commit -m "Update of OS-X-build branch with latest from $TRAVIS_BRANCH"
   git remote set-url origin https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git
-  git branch --set-upstream-to=origin/OS-X-build development
+  git branch --set-upstream-to=origin/OS-X-build "$TRAVIS_BRANCH"
   git push origin OS-X-build -f
   git remote set-url origin https://xxx:xxx@github.com/fappel/xiliary.git
-  echo -e "Done with OS-X-Build branch update\n"
+  echo -e "Done with OS X build trigger\n"
 
 fi
