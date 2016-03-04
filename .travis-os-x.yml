@@ -1,0 +1,12 @@
+branches:
+  only:
+    - master
+    - development
+    - OS-X-build
+os:
+  - osx
+language: java
+script: "mvn -f ./com.codeaffine.xiliary.releng/pom.xml clean verify"
+before_script:
+  - brew update
+  - brew cask install java

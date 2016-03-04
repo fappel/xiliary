@@ -20,8 +20,18 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   git commit -m "[ci skip] Deploy Travis build #$TRAVIS_BUILD_NUMBER to gh-pages"
   git push -fq origin gh-pages > /dev/null 2>&1 || error_exit "Error uploading the build result to gh-pages"
 
+  echo -e "Done with deployment to gh-pages\n"
+
   # go back to the directory where we started
   cd $cwd
+  
+  # update OS-X-build branch
+  echo -e "Update OS-X-Build branch\n"
+  rm .travis.yml
+  mv .travis-ox-x.yml .travis.yml
+  git add -A
+  git commit -m "Update of OS-X-build branch"
+  git push origin OS-X-build -f
+  echo -e "Done with OS-X-Build branch update\n"
 
-  echo -e "Done with deployment to gh-pages\n"
 fi
