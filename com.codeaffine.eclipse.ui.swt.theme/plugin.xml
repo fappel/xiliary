@@ -4,10 +4,17 @@
    <extension
          point="org.eclipse.e4.ui.css.swt.theme">
       <theme
-            basestylesheeturi="css/clean-sheet.css"
+            basestylesheeturi="css/clean-sheet-win.css"
             id="com.codeaffine.eclipse.ui.swt.theme.clean-sheet"
             label="Clean Sheet"
             os="win32"
+            os_version="10">
+      </theme>
+      <theme
+            basestylesheeturi="css/clean-sheet-osx.css"
+            id="com.codeaffine.eclipse.ui.swt.theme.clean-sheet.osx"
+            label="Clean Sheet"
+            os="macosx"
             os_version="10">
       </theme>
       <theme
