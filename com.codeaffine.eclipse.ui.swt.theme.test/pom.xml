@@ -28,11 +28,6 @@
 								<id>com.codeaffine.eclipse.ui.swt.theme.feature</id>
 								<versionRange>0.0.0</versionRange>
 							</requirement>
-							<requirement>
-								<type>eclipse-feature</type>
-								<id>com.codeaffine.eclipse.swt.feature</id>
-								<versionRange>0.0.0</versionRange>
-							</requirement>
 						</extraRequirements>
 					</dependency-resolution>
 				</configuration>
