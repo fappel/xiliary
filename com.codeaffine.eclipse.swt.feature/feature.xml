@@ -41,12 +41,13 @@
 
    <plugin
          id="com.codeaffine.eclipse.swt.win"
-         os="linux,win32"
-         ws="gtk,win32"
+         os="win32,linux"
+         ws="win32,gtk"
          arch="x86_64"
          download-size="0"
          install-size="0"
          version="0.0.0"
+         fragment="true"
          unpack="false"/>
 
    <plugin
