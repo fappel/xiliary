@@ -33,6 +33,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   git commit -m "Update of OS-X-build branch"
   git remote set-url origin https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git
   git push origin OS-X-build -f
+  git remote set-url origin https://xxx:xxx@github.com/fappel/xiliary.git
   echo -e "Done with OS-X-Build branch update\n"
 
 fi
