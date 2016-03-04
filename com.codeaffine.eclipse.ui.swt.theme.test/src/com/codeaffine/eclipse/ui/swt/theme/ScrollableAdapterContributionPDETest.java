@@ -54,7 +54,7 @@ import org.w3c.dom.css.CSSPrimitiveValue;
 import com.codeaffine.eclipse.core.runtime.Extension;
 import com.codeaffine.eclipse.core.runtime.RegistryAdapter;
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.Demeanor;
 import com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapter;
@@ -101,7 +101,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void propertyHandlerContribution() {
     Extension actual = new RegistryAdapter()
       .readExtension( "org.eclipse.e4.ui.css.core.propertyHandler" )
@@ -127,7 +127,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyFlatScrollbar() throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
 
@@ -137,7 +137,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyFlatScrollbarOnNonControlElement() throws Exception {
     Control control = new Label( shell, SWT.NONE );
 
@@ -147,7 +147,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyFlatScrollbarOnScrollableAdapter() throws Exception {
     ScrollableAdapter<?> control = new FlatScrollBarTree( shell, composite -> new Tree( composite, SWT.NONE ) );
 
@@ -159,7 +159,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyFlatScrollbarOnNonAdaptableType() throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
 
@@ -169,7 +169,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyOfSchemeAfterFlatScrollbar() throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
 
@@ -191,7 +191,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyPreferenceOnFlatScrollbarAdaption() throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
     scrollbarPreferenceRule.setValue( FLAT_SCROLL_BAR_INCREMENT_LENGTH, INC_LENGTH.getCssText() );
@@ -206,7 +206,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyFlatScrollbarAfterScheme() throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
 
@@ -228,7 +228,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyPreferenceOnFlatScrollbarAfterScheme() throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
     scrollbarPreferenceRule.setValue( FLAT_SCROLL_BAR_INCREMENT_LENGTH, INC_LENGTH.getCssText() );
@@ -243,7 +243,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyFlatScrollbarAfterSchemeIfMarkedAdapted() throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
     new ScrollableAdapterFactory().markAdapted( scrollable );
@@ -255,7 +255,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyFlatScrollbarWithFalseAsCssValue() throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
 
@@ -265,7 +265,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyFlatScrollbarWithWrongCssValueType() throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
 
@@ -275,7 +275,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyOfThumbWithAlternateTopLevelWindowSelectorOnTopLevelShellAfterFlatScrollbar()
     throws Exception
   {
@@ -292,7 +292,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyFlatScrollbarThumbWithAlternateTopLevelWindowSelectorOnTopLevelShell()
     throws Exception
   {
@@ -309,7 +309,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyOfThumbWithAlternateTopLevelWindowSelectorOnTopLevelShellAndReverseSettingAfterFlatBar()
     throws Exception
   {
@@ -326,7 +326,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyFlatScrollbarThumbWithAlternateTopLevelWindowSelectorOnTopLevelShellAndReverseSetting()
     throws Exception
   {
@@ -343,7 +343,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyOfThumbWithAlternateTopLevelWindowSelectorOnChildShellAfterFlatScrollbar()
     throws Exception
   {
@@ -361,7 +361,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyOfThumbWithAlternateTopLevelWindowSelectorOnChildShellWithReverseSettingAfterFlatBar()
     throws Exception
   {
@@ -379,7 +379,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyFlatScrollbarThumbWithAlternateTopLevelWindowSelectorOnChildShellWith()
     throws Exception
   {
@@ -397,7 +397,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCSSPropertyFlatScrollbarThumbWithAlternateTopLevelWindowSelectorOnChildShellWithReverseSetting()
     throws Exception
   {

@@ -20,17 +20,25 @@ import static org.mockito.Mockito.verify;
 
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;
+import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.core.runtime.RegistryAdapter;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class ScrollbarPreferencesInitializerPDETest {
+
+  @Rule
+  public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
 
   private static final String EXTENION_POINT_ID = "org.eclipse.core.runtime.preferences";
   private static final Class<ScrollbarPreferencesInitializer> INITIALIZER_TYPE
     = ScrollbarPreferencesInitializer.class;
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void creation() {
     ScrollbarPreferencesInitializer actual = createExtension( EXTENION_POINT_ID, INITIALIZER_TYPE );
 
