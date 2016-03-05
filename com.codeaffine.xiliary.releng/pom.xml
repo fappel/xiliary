@@ -230,7 +230,7 @@
         <artifactId>tycho-surefire-plugin</artifactId>
         <version>${tycho.version}</version>
         <configuration>
-<!--           <useUIHarness>true</useUIHarness> -->
+          <useUIHarness>true</useUIHarness>
           <argLine>${vm.args}</argLine>
           <useUIHarness>true</useUIHarness>
           <appArgLine>-nl en -consolelog -registryMultiLanguage</appArgLine>
