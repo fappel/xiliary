@@ -23,7 +23,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
 import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
@@ -48,7 +48,7 @@ public class ScrollbarStyleCollectorTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void collect() {
     Collection<ScrollbarStyle> actual = new ScrollbarStyleCollector().collect();
 

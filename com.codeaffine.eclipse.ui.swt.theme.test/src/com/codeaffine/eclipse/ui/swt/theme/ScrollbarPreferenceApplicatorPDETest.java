@@ -31,6 +31,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.FlatScrollBarTree;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory;
@@ -58,7 +59,7 @@ public class ScrollbarPreferenceApplicatorPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyDemeanorFromPreference() {
     scrollbarPreferenceRule.setValue( ADAPTER_DEMEANOR, DEMEANOR_FIXED_WIDTH );
 
@@ -66,7 +67,7 @@ public class ScrollbarPreferenceApplicatorPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyDemeanorFromDefaultValue() {
     scrollbarPreferenceRule.setValue( ADAPTER_DEMEANOR, DEMEANOR_FIXED_WIDTH );
 
@@ -76,7 +77,7 @@ public class ScrollbarPreferenceApplicatorPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyDemeanorFromCssBuffer() {
     attributePreserver.put( demeanorKey( ADAPTER_DEMEANOR ), EXPAND_SCROLL_BAR_ON_MOUSE_OVER );
     scrollbarPreferenceRule.setValue( ADAPTER_DEMEANOR, DEMEANOR_FIXED_WIDTH );
@@ -87,7 +88,7 @@ public class ScrollbarPreferenceApplicatorPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyIncrementLengthFromPreference() {
     scrollbarPreferenceRule.setValue( FLAT_SCROLL_BAR_INCREMENT_LENGTH, "1" );
 
@@ -105,7 +106,7 @@ public class ScrollbarPreferenceApplicatorPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyIncrementLengthFromCssBuffer() {
     attributePreserver.put( integerKey( FLAT_SCROLL_BAR_INCREMENT_LENGTH ), valueOf( 1 ) );
     scrollbarPreferenceRule.setValue( FLAT_SCROLL_BAR_INCREMENT_LENGTH, "3" );
@@ -116,7 +117,7 @@ public class ScrollbarPreferenceApplicatorPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyFromScrollableAdapter() {
     Shell shell = displayHelper.createShell();
     ScrollableAdapter<Tree> scrollableAdapter = new FlatScrollBarTree( shell, parent -> new Tree( parent, SWT.NONE ) );
