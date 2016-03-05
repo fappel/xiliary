@@ -415,6 +415,7 @@ public class ScrollableAdapterContributionPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void applyCssPropertyWithUnsupportedAttribute() throws Exception {
     Scrollable scrollable = createScrollable( shell, typePair.scrollableType );
 
