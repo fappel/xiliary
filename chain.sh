@@ -27,7 +27,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   # push OS X build configuration commit to OS-X-build brach
   git remote set-url origin https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git
   git config --global push.default simple
-  git push origin HEAD:OS-X-build -f
+  git push origin HEAD:OS-X-build -fq
   
   # clear user/password info
   git remote set-url origin https://xxx:xxx@github.com/fappel/xiliary.git
