@@ -234,6 +234,16 @@
           <argLine>${vm.args}</argLine>
           <useUIHarness>true</useUIHarness>
           <appArgLine>-nl en -consolelog -registryMultiLanguage</appArgLine>
+					<dependencies>
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.eclipse.equinox.ds</artifactId>
+						</dependency>
+						<dependency>
+							<type>p2-installable-unit</type>
+							<artifactId>org.eclipse.equinox.event</artifactId>
+						</dependency>
+					</dependencies>
           <includes>
             <include>**/*Test.class</include>
           </includes>
