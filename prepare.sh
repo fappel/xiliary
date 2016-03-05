@@ -12,21 +12,19 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "developme
   echo -e "Checkout composite repository from gh-pages\n"
   cwd=$(pwd)
   
-  # create and cd into temporary deployment work directory
+  # create temporary deployment work directory
   mkdir $HOME/deployment-work
-  cd $HOME/deployment-work
-  echo -e "Deployment root work directory is '$HOME/deployment-work'"
 
-  # setup git and clone from gh-pages branch
+  # setup git and clone gh-pages branch into deployment work directory
   git config --global user.email "travis-deployer@codeaffine.com"
   git config --global user.name "Travis Deployer"
-  git clone --quiet --branch=gh-pages https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git . > /dev/null 2>&1 || error_exit "Error cloning gh-pages"
+  git clone --branch=gh-pages https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git $HOME/deployment-work > /dev/null 2>&1 || error_exit "Error cloning gh-pages"
 
-  rm -r ./${DEPLOY_WORK_DIRECTORY}
   # remove web content
   if [ -f "master" ]; then
     echo -e "Prepare deployment of branch master\n"
     export DEPLOY_WORK_DIRECTORY=""
+    cd $HOME/deployment-work
     rm *.html
     rm -rf ./assets
     rm -rf ./images
@@ -34,8 +32,8 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "developme
   fi
   if [ -f "development" ]; then
     echo -e "Prepare deployment of branch development\n"
-    cd development
     export DEPLOY_WORK_DIRECTORY="development"
+    cd $HOME/deployment-work/development
     rm *.html
     rm -rf ./assets
     rm -rf ./images
