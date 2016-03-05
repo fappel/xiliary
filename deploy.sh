@@ -8,7 +8,7 @@ function error_exit
 
 set -e
 
-if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "development" ]); then
+if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "development" ]); then
   echo -e "Starting to deploy to gh-pages\n"
   cwd=$(pwd)
 
@@ -24,20 +24,4 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
 
   # go back to the directory where we started
   cd $cwd
-  
-  # update OS-X-build branch
-  echo -e "Trigger OS X build with content from $TRAVIS_BRANCH\n"
-  git checkout "$TRAVIS_BRANCH"
-  
-  rm .travis.yml
-  mv .travis-os-x.yml .travis.yml
-  git add -A
-  git commit -m "Update of OS-X-build branch with latest from $TRAVIS_BRANCH"
-  
-  git remote set-url origin https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git
-  git config --global push.default simple
-  git push origin HEAD:OS-X-build -f
-  git remote set-url origin https://xxx:xxx@github.com/fappel/xiliary.git
-  echo -e "Done with OS X build trigger\n"
-
 fi

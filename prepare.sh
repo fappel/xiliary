@@ -8,7 +8,7 @@ function error_exit
 
 set -e
 
-if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] || [ "$TRAVIS_BRANCH" == "development" ]); then
+if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "development" ]); then
   echo -e "Checkout composite repository from gh-pages\n"
   cwd=$(pwd)
   
@@ -22,14 +22,14 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   git clone --quiet --branch=gh-pages https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git . > /dev/null 2>&1 || error_exit "Error cloning gh-pages"
 
   # remove web content
-  if [ "$TRAVIS_BRANCH" == "master" ]; then
+  if [ -f "master" ]; then
     export DEPLOY_WORK_DIRECTORY=""
     rm *.html
     rm -rf ./assets
     rm -rf ./images
     rm -rf ./development
   fi
-  if [ "$TRAVIS_BRANCH" == "development" ]; then
+  if [ -f "development" ]; then
     cd development
     export DEPLOY_WORK_DIRECTORY="development"
     rm *.html
