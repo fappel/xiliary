@@ -35,7 +35,8 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ "$TRAVIS_BRANCH" == "master" ] |
   git commit -m "Update of OS-X-build branch with latest from $TRAVIS_BRANCH"
   
   git remote set-url origin https://fappel:${GH_TOKEN}@github.com/fappel/xiliary.git
-  git push --set-upstream originOS-X-build -f
+  git config --global push.default simple
+  git push --set-upstream origin OS-X-build -f
   git remote set-url origin https://xxx:xxx@github.com/fappel/xiliary.git
   echo -e "Done with OS X build trigger\n"
 
