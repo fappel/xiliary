@@ -2,10 +2,10 @@
 <?compositeMetadataRepository version='1.0.0'?>
 <repository name='Xiliary Software Repository 0.2' type='org.eclipse.equinox.internal.p2.metadata.repository.CompositeMetadataRepository' version='1.0.0'>
   <properties size='2'>
-    <property name='p2.timestamp' value='1457192800456'/>
+    <property name='p2.timestamp' value='1457373073687'/>
     <property name='p2.atomic.composite.loading' value='true'/>
   </properties>
-  <children size='36'>
+  <children size='37'>
     <child location='0.2.0.20160225-1038'/>
     <child location='0.2.0.20160225-1055'/>
     <child location='0.2.0.20160226-1012'/>
@@ -42,5 +42,6 @@
     <child location='0.2.0.20160305-1301'/>
     <child location='0.2.0.20160305-1511'/>
     <child location='0.2.0.20160305-1545'/>
+    <child location='0.2.0.20160307-1749'/>
   </children>
 </repository>
