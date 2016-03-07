@@ -37,25 +37,22 @@ class FontLoader {
   static final String FONTS_DIRECTORY = "/fonts";
 
   private final String fontDirectory;
-  private final Display display;
-
 
   FontLoader( String fontDirectory ) {
     this.fontDirectory = fontDirectory;
-    this.display = Display.getCurrent();
   }
 
-  void load( BundleContext context ) {
+  void load( BundleContext context, Display display ) {
     try {
-      doLoad( context );
+      doLoad( context, display );
     } catch( RuntimeException rte ) {
       getLogService( context ).log( LOG_ERROR, "Unable to load clean sheet fonts.", rte );
     }
   }
 
-  private void doLoad( BundleContext context ) {
+  private void doLoad( BundleContext context, Display display ) {
     list( getFontPaths( context, fontDirectory ) )
-      .forEach( fontPath -> loadFont( context, fontPath ) );
+      .forEach( fontPath -> loadFont( context, fontPath, display ) );
   }
 
   private static LogService getLogService( BundleContext context ) {
@@ -70,7 +67,7 @@ class FontLoader {
     return context.getBundle().getEntryPaths( fontDirectory );
   }
 
-  private void loadFont( BundleContext context, String fontPath ) {
+  private static void loadFont( BundleContext context, String fontPath, Display display ) {
     if( fontPath.endsWith( ".ttf" ) ) {
       URL url = computeFontUrl( find( context.getBundle(), new Path( fontPath ), emptyMap() ) );
       File diskLocation = getDiskLocation( fontPath );
