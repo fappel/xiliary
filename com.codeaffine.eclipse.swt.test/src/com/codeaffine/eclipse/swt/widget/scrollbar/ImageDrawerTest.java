@@ -10,6 +10,8 @@
  */
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
+import static com.codeaffine.eclipse.swt.widget.scrollbar.ImageDrawer.IMAGE_DRAWER_IS_DISPOSED;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -38,20 +40,75 @@ public class ImageDrawerTest {
 
   @Test
   public void getForeground() {
-    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+    Color color = displayHelper.getSystemColor( SWT.COLOR_BLUE );
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION, color, color );
 
     Color actual = drawer.getForeground();
 
-    assertThat( actual ).isNotNull();
+    assertThat( actual )
+      .isNotSameAs( color )
+      .isNotNull();
+  }
+
+  @Test
+  public void getForegroundIfDisposed() {
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+    drawer.dispose();
+
+    Throwable actual = thrownBy( () -> drawer.getForeground() );
+
+    assertThat( actual )
+      .hasMessage( ImageDrawer.IMAGE_DRAWER_IS_DISPOSED )
+      .isInstanceOf( IllegalStateException.class );
   }
 
   @Test
   public void getBackground() {
-    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+    Color color = displayHelper.getSystemColor( SWT.COLOR_BLUE );
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION, color, color );
 
     Color actual = drawer.getBackground();
 
-    assertThat( actual ).isNotNull();
+    assertThat( actual )
+      .isNotSameAs( color )
+      .isNotNull();
+  }
+
+  @Test
+  public void getBackgroundIfDisposed() {
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+    drawer.dispose();
+
+    Throwable actual = thrownBy( () -> drawer.getBackground() );
+
+    assertThat( actual )
+      .hasMessage( ImageDrawer.IMAGE_DRAWER_IS_DISPOSED )
+      .isInstanceOf( IllegalStateException.class );
+  }
+
+  @Test
+  public void setForeground() {
+    Color expected = displayHelper.getSystemColor( SWT.COLOR_BLUE );
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+
+    drawer.setForeground( expected );
+    Color actual = drawer.getForeground();
+
+    assertThat( actual )
+      .isEqualTo( expected )
+      .isNotSameAs( expected );
+  }
+
+  @Test
+  public void setForegroundIfDisposed() {
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+    drawer.dispose();
+
+    Throwable actual = thrownBy( () -> drawer.setForeground( displayHelper.getSystemColor( SWT.COLOR_BLUE ) ) );
+
+    assertThat( actual )
+      .isInstanceOf( IllegalStateException.class )
+      .hasMessage( IMAGE_DRAWER_IS_DISPOSED );
   }
 
   @Test
@@ -63,6 +120,31 @@ public class ImageDrawerTest {
     Color actual = drawer.getForeground();
 
     assertThat( actual ).isSameAs( expected );
+  }
+
+  @Test
+  public void setBackground() {
+    Color expected = displayHelper.getSystemColor( SWT.COLOR_BLUE );
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+
+    drawer.setBackground( expected );
+    Color actual = drawer.getBackground();
+
+    assertThat( actual )
+      .isEqualTo( expected )
+      .isNotSameAs( expected );
+  }
+
+  @Test
+  public void setBackgroundIfDisposed() {
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+    drawer.dispose();
+
+    Throwable actual = thrownBy( () -> drawer.setBackground( displayHelper.getSystemColor( SWT.COLOR_BLUE ) ) );
+
+    assertThat( actual )
+      .isInstanceOf( IllegalStateException.class )
+      .hasMessage( IMAGE_DRAWER_IS_DISPOSED );
   }
 
   @Test
@@ -89,6 +171,18 @@ public class ImageDrawerTest {
   }
 
   @Test
+  public void drawIfDisposed() {
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+    drawer.dispose();
+
+    Throwable actual = thrownBy( () -> drawer.draw( WIDTH, HEIGHT ) );
+
+    assertThat( actual )
+      .isInstanceOf( IllegalStateException.class )
+      .hasMessage( IMAGE_DRAWER_IS_DISPOSED );
+  }
+
+  @Test
   public void drawWithDifferentColors() {
     displayHelper.ensureDisplay();
 
@@ -101,6 +195,26 @@ public class ImageDrawerTest {
 
     assertThat( first.getImageData().data ).isNotEqualTo( second.getImageData().data );
     assertThat( second.getImageData().data ).isNotEqualTo( third.getImageData().data );
+  }
+
+  @Test
+  public void dispose() {
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+
+    drawer.dispose();
+    boolean actual = drawer.isDisposed();
+
+    assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void disposeTwice() {
+    ImageDrawer drawer = new ImageDrawer( FlatScrollBar.DEFAULT_MAX_EXPANSION );
+
+    drawer.dispose();
+    Throwable actual = thrownBy( () -> drawer.dispose() );
+
+    assertThat( actual ).isNull();
   }
 
   private byte[] emptyImageDataArray() {

@@ -11,6 +11,8 @@
 package com.codeaffine.eclipse.swt.widget.scrollbar;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.widget.scrollbar.ImageDrawer.IMAGE_DRAWER_IS_DISPOSED;
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
@@ -95,13 +97,24 @@ public class ImageUpdateTest {
   }
 
   @Test
+  public void updateOnDisposedControl() {
+    control.dispose();
+
+    Throwable actual = thrownBy( () -> update.update() );
+
+    assertThat( actual ).isNull();
+  }
+
+  @Test
   public void setForeground() {
     Color expected = displayHelper.getDisplay().getSystemColor( SWT.COLOR_RED );
 
     update.setForeground( expected );
     Color actual = update.getForeground();
 
-    assertThat( actual ).isSameAs( expected );
+    assertThat( actual )
+      .isEqualTo( expected )
+      .isNotSameAs( expected );
   }
 
   @Test
@@ -111,7 +124,20 @@ public class ImageUpdateTest {
     update.setBackground( expected );
     Color actual = update.getBackground();
 
-    assertThat( actual ).isSameAs( expected );
+    assertThat( actual )
+      .isEqualTo( expected )
+      .isNotSameAs( expected );
+  }
+
+  @Test
+  public void getBackgroundIfControlIsDisposed() {
+    control.dispose();
+
+    Throwable actual = thrownBy( () -> update.getBackground() );
+
+    assertThat( actual )
+      .hasMessage( IMAGE_DRAWER_IS_DISPOSED )
+      .isInstanceOf( IllegalStateException.class );
   }
 
   private Rectangle expectedImageBounds() {

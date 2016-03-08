@@ -120,7 +120,7 @@ public class ClickControlTest {
     clickControl.setForeground( expected );
     Color actual = clickControl.getForeground();
 
-    assertThat( actual ).isSameAs( expected );
+    assertThat( actual ).isEqualTo( expected );
   }
 
   @Test
@@ -138,7 +138,7 @@ public class ClickControlTest {
     clickControl.setBackground( expected );
     Color actual = clickControl.getBackground();
 
-    assertThat( actual ).isSameAs( expected );
+    assertThat( actual ).isEqualTo( expected );
   }
 
   private ImageData renderImageWithForeground( Color foreground ) {
