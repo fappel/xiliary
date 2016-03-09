@@ -10,3 +10,23 @@
  */
  
 @import url("platform:/plugin/com.codeaffine.eclipse.ui.swt.theme/css/clean-sheet.css");
+
+FontDefinition#org-eclipse-jface-textfont {
+  font-family: 'Source Code Pro';
+  font-size: 12px;
+}
+
+FontDefinition#org-eclipse-ui-workbench-texteditor-blockSelectionModeFont {
+  font-family: 'Source Code Pro';
+  font-size: 12px;
+}
+
+FontDefinition#org-eclipse-jdt-ui-editors-textfont {
+  font-family: 'Source Code Pro';
+  font-size: 12px;
+}
+
+FontDefinition#org-eclipse-debug-ui-consoleFont {
+  font-family: 'Source Code Pro';
+  font-size: 12px;
+}
