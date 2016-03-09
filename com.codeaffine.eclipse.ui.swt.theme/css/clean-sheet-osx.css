@@ -30,3 +30,15 @@ FontDefinition#org-eclipse-debug-ui-consoleFont {
   font-family: 'Source Code Pro';
   font-size: 12px;
 }
+
+Tree {
+  background-color: #fafafc;
+}
+
+Table {
+  background-color: #fafafc;
+}
+
+StyledText {
+  background-color: #fafafc;
+}
