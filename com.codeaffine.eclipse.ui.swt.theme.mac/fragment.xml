@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="org.eclipse.e4.ui.css.core.propertyHandler">
+      <handler
+            adapter="org.eclipse.e4.ui.css.swt.dom.WidgetElement"
+            composite="false"
+            handler="com.codeaffine.eclipse.ui.swt.theme.TopLevelWindowAttributeContribution">
+         <property-name
+               name="top-level-window-element-background-color">
+         </property-name>
+      </handler>
+   </extension>
+</fragment>

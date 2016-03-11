@@ -17,6 +17,14 @@ import org.eclipse.swt.widgets.Scrollable;
 @SuppressWarnings("restriction")
 class ControlElements {
 
+  static boolean hasControlElementOfType( Object element, Class<? extends Control> expectedType ) {
+    return isControlElement( element ) && expectedType.isInstance( extractControl( element ) );
+  }
+
+  static boolean isControlElement( Object element ) {
+    return element instanceof ControlElement;
+  }
+
   static Scrollable extractScrollable( Object element ) {
     return ( Scrollable )extractControl( element );
   }

@@ -32,13 +32,13 @@ FontDefinition#org-eclipse-debug-ui-consoleFont {
 }
 
 Tree {
-  background-color: #fafafc;
+  top-level-window-element-background-color: #fafafc;
 }
 
 Table {
-  background-color: #fafafc;
+  top-level-window-element-background-color: #fafafc;
 }
 
 StyledText {
-  background-color: #fafafc;
+  top-level-window-element-background-color: #fafafc;
 }

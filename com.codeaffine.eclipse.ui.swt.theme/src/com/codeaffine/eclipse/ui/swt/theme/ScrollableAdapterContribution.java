@@ -21,6 +21,7 @@ import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.INCREMENT_LENGTH_PREFERENCE_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.ControlElements.extractControl;
 import static com.codeaffine.eclipse.ui.swt.theme.ControlElements.extractScrollable;
+import static com.codeaffine.eclipse.ui.swt.theme.ControlElements.isControlElement;
 import static java.lang.Boolean.parseBoolean;
 
 import java.util.Optional;
@@ -28,7 +29,6 @@ import java.util.stream.Stream;
 
 import org.eclipse.e4.ui.css.core.dom.properties.ICSSPropertyHandler;
 import org.eclipse.e4.ui.css.core.engine.CSSEngine;
-import org.eclipse.e4.ui.css.swt.dom.ControlElement;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scrollable;
@@ -99,10 +99,6 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
 
   private static boolean mustApply( Object element ) {
     return isControlElement( element ) && tryFindTypePair( extractControl( element ) ).isPresent();
-  }
-
-  private static boolean isControlElement( Object element ) {
-    return element instanceof ControlElement;
   }
 
   @SuppressWarnings("rawtypes")

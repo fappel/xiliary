@@ -16,6 +16,7 @@ import org.eclipse.e4.ui.css.swt.dom.ControlElement;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -26,6 +27,50 @@ public class ControlElementsTest {
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
+
+  @Test
+  public void hasControlElementOfType() {
+    Shell expected = displayHelper.createShell();
+
+    ControlElement controlElement = new ControlElement( expected, null );
+    boolean actual = ControlElements.hasControlElementOfType( controlElement, Shell.class );
+
+    assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void hasControlElementOfTypeIfExpectedTypeDoesNotMatch() {
+    Shell expected = displayHelper.createShell();
+
+    ControlElement controlElement = new ControlElement( expected, null );
+    boolean actual = ControlElements.hasControlElementOfType( controlElement, Tree.class );
+
+    assertThat( actual ).isFalse();
+  }
+
+  @Test
+  public void hasControlElementOfTypeIfElementIsNotAControlElement() {
+    boolean actual = ControlElements.hasControlElementOfType( new Object(), Tree.class );
+
+    assertThat( actual ).isFalse();
+  }
+
+  @Test
+  public void isControlElement() {
+    Shell expected = displayHelper.createShell();
+
+    ControlElement controlElement = new ControlElement( expected, null );
+    boolean actual = ControlElements.isControlElement( controlElement );
+
+    assertThat( actual ).isTrue();
+  }
+
+  @Test
+  public void isControlElementWithDifferentType() {
+    boolean actual = ControlElements.isControlElement( new Object() );
+
+    assertThat( actual ).isFalse();
+  }
 
   @Test
   public void extractControl() {
