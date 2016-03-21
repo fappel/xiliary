@@ -25,7 +25,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "developme
     echo -e "Prepare deployment of branch master\n"
     export DEPLOY_WORK_DIRECTORY=""
     cd $HOME/deployment-work
-    rm *.html
+    rm -f *.html
     rm -rf ./assets
     rm -rf ./images
     rm -rf ./development
@@ -34,7 +34,7 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "developme
     echo -e "Prepare deployment of branch development\n"
     export DEPLOY_WORK_DIRECTORY="development"
     cd $HOME/deployment-work/development
-    rm *.html
+    rm -f *.html
     rm -rf ./assets
     rm -rf ./images
     rm -rf ./development
