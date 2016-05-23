@@ -11,7 +11,6 @@
 package com.codeaffine.eclipse.core.runtime.test.util;
 
 import static com.codeaffine.eclipse.core.runtime.Predicates.attribute;
-import static com.codeaffine.eclipse.core.runtime.test.util.AssertMessageHelper.format;
 import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.PATTERN_EMPTY_ATTRIBUTE;
 import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.PATTERN_ERR_CREATE;
 import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.PATTERN_NOT_NULL_ATTRIBUTE;
@@ -21,6 +20,7 @@ import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.PATT
 import static com.codeaffine.eclipse.core.runtime.test.util.ExtensionAssert.PATTERN_WRONG_CHILD_SIZE_WITH_ATTRIB;
 import static com.codeaffine.eclipse.core.runtime.test.util.TestExtension.EXTENSION_POINT_ID;
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
