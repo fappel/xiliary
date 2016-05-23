@@ -17,5 +17,11 @@ Import-Package: com.codeaffine.test.util.junit;version="[0.1.0,1.0.0)",
  org.junit.runner.notification;version="[4.11,5.0.0)",
  org.junit.runners;version="[4.11,5.0.0)",
  org.junit.runners.model;version="[4.11,5.0.0)"
-Export-Package: com.codeaffine.eclipse.swt.test.util,
- com.codeaffine.eclipse.swt.test.util.graphics
+Export-Package: com.codeaffine.eclipse.swt.test.util;
+  uses:="org.junit.rules,
+   org.junit.runners.model,
+   org.eclipse.swt.graphics,
+   org.eclipse.swt.widgets,
+   org.junit.runner,
+   com.codeaffine.test.util.junit",
+ com.codeaffine.eclipse.swt.test.util.graphics;uses:="org.eclipse.swt.graphics,org.assertj.core.api"
