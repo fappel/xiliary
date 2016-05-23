@@ -8,9 +8,9 @@ Fragment-Host: com.codeaffine.workflow.persistence;bundle-version="0.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.codeaffine.osgi.testuite;version="[1.0.0,2.0.0)",
  com.codeaffine.test.util.lang;version="[0.1.0,1.0.0)",
- org.assertj.core.api;version="[1.6.0,2.0.0)",
- org.assertj.core.api.filter;version="[1.6.0,2.0.0)",
- org.assertj.core.condition;version="[1.6.0,2.0.0)",
+ org.assertj.core.api;version="[3.4.1,4.0.0)",
+ org.assertj.core.api.filter;version="[3.4.1,4.0.0)",
+ org.assertj.core.condition;version="[3.4.1,4.0.0)",
  org.junit;version="[4.11,5.0.0)",
  org.junit.rules;version="[4.11,5.0.0)",
  org.junit.runner;version="[4.11,5.0.0)",

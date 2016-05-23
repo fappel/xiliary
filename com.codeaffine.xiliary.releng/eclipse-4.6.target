@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="com.codeaffine.xiliary on Eclipse 4.6" sequenceNumber="85">
+<?pde version="3.8"?><target name="com.codeaffine.xiliary on Eclipse 4.6" sequenceNumber="87">
 <locations>
-<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="com.codeaffine.test.libraries.feature.feature.group" version="1.0.0.201508012258"/>
-<repository location="http://fappel.github.io/test-libraries/"/>
-</location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="com.codeaffine.osgi.testsuite.feature.feature.group" version="1.2.0.20160105-1918"/>
 <repository location="http://rherrmann.github.io/osgi-testsuite/repository"/>
@@ -15,9 +11,13 @@
 <repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/"/>
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
-<unit id="org.eclipse.platform.sdk" version="4.6.0.I20160128-2000"/>
-<unit id="org.eclipse.sdk.ide" version="4.6.0.I20160128-2000"/>
+<unit id="org.eclipse.sdk.ide" version="4.6.0.I20160519-1730"/>
+<unit id="org.eclipse.platform.sdk" version="4.6.0.I20160519-1730"/>
 <repository location="http://download.eclipse.org/eclipse/updates/4.6milestones"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="false" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="com.codeaffine.test.libraries.feature.feature.group" version="1.1.0.201605230951"/>
+<repository location="http://fappel.github.io/test-libraries/"/>
 </location>
 </locations>
 <targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>

@@ -20,7 +20,7 @@
   <properties>
     <xiliary.version>0.2.0-SNAPSHOT</xiliary.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <target.platform.definition>eclipse-4.5</target.platform.definition>
+    <target.platform.definition>eclipse-4.6</target.platform.definition>
     <software.download.area>${user.home}/deployment-work/${DEPLOY_WORK_DIRECTORY}</software.download.area>
     <tycho.version>0.23.0</tycho.version>
     <tycho.extras.version>0.23.0</tycho.extras.version>

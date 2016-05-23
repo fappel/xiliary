@@ -10,8 +10,7 @@
  */
 package com.codeaffine.workflow.test.util;
 
-import static java.util.Arrays.asList;
-
+import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.api.AbstractAssert;
@@ -46,8 +45,8 @@ public class NodeDefinitionAssert extends AbstractAssert<NodeDefinitionAssert, N
 
   public NodeDefinitionAssert hasSuccessors( String ... expected ) {
     isNotNull();
-    List<String> actuals = asList( actual.getSuccessors() );
-    List<String> expecteds = asList( expected );
+    List<String> actuals = Arrays.asList( actual.getSuccessors() );
+    List<String> expecteds = Arrays.asList( expected );
     if( !actuals.equals( expecteds ) ) {
       failWithMessage( "Expected node's successors to be <%s> but was <%s>", expecteds, actuals );
     }
