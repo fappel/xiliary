@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.jobs.IJobChangeListener;
 
 class CompletionObserverList {
 
-  private ListenerList listeners;
+  private ListenerList<IJobChangeListener> listeners;
 
   void add( IJobChangeListener listener ) {
     ensureList();
@@ -43,7 +43,7 @@ class CompletionObserverList {
 
   private void ensureList() {
     if( listeners == null ) {
-      listeners = new ListenerList();
+      listeners = new ListenerList<>();
     }
   }
 
