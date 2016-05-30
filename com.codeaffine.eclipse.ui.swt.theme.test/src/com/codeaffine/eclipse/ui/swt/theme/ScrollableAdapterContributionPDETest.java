@@ -25,8 +25,8 @@ import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.FLAT_SCROLL_BAR_INCREMENT_LENGTH;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.FLAT_SCROLL_BAR_PAGE_INCREMENT;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.FLAT_SCROLL_BAR_THUMB;
-import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.SUPPORTED_ADAPTERS;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.TOP_LEVEL_WINDOW_SELECTOR;
+import static com.codeaffine.eclipse.ui.swt.theme.TypeToAdapterMapping.SUPPORTED_MAPPINGS;
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.e4.ui.css.swt.helpers.CSSSWTColorHelper.getRGBA;
@@ -84,14 +84,14 @@ public class ScrollableAdapterContributionPDETest {
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   @Parameter
-  public TypePair<?, ?> typePair;
+  public TypeToAdapterMapping<?, ?> typePair;
 
   private ScrollableAdapterContribution contribution;
   private Shell shell;
 
   @Parameters
   public static Object data() {
-    return SUPPORTED_ADAPTERS;
+    return SUPPORTED_MAPPINGS;
   }
 
   @Before

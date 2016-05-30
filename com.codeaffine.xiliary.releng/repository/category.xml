@@ -28,10 +28,10 @@
       <category name="com.codeaffine.xiliary.all"/>
       <category name="com.codeaffine.xiliary.workflow"/>
    </feature>
-   <feature url="features/com.codeaffine.eclipse.swt.feature_0.3.0.qualifier.jar" id="com.codeaffine.eclipse.swt.feature" version="0.3.0.qualifier">
+   <feature url="features/com.codeaffine.eclipse.swt.feature_0.4.0.qualifier.jar" id="com.codeaffine.eclipse.swt.feature" version="0.4.0.qualifier">
       <category name="com.codeaffine.xiliary.all"/>
    </feature>
-   <feature url="features/com.codeaffine.eclipse.ui.swt.theme.feature_0.3.0.qualifier.jar" id="com.codeaffine.eclipse.ui.swt.theme.feature" version="0.3.0.qualifier">
+   <feature url="features/com.codeaffine.eclipse.ui.swt.theme.feature_0.4.0.qualifier.jar" id="com.codeaffine.eclipse.ui.swt.theme.feature" version="0.4.0.qualifier">
       <category name="com.codeaffine.xiliary.all"/>
       <category name="com.codeaffine.xiliary.e4.theme"/>
    </feature>

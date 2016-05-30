@@ -18,11 +18,10 @@ import static com.codeaffine.eclipse.swt.util.ControlReflectionUtil.STYLE;
 import static com.codeaffine.eclipse.swt.util.Platform.PlatformType.WIN32;
 import static java.lang.Integer.valueOf;
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import org.eclipse.swt.SWT;
@@ -135,10 +134,10 @@ public class ScrollableAdapterFactory {
   }
 
   private static Collection<Class<?>> supportedTypes() {
-    List<Class<?>> result = new ArrayList<Class<?>>();
-    result.add( TreeAdapter.class );
-    result.add( TableAdapter.class );
-    result.add( StyledTextAdapter.class );
-    return unmodifiableList( result );
+    return unmodifiableList( asList(
+      TreeAdapter.class,
+      TableAdapter.class,
+      StyledTextAdapter.class,
+      ScrolledCompositeAdapter.class ) );
   }
 }

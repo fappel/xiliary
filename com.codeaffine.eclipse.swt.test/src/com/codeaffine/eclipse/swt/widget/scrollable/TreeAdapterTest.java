@@ -259,8 +259,8 @@ public class TreeAdapterTest {
     return result;
   }
 
-  private void scrollHorizontal( final TreeAdapter adapter, final int selection ) {
-    final int duration = 100;
+  private void scrollHorizontal( TreeAdapter adapter, int selection ) {
+    int duration = 100;
     displayHelper.getDisplay().timerExec( duration, () -> adapter.getHorizontalBar().setSelection( selection ) );
     new ReadAndDispatch().spinLoop( shell, duration * 2 );
   }

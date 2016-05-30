@@ -22,26 +22,19 @@ import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.INCREMENT_LENG
 import static com.codeaffine.eclipse.ui.swt.theme.ControlElements.extractControl;
 import static com.codeaffine.eclipse.ui.swt.theme.ControlElements.extractScrollable;
 import static com.codeaffine.eclipse.ui.swt.theme.ControlElements.isControlElement;
+import static com.codeaffine.eclipse.ui.swt.theme.TypeToAdapterMapping.tryFindTypeToAdapterMapping;
 import static java.lang.Boolean.parseBoolean;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import org.eclipse.e4.ui.css.core.dom.properties.ICSSPropertyHandler;
 import org.eclipse.e4.ui.css.core.engine.CSSEngine;
-import org.eclipse.swt.custom.StyledText;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scrollable;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.swt.widgets.Tree;
 import org.w3c.dom.css.CSSValue;
 
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.Adapter;
 import com.codeaffine.eclipse.swt.widget.scrollable.ScrollbarStyle;
-import com.codeaffine.eclipse.swt.widget.scrollable.StyledTextAdapter;
-import com.codeaffine.eclipse.swt.widget.scrollable.TableAdapter;
-import com.codeaffine.eclipse.swt.widget.scrollable.TreeAdapter;
 
 @SuppressWarnings( "restriction" )
 public class ScrollableAdapterContribution implements ICSSPropertyHandler {
@@ -56,13 +49,6 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
   public static final String DEMEANOR_FIXED_WIDTH = "fixed-width";
   public static final String DEMEANOR_EXPAND_ON_MOUSE_OVER = "expand-on-mouse-over";
   public static final String TOP_LEVEL_WINDOW_SELECTOR = "-top-level";
-
-  @SuppressWarnings( { "unchecked", "rawtypes" } )
-  static final TypePair<? extends Scrollable, ? extends Adapter>[] SUPPORTED_ADAPTERS = new TypePair[] {
-    new TypePair<>( Tree.class, TreeAdapter.class ),
-    new TypePair<>( Table.class, TableAdapter.class ),
-    new TypePair<>( StyledText.class, StyledTextAdapter.class ),
-  };
 
   private final ScrollbarPreference incrementButtonLengthPreference;
   private final ScrollbarPreference demeanorPreference;
@@ -98,14 +84,7 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
   }
 
   private static boolean mustApply( Object element ) {
-    return isControlElement( element ) && tryFindTypePair( extractControl( element ) ).isPresent();
-  }
-
-  @SuppressWarnings("rawtypes")
-  private static Optional<TypePair<? extends Scrollable, ? extends Adapter>> tryFindTypePair( Control control ) {
-    return Stream.of( SUPPORTED_ADAPTERS )
-      .filter( typePair -> typePair.scrollableType == control.getClass() )
-      .findFirst();
+    return isControlElement( element ) && tryFindTypeToAdapterMapping( extractControl( element ) ).isPresent();
   }
 
   private void doApplyCssProperty( Scrollable element, String property, CSSValue value ) {
@@ -164,9 +143,9 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
   @SuppressWarnings( { "rawtypes", "unchecked" } )
   private void adapt( Scrollable scrollable, CSSValue value ) {
     if( !factory.isAdapted( scrollable ) && parseBoolean( value.getCssText() ) ) {
-      TypePair<? extends Scrollable, ? extends Adapter> typePair = lookupTypePair( scrollable );
-      Scrollable scrollableExtension = typePair.scrollableType.cast( scrollable );
-      Optional adapter = factory.create( scrollableExtension, typePair.adapterType );
+      TypeToAdapterMapping<? extends Scrollable, ? extends Adapter> mapping = lookupMapping( scrollable );
+      Scrollable scrollableExtension = mapping.scrollableType.cast( scrollable );
+      Optional adapter = factory.create( scrollableExtension, mapping.adapterType );
       if( adapter.isPresent() ) {
         ScrollbarStyle result = ( ScrollbarStyle )adapter.get();
         attach( scrollable, result );
@@ -177,8 +156,8 @@ public class ScrollableAdapterContribution implements ICSSPropertyHandler {
   }
 
   @SuppressWarnings("rawtypes")
-  private static TypePair<? extends Scrollable, ? extends Adapter> lookupTypePair( Scrollable scrollable ) {
-    return tryFindTypePair( scrollable ).get();
+  private static TypeToAdapterMapping<? extends Scrollable, ? extends Adapter> lookupMapping( Scrollable scrollable ) {
+    return tryFindTypeToAdapterMapping( scrollable ).get();
   }
 
   private static CSSValue wrap( String property, CSSValue value ) {

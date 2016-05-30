@@ -110,7 +110,7 @@ public class TableAdapterTest {
 
   @Test
   public void constructor() {
-    Throwable actual = thrownBy( () -> new TreeAdapter() );
+    Throwable actual = thrownBy( () -> new TableAdapter() );
 
     assertThat( actual )
       .hasMessageContaining( "Subclassing not allowed" )

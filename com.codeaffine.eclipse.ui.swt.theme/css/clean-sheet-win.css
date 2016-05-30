@@ -32,3 +32,17 @@ StyledText {
   flat-scroll-bar-page-increment: #f0f0f0;
   adapter-background-top-level: #fafafc;
 }
+
+ScrolledComposite {
+  flat-scroll-bar: true;
+  flat-scroll-bar-thumb: #a6a6a6;
+  flat-scroll-bar-page-increment: #f0f0f0;
+  adapter-background-top-level: #fafafc;
+}
+
+ScrolledForm {
+  flat-scroll-bar: true;
+  flat-scroll-bar-thumb: #a6a6a6;
+  flat-scroll-bar-page-increment: #f0f0f0;
+  adapter-background-top-level: #fafafc;
+}

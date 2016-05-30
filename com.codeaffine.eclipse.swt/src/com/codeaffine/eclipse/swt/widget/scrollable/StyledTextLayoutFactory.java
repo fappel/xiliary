@@ -22,7 +22,7 @@ class StyledTextLayoutFactory extends ScrollableLayoutFactory<StyledText> {
 
   @Override
   public Layout create( AdaptionContext<StyledText> context, FlatScrollBar horizontal, FlatScrollBar vertical ) {
-    ScrollableLayouter layouter = new StyledTextScrollableLayouter( context.getScrollable() );
+    ScrollableLayouter layouter = new CompositeScrollableLayouter( context.getScrollable() );
     return new ScrollableLayout( newContext( context ), layouter, horizontal, vertical, getCornerOverlay() );
   }
 
@@ -43,7 +43,7 @@ class StyledTextLayoutFactory extends ScrollableLayoutFactory<StyledText> {
     StyledText control = context.getScrollable().getControl();
     ScrollBarUpdater horizontalUpdater = new StyledTextHorizontalScrollBarUpdater( control, horizontal );
     ScrollBarUpdater verticalUpdater = new StyledTextVerticalScrollBarUpdater( control, vertical );
-    SizeObserver sizeObserver = new StyledTextSizeObserver( control );
+    SizeObserver sizeObserver = new CompositeSizeObserver( control );
     return new WatchDog( newContext( context ), horizontalUpdater, verticalUpdater, sizeObserver );
   }
 

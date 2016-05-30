@@ -29,6 +29,7 @@ import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
@@ -106,6 +107,7 @@ public class ScrollableAdapterFactoryDemo {
 
   @Test
   public void scrollableDemoWithCTabFolder() {
+    shell.setSize( 400, 200 );
     CTabFolder container = new CTabFolder( shell, SWT.BOTTOM | SWT.FLAT );
 
     Tree tree = new TestTreeFactory().create( container );
@@ -127,6 +129,12 @@ public class ScrollableAdapterFactoryDemo {
     CTabItem styledTextItem = new CTabItem( container, SWT.NONE, 2 );
     styledTextItem.setText( "StyledText" );
     styledTextItem.setControl( styledText );
+
+    ScrolledComposite scrolledComposite = new TestScrolledCompositeFactory().create( container );
+    adapt( scrolledComposite, ScrolledCompositeAdapter.class );
+    CTabItem scrolledCompositeItem = new CTabItem( container, SWT.NONE, 3 );
+    scrolledCompositeItem.setText( "ScrolledComposite" );
+    scrolledCompositeItem.setControl( scrolledComposite );
 
     shell.open();
     spinLoop();
@@ -192,6 +200,14 @@ public class ScrollableAdapterFactoryDemo {
     shell.open();
     spinLoop();
   }
+
+  @Test
+  public void scrolledCompositeDemo() {
+    adapt( new TestScrolledCompositeFactory().create( shell ), ScrolledCompositeAdapter.class );
+    shell.open();
+    spinLoop();
+  }
+
 
   private void spinLoop() {
     newReadAndDispatch().spinLoop( shell );
