@@ -14,8 +14,10 @@ import static java.lang.Integer.valueOf;
 import static java.lang.Math.max;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Scrollable;
 
 class SizeComputer {
@@ -40,9 +42,10 @@ class SizeComputer {
   }
 
   void updatePreferredSize() {
-//    Point preferredSize = scrollable.computePreferredSize();
     Point preferredSize = preferredSizeProvider.getSize();
-    if( preferredSize.x - scrollable.getVerticalBarSize().x == scrollable.getSize().x ) {
+    if( scrollable.isInstanceof( ScrolledComposite.class ) ) {
+      preferredSizeForScrolledComposite( preferredSize );
+    } else if( preferredSize.x - scrollable.getVerticalBarSize().x == scrollable.getSize().x ) {
       scrollable.setData( PREFERRED_SIZE, scrollable.getSize() );
     } else if( isVirtualAndOwnerDrawn() ) {
       bestPreferredSizeGuessForVirtualAndOwnerDrawnScrollables( preferredSize );
@@ -81,6 +84,14 @@ class SizeComputer {
 
   private String getWidthOffsetKey() {
     return WIDTH_OFFSET_ON_VISIBLE_HORIZONTAL_BAR + getPreferredSizeInternal();
+  }
+
+  private void preferredSizeForScrolledComposite( Point preferredSize ) {
+    scrollable.setData( PREFERRED_SIZE, preferredSize );
+    Control content = ( ( ScrolledComposite )scrollable.getControl() ).getContent();
+    if( content != null ) {
+      scrollable.setData( PREFERRED_SIZE, content.getSize() );
+    }
   }
 
   private void bestPreferredSizeGuessForVirtualAndOwnerDrawnScrollables( Point computed ) {

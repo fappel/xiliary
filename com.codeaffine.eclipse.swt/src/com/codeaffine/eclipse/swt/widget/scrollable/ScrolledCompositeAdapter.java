@@ -18,6 +18,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Layout;
@@ -83,6 +84,9 @@ public class ScrolledCompositeAdapter extends ScrolledComposite implements Adapt
   @Override
   public void setBounds( int x, int y, int width, int height ) {
     reconciliation.runWithSuspendedBoundsReconciliation( () ->  super.setBounds( x, y, width, height ) );
+    if( mustWorkaroundPageCreationProblemOfPreferenceDialog( x, y, width, height ) ) {
+      reconciliation.runWithSuspendedBoundsReconciliation( () ->  super.setBounds( x, y, width, height ) );
+    }
   }
 
   @Override
@@ -173,7 +177,7 @@ public class ScrolledCompositeAdapter extends ScrolledComposite implements Adapt
 
   @Override
   public Point computeSize( int wHint, int hHint, boolean changed ) {
-   return scrolledComposite.computeSize( wHint, hHint, changed );
+    return scrolledComposite.computeSize( wHint, hHint, changed );
   }
 
   @Override
@@ -309,6 +313,51 @@ public class ScrolledCompositeAdapter extends ScrolledComposite implements Adapt
     scrolledComposite.setFont( font );
   }
 
+  @Override
+  public void setMinHeight( int height ) {
+    scrolledComposite.setMinHeight( height );
+  }
+
+  @Override
+  public int getMinHeight() {
+    return scrolledComposite.getMinHeight();
+  }
+
+  @Override
+  public void setMinWidth( int width ) {
+    scrolledComposite.setMinWidth( width );
+  }
+
+  @Override
+  public int getMinWidth() {
+    return scrolledComposite.getMinWidth();
+  }
+
+  @Override
+  public void setMinSize( Point size ) {
+    scrolledComposite.setMinSize( size );
+  }
+
+  @Override
+  public void setExpandHorizontal( boolean expand ) {
+    scrolledComposite.setExpandHorizontal( expand );
+  }
+
+  @Override
+  public boolean getExpandHorizontal() {
+    return scrolledComposite.getExpandHorizontal();
+  }
+
+  @Override
+  public void setExpandVertical( boolean expand ) {
+    scrolledComposite.setExpandVertical( expand );
+  }
+
+  @Override
+  public boolean getExpandVertical() {
+    return scrolledComposite.getExpandVertical();
+  }
+
   ///////////////////////////////
   // private helper methods
 
@@ -319,6 +368,14 @@ public class ScrolledCompositeAdapter extends ScrolledComposite implements Adapt
     reconciliation = context.getReconciliation();
     new ControlReflectionUtil().setField( this, "layout", layoutFactory.create( context ) );
     new DisposalRouting().register( this, scrolledComposite );
+  }
+
+  private boolean mustWorkaroundPageCreationProblemOfPreferenceDialog( int x, int y, int width, int height ) {
+    // Note [fappel]: This passage isn't covered with unit tests, since I wasn't able to reproduce the layout
+    //                issue in a test scenario. However, since this workaround avoids the size setting problem when
+    //                opening the workbench's preference dialog (adapter was rendered too small) I leave it at that
+    //                for now.
+    return !new Rectangle( x, y, width, height ).equals( getBounds() );
   }
 
   private static LayoutMapping<ScrolledComposite> createLayoutMapping( PlatformSupport platformSupport ) {

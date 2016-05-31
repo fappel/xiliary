@@ -18,9 +18,9 @@ import org.eclipse.swt.widgets.Label;
 
 import com.codeaffine.eclipse.swt.testhelper.LoremIpsum;
 
-class ScrolledCompositeHelper {
+public class ScrolledCompositeHelper {
 
-  static ScrolledComposite createScrolledComposite( Composite parent ) {
+  public static ScrolledComposite createScrolledComposite( Composite parent ) {
     return createScrolledComposite( parent, SWT.H_SCROLL | SWT.V_SCROLL, LoremIpsum.PARAGRAPHS );
   }
 

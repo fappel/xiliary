@@ -11,11 +11,15 @@
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.widget.scrollable.ScrolledCompositeHelper.createScrolledComposite;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.createTree;
 import static com.codeaffine.eclipse.swt.widget.scrollable.TreeHelper.expandTopBranch;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.stream.Stream;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -44,7 +48,7 @@ public class SizeComputerTest {
     shell = createShell( displayHelper );
     adapter = createAdapter( shell );
     scrollable = createTree( adapter, 6, 4 );
-    computer = createSizeComputer();
+    computer = createSizeComputer( scrollable, adapter );
     shell.layout();
     shell.open();
   }
@@ -78,7 +82,7 @@ public class SizeComputerTest {
   @Test
   public void getPreferredSizeIfWidthIsLargerThanAdapterAreaWidthButHasOwnerDrawnItemsAndIsVirtual() {
     createOwnderDrawnVirtualScrollable();
-    computer = createSizeComputer();
+    computer = createSizeComputer( scrollable, adapter );
     shell.layout();
     expandTopBranch( scrollable );
     shell.setSize( 200, 200 );
@@ -99,6 +103,28 @@ public class SizeComputerTest {
     Point actual = computer.getPreferredSize();
 
     assertThat( actual ).isEqualTo( expected );
+  }
+
+  @Test
+  public void getPreferredSizeForScrolledComposite() {
+    Stream.of( adapter.getChildren() ).forEach( child -> child.dispose() );
+    ScrolledComposite scrolledComposite = createScrolledComposite( adapter );
+    computer = createSizeComputer( scrolledComposite, adapter );
+
+    Point actual = computer.getPreferredSize();
+
+    assertThat( actual ).isEqualTo( scrolledComposite.getContent().getSize() );
+  }
+
+  @Test
+  public void getPreferredSizeForScrolledCompositeThatHasNoContent() {
+    Stream.of( adapter.getChildren() ).forEach( child -> child.dispose() );
+    ScrolledComposite scrolledComposite = new ScrolledComposite( adapter, SWT.H_SCROLL | SWT.V_SCROLL );
+    computer = createSizeComputer( scrolledComposite, adapter );
+
+    Point actual = computer.getPreferredSize();
+
+    assertThat( actual ).isEqualTo( scrolledComposite.computeSize( SWT.DEFAULT, SWT.DEFAULT, true ) );
   }
 
   @Test
@@ -209,7 +235,7 @@ public class SizeComputerTest {
     new ControlReflectionUtil().setField( scrollable, "parent", parent );
   }
 
-  private SizeComputer createSizeComputer() {
+  private static SizeComputer createSizeComputer( Scrollable scrollable, Composite adapter ) {
     return new SizeComputer( new ScrollableControl<>( scrollable ), adapter );
   }
 }
