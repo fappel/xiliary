@@ -12,6 +12,7 @@ package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.createLayoutFactory;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.graphics.Color;
@@ -318,7 +319,15 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
     super.setLayout( layoutFactory.create( context ) );
     new DisposalRouting().register( this, styledText );
     new ControlReflectionUtil().invoke( this, "initializeAccessible" );
+    getDisplay().addFilter( SWT.MouseWheel, evt -> avoidMouseWheelEventPropagationToFlatScrollBars( evt ) );
     layout();
+  }
+
+  // Workaround for https://github.com/fappel/xiliary/issues/63
+  private void avoidMouseWheelEventPropagationToFlatScrollBars( Event evt ) {
+    if( evt.widget == StyledTextAdapter.this ) {
+      evt.type = SWT.None;
+    }
   }
 
   private static LayoutMapping<StyledText> createLayoutMapping( PlatformSupport platformSupport ) {

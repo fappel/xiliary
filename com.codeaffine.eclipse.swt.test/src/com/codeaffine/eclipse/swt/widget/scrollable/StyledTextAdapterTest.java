@@ -15,6 +15,10 @@ import static com.codeaffine.eclipse.swt.widget.scrollable.StyledTextAdapter.UNS
 import static com.codeaffine.eclipse.swt.widget.scrollable.StyledTextHelper.createStyledText;
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 import java.util.Optional;
 
@@ -26,12 +30,15 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTEventHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
@@ -184,6 +191,17 @@ public class StyledTextAdapterTest {
     Point actual = adapter.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
 
     assertThat( actual ).isEqualTo( expected );
+  }
+
+  @Test
+  // Workaround for https://github.com/fappel/xiliary/issues/63
+  public void avoidMouseWheelEventPropagationToFlatScrollBars() {
+    Listener listener = mock( Listener.class );
+    adapter.addListener( SWT.MouseWheel, listener );
+
+    SWTEventHelper.trigger( SWT.MouseWheel ).on( adapter );
+
+    verify( listener, never() ).handleEvent( any( Event.class ) );
   }
 
   private void openShellWithoutLayout() {
