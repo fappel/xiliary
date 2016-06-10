@@ -85,19 +85,19 @@ class LayoutReconciliation {
     ViewForm viewForm = ( ViewForm )adapter.getParent();
     if( scrollable.isSameAs( viewForm.getContent() ) ) {
       viewForm.setContent( adapter );
-      viewForm.layout();
+      relayout( viewForm );
     }
     if( scrollable.isSameAs( viewForm.getTopCenter() ) ) {
       viewForm.setTopCenter( adapter );
-      viewForm.layout();
+      relayout( viewForm );
     }
     if( scrollable.isSameAs( viewForm.getTopLeft() ) ) {
       viewForm.setTopLeft( adapter );
-      viewForm.layout();
+      relayout( viewForm );
     }
     if( scrollable.isSameAs( viewForm.getTopRight() ) ) {
       viewForm.setTopRight( adapter );
-      viewForm.layout();
+      relayout( viewForm );
     }
   }
 
@@ -140,5 +140,10 @@ class LayoutReconciliation {
       .filter( control -> scrollable.isSameAs( control ) )
       .collect( toList() )
       .isEmpty();
+  }
+
+  private void relayout( Composite composite ) {
+    adapter.setSize( 0, 0 );
+    composite.layout();
   }
 }

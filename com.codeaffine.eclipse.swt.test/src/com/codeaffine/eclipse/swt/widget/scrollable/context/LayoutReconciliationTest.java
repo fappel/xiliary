@@ -10,15 +10,21 @@
  */
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
+import static com.codeaffine.eclipse.swt.test.util.graphics.PointAssert.assertThat;
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
@@ -31,6 +37,8 @@ import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class LayoutReconciliationTest {
+
+  private static final Point ZERO_POINT = new Point( 0, 0 );
 
   @Rule public final ConditionalIgnoreRule ignoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
@@ -76,40 +84,68 @@ public class LayoutReconciliationTest {
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void runWithViewFormLayoutOnContent() {
     Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnContent();
+    List<Point> sizeChanges = registerAdapterSizeChangeRecorder();
 
     Rectangle actual = testHelper.runReconciliation();
 
-    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+    assertThat( sizeChanges )
+      .hasSize( 3 );
+    assertThat( sizeChanges.get( 1 ) )
+      .isEqualTo( ZERO_POINT );
+    assertThat( actual )
+      .isNotEqualTo( initialAdapterBounds )
+      .isNotEqualTo( ZERO_POINT );
   }
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void runWithViewFormLayoutOnTopCenter() {
     Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnTopCenter();
+    List<Point> sizeChanges = registerAdapterSizeChangeRecorder();
 
     Rectangle actual = testHelper.runReconciliation();
 
-    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+    assertThat( sizeChanges )
+      .hasSize( 3 );
+    assertThat( sizeChanges.get( 1 ) )
+      .isEqualTo( ZERO_POINT );
+    assertThat( actual )
+      .isNotEqualTo( initialAdapterBounds )
+      .isNotEqualTo( ZERO_POINT );
   }
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void runWithViewFormLayoutOnTopLeft() {
     Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnTopLeft();
+    List<Point> sizeChanges = registerAdapterSizeChangeRecorder();
 
     Rectangle actual = testHelper.runReconciliation();
 
-    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+    assertThat( sizeChanges )
+      .hasSize( 4 );
+    assertThat( sizeChanges.get( 2 ) )
+      .isEqualTo( ZERO_POINT );
+    assertThat( actual )
+      .isNotEqualTo( initialAdapterBounds )
+      .isNotEqualTo( ZERO_POINT );
   }
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
   public void runWithViewFormLayoutOnTopRight() {
     Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnTopRight();
+    List<Point> sizeChanges = registerAdapterSizeChangeRecorder();
 
     Rectangle actual = testHelper.runReconciliation();
 
-    assertThat( actual ).isNotEqualTo( initialAdapterBounds );
+    assertThat( sizeChanges )
+      .hasSize( 3 );
+    assertThat( sizeChanges.get( 1 ) )
+      .isEqualTo( ZERO_POINT );
+    assertThat( actual )
+      .isNotEqualTo( initialAdapterBounds )
+      .isNotEqualTo( ZERO_POINT );
   }
 
   @Test
@@ -213,5 +249,12 @@ public class LayoutReconciliationTest {
     } );
 
     assertThat( actual ).isNull();
+  }
+
+  private List<Point> registerAdapterSizeChangeRecorder() {
+    List<Point> result = new ArrayList<>();
+    Listener listener = evt -> result.add( testHelper.getAdapter().getSize() );
+    testHelper.getAdapter().addListener( SWT.Resize, listener );
+    return result;
   }
 }
