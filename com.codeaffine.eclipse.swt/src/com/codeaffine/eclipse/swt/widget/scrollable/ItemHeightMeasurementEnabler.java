@@ -27,6 +27,7 @@ class ItemHeightMeasurementEnabler {
 
   private final Listener ownerDrawInUseWatchDog;
   private final ScrollableControl<?> scrollable;
+  private final ScrollableRedrawState redrawState;
   private final Composite adapter;
   private final Listener prepare;
   private final Listener restore;
@@ -40,6 +41,7 @@ class ItemHeightMeasurementEnabler {
     this.scrollable = scrollable;
     this.adapter = adapter;
     this.height = scrollable.getItemHeight();
+    this.redrawState = new ScrollableRedrawState( scrollable );
     this.ownerDrawInUseWatchDog = evt -> registerListenerOnMeasurementEvent( evt );
     this.prepare = evt -> prepareScrollableToAllowProperHeightMeasurement( evt );
     this.restore = evt -> restoreScrollableAfterMeasurement();
@@ -97,7 +99,7 @@ class ItemHeightMeasurementEnabler {
   }
 
   private void reparentScrollable( boolean redraw, Composite parent ) {
-    scrollable.setRedraw( redraw );
+    redrawState.update( redraw );
     scrollable.setParent( parent );
   }
 
