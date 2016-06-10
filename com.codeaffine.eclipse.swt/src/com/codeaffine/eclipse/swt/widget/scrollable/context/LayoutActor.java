@@ -51,7 +51,7 @@ class LayoutActor extends LayoutWrapper {
   public void layout( Composite composite, boolean flushCache ) {
     operationWithRedrawSuspension.execute( composite, () -> {
       super.layout( composite, flushCache );
-      adapter.setBounds( computeAdapterBounds() );
+      updateAdapterBounds( computeAdapterBounds() );
     } );
   }
 
@@ -61,5 +61,16 @@ class LayoutActor extends LayoutWrapper {
     int x = scrollableBounds.x - adapterBounds.x;
     int y = scrollableBounds.y - adapterBounds.y;
     return new Rectangle( x, y, scrollableBounds.width, scrollableBounds.height );
+  }
+
+  private void updateAdapterBounds( Rectangle bounds ) {
+    adapter.setBounds( bounds );
+    // Note [fappel]: This passage isn't covered with unit tests, since I wasn't able to reproduce the layout
+    //                issue in a test scenario. However, since this workaround seems to avoid the location computation
+    //                problems with StyledTextAdapters when lazy loading parts with TextViewers I leave it as
+    //                it is for now.
+    if( !adapter.getBounds().equals( bounds ) ) {
+      adapter.setBounds( bounds );
+    }
   }
 }
