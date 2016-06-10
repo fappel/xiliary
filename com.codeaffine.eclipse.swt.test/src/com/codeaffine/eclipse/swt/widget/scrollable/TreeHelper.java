@@ -17,6 +17,7 @@ import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Tree;
+import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 
@@ -35,6 +36,22 @@ public class TreeHelper {
   public static void expandRootLevelItems( Tree tree ) {
     Stream.of( tree.getItems() ).forEach( item -> item.setExpanded( true ) );
     flushPendingEvents();
+  }
+
+  static Tree createOwnerDrawnTreeWithColumn( Composite parent ) {
+    Tree result = createTree( parent, 2, 6, SWT.FULL_SELECTION );
+    result.setHeaderVisible( true );
+    result.setLinesVisible( true );
+    result.addListener( SWT.MeasureItem, evt -> {} );
+    result.addListener( SWT.PaintItem, evt -> {} );
+    result.addListener( SWT.MouseDown, evt -> {} );
+    result.setFocus();
+
+    TreeColumn labelColumn = new TreeColumn( result, SWT.NONE );
+    labelColumn.setText( "Column" );
+    labelColumn.setWidth( 200 );
+    labelColumn.setResizable( true );
+    return result;
   }
 
   public static Tree createTree( Composite parent, int childCount, int levelCount  ) {

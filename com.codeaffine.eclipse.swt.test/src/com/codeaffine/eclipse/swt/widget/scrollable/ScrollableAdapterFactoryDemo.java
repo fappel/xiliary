@@ -29,6 +29,7 @@ import java.util.stream.Stream;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
+import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.graphics.Rectangle;
@@ -208,6 +209,15 @@ public class ScrollableAdapterFactoryDemo {
     spinLoop();
   }
 
+  @Test
+  public void sashFormWithAdaptedControls() {
+    SashForm sashForm = new SashForm( shell, SWT.SMOOTH | SWT.VERTICAL );
+    adapt( TreeHelper.createOwnerDrawnTreeWithColumn( sashForm ), TreeAdapter.class );
+    adapt( new TestStyledTextFactory().create( sashForm ), StyledTextAdapter.class );
+    sashForm.setWeights( new int[] { 7, 3 } );
+    shell.open();
+    spinLoop();
+  }
 
   private void spinLoop() {
     newReadAndDispatch().spinLoop( shell );
