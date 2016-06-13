@@ -47,7 +47,7 @@
    </category-def>
    <category-def name="com.codeaffine.xiliary.e4.theme" label="Xiliary Eclipse UI Themes for Windows">
       <description>
-         Eclipse UI Themes for Windows ( highly experimental)
+         Eclipse UI Theme Contributions for Windows and Mac OS X
       </description>
    </category-def>
 </site>
