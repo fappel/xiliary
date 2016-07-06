@@ -10,7 +10,7 @@
  */
 package com.codeaffine.eclipse.ui.swt.theme;
 
-import static com.codeaffine.eclipse.swt.util.ArgumentVerification.verifyNotNull;
+import static com.codeaffine.util.ArgumentVerification.verifyNotNull;
 
 import org.eclipse.swt.graphics.Color;
 

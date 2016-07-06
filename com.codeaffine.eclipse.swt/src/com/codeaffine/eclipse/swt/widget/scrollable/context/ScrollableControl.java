@@ -10,7 +10,7 @@
  */
 package com.codeaffine.eclipse.swt.widget.scrollable.context;
 
-import static com.codeaffine.eclipse.swt.util.ArgumentVerification.verifyNotNull;
+import static com.codeaffine.util.ArgumentVerification.verifyNotNull;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.valueOf;
 import static java.lang.Integer.valueOf;

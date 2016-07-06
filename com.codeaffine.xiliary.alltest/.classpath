@@ -15,5 +15,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.osgi.test.util.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.ui.swt.theme.test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.eclipse.swt.win"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/com.codeaffine.util.test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

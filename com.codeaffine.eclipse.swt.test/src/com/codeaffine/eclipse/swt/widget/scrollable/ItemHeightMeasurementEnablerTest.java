@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Tree;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -113,6 +114,7 @@ public class ItemHeightMeasurementEnablerTest {
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
+  @Ignore( "see: https://github.com/fappel/xiliary/issues/73" )
   public void createTableAdapterWithOwnerDrawnItemRegistrationAndEraseEventSwallowedAfterMeasurmentTookPlace() {
     adapterFactory.create( table, TableAdapter.class );
     int expected = configureOwnerDrawnItemHeightAdjustment( table, itemHeight );
@@ -131,6 +133,7 @@ public class ItemHeightMeasurementEnablerTest {
 
   @Test
   @ConditionalIgnore( condition = GtkPlatform.class )
+  @Ignore( "see: https://github.com/fappel/xiliary/issues/73" )
   public void changeItemHeightByOwnerDrawnItemEvents() {
     adapterFactory.create( table, TableAdapter.class );
     int expectedHeight = configureOwnerDrawnItemHeightAdjustment( table, itemHeight );

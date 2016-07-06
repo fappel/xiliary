@@ -10,7 +10,7 @@
  */
 package com.codeaffine.eclipse.swt.util;
 
-import static com.codeaffine.eclipse.swt.util.ArgumentVerification.verifyNotNull;
+import static com.codeaffine.util.ArgumentVerification.verifyNotNull;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 

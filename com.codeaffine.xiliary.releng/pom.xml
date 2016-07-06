@@ -76,8 +76,11 @@
 		
 		<!-- General Java -->
 		<module>repository</module>
+		<module>../com.codeaffine.util.feature</module>
 		<module>../com.codeaffine.test.util.feature</module>
 		
+		<module>../com.codeaffine.util</module>
+		<module>../com.codeaffine.util.test</module>
 		<module>../com.codeaffine.test.util</module>
 		<module>../com.codeaffine.test.util.test</module>
 		

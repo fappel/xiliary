@@ -10,7 +10,7 @@
  */
 package com.codeaffine.eclipse.ui.swt.theme;
 
-import static com.codeaffine.eclipse.swt.util.ArgumentVerification.verifyNotNull;
+import static com.codeaffine.util.ArgumentVerification.verifyNotNull;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeKey.demeanorKey;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.ADAPTER_DEMEANOR;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.DEMEANOR_EXPAND_ON_MOUSE_OVER;

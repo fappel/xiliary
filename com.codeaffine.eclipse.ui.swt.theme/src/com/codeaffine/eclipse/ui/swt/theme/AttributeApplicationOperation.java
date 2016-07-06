@@ -10,7 +10,7 @@
  */
 package com.codeaffine.eclipse.ui.swt.theme;
 
-import static com.codeaffine.eclipse.swt.util.ArgumentVerification.verifyNotNull;
+import static com.codeaffine.util.ArgumentVerification.verifyNotNull;
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeKey.key;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.TOP_LEVEL_WINDOW_SELECTOR;
 import static java.lang.Boolean.valueOf;
