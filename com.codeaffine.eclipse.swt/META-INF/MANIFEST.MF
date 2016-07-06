@@ -8,7 +8,10 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.swt;bundle-version="[3.7.0,4.0.0)",
  com.codeaffine.util;bundle-version="[0.1.0,1.0.0)"
-Export-Package: com.codeaffine.eclipse.swt.layout;version="0.1.0",
- com.codeaffine.eclipse.swt.util;version="0.1.0",
- com.codeaffine.eclipse.swt.widget.scrollable;version="0.1.0",
- com.codeaffine.eclipse.swt.widget.scrollbar;version="0.1.0"
+Export-Package: com.codeaffine.eclipse.swt.layout,
+ com.codeaffine.eclipse.swt.util,
+ com.codeaffine.eclipse.swt.widget.action,
+ com.codeaffine.eclipse.swt.widget.menu,
+ com.codeaffine.eclipse.swt.widget.navigationbar,
+ com.codeaffine.eclipse.swt.widget.scrollable,
+ com.codeaffine.eclipse.swt.widget.scrollbar
