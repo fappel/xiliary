@@ -11,12 +11,15 @@
 package com.codeaffine.eclipse.swt.widget.action;
 
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
+import static com.codeaffine.eclipse.swt.test.util.graphics.PointAssert.assertThat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 import java.util.function.Function;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
@@ -60,7 +63,16 @@ public class ActionControlBuilderTest {
     assertThat( actual.getMenu() ).isNotNull();
     assertThat( builder.getAction() ).isNull();
     assertThat( builder.getMenuCreator() ).isSameAs( menuCreator );
+  }
 
+  @Test
+  public void buildEmptyPlaceholder() {
+    ActionControlBuilder builder = new ActionControlBuilder();
+
+    Control actual = builder.build( parent, createImage() );
+    Point preferredSize = actual.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+
+    assertThat( preferredSize ).isEqualToPointOf( 0, 0 );
   }
 
   private Image createImage() {

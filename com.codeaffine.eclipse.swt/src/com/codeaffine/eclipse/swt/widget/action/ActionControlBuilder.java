@@ -12,7 +12,9 @@ package com.codeaffine.eclipse.swt.widget.action;
 
 import java.util.function.Function;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Menu;
@@ -21,6 +23,11 @@ public class ActionControlBuilder {
 
   private final Function<Control, Menu> menuCreator;
   private final Runnable action;
+
+  public ActionControlBuilder() {
+    this.menuCreator = null;
+    this.action = null;
+  }
 
   public ActionControlBuilder( Function<Control, Menu> menuCreator ) {
     this.menuCreator = menuCreator;
@@ -36,7 +43,10 @@ public class ActionControlBuilder {
     if( menuCreator != null ) {
       return new MenuSelector( menuCreator, image ).create( parent );
     }
-    return new ActionSelector( action, image ).create( parent );
+    if( action != null ) {
+      return new ActionSelector( action, image ).create( parent );
+    }
+    return createEmptyControl( parent );
   }
 
   public Function<Control, Menu> getMenuCreator() {
@@ -45,5 +55,14 @@ public class ActionControlBuilder {
 
   public Runnable getAction() {
     return action;
+  }
+
+  private static Composite createEmptyControl( Composite parent ) {
+    return new Composite( parent, SWT.NONE ) {
+      @Override
+      public Point computeSize( int wHint, int hHint, boolean changed ) {
+        return new Point( 0, 0 );
+      }
+    };
   }
 }

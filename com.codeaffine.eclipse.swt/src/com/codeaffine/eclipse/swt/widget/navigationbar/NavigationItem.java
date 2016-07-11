@@ -67,6 +67,7 @@ public class NavigationItem {
     Composite result = new Composite( parent, SWT.NONE );
     RowLayout layout = new RowLayout();
     layout.center = true;
+    layout.fill = true;
     result.setLayout( layout );
     return result;
   }

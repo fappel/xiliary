@@ -13,7 +13,14 @@ package com.codeaffine.eclipse.swt.widget.navigationbar;
 import com.codeaffine.eclipse.swt.widget.action.ActionControlBuilder;
 
 public interface NavigationItemController {
-  ActionControlBuilder getAddControlBuilder();
-  ActionControlBuilder getRemoveControlBuilder();
+
   ActionControlBuilder getSelectControlBuilder();
+
+  default ActionControlBuilder getAddControlBuilder() {
+    return new ActionControlBuilder();
+  }
+
+  default ActionControlBuilder getRemoveControlBuilder() {
+    return new ActionControlBuilder();
+  }
 }
