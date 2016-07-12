@@ -10,16 +10,18 @@
  */
 package com.codeaffine.util.inject;
 
+import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static com.codeaffine.util.inject.Context.ABSTRACT_TYPE_CANNOT_BE_INSTANTIATED;
 import static com.codeaffine.util.inject.Context.INTERFACE_CANNOT_BE_INSTANTIATED;
 import static com.codeaffine.util.inject.Context.WRONG_CONSTRUCTOR_COUNT;
-import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.codeaffine.util.Disposable;
 
 public class ContextTest {
 
@@ -67,6 +69,16 @@ public class ContextTest {
   }
 
   private static class UnaccessiblePojo {
+  }
+
+  static class DisposablePojo implements Disposable {
+
+    boolean disposed;
+
+    @Override
+    public void dispose() {
+      disposed = true;
+    }
   }
 
   @Before
@@ -201,5 +213,18 @@ public class ContextTest {
       .isInstanceOf( IllegalStateException.class );
     assertThat( actual.getCause() )
       .hasMessage( PojoWithCheckedException.class.getName() );
+  }
+
+  @Test
+  public void dispose() {
+    DisposablePojo value = new DisposablePojo();
+    context.set( DisposablePojo.class, value );
+    context.set( Object.class, new Object() );
+
+    context.dispose();
+
+    assertThat( value.disposed ).isTrue();
+    assertThat( context.get( DisposablePojo.class ) ).isNull();
+    assertThat( context.get( Object.class ) ).isNull();
   }
 }

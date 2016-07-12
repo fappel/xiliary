@@ -21,7 +21,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
-public class Context {
+import com.codeaffine.util.Disposable;
+
+public class Context implements Disposable {
 
   static final String TYPE_IS_NOT_ACCESSIBLE = "<%s> is not accessible and cannot be instantiated.";
   static final String INTERFACE_CANNOT_BE_INSTANTIATED = "<%s> is an interface and cannot be instantiated.";
@@ -37,6 +39,15 @@ public class Context {
   public Context() {
     content = new HashMap<>();
     set( Context.class, this );
+  }
+
+  @Override
+  public void dispose() {
+    content.values().stream()
+      .filter( value -> value instanceof Disposable && value != this )
+      .map( value -> ( Disposable )value )
+      .forEach( disposable -> disposable.dispose() );
+    content.clear();
   }
 
   public <T> T get( Class<T> key ) {
