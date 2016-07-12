@@ -10,6 +10,8 @@
  */
 package com.codeaffine.eclipse.swt.widget.action;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.eclipse.swt.SWT;
@@ -22,29 +24,54 @@ import org.eclipse.swt.widgets.Menu;
 public class ActionControlBuilder {
 
   private final Function<Control, Menu> menuCreator;
+  private final Consumer<Updatable> updateTrigger;
+  private final BooleanSupplier enablement;
   private final Runnable action;
+  private final Image image;
 
   public ActionControlBuilder() {
-    this.menuCreator = null;
-    this.action = null;
+    this( null, null, null, null, null );
   }
 
   public ActionControlBuilder( Function<Control, Menu> menuCreator ) {
-    this.menuCreator = menuCreator;
-    this.action = null;
+    this( menuCreator, null, null, null, null );
   }
 
   public ActionControlBuilder( Runnable action ) {
-    this.action = action;
-    this.menuCreator = null;
+    this( null, action, null, null, null );
   }
 
-  public Control build( Composite parent, Image image ) {
+  private ActionControlBuilder( Function<Control, Menu> menuCreator,
+                                Runnable action,
+                                Image image,
+                                BooleanSupplier enablement,
+                                Consumer<Updatable> updateTrigger )
+  {
+    this.menuCreator = menuCreator;
+    this.action = action;
+    this.image = image;
+    this.enablement = enablement == null ? () -> true : enablement;
+    this.updateTrigger = updateTrigger == null ? updatable -> {} : updateTrigger;
+  }
+
+  public ActionControlBuilder withImage( Image image ) {
+    return new ActionControlBuilder( menuCreator, action, image, enablement, updateTrigger );
+  }
+
+  public ActionControlBuilder withEnablement( BooleanSupplier enablement ) {
+    return new ActionControlBuilder( menuCreator, action, image, enablement, updateTrigger );
+  }
+
+  public ActionControlBuilder withUpdateTrigger( Consumer<Updatable> updateTrigger ) {
+    return new ActionControlBuilder( menuCreator, action, image, enablement, updateTrigger );
+  }
+
+  public Control build( Composite parent ) {
     if( menuCreator != null ) {
-      return new MenuSelector( menuCreator, image ).create( parent );
+      return new MenuSelector( menuCreator, image, enablement, updateTrigger ).create( parent );
     }
     if( action != null ) {
-      return new ActionSelector( action, image ).create( parent );
+      return new ActionSelector( action, image, enablement, updateTrigger ).create( parent );
     }
     return createEmptyControl( parent );
   }

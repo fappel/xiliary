@@ -10,6 +10,9 @@
  */
 package com.codeaffine.eclipse.swt.widget.action;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Image;
@@ -21,41 +24,72 @@ import com.codeaffine.eclipse.swt.util.ButtonClick;
 
 public class ActionSelector {
 
+  private final Consumer<Updatable> updateWiring;
+  private final BooleanSupplier enablement;
   private final ButtonClick buttonClick;
+  private final Image enabledImage;
   private final Runnable action;
-  private final Image image;
 
+  private Image disabledImage;
   private Label control;
 
-  public ActionSelector( Runnable action, Image image ) {
+  public ActionSelector( Runnable action, Image image, BooleanSupplier enablement, Consumer<Updatable> updateWiring ) {
     this.buttonClick = new ButtonClick();
+    this.updateWiring = updateWiring;
+    this.enablement = enablement;
+    this.enabledImage = image;
     this.action = action;
-    this.image = image;
   }
 
   public Control create( Composite parent ) {
     control = new Label( parent, SWT.CENTER );
-    control.setImage( image );
     control.addListener( SWT.MouseDown, evt -> mouseDown( new MouseEvent( evt ) ) );
     control.addListener( SWT.MouseUp, evt -> mouseUp( new MouseEvent( evt ) ) );
     control.addListener( SWT.MouseEnter, evt -> mouseEnter() );
     control.addListener( SWT.MouseExit, evt -> mouseExit() );
+    updateWiring.accept( () -> update() );
+    update();
     return control;
   }
 
   private void mouseDown( MouseEvent event ) {
-    buttonClick.arm( event );
+    if( enablement.getAsBoolean() ) {
+      buttonClick.arm( event );
+    }
   }
 
   private void mouseUp( MouseEvent event ) {
-    buttonClick.trigger( event, action );
+    if( enablement.getAsBoolean() ) {
+      buttonClick.trigger( event, action );
+    }
   }
 
   public void mouseEnter() {
-    control.setBackground( control.getDisplay().getSystemColor( SWT.COLOR_LIST_SELECTION ) );
+    if( enablement.getAsBoolean() ) {
+      control.setBackground( control.getDisplay().getSystemColor( SWT.COLOR_LIST_SELECTION ) );
+    }
   }
 
   public void mouseExit() {
     control.setBackground( null );
+  }
+
+  private void update() {
+    control.setImage( getImage() );
+  }
+
+  private Image getImage() {
+    if( !enablement.getAsBoolean() ) {
+      ensureDisableImage();
+      return disabledImage;
+    }
+    return enabledImage;
+  }
+
+  private void ensureDisableImage() {
+    if( disabledImage == null ) {
+      disabledImage = new Image( control.getDisplay(), enabledImage, SWT.IMAGE_GRAY );
+      control.addListener( SWT.Dispose, evt -> disabledImage.dispose() );
+    }
   }
 }

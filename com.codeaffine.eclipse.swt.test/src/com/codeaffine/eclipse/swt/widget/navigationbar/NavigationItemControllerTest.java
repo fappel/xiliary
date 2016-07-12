@@ -11,7 +11,6 @@
 package com.codeaffine.eclipse.swt.widget.navigationbar;
 
 import static com.codeaffine.eclipse.swt.test.util.graphics.PointAssert.assertThat;
-import static org.assertj.core.api.Assertions.assertThat;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
@@ -36,7 +35,7 @@ public class NavigationItemControllerTest {
 
   @Test
   public void getAddControlBuilderDefaults() {
-    Control actual = controller.getAddControlBuilder().build( displayHelper.createShell(), null );
+    Control actual = controller.getAddControlBuilder().build( displayHelper.createShell() );
     Point preferredSize = actual.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
 
     assertThat( preferredSize ).isEqualToPointOf( 0, 0 );
@@ -44,10 +43,9 @@ public class NavigationItemControllerTest {
 
   @Test
   public void getRemoveControlBuilderDefaults() {
-    Control actual = controller.getRemoveControlBuilder().build( displayHelper.createShell(), null );
+    Control actual = controller.getRemoveControlBuilder().build( displayHelper.createShell() );
     Point preferredSize = actual.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
 
     assertThat( preferredSize ).isEqualToPointOf( 0, 0 );
-
   }
 }

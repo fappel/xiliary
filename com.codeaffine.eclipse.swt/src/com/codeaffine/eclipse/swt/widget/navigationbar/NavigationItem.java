@@ -84,11 +84,11 @@ public class NavigationItem {
   private void createActionSection( Composite navigationItem ) {
     Composite section = new Composite( navigationItem, SWT.NONE );
     section.setLayout( new FormLayout() );
-    Control add = controller.getAddControlBuilder().build( section, getImage( PLUS ) );
+    Control add = controller.getAddControlBuilder().withImage( getImage( PLUS ) ).build( section );
     attach( add ).toLeft().toTop();
-    Control remove = controller.getRemoveControlBuilder().build( section, getImage( MINUS ) );
+    Control remove = controller.getRemoveControlBuilder().withImage( getImage( MINUS ) ).build( section );
     attach( remove ).toLeft().atTopTo( add ).toBottom();
-    Control select = controller.getSelectControlBuilder().build( section, getImage( ARROW_DOWN ) );
+    Control select = controller.getSelectControlBuilder().withImage( getImage( ARROW_DOWN ) ).build( section );
     attach( select ).atLeftTo( add, 2 ).toTop().toRight().toBottom();
   }
 

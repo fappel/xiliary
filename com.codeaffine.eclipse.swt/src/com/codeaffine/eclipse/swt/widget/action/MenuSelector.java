@@ -10,6 +10,8 @@
  */
 package com.codeaffine.eclipse.swt.widget.action;
 
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.eclipse.swt.SWT;
@@ -25,8 +27,10 @@ public class MenuSelector {
 
   private Menu menu;
 
-  public MenuSelector( Function<Control, Menu> menuCreator, Image image ) {
-    this.actionSelector = new ActionSelector( () -> getMenu().setVisible( true ), image );
+  public MenuSelector(
+    Function<Control, Menu> menuCreator, Image image, BooleanSupplier enablement, Consumer<Updatable> updateWiring )
+  {
+    this.actionSelector = new ActionSelector( () -> getMenu().setVisible( true ), image, enablement, updateWiring );
     this.menuCreator = menuCreator;
   }
 

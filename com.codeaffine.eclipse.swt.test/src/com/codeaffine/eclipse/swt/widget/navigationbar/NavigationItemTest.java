@@ -18,7 +18,6 @@ import static com.codeaffine.eclipse.swt.widget.navigationbar.ActionControlImage
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -26,6 +25,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.eclipse.swt.graphics.Image;
@@ -76,9 +77,12 @@ public class NavigationItemTest {
     navigationItem.createControl( parent );
 
     verify( imageProvider ).getImage( ICON_NAME );
-    verify( SELECT_CONTROL_BUILDER ).build( any( Composite.class ), eq( images.get( ARROW_DOWN ) ) );
-    verify( REMOVE_CONTROL_BUILDER ).build( any( Composite.class ), eq( images.get( MINUS ) ) );
-    verify( ADD_CONTROL_BUILDER ).build( any( Composite.class ), eq( images.get( PLUS ) ) );
+    verify( SELECT_CONTROL_BUILDER ).withImage( images.get( ARROW_DOWN ) );
+    verify( SELECT_CONTROL_BUILDER ).build( any( Composite.class ) );
+    verify( REMOVE_CONTROL_BUILDER ).withImage( images.get( MINUS ) );
+    verify( REMOVE_CONTROL_BUILDER ).build( any( Composite.class ) );
+    verify( ADD_CONTROL_BUILDER ).withImage( images.get( PLUS ) );
+    verify( ADD_CONTROL_BUILDER ).build( any( Composite.class ) );
     verify( model ).addSelectionChangedListener( any( Runnable.class ) );
     assertThat( navigationItem.getSelectionText() ).isEqualTo( SELECTION.getDisplayName() );
     assertThat( parent.getChildren() ).hasSize( 1 );
@@ -142,7 +146,12 @@ public class NavigationItemTest {
     when( model.getSelection() ).thenReturn( selection );
   }
 
+  @SuppressWarnings("unchecked")
   private static ActionControlBuilder createActionControlBuilderSpy() {
-    return spy( new ActionControlBuilder( mock( Runnable.class ) ) );
+    ActionControlBuilder result = spy( new ActionControlBuilder( mock( Runnable.class ) ) );
+    when( result.withEnablement( any( BooleanSupplier.class ) ) ).thenReturn( result );
+    when( result.withImage( any( Image.class ) ) ).thenReturn( result );
+    when( result.withUpdateTrigger( ( any( Consumer.class ) ) ) ).thenReturn( result );
+    return result;
   }
 }
