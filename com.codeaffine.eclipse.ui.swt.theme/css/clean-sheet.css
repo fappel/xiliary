@@ -219,6 +219,10 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END {
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
   color: #000000;
 }
+
+ColorDefinition#org-eclipse-ui-editors-backgroundColor {
+  color: #fafafc;
+}
  
 .MTrimmedWindow.topLevel { 
   margin-top: 3px;
