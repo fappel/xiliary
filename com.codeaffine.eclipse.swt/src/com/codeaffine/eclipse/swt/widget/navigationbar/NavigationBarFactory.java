@@ -59,6 +59,10 @@ public class NavigationBarFactory implements Disposable {
   private static Composite createComposite( Composite parent ) {
     Composite result = new Composite( parent, SWT.NONE );
     RowLayout layout = new RowLayout();
+    layout.marginLeft = 0;
+    layout.marginTop = 0;
+    layout.marginRight = 0;
+    layout.marginBottom = 0;
     layout.center = true;
     layout.wrap = false;
     result.setLayout( layout );

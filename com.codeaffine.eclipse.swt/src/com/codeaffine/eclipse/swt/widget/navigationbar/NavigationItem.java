@@ -68,6 +68,10 @@ public class NavigationItem {
     RowLayout layout = new RowLayout();
     layout.center = true;
     layout.fill = true;
+    layout.marginLeft = 0;
+    layout.marginTop = 0;
+    layout.marginRight = 0;
+    layout.marginBottom = 0;
     result.setLayout( layout );
     return result;
   }
