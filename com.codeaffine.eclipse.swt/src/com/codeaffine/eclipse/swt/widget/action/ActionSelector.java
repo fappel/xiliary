@@ -12,7 +12,6 @@ package com.codeaffine.eclipse.swt.widget.action;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -26,7 +25,6 @@ public class ActionSelector {
   private final Runnable action;
   private final Image image;
 
-  private Color background;
   private Label control;
 
   public ActionSelector( Runnable action, Image image ) {
@@ -54,11 +52,10 @@ public class ActionSelector {
   }
 
   public void mouseEnter() {
-    background = control.getBackground();
     control.setBackground( control.getDisplay().getSystemColor( SWT.COLOR_LIST_SELECTION ) );
   }
 
   public void mouseExit() {
-    control.setBackground( background );
+    control.setBackground( null );
   }
 }
