@@ -10,9 +10,10 @@
  */
 package com.codeaffine.eclipse.swt.widget.navigationbar;
 
-public interface NavigationItemModel {
+import com.codeaffine.util.Disposable;
+
+public interface NavigationItemModel extends Disposable {
   NavigationItemModelElement getSelection();
   void addSelectionChangedListener( Runnable listener );
   void removeSelectionChangedListener( Runnable listener );
-  void dispose();
 }

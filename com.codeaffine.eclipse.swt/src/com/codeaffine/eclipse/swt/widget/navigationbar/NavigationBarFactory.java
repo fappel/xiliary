@@ -20,7 +20,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 
-public class NavigationBarFactory {
+import com.codeaffine.util.Disposable;
+
+public class NavigationBarFactory implements Disposable {
 
   private final ActionControlImageAdapter imageProvider;
   private final List<NavigationItemModel> models;
@@ -45,6 +47,7 @@ public class NavigationBarFactory {
     return result;
   }
 
+  @Override
   public void dispose() {
     imageProvider.dispose();
   }
