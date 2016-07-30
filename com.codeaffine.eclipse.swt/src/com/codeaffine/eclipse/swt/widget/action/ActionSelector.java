@@ -78,7 +78,7 @@ public class ActionSelector {
   }
 
   private void update() {
-    display.asyncExec( () -> control.setImage( getImage() ) );
+    display.syncExec( () -> control.setImage( getImage() ) );
   }
 
   private Image getImage() {

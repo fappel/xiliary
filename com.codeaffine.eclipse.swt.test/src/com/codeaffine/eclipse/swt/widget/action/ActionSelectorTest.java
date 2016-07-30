@@ -10,8 +10,8 @@
  */
 package com.codeaffine.eclipse.swt.widget.action;
 
-import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
+import static com.codeaffine.eclipse.swt.test.util.UiThreadHelper.runInOwnThreadWithReadAndDispatch;
 import static com.codeaffine.eclipse.swt.widget.action.EnablementHelper.configureAsDisabled;
 import static com.codeaffine.eclipse.swt.widget.action.EnablementHelper.configureAsEnabled;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,6 +27,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -58,7 +59,6 @@ public class ActionSelectorTest {
   @Test
   public void create() {
     Label control = ( Label )selector.create( displayHelper.createShell() );
-    flushPendingEvents();
 
     assertThat( control ).isNotNull();
     assertThat( control.getImage() ).isSameAs( image );
@@ -145,7 +145,6 @@ public class ActionSelectorTest {
   public void dispose() {
     configureAsDisabled( enablement );
     Control control = selector.create( displayHelper.createShell() );
-    flushPendingEvents();
     Image disabledImage = ( ( Label )control ).getImage();
 
     control.dispose();
@@ -159,6 +158,17 @@ public class ActionSelectorTest {
     configureAsDisabled( enablement );
 
     updatable.update();
+
+    assertThat( ( ( Label )control ).getImage() ).isNotSameAs( image );
+  }
+
+  @Test
+  public void disableFromBackgroundThread() {
+    Shell shell = displayHelper.createShell();
+    Control control = selector.create( shell );
+    configureAsDisabled( enablement );
+
+    runInOwnThreadWithReadAndDispatch( () -> updatable.update() );
 
     assertThat( ( ( Label )control ).getImage() ).isNotSameAs( image );
   }
@@ -179,11 +189,9 @@ public class ActionSelectorTest {
   public void enable() {
     configureAsDisabled( enablement );
     Control control = selector.create( displayHelper.createShell() );
-    flushPendingEvents();
     configureAsEnabled( enablement );
 
     updatable.update();
-    flushPendingEvents();
 
     assertThat( ( ( Label )control ).getImage() ).isSameAs( image );
   }

@@ -10,7 +10,6 @@
  */
 package com.codeaffine.eclipse.swt.widget.action;
 
-import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.test.util.ShellHelper.createShell;
 import static com.codeaffine.eclipse.swt.test.util.graphics.PointAssert.assertThat;
 import static com.codeaffine.eclipse.swt.widget.action.EnablementHelper.configureAsDisabled;
@@ -86,7 +85,6 @@ public class ActionControlBuilderTest {
     Image expected = createImage();
 
     Label actual = ( Label )new ActionControlBuilder( runnable ).withImage( expected ).build( parent );
-    flushPendingEvents();
 
     assertThat( actual.getImage() ).isSameAs( expected );
   }
