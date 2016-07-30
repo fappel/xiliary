@@ -18,6 +18,7 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 import com.codeaffine.eclipse.swt.util.ButtonClick;
@@ -31,6 +32,7 @@ public class ActionSelector {
   private final Runnable action;
 
   private Image disabledImage;
+  private Display display;
   private Label control;
 
   public ActionSelector( Runnable action, Image image, BooleanSupplier enablement, Consumer<Updatable> updateWiring ) {
@@ -47,6 +49,7 @@ public class ActionSelector {
     control.addListener( SWT.MouseUp, evt -> mouseUp( new MouseEvent( evt ) ) );
     control.addListener( SWT.MouseEnter, evt -> mouseEnter() );
     control.addListener( SWT.MouseExit, evt -> mouseExit() );
+    display = control.getDisplay();
     updateWiring.accept( () -> update() );
     update();
     return control;
@@ -75,7 +78,7 @@ public class ActionSelector {
   }
 
   private void update() {
-    control.setImage( getImage() );
+    display.asyncExec( () -> control.setImage( getImage() ) );
   }
 
   private Image getImage() {
