@@ -10,6 +10,7 @@
  */
 package com.codeaffine.eclipse.swt.widget.action;
 
+import static com.codeaffine.eclipse.swt.test.util.DisplayHelper.flushPendingEvents;
 import static com.codeaffine.eclipse.swt.test.util.SWTEventHelper.trigger;
 import static com.codeaffine.eclipse.swt.widget.action.EnablementHelper.configureAsDisabled;
 import static com.codeaffine.eclipse.swt.widget.action.EnablementHelper.configureAsEnabled;
@@ -57,6 +58,7 @@ public class MenuSelectorTest {
   @Test
   public void create() {
     Label control = ( Label )selector.create( displayHelper.createShell() );
+    flushPendingEvents();
 
     assertThat( control ).isNotNull();
     assertThat( control.getImage() ).isSameAs( image );
@@ -76,6 +78,7 @@ public class MenuSelectorTest {
   public void dispose() {
     configureAsDisabled( enablement );
     Control control = selector.create( displayHelper.createShell() );
+    flushPendingEvents();
     Image disabledImage = ( ( Label )control ).getImage();
     Menu menu = control.getMenu();
 
@@ -178,9 +181,11 @@ public class MenuSelectorTest {
   public void enable() {
     configureAsDisabled( enablement );
     Control control = selector.create( displayHelper.createShell() );
+    flushPendingEvents();
     configureAsEnabled( enablement );
 
     updatable.update();
+    flushPendingEvents();
 
     assertThat( ( ( Label )control ).getImage() ).isSameAs( image );
   }
