@@ -84,13 +84,13 @@
       <requirement
           name="org.eclipse.m2e.feature.feature.group"/>
       <requirement
-          name="org.eclipse.wst.jsdt.feature"/>
+          name="org.eclipse.wst.jsdt.feature.feature.group"/>
       <requirement
-          name="org.eclipse.wst.json_ui.feature"/>
+          name="org.eclipse.wst.json_ui.feature.feature.group"/>
       <requirement
-          name="org.eclipse.wst.web_ui.feature"/>
+          name="org.eclipse.wst.web_ui.feature.feature.group"/>
       <requirement
-          name="org.eclipse.wst.xml_ui.feature"/>
+          name="org.eclipse.wst.xml_ui.feature.feature.group"/>
       <repository
           url="http://download.eclipse.org/releases/neon"/>
       <repository
