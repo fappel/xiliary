@@ -83,6 +83,14 @@
           name="org.eclipse.oomph.setup.feature.group"/>
       <requirement
           name="org.eclipse.m2e.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.wst.jsdt.feature"/>
+      <requirement
+          name="org.eclipse.wst.json_ui.feature"/>
+      <requirement
+          name="org.eclipse.wst.web_ui.feature"/>
+      <requirement
+          name="org.eclipse.wst.xml_ui.feature"/>
       <repository
           url="http://download.eclipse.org/releases/neon"/>
       <repository
@@ -105,6 +113,8 @@
           url="http://download.eclipse.org/technology/m2e/releases/"/>
       <repository
           url="http://download.eclipse.org/technology/epp/packages/neon/"/>
+      <repository
+          url="http://download.eclipse.org/m2e-wtp/releases/juno/"/>
     </setupTask>
     <description>Xiliary IDE for Neon.</description>
   </version>
