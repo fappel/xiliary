@@ -29,6 +29,7 @@
     <mockito.version>1.8.4</mockito.version>
     <maven.resources.plugin.version>2.6</maven.resources.plugin.version>
     <vm.args>${os-jvm-flags}</vm.args>
+    <swt.version>4.6.1</swt.version>
   </properties>
 
   <prerequisites>
@@ -45,6 +46,9 @@
       </activation>
       <properties>
         <os-jvm-flags>-Xmx512m</os-jvm-flags>
+        <swt.groupId>org.eclipse.swt</swt.groupId>
+        <swt.artifactId>org.eclipse.swt.win32.win32.x86_64</swt.artifactId>
+        <codeaffine.swt.artifactId>com.codeaffine.eclipse.swt.win</codeaffine.swt.artifactId>
       </properties>
     </profile>
     <profile>
@@ -57,6 +61,9 @@
       </activation>
       <properties>
         <os-jvm-flags>-Xmx512m</os-jvm-flags>
+        <swt.groupId>org.eclipse.swt</swt.groupId>
+        <swt.artifactId>org.eclipse.swt.gtk.linux.x86_64</swt.artifactId>
+        <codeaffine.swt.artifactId>com.codeaffine.eclipse.swt.win</codeaffine.swt.artifactId>
       </properties>
     </profile>
     <profile>
@@ -68,6 +75,9 @@
       </activation>
       <properties>
         <os-jvm-flags>-Xmx512m -XstartOnFirstThread</os-jvm-flags>
+        <swt.groupId>org.eclipse.swt</swt.groupId>
+        <swt.artifactId>org.eclipse.swt.cocoa.macosx.x86_64</swt.artifactId>
+        <codeaffine.swt.artifactId>com.codeaffine.eclipse.swt.mac</codeaffine.swt.artifactId>
       </properties>
     </profile>
   </profiles>
@@ -121,7 +131,7 @@
 		<module>../com.codeaffine.osgi.test.util</module>
 		<module>../com.codeaffine.osgi.test.util.test</module>
 		
-		<!-- Workflow -->
+ 		<!-- Workflow -->
 		<module>../com.codeaffine.workflow.feature</module>
 		<module>../com.codeaffine.workflow.test.util.feature</module>
 		
@@ -142,6 +152,12 @@
       <url>https://repo.eclipse.org/content/repositories/releases/</url>
     </pluginRepository>
   </pluginRepositories>
+  <repositories>
+    <repository>
+        <id>maven-eclipse-repo</id>
+        <url>http://maven-eclipse.github.io/maven</url>
+    </repository>
+  </repositories>
 
   <build>
     <plugins>
@@ -327,6 +343,12 @@
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
       <version>${mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>${swt.groupId}</groupId>
+      <artifactId>${swt.artifactId}</artifactId>
+      <version>${swt.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

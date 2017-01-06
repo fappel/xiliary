@@ -15,129 +15,27 @@
     <relativePath>../com.codeaffine.xiliary.releng/pom.xml</relativePath>
   </parent>
 
-  <profiles>
-    <profile>
-      <id>windows</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.12.4</version>
-            <executions>
-              <execution>
-                <id>test</id>
-                <phase>test</phase>
-                <configuration>
-                  <testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory>
-                  <argLine>${vm.args}</argLine>
-                  <dependencies>
-                    <dependency>
-                      <groupId>org.eclipse.swt</groupId>
-                      <artifactId>org.eclipse.swt.win32.win32.x86_64</artifactId>
-                      <version>0.0.0</version>
-                      <scope>test</scope>
-                    </dependency>
-                  </dependencies>
-                </configuration>
-                <goals>
-                  <goal>test</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>linux</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.12.4</version>
-            <executions>
-              <execution>
-                <id>test</id>
-                <phase>test</phase>
-                <configuration>
-                  <testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory>
-                  <argLine>${vm.args}</argLine>
-                  <dependencies>
-                    <dependency>
-                      <groupId>org.eclipse.swt</groupId>
-                      <artifactId>org.eclipse.swt.gtk.linux.x86_64</artifactId>
-                      <version>0.0.0</version>
-                      <scope>test</scope>
-                    </dependency>
-                  </dependencies>
-                </configuration>
-                <goals>
-                  <goal>test</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>mac</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>2.12.4</version>
-            <executions>
-              <execution>
-                <id>test</id>
-                <phase>test</phase>
-                <configuration>
-                  <testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory>
-                  <argLine>${vm.args}</argLine>
-                  <dependencies>
-                    <dependency>
-                      <groupId>org.eclipse.swt</groupId>
-                      <artifactId>org.eclipse.swt.cocoa.macosx.x86_64</artifactId>
-                      <version>0.0.0</version>
-                      <scope>test</scope>
-                    </dependency>
-                  </dependencies>
-                </configuration>
-                <goals>
-                  <goal>test</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
-
-<!--   <build> -->
-<!--     <plugins> -->
-<!--       <plugin> -->
-<!--         <groupId>org.apache.maven.plugins</groupId> -->
-<!--         <artifactId>maven-surefire-plugin</artifactId> -->
-<!--         <version>2.12.4</version> -->
-<!--         <executions> -->
-<!--           <execution> -->
-<!--             <id>test</id> -->
-<!--             <phase>test</phase> -->
-<!--             <configuration> -->
-<!--               <testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory> -->
-<!--               <argLine>-Xms512m -Xmx512m</argLine> -->
-<!--             </configuration> -->
-<!--             <goals> -->
-<!--               <goal>test</goal> -->
-<!--             </goals> -->
-<!--           </execution> -->
-<!--         </executions> -->
-<!--       </plugin> -->
-<!--     </plugins> -->
-<!--   </build> -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.12.4</version>
+        <executions>
+          <execution>
+            <id>test</id>
+            <phase>test</phase>
+            <configuration>
+              <testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory>
+              <argLine>${vm.args}</argLine>
+            </configuration>
+            <goals>
+              <goal>test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>
