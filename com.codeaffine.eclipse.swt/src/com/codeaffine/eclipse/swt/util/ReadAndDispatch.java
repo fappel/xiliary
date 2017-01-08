@@ -34,7 +34,7 @@ public class ReadAndDispatch {
   }
 
   public ReadAndDispatch() {
-    this( ( shell, problem )-> { throw problem; } );
+    this( ( shell, problem ) -> { throw problem; } );
   }
 
   public ReadAndDispatch( ProblemHandler problemHandler ) {

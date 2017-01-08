@@ -12,22 +12,29 @@ package com.codeaffine.eclipse.swt.util;
 
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch.ProblemHandler;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class ReadAndDispatchTest {
 
   private static final int DURATION = 10;
+  private static final int SCHEDULE = 10;
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule
+  public final ConditionalIgnoreRule conditionalIgnore = new ConditionalIgnoreRule();
 
   private Shell shell;
 
@@ -39,7 +46,7 @@ public class ReadAndDispatchTest {
   @Test
   public void spinLoop() {
     ReadAndDispatch readAndDispatch = new ReadAndDispatch();
-    displayHelper.getDisplay().timerExec( 10, () -> shell.dispose() );
+    displayHelper.getDisplay().timerExec( SCHEDULE, () -> shell.dispose() );
 
     readAndDispatch.spinLoop( shell );
 
@@ -61,7 +68,7 @@ public class ReadAndDispatchTest {
   public void spinLoopWithProblem() {
     ReadAndDispatch readAndDispatch = new ReadAndDispatch();
     RuntimeException expected = new RuntimeException();
-    displayHelper.getDisplay().timerExec( 10, () -> { throw expected; } );
+    displayHelper.getDisplay().timerExec( SCHEDULE, () -> { throw expected; } );
 
     Throwable actual = thrownBy( () -> readAndDispatch.spinLoop( shell ) );
 
@@ -69,28 +76,27 @@ public class ReadAndDispatchTest {
   }
 
   @Test
-  public void spinLoopWithErrorBoxHandler() {
-    boolean[] problemShellOpened = new boolean[ 1 ];
-    Shell problemShell = displayHelper.createShell();
-    ReadAndDispatch readAndDispatch = new ReadAndDispatch( adaptErrorBoxHandler( problemShell ) );
-    setupProblemTriggerAndStateCapturing( problemShell, problemShellOpened );
+  public void spinLoopWithProblemHandler() {
+    ProblemHandler problemHandler = mock( ProblemHandler.class );
+    RuntimeException expected = new RuntimeException();
+    ReadAndDispatch readAndDispatch = new ReadAndDispatch( problemHandler );
+    displayHelper.getDisplay().timerExec( SCHEDULE, () -> { throw expected; } );
 
-    readAndDispatch.spinLoop( shell );
+    readAndDispatch.spinLoop( shell, SCHEDULE * 2 );
 
-    assertThat( problemShellOpened[ 0 ] ).isTrue();
-    assertThat( problemShell.isDisposed() ).isTrue();
-    assertThat( shell.isDisposed() ).isTrue();
+    verify( problemHandler ).handle( shell, expected );
   }
 
   @Test
+  @ConditionalIgnore(condition = CocoaPlatform.class)
   public void openErrorDialog() {
     Shell problemShell = displayHelper.createShell();
-    boolean[] problemShellOpened = new boolean[ 1 ];
-    displayHelper.getDisplay().timerExec( 10, () -> { captureOpenStateAndClose( problemShell, problemShellOpened ); } );
+    boolean[] wasOpened = new boolean[ 1 ];
+    displayHelper.getDisplay().timerExec( SCHEDULE, () -> captureOpenStateAndClose( problemShell, wasOpened ) );
 
     ReadAndDispatch.openErrorDialog( problemShell, new RuntimeException() );
 
-    assertThat( problemShellOpened[ 0 ] ).isTrue();
+    assertThat( wasOpened[ 0 ] ).isTrue();
     assertThat( problemShell.isDisposed() ).isTrue();
   }
 
@@ -115,19 +121,9 @@ public class ReadAndDispatchTest {
     return result;
   }
 
-  private static ProblemHandler adaptErrorBoxHandler( Shell problemShell ) {
-    return ( shell, problem ) -> ReadAndDispatch.ERROR_BOX_HANDLER.handle( problemShell, problem );
-  }
-
-  private void setupProblemTriggerAndStateCapturing( Shell problemShell, boolean[] openedState ) {
-    Display display = displayHelper.getDisplay();
-    display.timerExec( 10, () -> { throw new RuntimeException(); } );
-    display.timerExec( 20, () -> { captureOpenStateAndClose( problemShell, openedState ); } );
-    display.timerExec( 30, () -> shell.dispose() );
-  }
-
   private static void captureOpenStateAndClose( Shell problemShell, boolean[] problemShellOpened ) {
-    captureDisposeState( problemShell, problemShellOpened ); problemShell.dispose();
+    captureDisposeState( problemShell, problemShellOpened );
+    problemShell.close();
   }
 
   private static boolean captureDisposeState( Shell shell, boolean[] isOpen ) {
