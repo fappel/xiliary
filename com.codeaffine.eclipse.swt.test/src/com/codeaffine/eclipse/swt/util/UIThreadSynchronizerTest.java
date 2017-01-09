@@ -1,12 +1,12 @@
 /**
- * Copyright (c) 2014 - 2017 Frank Appel
+ * Copyright (c) 2014 - 2017 Rüdiger Herrmann
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *   Frank Appel - initial API and implementation
+ *   Rüdiger Herrmann - initial API and implementation
  */
 package com.codeaffine.eclipse.swt.util;
 
@@ -25,7 +25,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 import com.codeaffine.test.util.util.concurrent.RunInThread;
@@ -43,7 +43,7 @@ public class UIThreadSynchronizerTest {
   private Runnable runnable;
   private UIThreadSynchronizer synchronizer;
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
+  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testSyncExecRunsCode() {
@@ -52,7 +52,7 @@ public class UIThreadSynchronizerTest {
     verify( runnable ).run();
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
+  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testSyncExecAfterWidgetIsDisposedDoesNotRunCode() throws InterruptedException {
@@ -68,7 +68,7 @@ public class UIThreadSynchronizerTest {
     verify( runnable, never() ).run();
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
+  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testSyncExecWithDisposedDisplayDoesNotRunCode() {
@@ -79,7 +79,7 @@ public class UIThreadSynchronizerTest {
     verify( runnable, never() ).run();
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
+  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testAsyncExecRunsCode() {
@@ -89,7 +89,7 @@ public class UIThreadSynchronizerTest {
     verify( runnable ).run();
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
+  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testAsyncExecRunsCodeFromBackgroundThread() throws InterruptedException {
@@ -104,7 +104,7 @@ public class UIThreadSynchronizerTest {
     verify( runnable ).run();
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
+  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testAsyncExecAfterWidgetIsDisposedDoesNotRunCode() throws InterruptedException {
@@ -120,7 +120,7 @@ public class UIThreadSynchronizerTest {
     verify( runnable, never() ).run();
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
+  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testAsyncExecWithDisposedDisplayDoesNotRunCode() {
@@ -132,7 +132,7 @@ public class UIThreadSynchronizerTest {
     verify( runnable, never() ).run();
   }
 
-  @ConditionalIgnore(condition=GtkPlatform.class)
+  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test(expected=SWTException.class)
   public void testAsyncExecPropagatesWidgetDisposedExceptionInRunnable() {
