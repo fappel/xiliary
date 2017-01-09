@@ -26,7 +26,7 @@ class EventQueueHelper {
   // TODO [fappel]: Strange behaviour on cocoa. Single call to Display#readAndDispatch seems
   //                not to be sufficient. This solution was accomplished by try and error.
   private static int getRepeatCount() {
-    return "cocoa".equals( SWT.getPlatform() ) ? 3 : 1;
+    return "cocoa".equals( SWT.getPlatform() ) ? 8 : 1;
   }
 
   private static void doFlushPendingEvents() {
