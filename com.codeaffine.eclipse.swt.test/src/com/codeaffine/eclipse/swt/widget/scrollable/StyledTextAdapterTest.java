@@ -39,7 +39,6 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTEventHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
@@ -195,7 +194,7 @@ public class StyledTextAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = CocoaPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   // Workaround for https://github.com/fappel/xiliary/issues/63
   public void avoidMouseWheelEventPropagationToFlatScrollBars() {
     Listener listener = mock( Listener.class );

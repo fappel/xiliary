@@ -30,14 +30,17 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.MenuHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class MenuCreatorFactoryTest {
 
   private static final String LABEL = "label";
   private static final int ITEM_INDEX = 0;
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionIgnore = new ConditionalIgnoreRule();
 
   private MenuCreatorFactory factory;
   private MenuHelper menuHelper;
@@ -61,6 +64,7 @@ public class MenuCreatorFactoryTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class)
   public void createShowAndSelectTwice() {
     Listener itemListener = mock( Listener.class );
     Function<Control, Menu> creator = factory.create( menu -> createPushItem( menu, LABEL, itemListener ) );

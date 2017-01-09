@@ -48,8 +48,8 @@ public class ScrolledCompositeScrollBarUpdaterTest {
   private FlatScrollBar flatScrollBar;
 
   @Parameters
-  public static Collection<Integer> data() {
-    return asList( SWT.HORIZONTAL, SWT.VERTICAL );
+  public static Collection<Object[]> data() {
+    return asList( new Object[][] { { SWT.HORIZONTAL}, { SWT.VERTICAL } } );
   }
 
   @Before

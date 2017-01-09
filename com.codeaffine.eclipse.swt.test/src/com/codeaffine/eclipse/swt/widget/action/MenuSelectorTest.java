@@ -31,12 +31,15 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.util.ButtonClick;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class MenuSelectorTest {
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnore = new ConditionalIgnoreRule();
 
   private Function<Control, Menu> menuCreator;
   private Consumer<Updatable> updateWiring;
@@ -96,6 +99,7 @@ public class MenuSelectorTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void mouseEnterIfDisabled() {
     configureAsDisabled( enablement );
     Control control = selector.create( displayHelper.createShell() );
