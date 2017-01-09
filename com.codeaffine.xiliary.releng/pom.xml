@@ -315,6 +315,8 @@
          <excludes>
            <exclude>**/ConditionalIgnoreRule.java</exclude>
            <exclude>**/EqualsTester.java</exclude>
+           <exclude>**/UIThreadSynchronizer.java</exclude>
+           <exclude>**/UIThreadSynchronizerTest.java</exclude>
          </excludes>
          <aggregate>true</aggregate>
        </configuration>

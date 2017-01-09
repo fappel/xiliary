@@ -1,4 +1,4 @@
-/**
+/*******************************************************************************
  * Copyright (c) 2014 - 2017 Rüdiger Herrmann
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -7,7 +7,7 @@
  *
  * Contributors:
  *   Rüdiger Herrmann - initial API and implementation
- */
+ ******************************************************************************/
 package com.codeaffine.eclipse.swt.util;
 
 import org.eclipse.swt.SWT;
