@@ -28,13 +28,16 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class ScrollableLayoutFactoryTest {
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnore = new ConditionalIgnoreRule();
 
   private ScrollableLayoutFactorySpy factorySpy;
   private AdaptionContext<Scrollable> context;
@@ -159,6 +162,7 @@ public class ScrollableLayoutFactoryTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void getHorizontalBarAdapter() {
     Point expected = new Point( 100, 200 );
     factorySpy.getHorizontal().setSize( expected );
@@ -169,6 +173,7 @@ public class ScrollableLayoutFactoryTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void getVerticalBarAdapter() {
     Point expected = new Point( 100, 200 );
     factorySpy.getVertical().setSize( expected );
