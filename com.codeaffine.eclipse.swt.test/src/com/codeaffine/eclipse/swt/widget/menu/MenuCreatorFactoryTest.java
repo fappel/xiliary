@@ -52,6 +52,7 @@ public class MenuCreatorFactoryTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class)
   public void createShowAndSelectItem() {
     Listener itemListener = mock( Listener.class );
 
