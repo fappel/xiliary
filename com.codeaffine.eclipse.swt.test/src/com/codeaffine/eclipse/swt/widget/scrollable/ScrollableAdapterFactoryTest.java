@@ -32,7 +32,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.util.Platform;
 import com.codeaffine.eclipse.swt.util.Platform.PlatformType;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
@@ -57,7 +57,7 @@ public class ScrollableAdapterFactoryTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void create() {
     Tree tree = createTree( shell, 1, 1 );
 
@@ -69,7 +69,7 @@ public class ScrollableAdapterFactoryTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void createWithNoScrollStyle() {
     Tree tree = createTree( shell, 1, 1, SWT.NO_SCROLL );
 
@@ -79,7 +79,7 @@ public class ScrollableAdapterFactoryTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void createForTreeWithBorder() {
     Tree tree = new Tree( shell, SWT.BORDER );
 
@@ -89,7 +89,7 @@ public class ScrollableAdapterFactoryTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void createKeepsDrawingOrder() {
     createChild();
     Tree tree = createTree( shell, 1, 1 );

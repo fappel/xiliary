@@ -32,11 +32,15 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.util.ControlReflectionUtil;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class SizeComputerTest {
 
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
 
   private SizeComputer computer;
   private Composite adapter;
@@ -61,6 +65,7 @@ public class SizeComputerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void getPreferredSizeIfWidthIsLargerThanAdapterAreaWidth() {
     expandTopBranch( scrollable );
 
@@ -70,6 +75,7 @@ public class SizeComputerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void getPreferredSizeIfWidthIsLargerThanAdapterAreaWidthButHasOwnerDrawnItems() {
     expandTopBranch( scrollable );
     shell.setSize( 200, 200 );
@@ -80,6 +86,7 @@ public class SizeComputerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void getPreferredSizeIfWidthIsLargerThanAdapterAreaWidthButHasOwnerDrawnItemsAndIsVirtual() {
     createOwnderDrawnVirtualScrollable();
     computer = createSizeComputer( scrollable, adapter );
@@ -144,7 +151,9 @@ public class SizeComputerTest {
 
     assertThat( actual ).isEqualTo( expectedSizeWithClientAreaWidth() );
   }
+
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void adjustPreferredWidthIfHorizontalBarIsVisible() {
     expandTopBranch( scrollable );
 
@@ -155,6 +164,7 @@ public class SizeComputerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void adjustPreferredWidthIfHorizontalBarIsVisibleIfReparented() {
     reparentScrollable( shell, scrollable );
     expandTopBranch( scrollable );
@@ -166,6 +176,7 @@ public class SizeComputerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void updatePreferredSize() {
     Point preferredSize = computer.getPreferredSize();
     expandTopBranch( scrollable );

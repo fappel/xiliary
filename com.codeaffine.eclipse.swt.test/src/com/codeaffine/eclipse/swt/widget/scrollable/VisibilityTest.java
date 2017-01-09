@@ -31,8 +31,11 @@ import org.junit.runners.Parameterized.Parameter;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 @RunWith( Parameterized.class )
 public class VisibilityTest {
@@ -45,8 +48,8 @@ public class VisibilityTest {
     return result;
   }
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnore = new ConditionalIgnoreRule();
 
   @Parameter
   public int orientation;
@@ -84,6 +87,7 @@ public class VisibilityTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void isVisibleOnScrollBarStateChangeAndUpdate() {
     shell.setSize( 200, 100 );
     expandRootLevelItems( tree );
@@ -104,6 +108,7 @@ public class VisibilityTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void hasChangedOnScrollBarStateChange() {
     shell.setSize( 200, 100 );
     expandRootLevelItems( tree );

@@ -32,7 +32,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
@@ -62,7 +62,7 @@ public class ScrolledCompositeAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void adapt() {
     assertThat( adapter.getChildren() ).contains( scrolledComposite );
     assertThat( adapter.getLayout() ).isInstanceOf( ScrollableLayout.class );
@@ -88,7 +88,7 @@ public class ScrolledCompositeAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void disposalOfAdapter() {
     adapter.dispose();
 
@@ -96,7 +96,7 @@ public class ScrolledCompositeAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void disposalOfScrolledComposite() {
     scrolledComposite.dispose();
 
@@ -125,7 +125,7 @@ public class ScrolledCompositeAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeScrolledCompositeBounds() {
     openShellWithoutLayout();
     scrolledComposite = createScrolledComposite( shell, SWT.H_SCROLL | SWT.V_SCROLL, "" );
@@ -140,7 +140,7 @@ public class ScrolledCompositeAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeScrolledCompositeBoundsWithVisibleScrollBars() {
     openShellWithoutLayout();
     scrolledComposite = createScrolledComposite( shell );
@@ -154,7 +154,7 @@ public class ScrolledCompositeAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeScrolledCompositeBoundsWithHorizontalScroll() {
     openShellWithoutLayout();
 
@@ -168,7 +168,7 @@ public class ScrolledCompositeAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeScrolledCompositeVisibility() {
     scrolledComposite.setVisible( false );
     waitForReconciliation();
@@ -177,7 +177,7 @@ public class ScrolledCompositeAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeScrolledCompositeEnablement() {
     scrolledComposite.setEnabled( false );
     waitForReconciliation();

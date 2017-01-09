@@ -31,6 +31,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.util.ControlReflectionUtil;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
@@ -105,6 +106,7 @@ public class AdaptionContextTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void preferredWidthExceedsVisibleAreaWidth() {
     shell.setSize( 200, 400 );
     expandTopBranch( tree );
@@ -134,6 +136,7 @@ public class AdaptionContextTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void preferredSizeExceedsVisibleArea() {
     expandRootLevelItems( tree );
     expandTopBranch( tree );
@@ -158,6 +161,7 @@ public class AdaptionContextTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void updatePreferredSize() {
     Point initialSize = adaptionContext.getPreferredSize();
     expandRootLevelItems( tree );
@@ -170,6 +174,7 @@ public class AdaptionContextTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void updatePreferredSizeIfIsOwnerDrawnAndVirtual() {
     tree.dispose();
     reinitWithOwnerDrawnAndVirtualScrollable();

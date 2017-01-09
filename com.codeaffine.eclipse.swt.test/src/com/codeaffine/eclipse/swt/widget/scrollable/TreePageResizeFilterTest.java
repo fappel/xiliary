@@ -32,6 +32,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
@@ -50,7 +51,7 @@ public class TreePageResizeFilterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void filterEventsIfUninitialized() {
     PageBook pageBook = new PageBook( shell, SWT.NONE );
     Tree treePage = createAdaptedTree( pageBook );
@@ -88,7 +89,7 @@ public class TreePageResizeFilterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void cleanupOnAdapterDisposal() {
     PageBook pageBook = new PageBook( shell, SWT.NONE );
     Tree treePage = createAdaptedTreeButDisposeAdapter( pageBook );

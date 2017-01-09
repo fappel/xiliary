@@ -36,6 +36,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
@@ -593,6 +594,7 @@ public class ScrollableControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void setHorizontalBarVisible() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
 

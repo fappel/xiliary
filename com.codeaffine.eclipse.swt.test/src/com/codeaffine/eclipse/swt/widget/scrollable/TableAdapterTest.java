@@ -34,7 +34,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
@@ -64,7 +64,7 @@ public class TableAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void adapt() {
     assertThat( adapter.getChildren() ).contains( table );
     assertThat( adapter.getLayout() ).isInstanceOf( ScrollableLayout.class );
@@ -81,7 +81,7 @@ public class TableAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void disposalOfAdapter() {
     adapter.dispose();
 
@@ -89,7 +89,7 @@ public class TableAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void disposalOfTable() {
     table.dispose();
 
@@ -118,7 +118,7 @@ public class TableAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeTableBounds() {
     openShellWithoutLayout();
     table = new Table( shell, SWT.NONE );
@@ -133,7 +133,7 @@ public class TableAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeTableBoundsWithVisibleScrollBars() {
     openShellWithoutLayout();
     waitForReconciliation();
@@ -146,7 +146,7 @@ public class TableAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeTableBoundsWithHorizontalScroll() {
     openShellWithoutLayout();
 
@@ -160,7 +160,7 @@ public class TableAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeTableVisibility() {
     waitForReconciliation();
 
@@ -171,7 +171,7 @@ public class TableAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeTableEnablement() {
     waitForReconciliation();
 
@@ -219,7 +219,7 @@ public class TableAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeTableItemHeight() {
     int expectedHeight = configureTableItemHeightAdjuster();
     shell.open();
@@ -229,7 +229,7 @@ public class TableAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void packPopupShell() {
     shell.open();
     Shell popup = new Shell( shell, SWT.ON_TOP );

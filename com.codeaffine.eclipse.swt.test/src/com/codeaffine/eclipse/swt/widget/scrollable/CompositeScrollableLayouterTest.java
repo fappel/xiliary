@@ -26,7 +26,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
@@ -62,7 +62,7 @@ public class CompositeScrollableLayouterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void layoutIfScrollbarsVisible() {
     adapter.open();
     styledText.setText( PARAGRAPHS );

@@ -39,7 +39,8 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTEventHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.util.ReadAndDispatch;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
@@ -67,7 +68,7 @@ public class StyledTextAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void adapt() {
     assertThat( adapter.getChildren() ).contains( styledText );
     assertThat( adapter.getLayout() ).isInstanceOf( ScrollableLayout.class );
@@ -84,7 +85,7 @@ public class StyledTextAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void disposalOfAdapter() {
     adapter.dispose();
 
@@ -92,7 +93,7 @@ public class StyledTextAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void disposalOfStyledText() {
     styledText.dispose();
 
@@ -121,7 +122,7 @@ public class StyledTextAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeStyledTextBoundsWithVisibleScrollBars() {
     openShellWithoutLayout();
     waitForReconciliation();
@@ -134,7 +135,7 @@ public class StyledTextAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeStyledTextVisibility() {
     waitForReconciliation();
 
@@ -145,7 +146,7 @@ public class StyledTextAdapterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void changeStyledTextEnablement() {
     waitForReconciliation();
 
@@ -194,6 +195,7 @@ public class StyledTextAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   // Workaround for https://github.com/fappel/xiliary/issues/63
   public void avoidMouseWheelEventPropagationToFlatScrollBars() {
     Listener listener = mock( Listener.class );

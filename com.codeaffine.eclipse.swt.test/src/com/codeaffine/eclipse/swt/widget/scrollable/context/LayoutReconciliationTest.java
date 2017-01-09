@@ -32,7 +32,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
@@ -51,7 +51,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void run() {
     Rectangle expected = testHelper.setUpWithFillLayout();
 
@@ -61,7 +61,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runWithStackLayout() {
     Rectangle initialAdapterBounds = testHelper.setUpWithStackLayout();
 
@@ -71,7 +71,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runWithStackLayoutWithNonAdapterTopControl() {
     Rectangle initialAdapterBounds = testHelper.setUpWithStackLayoutWithNonAdapterTopControl();
 
@@ -81,7 +81,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runWithViewFormLayoutOnContent() {
     Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnContent();
     List<Point> sizeChanges = registerAdapterSizeChangeRecorder();
@@ -98,7 +98,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runWithViewFormLayoutOnTopCenter() {
     Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnTopCenter();
     List<Point> sizeChanges = registerAdapterSizeChangeRecorder();
@@ -115,7 +115,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runWithViewFormLayoutOnTopLeft() {
     Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnTopLeft();
     List<Point> sizeChanges = registerAdapterSizeChangeRecorder();
@@ -132,7 +132,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runWithViewFormLayoutOnTopRight() {
     Rectangle initialAdapterBounds = testHelper.setUpWithViewFormOnTopRight();
     List<Point> sizeChanges = registerAdapterSizeChangeRecorder();
@@ -149,7 +149,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runWithPageBook() {
     Rectangle initialAdapterBounds = testHelper.setUpWithPageBook();
 
@@ -160,7 +160,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runWithPageBookWithNonAdapterPage() {
     Rectangle initialAdapterBounds = testHelper.setUpWithPageBookWithNonAdapterPage();
 
@@ -171,7 +171,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runWithSashForm() {
     Rectangle initialAdapterBounds = testHelper.setUpWithSashForm();
 
@@ -181,7 +181,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runWithSashFormIfScrollableHasWrongParent() {
     testHelper.setUpWithSashForm();
     testHelper.reparentScrollableToAdapterParent();
@@ -193,7 +193,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runWithSashFormAndMaxControlSet() {
     testHelper.setUpWithSashForm();
     testHelper.getParent( SashForm.class ).setMaximizedControl( testHelper.getScrollable() );
@@ -205,7 +205,7 @@ public class LayoutReconciliationTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runWithCTabFolder() {
     Rectangle initialAdapterBounds = testHelper.setUpWithCTabFolder();
 

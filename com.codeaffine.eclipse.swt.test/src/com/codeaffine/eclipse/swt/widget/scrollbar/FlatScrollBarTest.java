@@ -45,6 +45,7 @@ import org.mockito.ArgumentCaptor;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
@@ -525,7 +526,7 @@ public class FlatScrollBarTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void addCommonListener() {
     ArgumentCaptor<Event> captor = forClass( Event.class );
     Listener listener = mock( Listener.class );

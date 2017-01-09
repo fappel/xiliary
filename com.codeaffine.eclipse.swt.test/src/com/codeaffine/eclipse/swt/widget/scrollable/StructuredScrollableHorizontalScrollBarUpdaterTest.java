@@ -21,7 +21,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
@@ -34,7 +34,7 @@ public class StructuredScrollableHorizontalScrollBarUpdaterTest {
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void update() {
     Shell shell = createShell( displayHelper );
     AdaptionContext<?> context = createContext( shell );

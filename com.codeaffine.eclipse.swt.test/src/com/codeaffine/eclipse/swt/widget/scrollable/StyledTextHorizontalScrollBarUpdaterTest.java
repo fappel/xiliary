@@ -21,7 +21,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
@@ -32,7 +32,7 @@ public class StyledTextHorizontalScrollBarUpdaterTest {
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void update() {
     Shell shell = createShell( displayHelper );
     StyledText styledText = new StyledText( shell, SWT.H_SCROLL | SWT.V_SCROLL );

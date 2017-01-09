@@ -33,6 +33,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
@@ -118,7 +119,7 @@ public class StructureScrollableRedrawInsuranceTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void runOnVerticalScrollBarPostSelectionChange() {
     Table scrollable = createTable( shell, 100, SWT.VIRTUAL );
     scrollable.addListener( SWT.MeasureItem, evt -> {} );
