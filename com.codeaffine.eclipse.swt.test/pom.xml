@@ -28,14 +28,9 @@
             <configuration>
               <testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory>
               <argLine>${vm.args}</argLine>
-              <dependencies>
-						    <dependency>
-						      <groupId>com.codeaffine.xiliary</groupId>
-						      <artifactId>${codeaffine.swt.artifactId}</artifactId>
-						      <version>0.0.0</version>
-						      <scope>test</scope>
-						    </dependency>
-					    </dependencies>
+              <additionalClasspathElements>
+                <additionalClasspathElement>${project.basedir}/../com.codeaffine.eclipse.swt.${codeaffine.swt.fragment}/target/com.codeaffine.eclipse.swt.${codeaffine.swt.fragment}-${version}.jar</additionalClasspathElement>
+              </additionalClasspathElements>
             </configuration>
             <goals>
               <goal>test</goal>
