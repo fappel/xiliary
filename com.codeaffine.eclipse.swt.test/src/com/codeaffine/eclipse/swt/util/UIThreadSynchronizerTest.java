@@ -31,6 +31,7 @@ import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 import com.codeaffine.test.util.util.concurrent.RunInThread;
 import com.codeaffine.test.util.util.concurrent.RunInThreadRule;
 
+@ConditionalIgnore(condition=NonWindowsPlatform.class)
 public class UIThreadSynchronizerTest {
 
   @Rule
@@ -43,7 +44,6 @@ public class UIThreadSynchronizerTest {
   private Runnable runnable;
   private UIThreadSynchronizer synchronizer;
 
-  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testSyncExecRunsCode() {
@@ -52,7 +52,6 @@ public class UIThreadSynchronizerTest {
     verify( runnable ).run();
   }
 
-  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testSyncExecAfterWidgetIsDisposedDoesNotRunCode() throws InterruptedException {
@@ -68,7 +67,6 @@ public class UIThreadSynchronizerTest {
     verify( runnable, never() ).run();
   }
 
-  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testSyncExecWithDisposedDisplayDoesNotRunCode() {
@@ -79,7 +77,6 @@ public class UIThreadSynchronizerTest {
     verify( runnable, never() ).run();
   }
 
-  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testAsyncExecRunsCode() {
@@ -89,7 +86,6 @@ public class UIThreadSynchronizerTest {
     verify( runnable ).run();
   }
 
-  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testAsyncExecRunsCodeFromBackgroundThread() throws InterruptedException {
@@ -104,7 +100,6 @@ public class UIThreadSynchronizerTest {
     verify( runnable ).run();
   }
 
-  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testAsyncExecAfterWidgetIsDisposedDoesNotRunCode() throws InterruptedException {
@@ -120,7 +115,6 @@ public class UIThreadSynchronizerTest {
     verify( runnable, never() ).run();
   }
 
-  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test
   public void testAsyncExecWithDisposedDisplayDoesNotRunCode() {
@@ -132,7 +126,6 @@ public class UIThreadSynchronizerTest {
     verify( runnable, never() ).run();
   }
 
-  @ConditionalIgnore(condition=NonWindowsPlatform.class)
   @RunInThread
   @Test(expected=SWTException.class)
   public void testAsyncExecPropagatesWidgetDisposedExceptionInRunnable() {
@@ -191,5 +184,4 @@ public class UIThreadSynchronizerTest {
       }
     }
   }
-
 }

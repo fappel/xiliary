@@ -8,6 +8,7 @@
  * Contributors:
  *   Rüdiger Herrmann - initial API and implementation
  *   Matt Morrissette - allow to use non-static inner IgnoreConditions
+ *   Frank Appel - add conditional ignore on class level
  ******************************************************************************/
 package com.codeaffine.test.util.junit;
 
@@ -28,7 +29,7 @@ public class ConditionalIgnoreRule implements MethodRule {
   }
 
   @Retention(RetentionPolicy.RUNTIME)
-  @Target({ElementType.METHOD})
+  @Target({ElementType.METHOD, ElementType.TYPE})
   public @interface ConditionalIgnore {
     Class<? extends IgnoreCondition> condition();
   }
@@ -36,8 +37,15 @@ public class ConditionalIgnoreRule implements MethodRule {
   @Override
   public Statement apply( Statement base, FrameworkMethod method, Object target ) {
     Statement result = base;
+    if( hasConditionalIgnoreAnnotation( target.getClass() ) ) {
+      IgnoreCondition condition = getIgnoreCondition( target );
+      if( condition.isSatisfied() ) {
+        result = new IgnoreStatement( condition );
+      }
+    }
     if( hasConditionalIgnoreAnnotation( method ) ) {
-      IgnoreCondition condition = getIgnoreContition( target, method );
+      result = base;
+      IgnoreCondition condition = getIgnoreCondition( target, method );
       if( condition.isSatisfied() ) {
         result = new IgnoreStatement( condition );
       }
@@ -45,11 +53,20 @@ public class ConditionalIgnoreRule implements MethodRule {
     return result;
   }
 
+  private static boolean hasConditionalIgnoreAnnotation( Class<?> type ) {
+    return type.getAnnotation( ConditionalIgnore.class ) != null;
+  }
+
   private static boolean hasConditionalIgnoreAnnotation( FrameworkMethod method ) {
     return method.getAnnotation( ConditionalIgnore.class ) != null;
   }
 
-  private static IgnoreCondition getIgnoreContition( Object target, FrameworkMethod method ) {
+  private static IgnoreCondition getIgnoreCondition( Object target) {
+    ConditionalIgnore annotation = target.getClass().getAnnotation( ConditionalIgnore.class );
+    return new ConditionCreator<>( target, annotation.condition() ).create();
+  }
+
+  private static IgnoreCondition getIgnoreCondition( Object target, FrameworkMethod method ) {
     ConditionalIgnore annotation = method.getAnnotation( ConditionalIgnore.class );
     return new ConditionCreator<>( target, annotation.condition() ).create();
   }
