@@ -45,7 +45,7 @@
         </os>
       </activation>
       <properties>
-        <os-jvm-flags>-Xmx1024m</os-jvm-flags>
+        <os-jvm-flags>-Xmx2048m</os-jvm-flags>
         <swt.groupId>org.eclipse.swt</swt.groupId>
         <swt.artifactId>org.eclipse.swt.win32.win32.x86_64</swt.artifactId>
         <codeaffine.swt.fragment>win</codeaffine.swt.fragment>
@@ -60,7 +60,7 @@
         </os>
       </activation>
       <properties>
-        <os-jvm-flags>-Xmx1024m</os-jvm-flags>
+        <os-jvm-flags>-Xmx2048m</os-jvm-flags>
         <swt.groupId>org.eclipse.swt</swt.groupId>
         <swt.artifactId>org.eclipse.swt.gtk.linux.x86_64</swt.artifactId>
         <codeaffine.swt.fragment>win</codeaffine.swt.fragment>
@@ -74,7 +74,7 @@
         </os>
       </activation>
       <properties>
-        <os-jvm-flags>-Xmx1024m -XstartOnFirstThread</os-jvm-flags>
+        <os-jvm-flags>-Xmx2048m -XstartOnFirstThread</os-jvm-flags>
         <swt.groupId>org.eclipse.swt</swt.groupId>
         <swt.artifactId>org.eclipse.swt.cocoa.macosx.x86_64</swt.artifactId>
         <codeaffine.swt.fragment>mac</codeaffine.swt.fragment>
