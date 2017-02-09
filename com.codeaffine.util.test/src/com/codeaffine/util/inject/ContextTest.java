@@ -227,4 +227,19 @@ public class ContextTest {
     assertThat( context.get( DisposablePojo.class ) ).isNull();
     assertThat( context.get( Object.class ) ).isNull();
   }
+
+  @Test( expected = IllegalArgumentException.class )
+  public void constructorWithNullArgument() {
+    new Context( null );
+  }
+
+  @Test
+  public void createWithInjectionParameterProvider() {
+    Runnable expected = mock( Runnable.class );
+    context = new Context( ( constructor, context ) -> new Object[] { expected } );
+
+    Pojo actual = context.create( Pojo.class );
+
+    assertThat( actual.injected ).isSameAs( expected );
+  }
 }

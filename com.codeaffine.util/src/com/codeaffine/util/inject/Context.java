@@ -19,6 +19,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
 import com.codeaffine.util.Disposable;
@@ -35,9 +36,17 @@ public class Context implements Disposable {
     = "Unable to create instance of <%s> using constructor injection.";
 
   private final Map<Class<?>, Object> content;
+  private final BiFunction<Constructor<?>, Context, Object[]> injectionParameterProvider;
 
   public Context() {
-    content = new HashMap<>();
+    this( ( constructor, context ) -> getInjectionParameters( constructor, context ) );
+  }
+
+  public Context( BiFunction<Constructor<?>, Context, Object[]> injectionParameterProvider ) {
+    verifyNotNull( injectionParameterProvider, "injectionParameterProvider" );
+
+    this.injectionParameterProvider = injectionParameterProvider;
+    this.content = new HashMap<>();
     set( Context.class, this );
   }
 
@@ -73,7 +82,7 @@ public class Context implements Disposable {
   private <T> T doCreate( Class<T> type, Constructor<?> constructor ) {
     try {
       constructor.setAccessible( true );
-      return type.cast( constructor.newInstance( getInjectionParameters( constructor ) ) );
+      return type.cast( constructor.newInstance( injectionParameterProvider.apply( constructor, this ) ) );
     } catch( RuntimeException rte ) {
       throw rte;
     } catch( InvocationTargetException ite ) {
@@ -89,9 +98,9 @@ public class Context implements Disposable {
     }
   }
 
-  private Object[] getInjectionParameters( Constructor<?> constructor ) {
+  private static Object[] getInjectionParameters( Constructor<?> constructor, Context context ) {
     Class<?>[] parameterTypes = constructor.getParameterTypes();
-    return Stream.of( parameterTypes ).map( parameterType -> get( parameterType ) ).toArray();
+    return Stream.of( parameterTypes ).map( parameterType -> context.get( parameterType ) ).toArray();
   }
 
   private static <T> IllegalStateException createIllegalStateExceptionWrapper( Class<T> type, Throwable e ) {
