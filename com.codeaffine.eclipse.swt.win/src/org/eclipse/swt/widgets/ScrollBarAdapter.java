@@ -29,7 +29,11 @@ public class ScrollBarAdapter extends ScrollBar {
 
   @Override
   public Point getSize() {
-    return scrollBar.getSize();
+    Point result = new Point( 0, 0 );
+    if( scrollBar != null ) {
+    	result = scrollBar.getSize();
+    }
+	return result;
   }
 
   @Override
