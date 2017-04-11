@@ -27,6 +27,7 @@ Drop in replacement for all your Eclipse 4.4+ based RCP apps table, tree, and st
 as easy as this in two tiny steps:
  * add bundles **com.codeaffine.eclipse.swt.jar** and **com.codeaffine.eclipse.ui.swt.theme.jar** to your target platform and to your products feature.xml
  * merge this snippet with your RCP apps CSS:
+ 
 ```
 Tree {
   flat-scroll-bar: true;
