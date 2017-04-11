@@ -5,14 +5,14 @@ Xiliary   [![Build Status](https://travis-ci.org/fappel/xiliary.svg?branch=maste
 <img alt="with-Eclipse logo" src="http://with-eclipse.github.io/with-eclipse-0.jpg" />
 </a>
 
-##Introduction
+## Introduction
 Auxiliary libraries for Eclipse, JUnit and Java development in general.
 It includes the *FlatScrollBar* and more...
 
  * Released components are available from this p2 software repository: http://fappel.github.io/xiliary
  * Builds from development branch are also available: http://fappel.github.io/xiliary/development
 
-##Development
+## Development
 The folder https://github.com/fappel/xiliary/tree/master/com.codeaffine.xiliary.releng contains the Xiliary.setup and
 XiliaryIDE.setup files. The latter is an Oomph (https://projects.eclipse.org/projects/tools.oomph) product setup model
 and the first a project setup model. Use the Oomph installer in advanced mode (http://eclipsesource.com/blogs/tutorials/oomph-basic-tutorial/)
@@ -20,7 +20,7 @@ and refer to the files on GitHub in raw mode. This should help to setup a basic 
 in no time. However, as this is the first try on Oomph there might be some unknown depths... please report any issues you're
 running into to help to improve this mechanism. 
 
-##FlatScrollBar
+## FlatScrollBar
 <img src="http://www.codeaffine.com/wp-content/uploads/2015/01/style-scrollbar.png" width="425" height="207"/>
 <br/>
 Drop in replacement for all your Eclipse 4.4+ based RCP apps table, tree, and styled text **scrollbars** ...
