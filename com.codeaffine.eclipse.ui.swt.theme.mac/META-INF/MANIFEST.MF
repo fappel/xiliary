@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Clean Sheet OS X Extension Declarations
 Bundle-SymbolicName: com.codeaffine.eclipse.ui.swt.theme.mac;singleton:=true
-Bundle-Version: 0.4.0.qualifier
-Fragment-Host: com.codeaffine.eclipse.ui.swt.theme;bundle-version="[0.4.0,1.0.0)"
+Bundle-Version: 0.5.0.qualifier
+Fragment-Host: com.codeaffine.eclipse.ui.swt.theme;bundle-version="[0.5.0,1.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: CODE AFFINE
 Eclipse-PlatformFilter: (& (osgi.ws=cocoa)(osgi.os=macosx)(osgi.arch=x86_64))

@@ -2,7 +2,7 @@
 <feature
       id="com.codeaffine.eclipse.swt.feature"
       label="Eclipse SWT Auxiliaries"
-      version="0.4.0.qualifier"
+      version="0.5.0.qualifier"
       provider-name="CODE AFFINE">
 
    <description url="http://fappel.github.io/xiliary/">
