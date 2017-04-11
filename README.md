@@ -23,8 +23,8 @@ running into to help to improve this mechanism.
 ## FlatScrollBar
 <img src="http://www.codeaffine.com/wp-content/uploads/2015/01/style-scrollbar.png" width="425" height="207"/>
 <br/>
-Drop in replacement for all your Eclipse 4.4+ based RCP apps table, tree, and styled text scrollbars ...
-as easy as this in two tiny steps:
+Drop in replacement for all your Eclipse 4.4+ based RCP apps table, tree, and styled text scrollbars as easy as this in two tiny steps:
+
  * add bundles com.codeaffine.eclipse.swt.jar and com.codeaffine.eclipse.ui.swt.theme.jar to your target platform and to your products feature.xml
  * merge this snippet with your RCP apps CSS:
  
