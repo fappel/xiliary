@@ -33,7 +33,7 @@ public class ScrollBarAdapter extends ScrollBar {
     if( scrollBar != null ) {
     	result = scrollBar.getSize();
     }
-	return result;
+	  return result;
   }
 
   @Override
