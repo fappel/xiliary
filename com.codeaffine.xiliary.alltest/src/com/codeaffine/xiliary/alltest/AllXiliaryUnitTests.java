@@ -9,4 +9,4 @@ import org.junit.runner.RunWith;
   ".*Test",
   "!.*PDETest"
 } )
-public class AllXiliaryUnitTests {}
+public class AllXiliaryUnitTests { }
