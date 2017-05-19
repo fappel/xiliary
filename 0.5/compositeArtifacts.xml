@@ -2,11 +2,12 @@
 <?compositeArtifactRepository version='1.0.0'?>
 <repository name='Xiliary Software Repository 0.5' type='org.eclipse.equinox.internal.p2.artifact.repository.CompositeArtifactRepository' version='1.0.0'>
   <properties size='2'>
-    <property name='p2.timestamp' value='1491910927585'/>
+    <property name='p2.timestamp' value='1495195345281'/>
     <property name='p2.atomic.composite.loading' value='true'/>
   </properties>
-  <children size='2'>
+  <children size='3'>
     <child location='0.5.0.20170411-1033'/>
     <child location='0.5.0.20170411-1140'/>
+    <child location='0.5.0.20170519-1200'/>
   </children>
 </repository>
