@@ -18,7 +18,8 @@ XiliaryIDE.setup files. The latter is an Oomph (https://projects.eclipse.org/pro
 and the first a project setup model. Use the Oomph installer in advanced mode (http://eclipsesource.com/blogs/tutorials/oomph-basic-tutorial/)
 and refer to the files on GitHub in raw mode. This should help to setup a basic development environment and workspace
 in no time. However, as this is the first try on Oomph there might be some unknown depths... please report any issues you're
-running into to help to improve this mechanism. 
+running into to help to improve this mechanism. See also https://github.com/fappel/xiliary/blob/master/CONTRIBUTING.md for
+more information on how to contribute.
 
 ## FlatScrollBar
 <img src="http://www.codeaffine.com/wp-content/uploads/2015/01/style-scrollbar.png" width="425" height="207"/>
