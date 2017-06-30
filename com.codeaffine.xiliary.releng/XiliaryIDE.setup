@@ -113,6 +113,8 @@
           url="http://download.eclipse.org/technology/epp/packages/oxygen/"/>
       <repository
           url="http://download.eclipse.org/m2e-wtp/releases/juno/"/>
+      <repository
+          url=" http://update.eclemma.org/"/>
     </setupTask>
     <description>Xiliary IDE for Oxygen.</description>
   </version>
