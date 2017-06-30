@@ -240,7 +240,7 @@ ColorDefinition#org-eclipse-ui-editors-backgroundColor {
 }
  
 .MTrimBar#org-eclipse-ui-main-toolbar {
-	background-color: #f2f2f2;
+	background-color: #ffffff #f2f2f2 100%;
 }
  
 #PerspectiveSwitcher {
