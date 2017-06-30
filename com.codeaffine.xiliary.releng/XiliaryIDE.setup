@@ -96,8 +96,6 @@
       <repository
           url="http://fappel.github.io/xiliary/"/>
       <repository
-          url="https://projects.eclipse.org/projects/technology.eclemma/releases/3.0.0"/>
-      <repository
           url="https://rherrmann.github.io/eclipse-extras/repository/"/>
       <repository
           url="http://www.codeaffine.com/repo"/>
