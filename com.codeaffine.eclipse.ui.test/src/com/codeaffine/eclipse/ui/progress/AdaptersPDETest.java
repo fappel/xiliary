@@ -112,7 +112,7 @@ public class AdaptersPDETest {
 
     Throwable actual = thrownBy( () -> adapters.getAdapter( Boolean.TRUE, ADAPTER_TYPE_2 ) );
 
-    assertThat( actual ).isInstanceOf( ClassCastException.class );
+    assertThat( actual ).isInstanceOf( AssertionFailedException.class );
   }
 
   @Test
