@@ -25,7 +25,7 @@ public class PendingUpdatePlaceHolder extends org.eclipse.ui.progress.PendingUpd
   }
 
   @Override
-  public <T> T getAdapter(Class<T> adapter) {
+  public <T> T getAdapter( Class<T> adapter ) {
     return super.getAdapter( adapter );
   }
 
