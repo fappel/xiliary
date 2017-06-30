@@ -240,11 +240,11 @@ ColorDefinition#org-eclipse-ui-editors-backgroundColor {
 }
  
 .MTrimBar#org-eclipse-ui-main-toolbar {
-	background-color: #eaeaea;
+	background-color: #f2f2f2;
 }
  
 #PerspectiveSwitcher {
-  eclipse-perspective-keyline-color: #eaeaea #ffffff;
+  eclipse-perspective-keyline-color: #f2f2f2 #ffffff;
 }
 
 .MToolBar.Draggable {
