@@ -36,7 +36,7 @@
       <requirement
           name="com.codeaffine.eclipse.ui.swt.theme.feature.feature.group"/>
       <requirement
-          name="com.mountainminds.eclemma.feature.feature.group"/>
+          name="org.eclipse.eclemma.feature.feature.group"/>
       <requirement
           name="org.eclipse.e4.core.tools.feature.feature.group"/>
       <requirement
