@@ -21,8 +21,8 @@
   <setupTask
       xsi:type="setup:InstallationTask"
       id="installation"/>
-  <version name="neon"
-      label="Neon"
+  <version name="oxygen"
+      label="Oxygen"
       requiredJavaVersion="1.8">
     <setupTask
         xsi:type="setup.p2:P2Task"
@@ -92,11 +92,11 @@
       <requirement
           name="org.eclipse.wst.xml_ui.feature.feature.group"/>
       <repository
-          url="http://download.eclipse.org/releases/neon"/>
+          url="http://download.eclipse.org/releases/oxygen"/>
       <repository
           url="http://fappel.github.io/xiliary/"/>
       <repository
-          url="http://update.eclemma.org/"/>
+          url="https://projects.eclipse.org/projects/technology.eclemma/releases/3.0.0"/>
       <repository
           url="https://rherrmann.github.io/eclipse-extras/repository/"/>
       <repository
@@ -108,15 +108,15 @@
       <repository
           url="http://moreunit.sourceforge.net/update-site/"/>
       <repository
-          url="http://download.eclipse.org/eclipse/updates/4.6"/>
+          url="http://download.eclipse.org/eclipse/updates/4.7/"/>
       <repository
           url="http://download.eclipse.org/technology/m2e/releases/"/>
       <repository
-          url="http://download.eclipse.org/technology/epp/packages/neon/"/>
+          url="http://download.eclipse.org/technology/epp/packages/oxygen/"/>
       <repository
           url="http://download.eclipse.org/m2e-wtp/releases/juno/"/>
     </setupTask>
-    <description>Xiliary IDE for Neon.</description>
+    <description>Xiliary IDE for Oxygen.</description>
   </version>
   <description>IDE Setup for Xiliary development.</description>
 </setup:Product>

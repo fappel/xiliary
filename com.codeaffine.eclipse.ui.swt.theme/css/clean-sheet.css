@@ -240,11 +240,11 @@ ColorDefinition#org-eclipse-ui-editors-backgroundColor {
 }
  
 .MTrimBar#org-eclipse-ui-main-toolbar {
-	background-color: #ffffff #e4e4e4 100%;
+	background-color: #eaeaea;
 }
  
 #PerspectiveSwitcher {
-  eclipse-perspective-keyline-color: #e4e4e4 #ffffff;
+  eclipse-perspective-keyline-color: #eaeaea #ffffff;
 }
 
 .MToolBar.Draggable {
@@ -316,7 +316,6 @@ ColorDefinition#org-eclipse-ui-editors-backgroundColor {
 
 .MPartStack {
 	swt-tab-renderer: url('bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
-	unselected-hot-tab-color-background: #fafafc;  /* we keep this for backward compatibility */
 	swt-unselected-hot-tab-color-background: #fafafc; 
   swt-selected-tab-fill: '#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START' '#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END' 100% 100%;
   swt-unselected-tabs-color: '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START' '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END' 100% 100%;

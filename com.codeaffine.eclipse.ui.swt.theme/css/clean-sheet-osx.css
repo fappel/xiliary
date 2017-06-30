@@ -13,22 +13,22 @@
 
 FontDefinition#org-eclipse-jface-textfont {
   font-family: 'Source Code Pro';
-  font-size: 12px;
+  font-size: 14px;
 }
 
 FontDefinition#org-eclipse-ui-workbench-texteditor-blockSelectionModeFont {
   font-family: 'Source Code Pro';
-  font-size: 12px;
+  font-size: 14px;
 }
 
 FontDefinition#org-eclipse-jdt-ui-editors-textfont {
   font-family: 'Source Code Pro';
-  font-size: 12px;
+  font-size: 14px;
 }
 
 FontDefinition#org-eclipse-debug-ui-consoleFont {
   font-family: 'Source Code Pro';
-  font-size: 12px;
+  font-size: 14px;
 }
 
 Tree {

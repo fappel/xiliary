@@ -38,8 +38,9 @@
       xsi:type="setup:VariableTask"
       name="eclipse.target.platform"
       value=""
-      defaultValue="Neon"
-      storageURI="scope://Workspace"/>
+      defaultValue="Oxygen"
+      storageURI="scope://Workspace"
+      label=""/>
   <setupTask
       xsi:type="setup.p2:P2Task">
     <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}</description>
@@ -90,11 +91,11 @@
         <repository
             url="http://rherrmann.github.io/osgi-testsuite/repository"/>
         <repository
-            url="http://download.eclipse.org/tools/orbit/downloads/drops/R20130517111416/repository/"/>
+            url="http://download.eclipse.org/tools/orbit/R-builds/R20170516192513/repository/"/>
         <repository
             url="http://fappel.github.io/test-libraries/"/>
         <repository
-            url="http://download.eclipse.org/eclipse/updates/4.6"/>
+            url="http://download.eclipse.org/eclipse/updates/4.7"/>
       </repositoryList>
       <repositoryList
           name="Oxygen">
