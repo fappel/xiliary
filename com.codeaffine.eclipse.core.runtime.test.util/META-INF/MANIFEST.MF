@@ -18,3 +18,4 @@ Import-Package: org.assertj.core.api;version="[3.4.1,4.0.0)",
  org.junit.runner.notification;version="[4.11,5.0.0)",
  org.junit.runners;version="[4.11,5.0.0)",
  org.junit.runners.model;version="[4.11,5.0.0)"
+Automatic-Module-Name: com.codeaffine.eclipse.core.runtime.test.util

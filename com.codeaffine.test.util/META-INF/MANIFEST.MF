@@ -15,3 +15,4 @@ Import-Package: org.junit;version="[4.11,5.0.0)",
  org.junit.runner.notification;version="[4.11,5.0.0)",
  org.junit.runners;version="[4.11,5.0.0)",
  org.junit.runners.model;version="[4.11,5.0.0)"
+Automatic-Module-Name: com.codeaffine.test.util

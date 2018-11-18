@@ -25,3 +25,4 @@ Import-Package: com.codeaffine.osgi.testuite;version="[1.0.0,2.0.0)",
 Require-Bundle: com.codeaffine.eclipse.core.runtime;bundle-version="[0.1.0,1.0.0)",
  com.codeaffine.eclipse.core.runtime.test.util;bundle-version="[0.1.0,1.0.0)",
  com.codeaffine.eclipse.swt.test.util;bundle-version="[0.1.0,1.0.0)"
+Automatic-Module-Name: com.codeaffine.eclipse.ui.swt.theme.test

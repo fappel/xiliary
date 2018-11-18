@@ -24,3 +24,4 @@ Import-Package: com.codeaffine.eclipse.swt.test.util,
  org.mockito.runners;version="[1.9.0,2.0.0)",
  org.mockito.stubbing;version="[1.9.0,2.0.0)"
 Export-Package: com.codeaffine.eclipse.ui.progress;version="0.1.0"
+Automatic-Module-Name: com.codeaffine.eclipse.ui.test

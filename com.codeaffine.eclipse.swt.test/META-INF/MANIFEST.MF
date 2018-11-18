@@ -26,3 +26,4 @@ Import-Package: com.codeaffine.eclipse.swt.util,
  org.mockito.runners;version="[1.9.0,2.0.0)",
  org.mockito.stubbing;version="[1.9.0,2.0.0)"
 Require-Bundle: com.codeaffine.eclipse.swt.test.util;bundle-version="0.1.0"
+Automatic-Module-Name: com.codeaffine.eclipse.swt.test

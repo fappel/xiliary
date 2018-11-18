@@ -15,3 +15,4 @@ Export-Package: com.codeaffine.eclipse.swt.layout,
  com.codeaffine.eclipse.swt.widget.navigationbar,
  com.codeaffine.eclipse.swt.widget.scrollable,
  com.codeaffine.eclipse.swt.widget.scrollbar
+Automatic-Module-Name: com.codeaffine.eclipse.swt

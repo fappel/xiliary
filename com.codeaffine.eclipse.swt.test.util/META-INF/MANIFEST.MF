@@ -25,3 +25,4 @@ Export-Package: com.codeaffine.eclipse.swt.test.util;
    org.junit.runner,
    com.codeaffine.test.util.junit",
  com.codeaffine.eclipse.swt.test.util.graphics;uses:="org.eclipse.swt.graphics,org.assertj.core.api"
+Automatic-Module-Name: com.codeaffine.eclipse.swt.test.util

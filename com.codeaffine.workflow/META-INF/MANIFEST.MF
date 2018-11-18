@@ -14,3 +14,4 @@ Export-Package: com.codeaffine.workflow;version="0.1.0",
 Bundle-Activator: com.codeaffine.workflow.internal.Activator
 Import-Package: org.osgi.framework;version="[1.8.0,2.0.0)",
  org.osgi.util.tracker;version="[1.5.1,2.0.0)"
+Automatic-Module-Name: com.codeaffine.workflow

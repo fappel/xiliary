@@ -10,3 +10,4 @@ Require-Bundle: com.codeaffine.workflow;bundle-version="[0.1.0,1.0.0)",
  com.google.gson;bundle-version="[2.1.0,3.0.0)"
 Export-Package: com.codeaffine.workflow.persistence;version="0.1.0",
  com.codeaffine.workflow.persistence.internal;x-internal:=true
+Automatic-Module-Name: com.codeaffine.workflow.persistence

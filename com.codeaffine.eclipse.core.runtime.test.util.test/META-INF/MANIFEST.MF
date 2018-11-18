@@ -11,3 +11,4 @@ Import-Package: com.codeaffine.test.util.lang;version="[0.1.0,1.0.0)",
  org.mockito.invocation;version="[1.9.0,2.0.0)",
  org.mockito.runners;version="[1.9.0,2.0.0)",
  org.mockito.stubbing;version="[1.9.0,2.0.0)"
+Automatic-Module-Name: com.codeaffine.eclipse.core.runtime.test.util.test

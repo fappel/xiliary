@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.codeaffine.xiliary</groupId>
+  <artifactId>com.codeaffine.test.util.rest</artifactId>
+  <version>0.2.0-SNAPSHOT</version>
+  
+  <packaging>jar</packaging>
+
+  <parent>
+    <groupId>com.codeaffine.xiliary</groupId>
+    <artifactId>com.codeaffine.xiliary.parent</artifactId>
+    <version>${xiliary.version}</version>
+    <relativePath>../com.codeaffine.xiliary.releng/pom.xml</relativePath>
+  </parent>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+</project>

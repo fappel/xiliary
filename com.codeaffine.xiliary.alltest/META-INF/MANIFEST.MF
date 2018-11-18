@@ -24,3 +24,4 @@ Require-Bundle: com.codeaffine.eclipse.core.runtime;bundle-version="[0.1.0,1.0.0
  com.codeaffine.workflow.test.util;bundle-version="[0.1.0,1.0.0)",
  com.codeaffine.osgi.test.util;bundle-version="0.1.0",
  com.codeaffine.util;bundle-version="0.1.0"
+Automatic-Module-Name: com.codeaffine.xiliary.alltest

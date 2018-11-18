@@ -9,3 +9,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: com.codeaffine.util,
  com.codeaffine.util.concurrent,
  com.codeaffine.util.inject
+Automatic-Module-Name: com.codeaffine.util
