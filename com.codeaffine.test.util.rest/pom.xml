@@ -8,12 +8,10 @@
   
   <packaging>jar</packaging>
   
-  <parent>
-    <groupId>com.codeaffine.xiliary</groupId>
-    <artifactId>com.codeaffine.xiliary.parent</artifactId>
-    <version>${xiliary.version}</version>
-    <relativePath>../com.codeaffine.xiliary.releng/pom.xml</relativePath>
-  </parent>
+   <properties>
+    <maven.compiler.source>1.10</maven.compiler.source>
+    <maven.compiler.target>1.10</maven.compiler.target>
+  </properties>
   
   <dependencies>
     <dependency>
