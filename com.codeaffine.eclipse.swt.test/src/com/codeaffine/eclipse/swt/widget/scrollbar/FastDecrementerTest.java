@@ -35,6 +35,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 @RunWith( value = Parameterized.class )
 public class FastDecrementerTest {
@@ -63,6 +65,7 @@ public class FastDecrementerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void run() {
     scrollBar.setSelectionInternal( scrollBar.getPageIncrement() * 2, SWT.PAGE_DOWN );
     Point size = getUpFastControl().getSize();

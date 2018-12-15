@@ -32,6 +32,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class DirectionTest {
 
@@ -101,6 +103,7 @@ public class DirectionTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutHorizontalWithMaximumSelection() {
     FlatScrollBar scrollBar = createScrollBar( SWT.HORIZONTAL, DEFAULT_MAXIMUM );
 
@@ -117,6 +120,7 @@ public class DirectionTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutHorizontalWithMaximumSelectionAndDragLengthRounding() {
     parent.setSize( 505, 505 );
     FlatScrollBar scrollBar = createScrollBar( SWT.HORIZONTAL, DEFAULT_MAXIMUM );
@@ -241,6 +245,7 @@ public class DirectionTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutVerticalWithMaximumSelection() {
     FlatScrollBar scrollBar = createScrollBar( SWT.VERTICAL, DEFAULT_MAXIMUM );
 
@@ -258,6 +263,7 @@ public class DirectionTest {
 
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void layoutVerticalWithMaximumSelectionAndDragLengthRounding() {
     parent.setSize( 505, 505 );
     FlatScrollBar scrollBar = createScrollBar( SWT.VERTICAL, DEFAULT_MAXIMUM );

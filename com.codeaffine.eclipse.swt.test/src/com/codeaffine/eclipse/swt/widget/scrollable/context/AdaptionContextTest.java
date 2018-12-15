@@ -189,6 +189,7 @@ public class AdaptionContextTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = GtkPlatform.class )
   public void adjustPreferredWidthIfHorizontalBarIsVisible() {
     shell.setSize( 500, 400 );
     expandRootLevelItems( tree );
