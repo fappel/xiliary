@@ -33,6 +33,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class DirectionTest {
@@ -42,6 +43,8 @@ public class DirectionTest {
   private static final int MAX_EXPAND = Direction.CLEARANCE;
 
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnore = new ConditionalIgnoreRule();
+
 
   private Composite parent;
 

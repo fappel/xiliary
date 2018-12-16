@@ -36,10 +36,14 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 @RunWith( value = Parameterized.class )
 public class FastDecrementerTest {
+
+  @Rule
+  public final ConditionalIgnoreRule conditionalIgnore = new ConditionalIgnoreRule();
 
   @Parameters
   public static Collection<Object[]> data() {
