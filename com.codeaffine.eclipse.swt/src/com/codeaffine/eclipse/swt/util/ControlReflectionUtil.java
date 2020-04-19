@@ -51,7 +51,7 @@ public class ControlReflectionUtil {
   }
 
   public Class<? extends Widget> defineWidgetClass( String name ) {
-    return execute( () -> defineClass( name ) );
+    return execute( () -> defineClass( name, Widget.class ) );
   }
 
   public <T extends Widget> T newInstance( Class<T> type ) {
@@ -75,12 +75,12 @@ public class ControlReflectionUtil {
   }
 
   @SuppressWarnings("unchecked")
-  private Class<? extends Widget> defineClass( String name ) {
+  private Class<? extends Widget> defineClass( String name, Class<?> otherInPackage ) {
     String path = name.replaceAll( "\\.", "/" ) + ".class";
     byte[] bytes = new ResourceLoader().load( path );
     ClassLoader loader = getClass().getClassLoader();
     ProtectionDomain domain = getClass().getProtectionDomain();
-    return ( Class<? extends Widget> )unsafe.defineClass( name, bytes, 0, bytes.length, loader, domain  );
+    return ( Class<? extends Widget> )unsafe.defineClass( name, bytes, 0, bytes.length, loader, domain, otherInPackage );
   }
 
   private <T extends Widget> T createNewIewInstance( Class<T> type ) throws Exception {
