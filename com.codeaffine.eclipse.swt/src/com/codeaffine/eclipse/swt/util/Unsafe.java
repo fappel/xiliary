@@ -10,6 +10,8 @@
  */
 package com.codeaffine.eclipse.swt.util;
 
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,12 +22,20 @@ public class Unsafe {
   private Object unsafeInstance;
   private Method allocateInstance;
   private Method defineClass;
+  private Method privateLookupIn;
 
   public Unsafe() {
     try {
       unsafeInstance = getUnsafeInstance();
       allocateInstance = getAllocateInstanceMethod();
-      defineClass = getDefineClassMethod();
+      try {
+        defineClass = getUnsafeDefineClassMethod();
+      } catch( NoSuchMethodException noSuchMethod ) {
+        // These methods are part of JDK9+'s public API. However, getting them
+        // via reflection ensures that the code still compiles on JDK8.
+        defineClass = getLookupDefineClassMethod();
+        privateLookupIn = getPrivateLookupInMethod();
+      }
     } catch( Exception unresolvable ) {
       throw new IllegalStateException( unresolvable );
     }
@@ -42,11 +52,11 @@ public class Unsafe {
   }
 
   public Class<?> defineClass(
-    String name, byte[] bytes, int offset, int length, ClassLoader loader, ProtectionDomain domain )
+    String name, byte[] bytes, int offset, int length, ClassLoader loader, ProtectionDomain domain, Class<?> otherInPackage )
   {
     Class<?> result = loadFromClassLoader( name, loader );
     if( result == null ) {
-      result = defineClassUnsafe( name, bytes, offset, length, loader, domain );
+      result = ( Class<?> )invokeDefineClass( name, bytes, offset, length, loader, domain, otherInPackage );
     }
     return result;
   }
@@ -61,13 +71,21 @@ public class Unsafe {
     return getUnsafeClass().getMethod( "allocateInstance", Class.class );
   }
 
-  private static Method getDefineClassMethod() throws Exception {
+  private static Method getUnsafeDefineClassMethod() throws Exception {
     return getUnsafeClass().getMethod(
       "defineClass", String.class, byte[].class, int.class, int.class, ClassLoader.class, ProtectionDomain.class );
   }
 
   private static Class<?> getUnsafeClass() throws ClassNotFoundException {
     return Unsafe.class.getClassLoader().loadClass( "sun.misc.Unsafe" );
+  }
+
+  private static Method getLookupDefineClassMethod() throws Exception {
+    return Lookup.class.getMethod( "defineClass", byte[].class );
+  }
+
+  private static Method getPrivateLookupInMethod() throws Exception {
+    return MethodHandles.class.getMethod( "privateLookupIn", Class.class, Lookup.class );
   }
 
   private static Class<?> loadFromClassLoader( String name, ClassLoader loader ) {
@@ -80,12 +98,14 @@ public class Unsafe {
     }
   }
 
-  private Class<?> defineClassUnsafe(
-    String name, byte[] bytes, int offset, int length, ClassLoader loader, ProtectionDomain domain )
+  private Object invokeDefineClass(
+    String name, byte[] bytes, int offset, int length, ClassLoader loader, ProtectionDomain domain, Class<?> otherInPackage )
   {
     try {
-      return ( Class<?> )defineClass.invoke(
-        unsafeInstance, name, bytes, Integer.valueOf( offset), Integer.valueOf( length ), loader, domain );
+      if (privateLookupIn != null) {
+        return defineClass.invoke( privateLookupIn.invoke( null, otherInPackage, MethodHandles.lookup() ), bytes );
+      }
+      return defineClass.invoke( unsafeInstance, name, bytes, Integer.valueOf( offset ), Integer.valueOf( length ), loader, domain );
     } catch( RuntimeException rte ) {
       throw rte;
     } catch( InvocationTargetException ite ) {
