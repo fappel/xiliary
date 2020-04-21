@@ -44,6 +44,10 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "developme
     echo -e "current directory is '$(pwd)'\n"
     echo -e "$(ls -axl $HOME)\n"
     echo -e "$(ls -axl $HOME/deployment-work)\n"
+    
+    errormessage=$( cd $HOME 2>&1)
+    echo $errormessage
+    
     cd $HOME
     echo -e "$(ls)"
     cd $HOME/deployment-work
