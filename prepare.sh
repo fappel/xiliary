@@ -40,7 +40,8 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "developme
     echo -e "Prepare deployment of branch development\n"
     export DEPLOY_WORK_DIRECTORY="development"
     echo -e "Set build deployment directory to '$DEPLOY_WORK_DIRECTORY'"
-    echo -e "home directory '$HOME'"    
+    echo -e "home directory '$HOME'"
+    echo -e "$(ls)"
     cd $HOME
     echo -e "$(ls)"
     cd $HOME/deployment-work
