@@ -25,19 +25,29 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "developme
     echo -e "Prepare deployment of branch master\n"
     export DEPLOY_WORK_DIRECTORY=""
     cd $HOME/deployment-work
+    echo -e $(pwd)
     rm -f *.html
+    echo -e "removed html resources"
     rm -rf ./assets
+    echo -e "cleared assets folder"
     rm -rf ./images
+    echo -e "cleared images folder"    
     rm -rf ./development
+    echo -e "cleared development repository content"
   fi
   if [ -f "development" ]; then
     echo -e "Prepare deployment of branch development\n"
     export DEPLOY_WORK_DIRECTORY="development"
     cd $HOME/deployment-work/development
+    echo -e $(pwd)
     rm -f *.html
+    echo -e "removed html resources"
     rm -rf ./assets
+    echo -e "cleared assets folder"
     rm -rf ./images
+    echo -e "cleared images folder"
     rm -rf ./development
+    echo -e "cleared development repository content"
   fi
 
   echo -e "Build deployment directory is '$DEPLOY_WORK_DIRECTORY'"
