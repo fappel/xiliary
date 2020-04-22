@@ -3,8 +3,8 @@ branches:
     - master
     - development
     - OS-X-build
-os:
-  - osx
+os: osx
+osx_image: xcode8
 language: java
 script: "mvn -f ./com.codeaffine.xiliary.releng/pom.xml clean verify"
 before_script:
