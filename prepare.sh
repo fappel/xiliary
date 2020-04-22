@@ -6,7 +6,6 @@ function error_exit
   exit 1
 }
 
-(
 set -e
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "development" ]); then
@@ -25,60 +24,37 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "developme
   if [ -f "master" ]; then
     echo -e "Prepare deployment of branch master\n"
     export DEPLOY_WORK_DIRECTORY=""
-    echo -e "Set build deployment directory to '$DEPLOY_WORK_DIRECTORY'"
+    # cd does not work with set -e
+    set +e 
     cd $HOME/deployment-work
-    echo -e "Change working directory to '$(pwd)'"
-    rm -f *.html
-    echo -e "removed html resources"
-    rm -rf ./assets
-    echo -e "cleared assets folder"
-    rm -rf ./images
-    echo -e "cleared images folder"    
-    rm -rf ./development
-    echo -e "cleared development repository content"
+    set -e 
   fi
   if [ -f "development" ]; then
     echo -e "Prepare deployment of branch development\n"
     export DEPLOY_WORK_DIRECTORY="development"
-    echo -e "Set build deployment directory to '$DEPLOY_WORK_DIRECTORY'"
-    echo -e "home directory is '$HOME'"
-    echo -e "current directory is '$(pwd)'\n"
-    echo -e "$(ls -axl $HOME)\n"
-    echo -e "$(ls -axl $HOME/deployment-work)\n"
-    
-    sleep 5
-    cd $HOME
-    sleep 5
-    
-    echo -e "$(ls)"
-    cd $HOME/deployment-work
-    echo -e "$(ls)"
+    # cd does not work with set -e
+    set +e 
     cd $HOME/deployment-work/development
-    echo -e "Change working directory to '$(pwd)'"
-    rm -f *.html
-    echo -e "removed html resources"
-    rm -rf ./assets
-    echo -e "cleared assets folder"
-    rm -rf ./images
-    echo -e "cleared images folder"
-    rm -rf ./development
-    echo -e "cleared development repository content"
+    set -e 
   fi
-
+  
   echo -e "Build deployment directory is '$DEPLOY_WORK_DIRECTORY'"
+  echo -e "Working directory is '$(pwd)'"
+  rm -f *.html
+  echo -e "removed html resources"
+  rm -rf ./assets
+  echo -e "cleared assets folder"
+  rm -rf ./images
+  echo -e "cleared images folder"    
+  rm -rf ./development
+  echo -e "cleared development repository content"
 
   # go back to the directory where we started
+  # cd does not work with set -e
+  set +e 
   cd $cwd
+  echo -e "Working directory is '$(pwd)'"
+  set -e 
 
-  echo -e "Done with composite repository deployment preparations\n"
-fi
-)
-# and here we catch errors
-# catch
-errorCode=$?
-if [ $errorCode -ne 0 ]; then
-  echo "We have an error: '$errorCode'"
-  # We exit the all script with the same error, if you don't want to
-  # exit it and continue, just delete this line.
-  exit $errorCode
+  echo -e "\nDone with composite repository deployment preparations\n"
 fi
