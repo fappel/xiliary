@@ -45,10 +45,10 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "developme
     echo -e "$(ls -axl $HOME)\n"
     echo -e "$(ls -axl $HOME/deployment-work)\n"
     
-    errormessage=$( cd $HOME 2>&1)
-    echo $errormessage
-    
+    sleep 5
     cd $HOME
+    sleep 5
+    
     echo -e "$(ls)"
     cd $HOME/deployment-work
     echo -e "$(ls)"
