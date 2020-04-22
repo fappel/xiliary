@@ -6,6 +6,7 @@ function error_exit
   exit 1
 }
 
+(
 set -e
 
 if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "development" ]); then
@@ -70,4 +71,14 @@ if [ "$TRAVIS_PULL_REQUEST" == "false" ] && ( [ -f "master" ] || [ -f "developme
   cd $cwd
 
   echo -e "Done with composite repository deployment preparations\n"
+fi
+)
+# and here we catch errors
+# catch
+errorCode=$?
+if [ $errorCode -ne 0 ]; then
+  echo "We have an error: '$errorCode'"
+  # We exit the all script with the same error, if you don't want to
+  # exit it and continue, just delete this line.
+  exit $errorCode
 fi
