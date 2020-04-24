@@ -52,7 +52,13 @@ public class Unsafe {
   }
 
   public Class<?> defineClass(
-    String name, byte[] bytes, int offset, int length, ClassLoader loader, ProtectionDomain domain, Class<?> otherInPackage )
+    String name,
+    byte[] bytes,
+    int offset,
+    int length,
+    ClassLoader loader,
+    ProtectionDomain domain,
+    Class<?> otherInPackage )
   {
     Class<?> result = loadFromClassLoader( name, loader );
     if( result == null ) {
@@ -99,13 +105,25 @@ public class Unsafe {
   }
 
   private Object invokeDefineClass(
-    String name, byte[] bytes, int offset, int length, ClassLoader loader, ProtectionDomain domain, Class<?> otherInPackage )
+    String name,
+    byte[] bytes,
+    int offset,
+    int length,
+    ClassLoader loader,
+    ProtectionDomain domain,
+    Class<?> otherInPackage )
   {
     try {
       if (privateLookupIn != null) {
         return defineClass.invoke( privateLookupIn.invoke( null, otherInPackage, MethodHandles.lookup() ), bytes );
       }
-      return defineClass.invoke( unsafeInstance, name, bytes, Integer.valueOf( offset ), Integer.valueOf( length ), loader, domain );
+      return defineClass.invoke( unsafeInstance,
+                                 name,
+                                 bytes,
+                                 Integer.valueOf( offset ),
+                                 Integer.valueOf( length ),
+                                 loader,
+                                 domain );
     } catch( RuntimeException rte ) {
       throw rte;
     } catch( InvocationTargetException ite ) {
