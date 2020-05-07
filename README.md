@@ -63,7 +63,7 @@ StyledText {
   adapter-demeanor: expand-on-mouse-over; /* fixed-width */
 }
 ```
-Note: In case you want to configure a different background-color style for your trees, tables, or StyledText than the one that is defined for the Composite component when using FlatScrollBar, you'll have to do this with an appropriate TreeAdapter, TreeTable, or StyledTextAdapter configuration entry in your css as shown below (see also https://github.com/fappel/xiliary/issues/94):
+Note: In case you want to configure background-color style for your trees, tables, or styled texts that differs to the one that is defined for the composite components when using FlatScrollBar, you'll have to do this with an appropriate TreeAdapter, TreeTable, or StyledTextAdapter configuration entry in your css as shown below (see also https://github.com/fappel/xiliary/issues/94):
 ```
 Composite * {
   background-color: red;
