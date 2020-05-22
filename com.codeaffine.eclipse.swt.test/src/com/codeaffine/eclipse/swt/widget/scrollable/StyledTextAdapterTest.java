@@ -205,6 +205,19 @@ public class StyledTextAdapterTest {
     verify( listener, never() ).handleEvent( any( Event.class ) );
   }
 
+  @Test
+  public void hideNativeHorizontalScrollBarEvenIfResetToVisible() {
+    openShellWithoutLayout();
+    waitForReconciliation();
+
+    assertThat( styledText.getHorizontalBar().isVisible() ).isFalse();
+
+    styledText.getHorizontalBar().setVisible( true );
+    waitForReconciliation();
+
+    assertThat( styledText.getHorizontalBar().isVisible() ).isFalse();
+  }
+
   private void openShellWithoutLayout() {
     shell.setLayout( null );
     shell.open();

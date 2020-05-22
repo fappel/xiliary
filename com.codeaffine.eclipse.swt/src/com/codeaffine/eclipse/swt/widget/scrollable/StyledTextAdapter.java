@@ -313,6 +313,15 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
 
   private void initialize() {
     styledText.setParent( this );
+    // Hide native horizontal bar to avoid rendering issues with neighbouring
+    // widgets (e.g. ruler, see https://github.com/fappel/xiliary/issues/87).
+    // External code trying to unhide it would trigger a PaintEvent, hence the
+    // listener to ensure it's always hidden.
+    styledText.addPaintListener( e -> {
+      if (styledText.getHorizontalBar() != null) {
+        styledText.getHorizontalBar().setVisible( false );
+      }
+    } );
     ScrollableControl<StyledText> scrollableControl = new ScrollableControl<>( styledText );
     context = new AdaptionContext<>( this, scrollableControl );
     reconciliation = context.getReconciliation();
