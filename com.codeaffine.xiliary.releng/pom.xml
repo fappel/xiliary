@@ -18,7 +18,7 @@
   <version>${xiliary.version}</version>
 
   <properties>
-    <xiliary.version>0.7.0-SNAPSHOT</xiliary.version>
+    <xiliary.version>0.8.0-SNAPSHOT</xiliary.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <target.platform.definition>eclipse-4.7</target.platform.definition>
     <software.download.area>${user.home}/deployment-work/${DEPLOY_WORK_DIRECTORY}</software.download.area>
