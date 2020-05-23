@@ -208,10 +208,7 @@ public class StyledTextAdapterTest {
   @Test
   @ConditionalIgnore( condition = NonWindowsPlatform.class )
   // Fixes https://github.com/fappel/xiliary/issues/87
-  public void ensureNativeScrollbarIsAlwaysHidden() {
-    openShellWithoutLayout();
-    waitForReconciliation();
-
+  public void ensureNativeHorizontalScrollbarIsAlwaysHidden() {
     boolean initialNativeScrollbarVisibility = styledText.getHorizontalBar().isVisible();
     styledText.getHorizontalBar().setVisible( true );
     waitForReconciliation();

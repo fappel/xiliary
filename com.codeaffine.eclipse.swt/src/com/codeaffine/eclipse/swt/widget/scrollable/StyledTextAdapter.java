@@ -314,7 +314,7 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
 
   private void initialize() {
     styledText.setParent( this );
-    ensureNativeScrollbarIsAlwaysHidden();
+    ensureNativeHorizontalScrollbarIsAlwaysHidden();
     context = new AdaptionContext<>( this, new ScrollableControl<>( styledText ) );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
@@ -330,7 +330,7 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
    * editors). External code trying to unhide it would trigger a PaintEvent, hence the listener to ensure it's always
    * hidden.
    */
-  private void ensureNativeScrollbarIsAlwaysHidden() {
+  private void ensureNativeHorizontalScrollbarIsAlwaysHidden() {
     hideNativeHorizontalBar();
     styledText.addPaintListener( evt -> hideNativeHorizontalBar() );
   }
