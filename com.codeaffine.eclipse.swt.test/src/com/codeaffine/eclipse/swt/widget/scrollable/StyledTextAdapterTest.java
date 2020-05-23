@@ -206,16 +206,19 @@ public class StyledTextAdapterTest {
   }
 
   @Test
-  public void hideNativeHorizontalScrollBarEvenIfResetToVisible() {
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
+  // Fixes https://github.com/fappel/xiliary/issues/87
+  public void ensureNativeScrollbarIsAlwaysHidden() {
     openShellWithoutLayout();
     waitForReconciliation();
 
-    assertThat( styledText.getHorizontalBar().isVisible() ).isFalse();
-
+    boolean initialNativeScrollbarVisibility = styledText.getHorizontalBar().isVisible();
     styledText.getHorizontalBar().setVisible( true );
     waitForReconciliation();
+    boolean nativeScrollbarVisibilityAfterReconciliation = styledText.getHorizontalBar().isVisible();
 
-    assertThat( styledText.getHorizontalBar().isVisible() ).isFalse();
+    assertThat( initialNativeScrollbarVisibility ).isFalse();
+    assertThat( nativeScrollbarVisibilityAfterReconciliation ).isFalse();
   }
 
   private void openShellWithoutLayout() {

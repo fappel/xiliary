@@ -11,6 +11,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.createLayoutFactory;
+import static java.util.Objects.nonNull;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyledText;
@@ -42,8 +43,13 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
   private Reconciliation reconciliation;
   private StyledText styledText;
 
+  private final ControlReflectionUtil controlReflectionUtil;
+  private final DisposalRouting disposalRouting;
+
   StyledTextAdapter() {
     super( throwUnsupportedCreation(), -1 );
+    controlReflectionUtil = new ControlReflectionUtil();
+    disposalRouting = new DisposalRouting();
   }
 
   @Override
@@ -313,27 +319,38 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
 
   private void initialize() {
     styledText.setParent( this );
-    // Hide native horizontal bar to avoid rendering issues with neighbouring
-    // widgets (e.g. ruler, see https://github.com/fappel/xiliary/issues/87).
-    // External code trying to unhide it would trigger a PaintEvent, hence the
-    // listener to ensure it's always hidden.
-    styledText.addPaintListener( e -> {
-      if (styledText.getHorizontalBar() != null) {
-        styledText.getHorizontalBar().setVisible( false );
-      }
-    } );
-    ScrollableControl<StyledText> scrollableControl = new ScrollableControl<>( styledText );
-    context = new AdaptionContext<>( this, scrollableControl );
+    ensureNativeScrollbarIsAlwaysHidden();
+    context = new AdaptionContext<>( this, new ScrollableControl<>( styledText ) );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
-    new DisposalRouting().register( this, styledText );
-    new ControlReflectionUtil().invoke( this, "initializeAccessible" );
-    getDisplay().addFilter( SWT.MouseWheel, evt -> avoidMouseWheelEventPropagationToFlatScrollBars( evt ) );
+    disposalRouting.register( this, styledText );
+    controlReflectionUtil.invoke( this, "initializeAccessible" );
+    avoidMouseWheelEventPropagationToFlatScrollBars();
     layout();
   }
 
+  /*
+   * Fixes https://github.com/fappel/xiliary/issues/87
+   * Hide native horizontal bar to avoid rendering issues with neighbouring widgets (e.g. ruler in eclipse text
+   * editors). External code trying to unhide it would trigger a PaintEvent, hence the listener to ensure it's always
+   * hidden.
+   */
+  private void ensureNativeScrollbarIsAlwaysHidden() {
+    styledText.addPaintListener( evt -> hideNativeHorizontalBar() );
+  }
+
+  private void hideNativeHorizontalBar() {
+    if( nonNull( styledText.getHorizontalBar() ) ) {
+      styledText.getHorizontalBar().setVisible( false );
+    }
+  }
+
   // Workaround for https://github.com/fappel/xiliary/issues/63
-  private void avoidMouseWheelEventPropagationToFlatScrollBars( Event evt ) {
+  private void avoidMouseWheelEventPropagationToFlatScrollBars() {
+    getDisplay().addFilter( SWT.MouseWheel, this::cancelMouseWheelEventPropagationToFlatScrollBars );
+  }
+
+  private void cancelMouseWheelEventPropagationToFlatScrollBars( Event evt ) {
     if( evt.widget == StyledTextAdapter.this ) {
       evt.type = SWT.None;
     }
