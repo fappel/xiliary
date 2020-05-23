@@ -43,13 +43,8 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
   private Reconciliation reconciliation;
   private StyledText styledText;
 
-  private final ControlReflectionUtil controlReflectionUtil;
-  private final DisposalRouting disposalRouting;
-
   StyledTextAdapter() {
     super( throwUnsupportedCreation(), -1 );
-    controlReflectionUtil = new ControlReflectionUtil();
-    disposalRouting = new DisposalRouting();
   }
 
   @Override
@@ -323,8 +318,8 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
     context = new AdaptionContext<>( this, new ScrollableControl<>( styledText ) );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
-    disposalRouting.register( this, styledText );
-    controlReflectionUtil.invoke( this, "initializeAccessible" );
+    new DisposalRouting().register( this, styledText );
+    new ControlReflectionUtil().invoke( this, "initializeAccessible" );
     avoidMouseWheelEventPropagationToFlatScrollBars();
     layout();
   }
