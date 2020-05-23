@@ -331,6 +331,7 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
    * hidden.
    */
   private void ensureNativeScrollbarIsAlwaysHidden() {
+    hideNativeHorizontalBar();
     styledText.addPaintListener( evt -> hideNativeHorizontalBar() );
   }
 
