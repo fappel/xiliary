@@ -12,6 +12,7 @@ package com.codeaffine.eclipse.ui.swt.theme;
 
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeSetter.FLAT_SCROLLBAR_BACKGROUND_SETTER;
 import static com.codeaffine.eclipse.ui.swt.theme.CSSValueHelper.stubCssColorValue;
+import static com.codeaffine.eclipse.ui.swt.theme.CSSValueHelper.stubCssStringValue;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.FLAT_SCROLL_BAR_BACKGROUND;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.TOP_LEVEL_WINDOW_SELECTOR;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -118,5 +119,17 @@ public class ColorApplicatorTest {
     applicator.apply( scrollable, FLAT_SCROLL_BAR_BACKGROUND, FLAT_SCROLLBAR_BACKGROUND_SETTER );
 
     assertThat( style.getBackgroundColor().getRGBA() ).isNotEqualTo( getRGBA( CSS_COLOR ) );
+  }
+
+  @Test
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
+  public void applyWithCssStringValue() {
+    ScrollbarStyle style = applicatorTestHelper.adapt();
+    CSSPrimitiveValue cssColor = stubCssStringValue( "#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR" );
+
+    applicator.apply( scrollable, cssColor, FLAT_SCROLL_BAR_BACKGROUND, FLAT_SCROLLBAR_BACKGROUND_SETTER );
+
+    // Assert non nullity rather than precise values as the referred color could change.
+    assertThat( style.getBackgroundColor().getRGBA() ).isNotNull();
   }
 }

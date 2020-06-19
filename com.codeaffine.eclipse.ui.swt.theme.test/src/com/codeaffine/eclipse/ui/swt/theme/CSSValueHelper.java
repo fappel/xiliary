@@ -43,6 +43,8 @@ class CSSValueHelper {
 
   static CSSPrimitiveValue stubCssStringValue( String stringValue ) {
     CSSPrimitiveValue result = mock( CSSPrimitiveValue.class );
+    when( result.getCssValueType() ).thenReturn( CSS_PRIMITIVE_VALUE );
+    when( result.getStringValue() ).thenReturn( stringValue );
     when( result.getCssText() ).thenReturn( stringValue );
     return result;
   }
