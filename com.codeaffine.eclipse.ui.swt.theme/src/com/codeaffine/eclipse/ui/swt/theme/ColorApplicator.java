@@ -12,7 +12,7 @@ package com.codeaffine.eclipse.ui.swt.theme;
 
 import static com.codeaffine.eclipse.ui.swt.theme.AttributeKey.colorKey;
 import static com.codeaffine.eclipse.ui.swt.theme.ScrollableAdapterContribution.TOP_LEVEL_WINDOW_SELECTOR;
-import static org.eclipse.e4.ui.css.swt.helpers.CSSSWTColorHelper.getRGBA;
+import static org.eclipse.e4.ui.css.swt.helpers.CSSSWTColorHelper.getSWTColor;
 
 import java.util.function.BiConsumer;
 
@@ -50,24 +50,24 @@ class ColorApplicator {
     Scrollable scrollable, CSSValue value, String attribute, BiConsumer<ScrollbarStyle, Color> colorSetter )
   {
     new AttributeApplicationOperation( scrollable, colorKey( attribute ) )
-      .onDefault( preserver -> attributeApplicator.apply( scrollable, colorSetter, () -> getColor( value ) ) )
-      .onTopLevelWindow( preserver -> preserver.put( colorKey( attribute ), getColor( value ) ) )
+      .onDefault( preserver -> attributeApplicator.apply( scrollable, colorSetter, () -> getColor( scrollable, value ) ) )
+      .onTopLevelWindow( preserver -> preserver.put( colorKey( attribute ), getColor( scrollable, value ) ) )
       .execute();
   }
 
   private void preserve( Scrollable scrollable, CSSValue value, String attribute ) {
     String baseAttributeName = attribute.replaceAll( TOP_LEVEL_WINDOW_SELECTOR, "" );
     new AttributeApplicationOperation( scrollable, colorKey( attribute ) )
-      .onDefault( preserver -> preserver.put( colorKey( attribute ), getColor( value ) ) )
-      .onTopLevelWindow( preserver -> preserver.put( colorKey( baseAttributeName ), getColor( value ) ) )
+      .onDefault( preserver -> preserver.put( colorKey( attribute ), getColor( scrollable, value ) ) )
+      .onTopLevelWindow( preserver -> preserver.put( colorKey( baseAttributeName ), getColor( scrollable, value ) ) )
       .execute();
   }
 
   @SuppressWarnings("restriction")
-  private Color getColor( CSSValue value ) {
+  private Color getColor( Scrollable scrollable, CSSValue value ) {
     String key = value.getCssText();
     if( !colorRegistry.hasValueFor( key ) ) {
-      colorRegistry.put( key, getRGBA( value ).rgb );
+      colorRegistry.put( key, getSWTColor( value, scrollable.getDisplay() ).getRGB() );
     }
     return colorRegistry.get( key );
   }
