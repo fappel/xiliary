@@ -47,8 +47,11 @@ class CompositeScrollableLayouter implements ScrollableLayouter {
   }
 
   private static int computeHeightWithHorizontalBarPadding( AdaptionContext<?> context ) {
-    int horizontalBarHeight = context.getScrollable().getHorizontalBarSize().y;
-    return context.getVisibleArea().height - BAR_BREADTH + horizontalBarHeight;
+    if( context.getScrollable().getHorizontalBarVisible() ) {
+      int horizontalBarHeight = context.getScrollable().getHorizontalBarSize().y;
+      return context.getVisibleArea().height - BAR_BREADTH + horizontalBarHeight;
+    }
+    return context.getVisibleArea().height - BAR_BREADTH;
   }
 
   private static int computeWidth( AdaptionContext<?> context ) {
