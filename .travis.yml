@@ -1,18 +1,15 @@
-dist: trusty
-language: java
-jdk:
-  - oraclejdk8
 branches:
   only:
     - master
     - development
     - OS-X-build
+os: osx
+osx_image: xcode8
+language: java
 script: "mvn -f ./com.codeaffine.xiliary.releng/pom.xml clean verify"
 before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
-  - sleep 3 # give xvfb some time to start
+  - chmod a+x prepare.sh
+  - source ./prepare.sh
 after_success: 
-  - chmod a+x chain.sh
-  - ./chain.sh
-sudo: false
+  - chmod a+x deploy.sh
+  - ./deploy.sh
