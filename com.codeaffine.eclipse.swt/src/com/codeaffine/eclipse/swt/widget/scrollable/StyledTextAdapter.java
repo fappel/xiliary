@@ -11,6 +11,7 @@
 package com.codeaffine.eclipse.swt.widget.scrollable;
 
 import static com.codeaffine.eclipse.swt.widget.scrollable.ScrollableAdapterFactory.createLayoutFactory;
+import static java.util.Arrays.asList;
 import static java.util.Objects.nonNull;
 
 import org.eclipse.swt.SWT;
@@ -24,6 +25,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Layout;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.ScrollBar;
 
 import com.codeaffine.eclipse.swt.util.ControlReflectionUtil;
@@ -39,6 +41,7 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
   static String UNSUPPORTED_CREATION = "Direct Instantiation of StyledTextAdapter is not allowed.";
 
   private LayoutFactory<StyledText> layoutFactory;
+  private Listener nativeHorizontalBarConcealer;
   private AdaptionContext<StyledText> context;
   private Reconciliation reconciliation;
   private StyledText styledText;
@@ -313,8 +316,9 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
   // private helper methods
 
   private void initialize() {
+    nativeHorizontalBarConcealer = evt -> hideNativeHorizontalBar();
     styledText.setParent( this );
-    ensureNativeHorizontalScrollbarIsAlwaysHidden();
+    ensureNativeHorizontalScrollbarIsConcealedOnSinglePaintEvent();
     context = new AdaptionContext<>( this, new ScrollableControl<>( styledText ) );
     reconciliation = context.getReconciliation();
     super.setLayout( layoutFactory.create( context ) );
@@ -330,14 +334,22 @@ public class StyledTextAdapter extends StyledText implements Adapter<StyledText>
    * editors). External code trying to unhide it would trigger a PaintEvent, hence the listener to ensure it's always
    * hidden.
    */
-  private void ensureNativeHorizontalScrollbarIsAlwaysHidden() {
+  private void ensureNativeHorizontalScrollbarIsConcealedOnSinglePaintEvent() {
     hideNativeHorizontalBar();
-    styledText.addPaintListener( evt -> hideNativeHorizontalBar() );
+    styledText.addListener(SWT.Paint, nativeHorizontalBarConcealer );
   }
 
   private void hideNativeHorizontalBar() {
     if( nonNull( styledText.getHorizontalBar() ) ) {
+      styledText.removeListener( SWT.Paint, nativeHorizontalBarConcealer );
       styledText.getHorizontalBar().setVisible( false );
+      styledText.getDisplay().asyncExec( this::registerNativeHorizontalBarConcealerAfterSubsequentPaintEvents );
+    }
+  }
+
+  private void registerNativeHorizontalBarConcealerAfterSubsequentPaintEvents() {
+    if( !styledText.isDisposed() && !asList( styledText.getListeners( SWT.Paint ) ).contains( nativeHorizontalBarConcealer ) ) {
+      styledText.addListener( SWT.Paint, nativeHorizontalBarConcealer );
     }
   }
 

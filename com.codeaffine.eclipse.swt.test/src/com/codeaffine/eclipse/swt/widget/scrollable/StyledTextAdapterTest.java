@@ -208,14 +208,26 @@ public class StyledTextAdapterTest {
   @Test
   @ConditionalIgnore( condition = NonWindowsPlatform.class )
   // Fixes https://github.com/fappel/xiliary/issues/87
-  public void ensureNativeHorizontalScrollbarIsAlwaysHidden() {
+  public void onPaintEvent() {
+    shell.open();
+    waitForReconciliation();
     boolean initialNativeScrollbarVisibility = styledText.getHorizontalBar().isVisible();
+
     styledText.getHorizontalBar().setVisible( true );
     waitForReconciliation();
-    boolean nativeScrollbarVisibilityAfterReconciliation = styledText.getHorizontalBar().isVisible();
+    boolean nativeScrollbarVisibility1 = styledText.getHorizontalBar().isVisible();
+    styledText.getHorizontalBar().setVisible( true );
+    waitForReconciliation();
+    boolean nativeScrollbarVisibility2 = styledText.getHorizontalBar().isVisible();
+    styledText.addListener( SWT.Paint, evt -> styledText.getHorizontalBar().setVisible( true ) );
+    styledText.getHorizontalBar().setVisible( true );
+    waitForReconciliation();
+    boolean nativeScrollbarVisibilityWithSubsequentVisibilityRepaint = styledText.getHorizontalBar().isVisible();
 
     assertThat( initialNativeScrollbarVisibility ).isFalse();
-    assertThat( nativeScrollbarVisibilityAfterReconciliation ).isFalse();
+    assertThat( nativeScrollbarVisibility1 ).isFalse();
+    assertThat( nativeScrollbarVisibility2 ).isFalse();
+    assertThat( nativeScrollbarVisibilityWithSubsequentVisibilityRepaint ).isTrue();
   }
 
   private void openShellWithoutLayout() {
