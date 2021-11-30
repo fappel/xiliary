@@ -87,6 +87,7 @@ IEclipsePreferences#org-eclipse-jdt-ui {
 	  'semanticHighlighting.typeArgument.enabled=true'
 	  'semanticHighlighting.typeParameter.color=0,0,0'
 	  'semanticHighlighting.typeParameter.enabled=true'
+	  'semanticHighlighting.restrictedKeywords.color=196,58,26'
 	  'sourceHoverBackgroundColor=238,238,238'
 }
 
