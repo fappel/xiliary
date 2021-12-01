@@ -64,6 +64,7 @@ public class DeferredContentManagerPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void deferredChildFetchingWithTableViewer() {
     TableViewerAdapterHelper adapterHelper = new TableViewerAdapterHelper( shell );
     adapterHelper.initializeViewer();
