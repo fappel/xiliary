@@ -17,7 +17,7 @@ jobs:
           java-version: '8'
           distribution: 'temurin'
       - name: Cache local Maven and P2 repositories
-        uses: actions/always-upload-cache@v2
+        uses: pat-s/always-upload-cache@v2.1.5
         with:
           path: |
             ~/.m2/repository
