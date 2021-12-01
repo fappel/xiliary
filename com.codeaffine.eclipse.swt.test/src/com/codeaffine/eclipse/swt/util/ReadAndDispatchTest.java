@@ -28,8 +28,8 @@ import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class ReadAndDispatchTest {
 
-  private static final int DURATION = 50;
-  private static final int SCHEDULE = 50;
+  private static final int DURATION = 100;
+  private static final int SCHEDULE = 100;
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
