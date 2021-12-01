@@ -25,6 +25,10 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '**/*.target') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.2
+        with:
+          maven-version: 3.8.0
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots -f ${{ github.workspace }}/com.codeaffine.xiliary.releng/pom.xml clean verify
         
