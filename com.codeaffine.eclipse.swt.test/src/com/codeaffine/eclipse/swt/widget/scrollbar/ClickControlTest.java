@@ -34,13 +34,18 @@ import org.junit.Test;
 import org.mockito.InOrder;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollbar.ClickControl.ClickAction;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class ClickControlTest {
 
   private static final int WIDTH = 100;
   private static final int HEIGHT = 200;
 
+  @Rule
+  public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -78,6 +83,7 @@ public class ClickControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void mouseDownTimerActivation() {
     triggerLeftButtonMouseEvent( SWT.MouseDown );
     waitTillMouseDownTimerHasBeenTriggered();

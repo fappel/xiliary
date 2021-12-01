@@ -44,6 +44,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
@@ -607,6 +608,7 @@ public class FlatScrollBarTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void layoutTriggersPaint() {
     PaintListener listener = registerPaintListener( scrollBar );
 
