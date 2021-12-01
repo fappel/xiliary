@@ -16,7 +16,15 @@ jobs:
         with:
           java-version: '8'
           distribution: 'temurin'
-          cache: maven
+      - name: Cache local Maven and P2 repositories
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.m2/repository
+            ~/.p2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots -f ${{ github.workspace }}/com.codeaffine.xiliary.releng/pom.xml clean verify
         
