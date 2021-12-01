@@ -18,5 +18,5 @@ jobs:
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
-        run: mvn --batch-mode --update -f ${{ github.workspace }}/com.codeaffine.xiliary.releng/pom.xml clean verify
+        run: mvn --batch-mode --update-snapshots -f ${{ github.workspace }}/com.codeaffine.xiliary.releng/pom.xml clean verify
         
