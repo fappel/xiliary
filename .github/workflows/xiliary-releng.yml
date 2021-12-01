@@ -5,3 +5,18 @@ on:
       - '!**'
       - 'master'
       - 'development'
+jobs:
+  build-on-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: mvn --batch-mode --update -f ${{ github.workspace }}/com.codeaffine.xiliary.releng/pom.xml clean verify
+        
