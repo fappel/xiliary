@@ -6,11 +6,11 @@ on:
       - 'master'
       - 'development'
 jobs:
-  build-on-linux:
+  multi-platform-build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest]
 
     steps:
       - uses: actions/checkout@v2
