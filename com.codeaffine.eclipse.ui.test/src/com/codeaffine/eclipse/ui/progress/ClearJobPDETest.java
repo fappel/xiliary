@@ -22,9 +22,17 @@ import static org.mockito.Mockito.when;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
+
 public class ClearJobPDETest {
+
+  @Rule
+  public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
 
   private JobHelper jobHelper;
   private IJobChangeListener listener;
@@ -61,6 +69,7 @@ public class ClearJobPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void scheduleIfViewerAdapterIsDisposed() {
     when( viewerAdapter.isDisposed() ).thenReturn( true );
 

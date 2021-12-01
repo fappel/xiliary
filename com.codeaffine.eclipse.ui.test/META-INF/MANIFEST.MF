@@ -9,6 +9,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.codeaffine.eclipse.swt.test.util,
  com.codeaffine.eclipse.swt.util,
  com.codeaffine.osgi.testuite;version="[1.0.0,2.0.0)",
+ com.codeaffine.test.util.junit;version="[0.1.0,1.0.0)",
  com.codeaffine.test.util.lang;version="[0.1.0,1.0.0)",
  org.assertj.core.api;version="[3.4.1,4.0.0)",
  org.assertj.core.api.filter;version="[3.4.1,4.0.0)",

@@ -31,9 +31,14 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class DeferredContentManagerPDETest {
 
+  @Rule
+  public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -45,6 +50,7 @@ public class DeferredContentManagerPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void deferredChildFetchingWithTreeViewer() {
     TreeViewerAdapterHelper adapterHelper = new TreeViewerAdapterHelper( shell );
     adapterHelper.initializeViewer();
