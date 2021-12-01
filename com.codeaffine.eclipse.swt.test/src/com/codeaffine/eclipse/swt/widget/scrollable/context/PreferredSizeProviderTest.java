@@ -31,6 +31,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.StyledTextHelper;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
@@ -102,6 +103,7 @@ public class PreferredSizeProviderTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void getSizeOnOwnerDrawnAndVirtual() {
     Tree scrollable = createTree( shell, 2, 3, SWT.VIRTUAL );
     scrollable.addListener( SWT.MeasureItem, evt -> {} );

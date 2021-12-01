@@ -21,8 +21,13 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class TreeTopItemSelectorTest {
+
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
 
   private static final int TEN_ITEMS_PER_LEVEL = 10;
   private static final int TWO_LEVELS = 2;
@@ -31,6 +36,7 @@ public class TreeTopItemSelectorTest {
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   @Test
+  @ConditionalIgnore( condition = NonWindowsPlatform.class)
   public void select() {
     Tree tree = createTree( TEN_ITEMS_PER_LEVEL, TWO_LEVELS );
     expandFirstTopLevelItem( tree );

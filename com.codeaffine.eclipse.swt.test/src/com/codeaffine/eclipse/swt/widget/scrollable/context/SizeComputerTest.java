@@ -33,6 +33,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.util.ControlReflectionUtil;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
@@ -124,6 +125,7 @@ public class SizeComputerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void getPreferredSizeForScrolledCompositeThatHasNoContent() {
     Stream.of( adapter.getChildren() ).forEach( child -> child.dispose() );
     ScrolledComposite scrolledComposite = new ScrolledComposite( adapter, SWT.H_SCROLL | SWT.V_SCROLL );

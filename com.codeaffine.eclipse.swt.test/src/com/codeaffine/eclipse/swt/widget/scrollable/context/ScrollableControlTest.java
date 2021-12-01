@@ -38,6 +38,7 @@ import org.junit.Test;
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
@@ -215,6 +216,7 @@ public class ScrollableControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void computePreferredSize() {
     Tree scrollable = createScrollable( Tree.class );
     ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
@@ -228,6 +230,7 @@ public class ScrollableControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void computeSize() {
     Tree scrollable = createScrollable( Tree.class );
     ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );

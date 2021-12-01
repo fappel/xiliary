@@ -25,7 +25,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
@@ -66,6 +66,7 @@ public class TableVerticalScrollBarUpdaterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void updateWithSelection() {
     int expectedSelection = ITEM_INDEX * SELECTION_RASTER_SMOOTH_FACTOR;
     table.setTopIndex( 2 );
@@ -130,7 +131,7 @@ public class TableVerticalScrollBarUpdaterTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = CocoaPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void updateWithGtkWorkaround() {
     int index = 3;
     adjustTableHeightForGtkWorkaround();

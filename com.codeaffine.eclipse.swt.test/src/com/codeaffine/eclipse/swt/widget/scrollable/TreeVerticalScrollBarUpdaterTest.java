@@ -29,6 +29,7 @@ import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
@@ -86,6 +87,7 @@ public class TreeVerticalScrollBarUpdaterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void updateWithSelection() {
     expandTopBranch( tree );
     tree.setTopItem( tree.getItem( 0 ).getItem( 0 ) );

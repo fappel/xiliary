@@ -26,16 +26,20 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollbar.FlatScrollBar;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class TreeVerticalSelectionListenerTest {
 
   private static final int ITEM_INDEX = 2;
 
-  @Rule
-  public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   @Test
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void selectionChanged() {
     Shell shell = createShell( displayHelper );
     Tree tree = createTreeWithExpandedTopBranch( shell );
