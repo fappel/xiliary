@@ -30,5 +30,5 @@ jobs:
         with:
           maven-version: 3.6.3
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots -f ${{ github.workspace }}/com.codeaffine.xiliary.releng/pom.xml clean compile
+        run: mvn --batch-mode --update-snapshots -f ${{ github.workspace }}/com.codeaffine.xiliary.releng/pom.xml clean verify
         
