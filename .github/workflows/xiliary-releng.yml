@@ -1,0 +1,7 @@
+name: Xiliary Releng Workflow
+on:
+  push:
+    branches:    
+      - '!**'
+      - 'master'
+      - 'development'
