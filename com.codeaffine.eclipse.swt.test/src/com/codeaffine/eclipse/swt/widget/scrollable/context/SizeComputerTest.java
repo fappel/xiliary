@@ -102,6 +102,7 @@ public class SizeComputerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void getPreferredSizeOnIfWidthIsEqualsToScrollableContentWidth() {
     expandTopBranch( scrollable );
     shell.setSize( 200, 200 );
@@ -190,6 +191,7 @@ public class SizeComputerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void updatePreferredSizeBuffering() {
     expandTopBranch( scrollable );
     shell.setSize( 400, 200 );

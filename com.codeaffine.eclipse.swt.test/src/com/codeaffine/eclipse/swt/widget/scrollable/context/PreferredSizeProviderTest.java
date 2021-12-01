@@ -30,7 +30,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.StyledTextHelper;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
@@ -49,6 +49,7 @@ public class PreferredSizeProviderTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void getSizeOnExpand() {
     Tree scrollable = createTree( shell, 4, 6 );
     PreferredSizeProvider provider = newPreferredSizeProvider( scrollable );
@@ -62,7 +63,7 @@ public class PreferredSizeProviderTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void getSizeOnCollapse() {
     Tree scrollable = createTree( shell, 4, 6 );
     triggerExpansion( scrollable );

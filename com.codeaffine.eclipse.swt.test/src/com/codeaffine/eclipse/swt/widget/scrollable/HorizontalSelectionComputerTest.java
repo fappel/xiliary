@@ -25,14 +25,19 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 
 public class HorizontalSelectionComputerTest {
 
   private static final int SELECTION = 4;
 
+  @Rule
+  public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -58,6 +63,7 @@ public class HorizontalSelectionComputerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void computeWithSelection() {
     expandTopBranch( scrollable );
     adapter.getHorizontalBar().setSelection( SELECTION );
@@ -79,6 +85,7 @@ public class HorizontalSelectionComputerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void computeWithAdapterReplacementFakeAndSelection() {
     Composite composite = new Composite( scrollable.getParent(), SWT.H_SCROLL | SWT.V_SCROLL );
     composite.getHorizontalBar().setSelection( SELECTION );

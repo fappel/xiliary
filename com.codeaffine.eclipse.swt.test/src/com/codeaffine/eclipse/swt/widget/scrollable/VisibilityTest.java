@@ -48,8 +48,8 @@ public class VisibilityTest {
     return result;
   }
 
-  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
   @Rule public final ConditionalIgnoreRule conditionalIgnore = new ConditionalIgnoreRule();
+  @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   @Parameter
   public int orientation;
@@ -76,6 +76,7 @@ public class VisibilityTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void isVisibleOnScrollBarStateChangeWithoutUpdate() {
     shell.setSize( 200, 100 );
     expandRootLevelItems( tree );
@@ -121,6 +122,7 @@ public class VisibilityTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void hasChangedOnScrollBarStateChangeAndUpdate() {
     shell.setSize( 200, 100 );
     expandRootLevelItems( tree );

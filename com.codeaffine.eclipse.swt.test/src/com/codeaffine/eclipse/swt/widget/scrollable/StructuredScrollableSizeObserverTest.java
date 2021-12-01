@@ -26,11 +26,16 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class StructuredScrollableSizeObserverTest {
 
+  @Rule
+  public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
 
@@ -61,6 +66,7 @@ public class StructuredScrollableSizeObserverTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void preferredWidthExceedsVisibleRangeWhenVerticalScrollBarIsVisible() {
     expandRootLevelItems( tree );
     setTreeWidth( shell.getClientArea().width + getVerticalBarWidth() );
@@ -73,6 +79,7 @@ public class StructuredScrollableSizeObserverTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void preferredIsSameAsVisibleRangeWhenVerticalScrollBarIsVisible() {
     expandRootLevelItems( tree );
     setTreeWidth( shell.getClientArea().width );

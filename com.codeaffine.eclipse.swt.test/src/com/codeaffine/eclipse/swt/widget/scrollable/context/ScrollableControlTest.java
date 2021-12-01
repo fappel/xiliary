@@ -298,6 +298,7 @@ public class ScrollableControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void setVisible() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
     ScrollableControl<Scrollable> scrollableControl = new ScrollableControl<>( scrollable );
@@ -309,6 +310,7 @@ public class ScrollableControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void setEnabled() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
     ScrollableControl<Scrollable> scrollableControl = new ScrollableControl<>( scrollable );
@@ -420,6 +422,7 @@ public class ScrollableControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void isVerticalBarVisible() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
 
@@ -458,7 +461,7 @@ public class ScrollableControlTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void getVerticalBarSelection() {
     Tree scrollable = ( Tree )createScrollableWithVisibleScrollbars();
     ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
@@ -482,6 +485,7 @@ public class ScrollableControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void getVerticalBarThumb() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
     ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
@@ -504,6 +508,7 @@ public class ScrollableControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void getVerticalBarPageIncrement() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
     ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
@@ -526,6 +531,7 @@ public class ScrollableControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void getVerticalBarMaximum() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
     ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
@@ -548,6 +554,7 @@ public class ScrollableControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void getVerticalBarIncrement() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
     ScrollableControl<?> scrollableControl = new ScrollableControl<>( scrollable );
@@ -570,6 +577,7 @@ public class ScrollableControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void isHorizontalBarVisible() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
 
@@ -638,6 +646,7 @@ public class ScrollableControlTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void getHorizontalBarMaximum() {
     Scrollable scrollable = createScrollableWithVisibleScrollbars();
     int expected = scrollable.getHorizontalBar().getMaximum();

@@ -22,11 +22,15 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.AdaptionContext;
 import com.codeaffine.eclipse.swt.widget.scrollable.context.ScrollableControl;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class PreferredWidthComputerTest {
 
+  @Rule public final ConditionalIgnoreRule conditionIgnoreRule = new ConditionalIgnoreRule();
   @Rule public final DisplayHelper displayHelper = new DisplayHelper();
 
   private AdaptionContext<Tree> layoutContext;
@@ -53,6 +57,7 @@ public class PreferredWidthComputerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void computeIfVerticalScrollBarVisible() {
     expandRootLevelItems( tree );
     layoutContext.updatePreferredSize();

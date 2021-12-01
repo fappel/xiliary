@@ -33,6 +33,7 @@ import org.junit.Test;
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.GtkPlatform;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.NonWindowsPlatform;
 import com.codeaffine.eclipse.swt.util.ControlReflectionUtil;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
@@ -121,6 +122,7 @@ public class AdaptionContextTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void preferredHeightExceedsVisibleAreaHeight() {
     shell.setSize( 200, 100 );
     expandRootLevelItems( tree );
@@ -151,6 +153,7 @@ public class AdaptionContextTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class)
   public void preferredSizeIsBuffered() {
     Point expected = adaptionContext.getPreferredSize();
 
@@ -189,7 +192,7 @@ public class AdaptionContextTest {
   }
 
   @Test
-  @ConditionalIgnore( condition = GtkPlatform.class )
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void adjustPreferredWidthIfHorizontalBarIsVisible() {
     shell.setSize( 500, 400 );
     expandRootLevelItems( tree );
