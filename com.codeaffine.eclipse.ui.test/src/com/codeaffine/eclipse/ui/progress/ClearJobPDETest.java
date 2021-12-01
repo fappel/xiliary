@@ -58,6 +58,7 @@ public class ClearJobPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void schedule() {
     clearJob.schedule();
     jobHelper.waitTillJobHasFinished();
