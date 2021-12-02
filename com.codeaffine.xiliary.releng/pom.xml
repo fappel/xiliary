@@ -25,7 +25,7 @@
     <tycho.version>0.23.0</tycho.version>
     <tycho.extras.version>0.23.0</tycho.extras.version>
     <mycila.version>2.11</mycila.version>
-    <junit.version>4.11</junit.version>
+    <junit.version>4.13.1</junit.version>
     <mockito.version>1.8.4</mockito.version>
     <maven.resources.plugin.version>2.6</maven.resources.plugin.version>
     <vm.args>${os-jvm-flags}</vm.args>
