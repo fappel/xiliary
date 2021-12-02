@@ -6,7 +6,7 @@ on:
       - 'master'
       - 'development'
 env:
-  DEPLOY_WORK_DIRECTORY: ${{ fromJSON('["development", ""]')[github.ref == 'master'] }}
+  DEPLOY_WORK_DIRECTORY: ${{ fromJSON('["development", ""]')[github.ref == 'refs/heads/master'] }}
 
 jobs:
   multi-platform-build:
@@ -16,10 +16,9 @@ jobs:
         os: [windows-latest, macos-latest]
 
     steps:
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - run: echo "Building Xiliary Components for ${{ fromJSON('["Testing", "Production"]')[env.DEPLOY_WORK_DIRECTORY == ''] }} Site."
+      - run: echo "Building Xiliary Components for ${{ fromJSON('["Testing", "Production"]')[env.DEPLOY_WORK_DIRECTORY == ''] }} Site on Branch '${{ env.GITHUB_REF_NAME }}'."
       
-      - name: "Checkout branch ${{ env.GITHUB_REF_NAME }}"
+      - name: Checkout branch
         uses: actions/checkout@v2
      
       - name: Create repository site build directory
@@ -38,6 +37,8 @@ jobs:
         if: success() && matrix.os == 'windows-latest'
         run: |
           cwd=$(pwd)
+          cd ~/deployment-work
+          ls -axl
           cd ~/deployment-work/${DEPLOY_WORK_DIRECTORY}
           rm -f *.html
           rm -rf ./assets
