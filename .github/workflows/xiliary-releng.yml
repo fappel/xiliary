@@ -6,7 +6,7 @@ on:
       - 'master'
       - 'development'
 env:
-  DEPLOY_WORK_DIRECTORY: ${{ fromJSON('["development", ""]')[GITHUB_REF_NAME == 'master'] }}
+  DEPLOY_WORK_DIRECTORY: ${{ fromJSON('["development", ""]')[github.ref == 'master'] }}
 
 jobs:
   multi-platform-build:
