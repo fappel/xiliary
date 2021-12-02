@@ -19,7 +19,7 @@ jobs:
       - run: echo "Building Xiliary Components for ${{ fromJSON('["Testing", "Production"]')[DEPLOY_WORK_DIRECTORY == ''] }} Site."
       
       - name: Checkout branch ${{ GITHUB_REF_NAME }}
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
      
       - name: Create repository site build directory
         if: success() && matrix.os == windows-latest
