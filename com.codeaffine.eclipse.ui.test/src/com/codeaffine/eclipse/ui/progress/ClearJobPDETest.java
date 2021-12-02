@@ -84,6 +84,7 @@ public class ClearJobPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void scheduleIfPlaceHolderHasBeenRemoved() {
     placeholder.setRemoved( true );
 
