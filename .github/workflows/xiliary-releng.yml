@@ -6,7 +6,7 @@ on:
       - 'master'
       - 'development'
 env:
-  DEPLOY_WORK_DIRECTORY: ${{ fromJSON('["development", ""]')[env.GITHUB_REF_NAME == 'master'] }}
+  DEPLOY_WORK_DIRECTORY: ${{ fromJSON('["development", ""]')[GITHUB_REF_NAME == 'master'] }}
 
 jobs:
   multi-platform-build:
@@ -16,6 +16,7 @@ jobs:
         os: [windows-latest, macos-latest]
 
     steps:
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - run: echo "Building Xiliary Components for ${{ fromJSON('["Testing", "Production"]')[env.DEPLOY_WORK_DIRECTORY == ''] }} Site."
       
       - name: "Checkout branch ${{ env.GITHUB_REF_NAME }}"
