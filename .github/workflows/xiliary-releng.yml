@@ -22,19 +22,19 @@ jobs:
         uses: actions/checkout@v2
      
       - name: Create repository site build directory
-        if: success() && matrix.os == windows-latest
+        if: success() && matrix.os == 'windows-latest'
         run: mkdir ~/deployment-work
         shell: bash
       
       - name: Checkout current version of repository site
-        if: success() && matrix.os == windows-latest
+        if: success() && matrix.os == 'windows-latest'
         uses: actions/checkout@v2
         with:
           ref: gh-pages
           path: ~/deployment-work
      
       - name: Clear the repository site content
-        if: success() && matrix.os == windows-latest
+        if: success() && matrix.os == 'windows-latest'
         run: |
           cwd=$(pwd)
           cd ~/deployment-work/${DEPLOY_WORK_DIRECTORY}
