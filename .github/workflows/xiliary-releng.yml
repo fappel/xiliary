@@ -16,7 +16,7 @@ jobs:
         os: [windows-latest, macos-latest]
 
     steps:
-      - run: echo "Building Xiliary Components for ${{ fromJSON('["Testing", "Production"]')[DEPLOY_WORK_DIRECTORY == ''] }} Site."
+      - run: echo "Building Xiliary Components for ${{ fromJSON('["Testing", "Production"]')[env.DEPLOY_WORK_DIRECTORY == ''] }} Site."
       
       - name: Checkout branch ${{ GITHUB_REF_NAME }}
         uses: actions/checkout@v2
@@ -75,7 +75,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - run: echo "Publishing Xiliary ${{ fromJSON('["Test", "Production"]')[DEPLOY_WORK_DIRECTORY == ''] }} Site."
+      - run: echo "Publishing Xiliary ${{ fromJSON('["Test", "Production"]')[env.DEPLOY_WORK_DIRECTORY == ''] }} Site."
 
       - name: Commit and push the repository site content to github pages
         run: |
