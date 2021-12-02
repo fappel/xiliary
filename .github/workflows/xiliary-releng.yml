@@ -37,11 +37,8 @@ jobs:
       - name: Clear the repository site content
         if: success() && matrix.os == 'windows-latest'
         run: |
-          ls -axl
           cp -a ./gh-pages/. ~/deployment-work/
           cwd=$(pwd)
-          cd ~/deployment-work
-          ls -axl
           cd ~/deployment-work/${DEPLOY_WORK_DIRECTORY}
           rm -f *.html
           rm -rf ./assets
@@ -51,12 +48,14 @@ jobs:
         shell: bash
      
       - name: Set up JDK 8
+        if: false
         uses: actions/setup-java@v2
         with:
           java-version: '8'
           distribution: 'temurin'
       
       - name: Cache local Maven and P2 repositories
+        if: false
         uses: pat-s/always-upload-cache@v2.1.5
         with:
           path: |
@@ -67,21 +66,35 @@ jobs:
             ${{ runner.os }}-maven-
       
       - name: Set up Maven
+        if: false
         uses: stCarolas/setup-maven@v4.2
         with:
           maven-version: 3.6.3
       
       - name: Build with Maven (headless with xvfb)
+        if: false
         uses: GabrielBB/xvfb-action@v1
         with:
           run: mvn --batch-mode --update-snapshots -f ${{ github.workspace }}/com.codeaffine.xiliary.releng/pom.xml clean verify
 
+      - uses: actions/upload-artifact@v2
+        if: success()
+        with:
+          name: repository-site
+          path: ~/deployment-work/
+          
   publish-repository-site:
     needs: [multi-platform-build]
     runs-on: ubuntu-latest
     
     steps:
       - run: echo "Publishing Xiliary ${{ fromJSON('["Test", "Production"]')[env.DEPLOY_WORK_DIRECTORY == ''] }} Site."
+
+      - uses: actions/download-artifact@v2
+        if: success()
+        with:
+          name: repository-site
+          path: ~/deployment-work/
 
       - name: Commit and push the repository site content to github pages
         run: |
