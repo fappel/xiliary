@@ -11,11 +11,13 @@
 package com.codeaffine.eclipse.swt.util;
 
 import static com.codeaffine.test.util.lang.ThrowableCaptor.thrownBy;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.eclipse.swt.widgets.Shell;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,6 +43,14 @@ public class ReadAndDispatchTest {
   @Before
   public void setUp() {
     shell = openShell();
+    avoidFreeze();
+  }
+
+  @After
+  public void tearDown() {
+    if(!shell.isDisposed()) {
+      shell.dispose();
+    }
   }
 
   @Test
@@ -128,5 +138,17 @@ public class ReadAndDispatchTest {
 
   private static boolean captureDisposeState( Shell shell, boolean[] isOpen ) {
     return isOpen[ 0 ] = !shell.isDisposed();
+  }
+
+  private void avoidFreeze() {
+    displayHelper.getDisplay().timerExec( SCHEDULE * 4, () -> {
+      if(!shell.isDisposed()) {
+        System.err.println( format( "%s: force focus to avoid freeze", getClass().getSimpleName() ) );
+        Shell[] shells = shell.getDisplay().getShells();
+        for( Shell localShell : shells ) {
+          localShell.forceFocus();
+        }
+      }
+    } );
   }
 }
