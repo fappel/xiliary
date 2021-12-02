@@ -17,18 +17,6 @@
             os="macosx"
             os_version="10">
       </theme>
-      <theme
-            basestylesheeturi="css/win7.css"
-            id="com.codeaffine.eclipse.ui.swt.theme.win7"
-            label="Windows [Flat-Scrollbar]"
-            os="win32"
-            os_version="6.1">
-      </theme>
-      <stylesheet
-            os="win32"
-            uri="css/dark.css">
-        <themeid refid="org.eclipse.e4.ui.css.theme.e4_dark"></themeid>
-      </stylesheet>
    </extension>
    <extension
          point="org.eclipse.ui.startup">
