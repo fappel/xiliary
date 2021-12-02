@@ -5,6 +5,9 @@ on:
       - '!**'
       - 'master'
       - 'development'
+env:
+  DEPLOY_WORK_DIRECTORY: fromJSON('["development", ""]')[GITHUB_REF_NAME == 'master']
+
 jobs:
   multi-platform-build:
     runs-on: ${{ matrix.os }}
@@ -13,12 +16,41 @@ jobs:
         os: [windows-latest, macos-latest]
 
     steps:
+      - run: echo "Building Xiliary Components for ${{ fromJSON('["Testing", "Production"]')[DEPLOY_WORK_DIRECTORY == ''] }} Site."
+      
+      - name: Checkout branch ${{ GITHUB_REF_NAME }}
       - uses: actions/checkout@v2
+     
+      - name: Create repository site build directory
+        if: success() && matrix.os == windows-latest
+        run: mkdir ~/deployment-work
+        shell: bash
+      
+      - name: Checkout current version of repository site
+        if: success() && matrix.os == windows-latest
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          path: ~/deployment-work
+     
+      - name: Clear the repository site content
+        if: success() && matrix.os == windows-latest
+        run: |
+          cwd=$(pwd)
+          cd ~/deployment-work/${DEPLOY_WORK_DIRECTORY}
+          rm -f *.html
+          rm -rf ./assets
+          rm -rf ./images
+          rm -rf ./development
+          cd $cwd
+        shell: bash
+     
       - name: Set up JDK 8
         uses: actions/setup-java@v2
         with:
           java-version: '8'
           distribution: 'temurin'
+      
       - name: Cache local Maven and P2 repositories
         uses: pat-s/always-upload-cache@v2.1.5
         with:
@@ -28,11 +60,28 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml', '**/*.target') }}
           restore-keys: |
             ${{ runner.os }}-maven-
+      
       - name: Set up Maven
         uses: stCarolas/setup-maven@v4.2
         with:
           maven-version: 3.6.3
+      
       - name: Build with Maven (headless with xvfb)
         uses: GabrielBB/xvfb-action@v1
         with:
           run: mvn --batch-mode --update-snapshots -f ${{ github.workspace }}/com.codeaffine.xiliary.releng/pom.xml clean verify
+
+  publish-repository-site:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - run: echo "Publishing Xiliary ${{ fromJSON('["Test", "Production"]')[DEPLOY_WORK_DIRECTORY == ''] }} Site."
+
+      - name: Commit and push the repository site content to github pages
+        run: |
+          cwd=$(pwd)
+          cd ~/deployment-work/${DEPLOY_WORK_DIRECTORY}
+          ls -axl
+          echo "todo: commit"
+          cd $cwd
+        shell: bash
