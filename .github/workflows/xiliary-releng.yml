@@ -23,7 +23,7 @@ jobs:
      
       - name: Create repository site build directory
         if: success() && matrix.os == 'windows-latest'
-        run: mkdir ${RUNNER_TEMP}/deployment-work
+        run: mkdir ~/deployment-work
         shell: bash
       
       - name: Clone current version of repository site
@@ -32,15 +32,17 @@ jobs:
         with:
           repository: fappel/xiliary
           ref: gh-pages
-          path: ${{ env.RUNNER_TEMP }}/deployment-work
+          path: ./gh-pages
      
       - name: Clear the repository site content
         if: success() && matrix.os == 'windows-latest'
         run: |
-          cwd=$(pwd)
-          cd ${RUNNER_TEMP}/deployment-work
           ls -axl
-          cd ${RUNNER_TEMP}/deployment-work/${DEPLOY_WORK_DIRECTORY}
+          cp -a ./gh-pages/. ~/deployment-work/
+          cwd=$(pwd)
+          cd ~/deployment-work
+          ls -axl
+          cd ~/deployment-work/${DEPLOY_WORK_DIRECTORY}
           rm -f *.html
           rm -rf ./assets
           rm -rf ./images
