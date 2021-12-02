@@ -26,10 +26,11 @@ jobs:
         run: mkdir ${RUNNER_TEMP}/deployment-work
         shell: bash
       
-      - name: Checkout current version of repository site
+      - name: Clone current version of repository site
         if: success() && matrix.os == 'windows-latest'
         uses: actions/checkout@v2
         with:
+          name: fappel/xiliary
           ref: gh-pages
           path: ${{ env.RUNNER_TEMP }}/deployment-work
      
