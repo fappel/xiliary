@@ -16,7 +16,7 @@ jobs:
         os: [windows-latest, macos-latest]
 
     steps:
-      - run: echo "Building Xiliary Components for ${{ fromJSON('["Testing", "Production"]')[env.DEPLOY_WORK_DIRECTORY == ''] }} Site on Branch '${{ github.ref }}'."
+      - run: echo "Building Xiliary Components for ${{ fromJSON('["Testing", "Production"]')[env.DEPLOY_WORK_DIRECTORY == ''] }} Repository Site on Branch '${{ github.ref }}'."
       
       - name: Checkout branch
         uses: actions/checkout@v2
@@ -48,14 +48,12 @@ jobs:
         shell: bash
      
       - name: Set up JDK 8
-        if: false
         uses: actions/setup-java@v2
         with:
           java-version: '8'
           distribution: 'temurin'
       
       - name: Cache local Maven and P2 repositories
-        if: false
         uses: pat-s/always-upload-cache@v2.1.5
         with:
           path: |
@@ -65,19 +63,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       
-      - name: Set up Maven
-        if: false
+      - name: Download Maven (v3.6.3 - allow http download)
         uses: stCarolas/setup-maven@v4.2
         with:
           maven-version: 3.6.3
       
       - name: Build with Maven (headless with xvfb)
-        if: false
         uses: GabrielBB/xvfb-action@v1
         with:
           run: mvn --batch-mode --update-snapshots -f ${{ github.workspace }}/com.codeaffine.xiliary.releng/pom.xml clean verify
 
-      - uses: actions/upload-artifact@v2
+      - name: Buffer the updated repository site content
+        uses: actions/upload-artifact@v2
         if: success()
         with:
           name: repository-site
@@ -88,15 +85,16 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - run: echo "Publishing Xiliary ${{ fromJSON('["Test", "Production"]')[env.DEPLOY_WORK_DIRECTORY == ''] }} Site."
+      - run: echo "Publishing Xiliary ${{ fromJSON('["Test", "Production"]')[env.DEPLOY_WORK_DIRECTORY == ''] }} Repository Site."
 
-      - uses: actions/download-artifact@v2
+      - name: Restore the updated repository site content
+        uses: actions/download-artifact@v2
         if: success()
         with:
           name: repository-site
           path: ~/deployment-work/
 
-      - name: Commit and push the repository site content to github pages
+      - name: Commit and push the updated repository site to github pages
         run: |
           cwd=$(pwd)
           cd ~/deployment-work/
@@ -106,6 +104,7 @@ jobs:
           git commit -m "gh-pages update by xiliary workflow build #${GITHUB_RUN_NUMBER}"
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git status
+          git push
           cd $cwd
         shell: bash
           
