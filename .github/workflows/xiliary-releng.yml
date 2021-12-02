@@ -6,7 +6,7 @@ on:
       - 'master'
       - 'development'
 env:
-  DEPLOY_WORK_DIRECTORY: fromJSON('["development", ""]')[env.GITHUB_REF_NAME == 'master']
+  DEPLOY_WORK_DIRECTORY: ${{ fromJSON('["development", ""]')[env.GITHUB_REF_NAME == 'master'] }}
 
 jobs:
   multi-platform-build:
@@ -18,7 +18,7 @@ jobs:
     steps:
       - run: echo "Building Xiliary Components for ${{ fromJSON('["Testing", "Production"]')[env.DEPLOY_WORK_DIRECTORY == ''] }} Site."
       
-      - name: Checkout branch ${{ env.GITHUB_REF_NAME }}
+      - name: "Checkout branch ${{ env.GITHUB_REF_NAME }}"
         uses: actions/checkout@v2
      
       - name: Create repository site build directory
@@ -72,6 +72,7 @@ jobs:
           run: mvn --batch-mode --update-snapshots -f ${{ github.workspace }}/com.codeaffine.xiliary.releng/pom.xml clean verify
 
   publish-repository-site:
+    needs: [multi-platform-build]
     runs-on: ubuntu-latest
     
     steps:
