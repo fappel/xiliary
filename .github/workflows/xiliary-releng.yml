@@ -77,7 +77,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: success()
         with:
-          name: repository-site
+          name: repository-site-by-build-${{ env.GITHUB_RUN_NUMBER }}
           path: ~/deployment-work/
           
   publish-repository-site:
@@ -91,7 +91,7 @@ jobs:
         uses: actions/download-artifact@v2
         if: success()
         with:
-          name: repository-site
+          name: repository-site-by-build-${{ env.GITHUB_RUN_NUMBER }}
           path: ~/deployment-work/
 
       - name: Commit and push the updated repository site to github pages
@@ -102,8 +102,9 @@ jobs:
           git config --global user.email 'xiliary-deamon@users.noreply.github.com'
           git add -f -A
           git commit -m "gh-pages update by xiliary workflow build #${GITHUB_RUN_NUMBER}"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git status
+          git config --local --remove-section http.https://github.com/
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git push
           cd $cwd
         shell: bash
