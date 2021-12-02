@@ -7,7 +7,6 @@ on:
       - 'development'
 env:
   DEPLOY_WORK_DIRECTORY: ${{ fromJSON('["development", ""]')[github.ref == 'refs/heads/master'] }}
-  TEMP: ${{ env.RUNNER_TEMP }}
 
 jobs:
   multi-platform-build:
@@ -24,7 +23,7 @@ jobs:
      
       - name: Create repository site build directory
         if: success() && matrix.os == 'windows-latest'
-        run: mkdir ${TEMP}/deployment-work
+        run: mkdir ${RUNNER_TEMP}/deployment-work
         shell: bash
       
       - name: Checkout current version of repository site
@@ -32,15 +31,15 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: gh-pages
-          path: ${{ TEMP }}/deployment-work
+          path: ${{ RUNNER_TEMP }}/deployment-work
      
       - name: Clear the repository site content
         if: success() && matrix.os == 'windows-latest'
         run: |
           cwd=$(pwd)
-          cd ${TEMP}/deployment-work
+          cd ${RUNNER_TEMP}/deployment-work
           ls -axl
-          cd ${TEMP}/deployment-work/${DEPLOY_WORK_DIRECTORY}
+          cd ${RUNNER_TEMP}/deployment-work/${DEPLOY_WORK_DIRECTORY}
           rm -f *.html
           rm -rf ./assets
           rm -rf ./images
