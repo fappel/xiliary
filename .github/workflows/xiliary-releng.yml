@@ -99,6 +99,7 @@ jobs:
       - name: Commit and push the repository site content to github pages
         run: |
           cwd=$(pwd)
+          cd ~/deployment-work/
           git config --global user.name 'Xiliary Deamon'
           git config --global user.email 'xiliary-deamon@users.noreply.github.com'
           git add -f -A
