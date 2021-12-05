@@ -102,7 +102,7 @@ public class DeferredContentManagerPDETest {
   }
 
   @Test
-  @ConditionalIgnore( condition = CocoaPlatform.class)
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void isDeferredAdapterWithoutAdaptableParent() {
     TreeViewerAdapterHelper adapterHelper = new TreeViewerAdapterHelper( shell );
     adapterHelper.initializeViewer();
