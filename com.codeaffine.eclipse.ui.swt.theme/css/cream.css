@@ -1,0 +1,396 @@
+/*******************************************************************************
+ * Copyright (c) 2011, 2016 IBM Corporation and others.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *     Frank Appel <fappel@codeaffine.com>
+ *******************************************************************************/
+ 
+IEclipsePreferences#org-eclipse-ui-editors {
+  preferences:
+    'AbstractTextEditor.Color.Background.SystemDefault=false'
+    'AbstractTextEditor.Color.Background=245,245,240'
+    'AbstractTextEditor.Color.FindScope=188,173,255'
+    'AbstractTextEditor.Color.Foreground=0,0,0'
+    'AbstractTextEditor.Color.SelectionBackground=223,179,149'
+    'AbstractTextEditor.Color.SelectionForeground=0,0,102'
+    'currentLineColor=219,237,247'
+    'deletionIndicationColor=170,204,255'
+    'filteredSearchResultIndicationColor=246,225,150'
+    'javaScriptOccurrenceIndicationColor=246,225,150'
+    'lineNumberColor=170,170,170'
+    'occurrenceIndicationColor=246,225,150'
+    'PHPReadOccurrenceIndicationColor=246,225,150'
+    'PHPWriteOccurrenceIndicationColor=246,225,150'
+    'printMarginColor=192,192,192'
+    'searchResultIndicationColor=246,225,150'
+    'writeOccurrenceIndicationColor=246,225,150'
+}
+
+IEclipsePreferences#org-eclipse-jdt-ui {
+  preferences:
+	  'java_comment_task_tag=120,120,120'
+	  'java_default=0,0,0'
+	  'java_doc_default=76,119,15'
+	  'java_doc_keyword=76,119,15'
+	  'java_doc_link=76,119,15'
+	  'java_doc_tag=76,119,15'
+	  'java_keyword=196,58,26'
+	  'java_keyword_return=196,58,26'
+	  'java_multi_line_comment=135,135,135'
+	  'java_operator=51,51,51'
+	  'java_single_line_comment=135,135,135'
+	  'java_string=7,73,188'
+	  'pf_coloring_argument=168,87,103'
+	  'pf_coloring_assignment=0,0,0'
+	  'pf_coloring_comment=135,135,135'
+	  'pf_coloring_key=0,0,0'
+	  'pf_coloring_value=51,51,51'
+	  'semanticHighlighting.abstractMethodInvocation.color=0,0,0'
+	  'semanticHighlighting.abstractMethodInvocation.enabled=true'
+	  'semanticHighlighting.annotation.color=112,112,112'
+	  'semanticHighlighting.annotation.enabled=true'
+	  'semanticHighlighting.class.color=0,0,0'
+	  'semanticHighlighting.class.enabled=true'
+	  'semanticHighlighting.deprecatedMember.color=0,0,0'
+	  'semanticHighlighting.deprecatedMember.enabled=true'
+	  'semanticHighlighting.enum.color=0,0,0'
+	  'semanticHighlighting.enum.enabled=true'
+	  'semanticHighlighting.field.color=6,63,220'
+	  'semanticHighlighting.field.enabled=true'
+	  'semanticHighlighting.inheritedMethodInvocation.color=0,0,0'
+	  'semanticHighlighting.inheritedMethodInvocation.enabled=true'
+	  'semanticHighlighting.interface.color=0,0,0'
+	  'semanticHighlighting.interface.enabled=true'
+	  'semanticHighlighting.localVariable.color=106,62,62'
+	  'semanticHighlighting.localVariable.enabled=true'
+	  'semanticHighlighting.localVariableDeclaration.color=106,62,62'
+	  'semanticHighlighting.localVariableDeclaration.enabled=false'
+	  'semanticHighlighting.method.color=0,0,0'
+	  'semanticHighlighting.method.enabled=true'
+	  'semanticHighlighting.methodDeclarationName.color=71,71,71'
+	  'semanticHighlighting.methodDeclarationName.enabled=true'
+	  'semanticHighlighting.number.color=51,51,51'
+	  'semanticHighlighting.number.enabled=true'
+	  'semanticHighlighting.parameterVariable.color=106,62,62'
+	  'semanticHighlighting.parameterVariable.enabled=true'
+	  'semanticHighlighting.staticField.color=6,63,220'
+	  'semanticHighlighting.staticField.enabled=true'
+	  'semanticHighlighting.staticFinalField.color=6,63,220'
+	  'semanticHighlighting.staticFinalField.enabled=true'
+	  'semanticHighlighting.staticMethodInvocation.color=0,0,0'
+	  'semanticHighlighting.staticMethodInvocation.enabled=true'
+	  'semanticHighlighting.typeArgument.color=0,0,0'
+	  'semanticHighlighting.typeArgument.enabled=true'
+	  'semanticHighlighting.typeParameter.color=0,0,0'
+	  'semanticHighlighting.typeParameter.enabled=true'
+	  'semanticHighlighting.restrictedKeywords.color=196,58,26'
+	  'sourceHoverBackgroundColor=238,238,238'
+}
+
+IEclipsePreferences#org-eclipse-debug-ui {
+  preferences:
+    'org.eclipse.debug.ui.consoleBackground=245,245,240'
+    'org.eclipse.debug.ui.errorColor=196,58,26'
+    'org.eclipse.debug.ui.inColor=6,63,220'
+    'org.eclipse.debug.ui.outColor=0,0,0'
+}
+
+ThemesExtension {
+	color-definition:  
+	  '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START', 
+	  '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END',
+	  '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR',
+	  '#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR',
+	  '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR',
+	  '#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START',
+	  '#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END',
+	  '#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR',
+	  '#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR',
+	  '#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR';
+}
+
+FontDefinition#org-eclipse-jface-textfont {
+  font-family: 'Source Code Pro';
+  font-size: 10px;
+}
+
+FontDefinition#org-eclipse-ui-workbench-texteditor-blockSelectionModeFont {
+  font-family: 'Source Code Pro';
+  font-size: 10px;
+}
+
+FontDefinition#org-eclipse-jdt-ui-editors-textfont {
+  font-family: 'Source Code Pro';
+  font-size: 10px;
+}
+
+FontDefinition#org-eclipse-debug-ui-consoleFont {
+  font-family: 'Source Code Pro';
+  font-size: 10px;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
+  color: #eeeee4;
+  category: '#org-eclipse-ui-presentation-default';
+  label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_START')
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
+  color: #eeeee4;
+  category: '#org-eclipse-ui-presentation-default';
+  label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_END');
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR {
+  color: #dbdbd7;
+  category: '#org-eclipse-ui-presentation-default';
+  label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_TAB_OUTER_KEYLINE_COLOR');
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR {
+  color: #dbdbd7;
+  category: '#org-eclipse-ui-presentation-default';
+  label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_TAB_INNER_KEYLINE_COLOR');
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
+  color: #e6e6e6;
+  category: '#org-eclipse-ui-presentation-default';
+  label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_TAB_OUTLINE_COLOR');
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
+  color: #eaeae2;
+  category: '#org-eclipse-ui-presentation-default';
+  label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_START');
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
+  color: #eaeae2;
+  category: '#org-eclipse-ui-presentation-default';
+  label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_END');
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR {
+  color: #c3c3c3;
+  category: '#org-eclipse-ui-presentation-default';
+  label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_OUTER_KEYLINE_COLOR');
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR {
+  color: #d0d0d0;
+  category: '#org-eclipse-ui-presentation-default';
+  label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_INNER_KEYLINE_COLOR');
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
+  color: #d0d0d0;
+  category: '#org-eclipse-ui-presentation-default';
+  label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_TAB_OUTLINE_COLOR');
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START {
+  color: #f5f5f0;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
+  color: #f5f5f0;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_START {
+  color: #f5f5f0;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_END {
+  color: #f5f5f0;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_START {
+  color: #f5f5f0;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END {
+  color: #f5f5f0;
+}
+
+ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
+  color: #000000;
+}
+
+ColorDefinition#org-eclipse-ui-editors-backgroundColor {
+  color: #f5f5f0f;
+}
+ 
+.MTrimmedWindow.topLevel { 
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+.MTrimmedWindow { 
+  background-color: #f5f5f0;
+}
+
+.MTrimBar {
+  background-color: #eeeee4;
+}
+ 
+.MTrimBar#org-eclipse-ui-main-toolbar {
+	background-color: #ffffff #eeeee4 100%;
+}
+ 
+#PerspectiveSwitcher {
+  eclipse-perspective-keyline-color: #eeeee4 #ffffff;
+}
+
+.MToolBar.Draggable {
+  handle-image: url(./dragHandle.png);
+}
+
+.MToolControl.TrimStack {
+  handle-image: url(./dragHandle.png);
+}
+
+.MToolControl.Draggable {
+  handle-image: url(./dragHandle.png);
+}
+
+.DragFeedback {
+  background-color: #e0e0e0;
+}
+
+.ModifiedDragFeedback {
+  background-color: #A0A0A0;
+}
+
+.MPart {
+  background-color: #f5f5f0;
+}
+
+.MPart.busy {
+  font-style: italic;
+}
+
+.MPart.highlighted {
+  font-weight: bold;
+}
+
+.MPartStack, .MPart {
+  font-family: '#org-eclipse-ui-workbench-TAB_TEXT_FONT';
+}
+
+.MPartStack.active .MPart Composite,
+.MPartStack.active .MPart LayoutComposite,
+.MPartStack.active .MPart Label,
+.MPartStack.active .MPart Hyperlink,
+.MPartStack.active .MPart ImageHyperlink,
+.MPartStack.active .MPart ScrolledForm,
+.MPartStack.active .MPart Form,
+.MPartStack.active .MPart Section,
+.MPartStack.active .MPart FormText,
+.MPartStack.active .MPart Link,
+.MPartStack.active .MPart Sash,
+.MPartStack.active .MPart Button,
+.MPartStack.active .MPart Group,
+.MPartStack.active .MPart SashForm,
+.MPartStack.active .MPart FilteredTree,
+.MPartStack.active .MPart RegistryFilteredTree,
+.MPartStack.active .MPart PageSiteComposite,
+.MPartStack.active .MPart DependenciesComposite,
+.MPartStack.active .MPart Text[style~='SWT.READ_ONLY'],
+.MPartStack.active .MPart FigureCanvas,
+.MPartStack.active .MPart ListEditorComposite,
+.MPartStack.active .MPart ScrolledComposite,
+.MPartStack.active .MPart ScrolledComposite ToolBar,
+.MPartStack.active .Mpart ScrolledComposite ProgressInfoItem,
+.MPartStack.active .MPart Form ScrolledPageBook,
+.MPartStack.active .MPart Form > LayoutComposite > LayoutComposite > ToolBar,
+.MPartStack.active .MPart DependenciesComposite > SashForm > Section > * 
+.MPartStack.active .MPart LayoutComposite > * > LayoutComposite > Section > LayoutComposite > * {
+  background-color: #f5f5f0;
+}
+
+.MPartStack {
+	swt-tab-renderer: url('bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
+	swt-unselected-hot-tab-color-background: #f5f5f0; 
+  swt-selected-tab-fill: '#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START' '#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END' 100% 100%;
+  swt-unselected-tabs-color: '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START' '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END' 100% 100%;
+  swt-outer-keyline-color: '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR';
+  swt-inner-keyline-color: '#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR';
+  swt-tab-outline: '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR';
+  swt-simple: true;
+  swt-mru-visible: true;
+  swt-corner-radius: 6;
+  padding: 2px 2px 2px;
+  swt-shadow-visible: false;
+  color: '#org-eclipse-ui-workbench-INACTIVE_TAB_TEXT_COLOR';
+}
+
+.MPartStack.active {
+	swt-selected-tab-fill: '#org-eclipse-ui-workbench-ACTIVE_TAB_BG_START' '#org-eclipse-ui-workbench-ACTIVE_TAB_BG_END' 100% 100%;
+	swt-unselected-tabs-color: '#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START' '#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END' 100% 100%;
+  swt-outer-keyline-color: '#org-eclipse-ui-workbench-ACTIVE_TAB_OUTER_KEYLINE_COLOR';
+  swt-inner-keyline-color: '#org-eclipse-ui-workbench-ACTIVE_TAB_INNER_KEYLINE_COLOR';
+	swt-tab-outline: '#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR';
+}
+
+.MPartStack.active.noFocus {
+  swt-selected-tab-fill: '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_START' '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END' 100% 100%;
+}
+
+.MPartStack.active.noFocus > CTabItem:selected {
+  color: '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR';
+}
+
+.MPartStack > Composite {
+  background-color: #f5f5f0;
+}
+
+CTabFolder Canvas {
+  background-color: #f5f5f0;
+}
+
+CTabItem:selected {
+  color: '#org-eclipse-ui-workbench-ACTIVE_TAB_TEXT_COLOR';
+}
+
+Form, FormHeading {
+	background-color: #f5f5f0;
+	background: #f5f5f0;
+	background-image: #f5f5f0;
+	color: #505050;
+}
+
+Form {
+	/* Bug 465148: Additional styling for the Form */
+	text-background-color: #f5f5f0;
+	
+	tb-toggle-hover-color: #505050;
+	tb-toggle-color: #505050;
+	h-hover-full-color: #505050;
+	h-hover-light-color: #505050;
+	h-bottom-keyline-2-color: #eaeae2;
+	h-bottom-keyline-1-color: #eaeae2;
+	
+	/* We also have to force the background mode (the
+   * Label/ToolBar in the heading should inherit it).
+   */
+	swt-background-mode: 'force';
+}
+
+Section {
+	background-color: #f5f5f0;
+	color: #505050;
+	background-color-titlebar: #eaeae2;
+	background-color-gradient-titlebar: #eaeae2;
+	border-color-titlebar: #f5f5f0;
+}
+
+LayoutComposite > Label {
+	color: '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR';
+}
