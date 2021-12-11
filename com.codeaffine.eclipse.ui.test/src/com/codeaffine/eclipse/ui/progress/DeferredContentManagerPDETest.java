@@ -36,6 +36,7 @@ import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
 import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
+@Ignore( "check whether failure on mac is caused even if ignored" )
 public class DeferredContentManagerPDETest {
 
   @Rule
@@ -104,7 +105,6 @@ public class DeferredContentManagerPDETest {
 
   @Test
   @ConditionalIgnore( condition = CocoaPlatform.class )
-  @Ignore( "check whether failure on mac is caused even if ignored" )
   public void isDeferredAdapterWithoutAdaptableParent() {
     TreeViewerAdapterHelper adapterHelper = new TreeViewerAdapterHelper( shell );
     adapterHelper.initializeViewer();
