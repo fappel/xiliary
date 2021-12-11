@@ -24,11 +24,16 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class TreeViewerAdapterTest {
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule
+  public final ConditionalIgnoreRule conditionalyIgnoreRule = new ConditionalIgnoreRule();
 
   private TreeViewerAdapter adapter;
   private TreeViewer treeViewer;
@@ -42,6 +47,7 @@ public class TreeViewerAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void addElements() {
     Object[] children = { new TestItem( root, "child" ) };
 
@@ -51,6 +57,7 @@ public class TreeViewerAdapterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void remove() {
     Object[] children = { new TestItem( root, "child" ) };
     adapter.addElements( root, children );

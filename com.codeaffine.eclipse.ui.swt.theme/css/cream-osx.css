@@ -42,8 +42,6 @@ StyledText {
 
 Button[style~='SWT.PUSH']  {
   background-color: #ffffff;
+  color: #a0a0a0;
 }
 
-Button[style~='SWT.DEFAULT']  {
-  background-color: #00ff00;
-}
