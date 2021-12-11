@@ -39,3 +39,7 @@ Tree, Table {
 StyledText {
   top-level-window-element-background-color: #f5f5f0;
 }
+
+Button[style~='SWT.PUSH']  {
+  background-color: #a0a0a0;
+}
