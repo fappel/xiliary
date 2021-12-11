@@ -1,0 +1,41 @@
+/**
+ * Copyright (c) 2014 - 2022 Frank Appel
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Frank Appel - initial declarations
+ */
+ 
+@import url("platform:/plugin/com.codeaffine.eclipse.ui.swt.theme/css/cream.css");
+
+FontDefinition#org-eclipse-jface-textfont {
+  font-family: 'Source Code Pro';
+  font-size: 14px;
+}
+
+FontDefinition#org-eclipse-ui-workbench-texteditor-blockSelectionModeFont {
+  font-family: 'Source Code Pro';
+  font-size: 14px;
+}
+
+FontDefinition#org-eclipse-jdt-ui-editors-textfont {
+  font-family: 'Source Code Pro';
+  font-size: 14px;
+}
+
+FontDefinition#org-eclipse-debug-ui-consoleFont {
+  font-family: 'Source Code Pro';
+  font-size: 14px;
+}
+
+Tree, Table {
+  top-level-window-element-background-color: #f5f5f0;
+  swt-header-background-color: #f5f5f0;
+}
+
+StyledText {
+  top-level-window-element-background-color: #f5f5f0;
+}
