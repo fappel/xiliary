@@ -20,7 +20,9 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.codeaffine.eclipse.swt.test.util.DisplayHelper;
-import com.codeaffine.eclipse.swt.util.ActionScheduler;
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
 
 public class ActionSchedulerTest {
 
@@ -28,8 +30,11 @@ public class ActionSchedulerTest {
 
   @Rule
   public final DisplayHelper displayHelper = new DisplayHelper();
+  @Rule
+  public final ConditionalIgnoreRule conditionalIgnoreRule = new ConditionalIgnoreRule();
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void schedule() throws InterruptedException {
     Runnable action = mock( Runnable.class );
     ActionScheduler scheduler = new ActionScheduler( displayHelper.getDisplay(), action  );
@@ -42,6 +47,7 @@ public class ActionSchedulerTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void scheduleBeforeDelayHasBeenReached() {
     Runnable action = mock( Runnable.class );
     ActionScheduler scheduler = new ActionScheduler( displayHelper.getDisplay(), action  );
