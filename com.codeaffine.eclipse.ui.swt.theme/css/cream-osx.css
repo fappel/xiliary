@@ -32,12 +32,12 @@ FontDefinition#org-eclipse-debug-ui-consoleFont {
 }
 
 Tree, Table {
-  top-level-window-element-background-color: #f5f5f0;
-  swt-header-background-color: #f5f5f0;
+  top-level-window-element-background-color: #f6f5f1;
+  swt-header-background-color: #f6f5f1;
 }
 
 StyledText {
-  top-level-window-element-background-color: #f5f5f0;
+  top-level-window-element-background-color: #f6f5f1;
 }
 
 Button[style~='SWT.PUSH']  {

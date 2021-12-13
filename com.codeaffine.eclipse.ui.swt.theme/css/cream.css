@@ -12,7 +12,7 @@
 IEclipsePreferences#org-eclipse-ui-editors {
   preferences:
     'AbstractTextEditor.Color.Background.SystemDefault=false'
-    'AbstractTextEditor.Color.Background=245,245,240'
+    'AbstractTextEditor.Color.Background=246,245,241'
     'AbstractTextEditor.Color.FindScope=188,173,255'
     'AbstractTextEditor.Color.Foreground=0,0,0'
     'AbstractTextEditor.Color.SelectionBackground=223,179,149'
@@ -93,7 +93,7 @@ IEclipsePreferences#org-eclipse-jdt-ui {
 
 IEclipsePreferences#org-eclipse-debug-ui {
   preferences:
-    'org.eclipse.debug.ui.consoleBackground=245,245,240'
+    'org.eclipse.debug.ui.consoleBackground=246,245,241'
     'org.eclipse.debug.ui.errorColor=196,58,26'
     'org.eclipse.debug.ui.inColor=6,63,220'
     'org.eclipse.debug.ui.outColor=0,0,0'
@@ -134,25 +134,25 @@ FontDefinition#org-eclipse-debug-ui-consoleFont {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START {
-  color: #eeeee4;
+  color: #efeee5;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_START')
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END {
-  color: #eeeee4;
+  color: #efeee5;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_UNSELECTED_TABS_COLOR_END');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR {
-  color: #dbdbd7;
+  color: #dcdbd8;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_TAB_OUTER_KEYLINE_COLOR');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_INNER_KEYLINE_COLOR {
-  color: #dbdbd7;
+  color: #dcdbd8;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=INACTIVE_TAB_INNER_KEYLINE_COLOR');
 }
@@ -164,13 +164,13 @@ ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_OUTLINE_COLOR {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_START {
-  color: #eaeae2;
+  color: #ebeae3;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_START');
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_UNSELECTED_TABS_COLOR_END {
-  color: #eaeae2;
+  color: #ebeae3;
   category: '#org-eclipse-ui-presentation-default';
   label: url('platform:/plugin/org.eclipse.ui.themes?message=ACTIVE_UNSELECTED_TABS_COLOR_END');
 }
@@ -194,27 +194,27 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_OUTLINE_COLOR {
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START {
-  color: #f5f5f0;
+  color: #f6f5f1;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END {
-  color: #f5f5f0;
+  color: #f6f5f1;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_START {
-  color: #fafaf5;
+  color: #fbfaf6;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_TAB_BG_END {
-  color: #fafaf5;
+  color: #fbfaf6;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_START {
-  color: #fafaf5;
+  color: #fbfaf6;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_BG_END {
-  color: #fafaf5;
+  color: #fbfaf6;
 }
 
 ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
@@ -222,7 +222,7 @@ ColorDefinition#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR {
 }
 
 ColorDefinition#org-eclipse-ui-editors-backgroundColor {
-  color: #f5f5f0f;
+  color: #f6f5f1f;
 }
  
 .MTrimmedWindow.topLevel { 
@@ -233,19 +233,19 @@ ColorDefinition#org-eclipse-ui-editors-backgroundColor {
 }
 
 .MTrimmedWindow { 
-  background-color: #f5f5f0;
+  background-color: #f6f5f1;
 }
 
 .MTrimBar {
-  background-color: #eeeee4;
+  background-color: #efeee5;
 }
  
 .MTrimBar#org-eclipse-ui-main-toolbar {
-	background-color: #ffffff #eeeee4 100%;
+	background-color: #ffffff #efeee5 100%;
 }
  
 #PerspectiveSwitcher {
-  eclipse-perspective-keyline-color: #eeeee4 #ffffff;
+  eclipse-perspective-keyline-color: #efeee5 #ffffff;
 }
 
 .MToolBar.Draggable {
@@ -269,7 +269,7 @@ ColorDefinition#org-eclipse-ui-editors-backgroundColor {
 }
 
 .MPart {
-  background-color: #f5f5f0;
+  background-color: #f6f5f1;
 }
 
 .MPart.busy {
@@ -312,12 +312,12 @@ ColorDefinition#org-eclipse-ui-editors-backgroundColor {
 .MPartStack.active .MPart Form > LayoutComposite > LayoutComposite > ToolBar,
 .MPartStack.active .MPart DependenciesComposite > SashForm > Section > * 
 .MPartStack.active .MPart LayoutComposite > * > LayoutComposite > Section > LayoutComposite > * {
-  background-color: #f5f5f0;
+  background-color: #f6f5f1;
 }
 
 .MPartStack {
 	swt-tab-renderer: url('bundleclass://org.eclipse.e4.ui.workbench.renderers.swt/org.eclipse.e4.ui.workbench.renderers.swt.CTabRendering');
-	swt-unselected-hot-tab-color-background: #f5f5f0; 
+	swt-unselected-hot-tab-color-background: #f6f5f1; 
   swt-selected-tab-fill: '#org-eclipse-ui-workbench-INACTIVE_TAB_BG_START' '#org-eclipse-ui-workbench-INACTIVE_TAB_BG_END' 100% 100%;
   swt-unselected-tabs-color: '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_START' '#org-eclipse-ui-workbench-INACTIVE_UNSELECTED_TABS_COLOR_END' 100% 100%;
   swt-outer-keyline-color: '#org-eclipse-ui-workbench-INACTIVE_TAB_OUTER_KEYLINE_COLOR';
@@ -348,11 +348,11 @@ ColorDefinition#org-eclipse-ui-editors-backgroundColor {
 }
 
 .MPartStack > Composite {
-  background-color: #f5f5f0;
+  background-color: #f6f5f1;
 }
 
 CTabFolder Canvas {
-  background-color: #f5f5f0;
+  background-color: #f6f5f1;
 }
 
 CTabItem:selected {
@@ -360,22 +360,22 @@ CTabItem:selected {
 }
 
 Form, FormHeading {
-	background-color: #f5f5f0;
-	background: #f5f5f0;
-	background-image: #f5f5f0;
+	background-color: #f6f5f1;
+	background: #f6f5f1;
+	background-image: #f6f5f1;
 	color: #505050;
 }
 
 Form {
 	/* Bug 465148: Additional styling for the Form */
-	text-background-color: #f5f5f0;
+	text-background-color: #f6f5f1;
 	
 	tb-toggle-hover-color: #505050;
 	tb-toggle-color: #505050;
 	h-hover-full-color: #505050;
 	h-hover-light-color: #505050;
-	h-bottom-keyline-2-color: #eaeae2;
-	h-bottom-keyline-1-color: #eaeae2;
+	h-bottom-keyline-2-color: #ebeae3;
+	h-bottom-keyline-1-color: #ebeae3;
 	
 	/* We also have to force the background mode (the
    * Label/ToolBar in the heading should inherit it).
@@ -384,11 +384,11 @@ Form {
 }
 
 Section {
-	background-color: #f5f5f0;
+	background-color: #f6f5f1;
 	color: #505050;
-	background-color-titlebar: #eaeae2;
-	background-color-gradient-titlebar: #eaeae2;
-	border-color-titlebar: #f5f5f0;
+	background-color-titlebar: #ebeae3;
+	background-color-gradient-titlebar: #ebeae3;
+	border-color-titlebar: #f6f5f1;
 }
 
 LayoutComposite > Label {
@@ -396,5 +396,5 @@ LayoutComposite > Label {
 }
 
 Shell, Shell * {
-    background-color: #f5f5f0;
+    background-color: #f6f5f1;
 }

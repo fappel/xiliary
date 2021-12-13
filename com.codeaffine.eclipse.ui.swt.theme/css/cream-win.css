@@ -15,27 +15,27 @@ Tree, Table {
   flat-scroll-bar: true;
   flat-scroll-bar-thumb: #a6a6a6;
   flat-scroll-bar-page-increment: #f0f0f0;
-  adapter-background-top-level: #f5f5f0;
-  swt-header-background-color: #f5f5f0;
+  adapter-background-top-level: #f6f5f1;
+  swt-header-background-color: #f6f5f1;
 }
 
 StyledText {
   flat-scroll-bar: true;
   flat-scroll-bar-thumb: #a6a6a6;
   flat-scroll-bar-page-increment: #f0f0f0;
-  adapter-background-top-level: #f5f5f0;
+  adapter-background-top-level: #f6f5f1;
 }
 
 ScrolledComposite {
   flat-scroll-bar: true;
   flat-scroll-bar-thumb: #a6a6a6;
   flat-scroll-bar-page-increment: #f0f0f0;
-  adapter-background-top-level: #f5f5f0;
+  adapter-background-top-level: #f6f5f1;
 }
 
 ScrolledForm {
   flat-scroll-bar: true;
   flat-scroll-bar-thumb: #a6a6a6;
   flat-scroll-bar-page-increment: #f0f0f0;
-  adapter-background-top-level: #f5f5f0;
+  adapter-background-top-level: #f6f5f1;
 }
