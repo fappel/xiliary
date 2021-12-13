@@ -395,7 +395,11 @@ LayoutComposite > Label {
 	color: '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR';
 }
 
-
 Shell, Shell * {
     background-color: #f6f5f1;
+}
+
+Button[style~='SWT.PUSH']  {
+  background-color: #ffffff;
+  color: #303030;
 }
