@@ -26,9 +26,17 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.progress.IDeferredWorkbenchAdapter;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
+import com.codeaffine.eclipse.swt.test.util.SWTIgnoreConditions.CocoaPlatform;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule;
+import com.codeaffine.test.util.junit.ConditionalIgnoreRule.ConditionalIgnore;
+
 public class FetchJobPDETest {
+
+  @Rule
+  public final ConditionalIgnoreRule conditionalyIgnoreRule = new ConditionalIgnoreRule();
 
   private DeferredContentManager contentManager;
   private PendingUpdatePlaceHolder placeHolder;
@@ -48,6 +56,7 @@ public class FetchJobPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void schedule() {
     fetchJob.schedule();
     jobHelper.waitTillJobHasFinished();
@@ -61,6 +70,7 @@ public class FetchJobPDETest {
   }
 
   @Test
+  @ConditionalIgnore( condition = CocoaPlatform.class )
   public void runWithCanceledMonitor() {
     NullProgressMonitor monitor = new NullProgressMonitor();
     monitor.setCanceled( true );
