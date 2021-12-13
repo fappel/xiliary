@@ -40,6 +40,10 @@ StyledText {
   top-level-window-element-background-color: #f6f5f1;
 }
 
+Shell, Shell * {
+    background-color: #f6f5f1;
+}
+
 Button[style~='SWT.PUSH']  {
   background-color: #ffffff;
   color: #303030;

@@ -395,6 +395,3 @@ LayoutComposite > Label {
 	color: '#org-eclipse-ui-workbench-ACTIVE_NOFOCUS_TAB_TEXT_COLOR';
 }
 
-Shell, Shell * {
-    background-color: #f6f5f1;
-}
