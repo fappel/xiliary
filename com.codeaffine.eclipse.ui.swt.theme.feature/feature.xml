@@ -2,7 +2,7 @@
 <feature
       id="com.codeaffine.eclipse.ui.swt.theme.feature"
       label="Code Affine Theme"
-      version="0.8.0.qualifier"
+      version="0.9.0.qualifier"
       provider-name="CODE AFFINE"
       plugin="com.codeaffine.eclipse.ui.swt.theme">
 
