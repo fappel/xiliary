@@ -53,6 +53,7 @@ public class TableVerticalScrollBarUpdaterTest {
   }
 
   @Test
+  @ConditionalIgnore( condition = NonWindowsPlatform.class )
   public void update() {
     updater.update();
 
