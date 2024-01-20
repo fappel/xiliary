@@ -54,5 +54,4 @@ public class TableViewerAdapterTest {
 
     assertThat( tableViewer.getTable().getItemCount() ).isEqualTo( 0 );
   }
-
 }
