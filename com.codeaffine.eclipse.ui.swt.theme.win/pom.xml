@@ -4,7 +4,7 @@
   
   <groupId>com.codeaffine.xiliary</groupId>
   <artifactId>com.codeaffine.eclipse.ui.swt.theme.win</artifactId>
-  <version>0.9.0-SNAPSHOT</version>
+  <version>0.10.0-SNAPSHOT</version>
   
   <packaging>eclipse-plugin</packaging>
 
