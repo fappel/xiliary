@@ -88,7 +88,7 @@ jobs:
       - run: echo "Publishing Xiliary ${{ fromJSON('["Test", "Production"]')[env.DEPLOY_WORK_DIRECTORY == ''] }} Repository Site."
 
       - name: Restore the updated repository site content
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         if: success()
         with:
           name: repository-site-by-build-${{ env.GITHUB_RUN_NUMBER }}
